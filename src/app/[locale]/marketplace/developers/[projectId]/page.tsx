@@ -17,7 +17,7 @@ const mockProjectData = {
   slug: "al-jadah-luxury-apartments",
   title: "الجادة الأولى شقق فاخرة بحي المحمدية",
   developerName: "مكين العقارية",
-  developerLogo: "/images/logo.svg",
+  developerLogo: "/images/logo.jpg",
   startingPrice: 1660000,
   formattedStartingPrice: "1,660,000",
   location: "الرياض، المحمدية",

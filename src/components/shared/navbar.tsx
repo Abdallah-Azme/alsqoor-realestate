@@ -160,11 +160,11 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
         >
           <Link href="/">
             <Image
-              src={siteInfo.siteLogo || "/images/logo.svg"}
+              src={siteInfo.siteLogo || "/images/logo.jpg"}
               alt={siteInfo.siteName || "logo"}
               width={300}
               height={300}
-              className="size-16 "
+              className="size-16 rounded-md"
             />
           </Link>
         </motion.div>
@@ -271,11 +271,11 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
                 {/* logo */}
                 <Link href="/">
                   <Image
-                    src={siteInfo.siteLogo || "/images/logo.svg"}
+                    src={siteInfo.siteLogo || "/images/logo.jpg"}
                     alt={siteInfo.siteName || "logo"}
                     width={300}
                     height={300}
-                    className="size-40 mx-auto "
+                    className="size-40 mx-auto rounded-md"
                   />
                 </Link>
               </SheetTitle>

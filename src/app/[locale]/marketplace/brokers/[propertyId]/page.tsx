@@ -59,7 +59,7 @@ const mockPropertyData = {
   advertiser: {
     name: "محمد أحمد",
     phone: "+966500000000",
-    image: "/images/logo.svg",
+    image: "/images/logo.jpg",
   },
 };
 

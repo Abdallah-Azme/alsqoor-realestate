@@ -76,21 +76,13 @@ const ProfileTabs = ({
           </TabsContent>
 
           <TabsContent value="my-properties" className="mt-0">
-            {/* FOR TESTING ONLY: Show both tabs */}
-            <div className="space-y-8">
-              <div className="border border-red-200 rounded-lg p-4">
-                <h3 className="text-red-500 font-bold mb-4">
-                  Broker View (For Testing)
-                </h3>
-                <BrokerPropertiesTab onAddProperty={handleAddAdvertisement} />
-              </div>
-              <div className="border border-blue-200 rounded-lg p-4">
-                <h3 className="text-blue-500 font-bold mb-4">
-                  Owner View (For Testing)
-                </h3>
-                <OwnerPropertiesTab onAddProperty={handleAddProperty} />
-              </div>
-            </div>
+            {isBroker ? (
+              <BrokerPropertiesTab onAddProperty={handleAddAdvertisement} />
+            ) : isOwner ? (
+              <OwnerPropertiesTab onAddProperty={handleAddProperty} />
+            ) : (
+              <MyPropertiesTab />
+            )}
           </TabsContent>
 
           <TabsContent value="my-offers" className="mt-0">
