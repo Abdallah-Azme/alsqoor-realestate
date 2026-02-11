@@ -190,7 +190,7 @@ const StateFilterSection = () => {
         </Tabs>
       </motion.div>
       <Image
-        src={"/images/banner.svg"}
+        src={"/images/banner.png"}
         width={200}
         height={200}
         alt="banner"
