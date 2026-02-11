@@ -114,7 +114,7 @@ const EstateCard = ({
 
   return (
     <Link
-      href={`/estats/${displayData.slug || displayData.id}`}
+      href={`/ads/${displayData.slug || displayData.id}`}
       className="block h-full"
     >
       <div

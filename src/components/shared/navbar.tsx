@@ -186,7 +186,7 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
               icon: <HiOutlineHome className="text-main-green text-2xl" />,
             },
             { href: "/marketplace", label: "properties" },
-            { href: "/estats", label: "ads" },
+            { href: "/ads", label: "ads" },
             { href: "/partners", label: "partners" },
             { href: "/deals", label: "deals" },
             { href: "/requests", label: "requests" },
@@ -296,7 +296,7 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
                       <Link href="/marketplace">{t("marketplace")}</Link>
                     </li>
                     <li>
-                      <Link href="/estats">{t("ads")}</Link>
+                      <Link href="/ads">{t("ads")}</Link>
                     </li>
                     <li>
                       <Link href="/partners">{t("partners")}</Link>

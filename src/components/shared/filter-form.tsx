@@ -74,7 +74,7 @@ export default function FilterForm() {
     }
 
     // Navigate to estates page with search params
-    router.push(`/estats?${params.toString()}`);
+    router.push(`/ads?${params.toString()}`);
   };
 
   return (

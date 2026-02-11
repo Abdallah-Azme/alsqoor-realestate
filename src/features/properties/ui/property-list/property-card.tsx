@@ -22,7 +22,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
     : property.price?.toLocaleString();
 
   return (
-    <Link href={`/${locale}/estats/${property.slug || property.id}`}>
+    <Link href={`/${locale}/ads/${property.slug || property.id}`}>
       <Card className="overflow-hidden transition-all hover:shadow-lg">
         <div className="relative h-48 w-full">
           <Image

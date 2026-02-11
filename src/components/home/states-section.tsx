@@ -40,7 +40,7 @@ const StatesSection = ({ properties = null }) => {
         </div>
         {/* link */}
         <Link
-          href={"/estats"}
+          href={"/ads"}
           className="flex items-center gap-1 hover:gap-2 transation-all duration-300 text-main-green text-sm w-fit"
         >
           <IoIosArrowDroprightCircle size={20} className="drop-shadow-xl" />

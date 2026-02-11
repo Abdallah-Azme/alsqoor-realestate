@@ -12,7 +12,7 @@ const staticRoutes = [
   "/blogs",
   "/complaints",
   "/deals",
-  "/estats",
+  "/ads",
   "/featuredusers",
   "/marketplace",
   "/offers",
@@ -77,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     propertyEntries = properties.flatMap(
       (property: { slug: string; updatedAt?: string }) =>
         locales.map((locale) => ({
-          url: `${BASE_URL}/${locale}/estats/${property.slug}`,
+          url: `${BASE_URL}/${locale}/ads/${property.slug}`,
           lastModified: property.updatedAt
             ? new Date(property.updatedAt)
             : currentDate,

@@ -115,7 +115,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
         {/* View Property Button */}
         {offer.property && (
           <Button variant="outline" size="sm" asChild className="flex-1">
-            <Link href={`/ar/estats/${offer.property.slug}`}>
+            <Link href={`/ar/ads/${offer.property.slug}`}>
               <ExternalLink className="h-4 w-4 ml-2" />
               {t("actions.view_property")}
             </Link>

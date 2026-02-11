@@ -148,7 +148,7 @@ const Footer = ({ settings = null }) => {
               className="space-y-6"
             >
               {[
-                { href: "/estats", label: "estates" },
+                { href: "/ads", label: "estates" },
                 { href: "/partners", label: "partners" },
               ].map((link, index) => (
                 <motion.li

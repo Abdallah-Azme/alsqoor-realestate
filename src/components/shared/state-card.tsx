@@ -18,7 +18,7 @@ const StatesCard = ({ withBorder = true, property = null }) => {
 
   // Check if this property is in favorites
   const isFavorited = favorites.some(
-    (fav) => fav.property?.id === property?.id
+    (fav) => fav.property?.id === property?.id,
   );
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -69,7 +69,7 @@ const StatesCard = ({ withBorder = true, property = null }) => {
   } = property;
 
   return (
-    <Link href={`/estats/${slug || id}`} className="block">
+    <Link href={`/ads/${slug || id}`} className="block">
       <div
         className={`${
           withBorder && "border-2 border-gray-200"

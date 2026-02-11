@@ -29,6 +29,9 @@ function makeQueryClient() {
         // Skip showing "Unauthenticated." message
         if (message === "Unauthenticated.") return;
 
+        // Skip showing network error messages
+        if (message === "Failed to fetch" || message === "fetch failed") return;
+
         toast.error(message);
       },
     }),
@@ -46,6 +49,9 @@ function makeQueryClient() {
 
         // Skip showing "Unauthenticated." message
         if (message === "Unauthenticated.") return;
+
+        // Skip showing network error messages
+        if (message === "Failed to fetch" || message === "fetch failed") return;
 
         toast.error(message);
       },

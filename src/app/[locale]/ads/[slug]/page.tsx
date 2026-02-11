@@ -23,7 +23,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function EstateSinglePage({
+export default async function AdSinglePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
