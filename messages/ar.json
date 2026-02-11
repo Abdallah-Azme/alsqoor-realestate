@@ -1,0 +1,1619 @@
+{
+  "common": {
+    "next": "التالي",
+    "previous": "السابق",
+    "sqm": "م²",
+    "mb": "ميجابايت",
+    "sar": "ر.س",
+    "ellipsis": "...",
+    "select_country": "اختر الدولة",
+    "select_currency": "العملة"
+  },
+  "currencies": {
+    "sar": "ريال سعودي",
+    "usd": "دولار أمريكي",
+    "eur": "يورو",
+    "gbp": "جنيه إسترليني",
+    "aed": "درهم إماراتي",
+    "egp": "جنيه مصري",
+    "kwd": "دينار كويتي",
+    "qar": "ريال قطري",
+    "bhd": "دينار بحريني",
+    "omr": "ريال عماني"
+  },
+  "home": {
+    "featured_properties": {
+      "title": "عقارات مميزة",
+      "subtitle": "أفضل العقارات المميزة",
+      "description": "نقترح لك بعض أفضل العقارات المميزة والموثوقة لدينا",
+      "view_all": "عرض الكل"
+    },
+    "estates_page": {
+      "title": "العقارات",
+      "add_property": "إضافة عقار",
+      "add_new_property": "إضافة عقار جديد",
+      "search_result": "نتيجة بحث",
+      "no_properties": "لا توجد عقارات متاحة حالياً",
+      "loading": "جاري التحميل...",
+      "load_more": "عرض المزيد",
+      "error_server": "حدث خطأ في الخادم. يرجى المحاولة مرة أخرى.",
+      "error_fetch": "فشل في تحميل العقارات",
+      "error_general": "حدث خطأ أثناء تحميل العقارات"
+    },
+    "hero": {
+      "whatsapp_message": "مرحباً، أنا مهتم بطلب استشارة خبير عقاري",
+      "show_more": "عرض المــزيد",
+      "consult_expert": "استشير خبير عقاري"
+    },
+    "about": {
+      "who_we_are": "من نحن",
+      "trusted_by": "موثوق من عملائنا",
+      "reviews": "تقييمات",
+      "stats": {
+        "listed_property": "عقار مدرج",
+        "daily_sales": "مبيع يومي",
+        "active_user": "مستخدم نشط",
+        "positive_rating": "تقييم إيجابي"
+      }
+    },
+    "state_filter": {
+      "success_partners": "شركاء النجاح",
+      "choose_property": "إختر عقارك بكل سهولة",
+      "rent": "إيجار",
+      "sale": "بيع",
+      "all": "الكل",
+      "villas": "فلل",
+      "apartments": "شقق",
+      "towers": "أبراج",
+      "error_fetch": "فشل في تحميل العقارات",
+      "error_general": "حدث خطأ أثناء تحميل العقارات"
+    }
+  },
+  "featured_users": {
+    "title": "عملاء نثق بهم",
+    "search_placeholder": "بحث",
+    "no_users": "لا يوجد عملاء",
+    "transfer_company": "شركة نقل"
+  },
+  "about": "عن",
+  "contact": "اتصل بنا",
+  "Complaints": {
+    "title": "الشكاوى",
+    "complaint_form": "نموذج الشكاوى",
+    "complaint_type": "نوع الشكوى",
+    "select_type": "اختر النوع",
+    "phone_number": "رقم الهاتف",
+    "enter_phone": "أدخل رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "enter_email": "أدخل البريد الإلكتروني",
+    "message_label": "نص الشكوى",
+    "message_placeholder": "أدخل نص الشكوى",
+    "submit_complaint": "إرسال الشكوى",
+    "submitting": "جاري الإرسال...",
+    "technical_issue": "مشكلة فنية",
+    "billing_issue": "مشكلة في الفاتورة",
+    "general_inquiry": "استفسار عام",
+    "other": "أخرى",
+    "validation": {
+      "complaint_type_required": "يجب اختيار نوع الشكوى",
+      "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
+      "email_invalid": "البريد الإلكتروني غير صالح",
+      "message_min": "يجب أن يتكون الرسالة من 10 أحرف على الأقل",
+      "unauthorized": "يجب تسجيل الدخول أولا"
+    }
+  },
+  "Newsletter": {
+    "title": "النشرة البريدية",
+    "email_placeholder": "البريد الإلكتروني...",
+    "subscribe": "إشتراك",
+    "error": "البريد الإلكتروني غير صحيح"
+  },
+  "Footer": {
+    "company_name": "الصقور العقارية",
+    "company_description": "شركة الصقور العقارية هي شريكك الأول لتحقيق أحلامك العقارية بكل ثقة واطمئنان. نقدم لك مجموعة متكاملة من الخدمات تشمل البيع والشراء والتأجير وإدارة الأملاك،",
+    "important_links": "روابط هامة",
+    "about_us": "من نحن",
+    "complaints": "الشكاوي",
+    "blogs": "المدونه",
+    "packages": "الباقات",
+    "our_services": "خدماتنا",
+    "properties": "عقارات",
+    "estates": "العقارات",
+    "partners": "الوسطاء",
+    "user_manual": "دليل المستخدم",
+    "privacy_policy": "سياسة الخصوصية",
+    "all_rights_reserved": "جميع الحقوق محفوظة@",
+    "company_short_name": "الصقور"
+  },
+  "partner": {
+    "title": "شركاء النجاح"
+  },
+  "blog": {
+    "title": "المدونة",
+    "subtitle": "مقالات مختارة",
+    "description": "عض المقالات الأكثر قراءة من مدونتنا"
+  },
+  "client_reviews": {
+    "title": "آراء العملاء",
+    "subtitle": "قصص النجاح",
+    "description": "بعض الآراء من تجارب عملائنا"
+  },
+  "sign_up": {
+    "title": "تسجيل حساب",
+    "seeker": "مستخدم عام",
+    "owner": "مالك عقار",
+    "broker": "وسيط عقاري",
+    "developer": "مطوّر عقاري",
+    "full_name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone_number": "رقم الهاتف",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "placeholder": "كتابه هنا",
+    "password_placeholder": "••••••••",
+    "id_number": "رقم الهوية",
+    "commercial_registration": "رقم السجل التجاري",
+    "license_number": "رقم الرخصة",
+    "whatsapp": "رقم الواتساب",
+    "backup_mobile": "رقم الجوال الاحتياطي",
+    "fal_number": "رقم فال",
+    "agent_type": "نوع الوسيط",
+    "select_agent_type": "اختر نوع الوسيط",
+    "agent_type_individual": "فرد",
+    "agent_type_office": "منشأة",
+    "company_name_optional": "اسم الشركة (اختياري)",
+    "company_logo_optional": "شعار الشركة (اختياري)",
+    "company_name": "اسم الشركة",
+    "company_logo": "شعار الشركة",
+    "commercial_register": "رقم السجل التجاري",
+    "submit_button": "إنشاء حساب",
+    "already_have_account": "لدي حساب بالفعل",
+    "login": "تسجيل الدخول",
+    "password_requirements": {
+      "min_length": "8 أحرف على الأقل",
+      "has_number": "تحتوي على رقم واحد على الأقل",
+      "has_special": "تحتوي على حرف خاص",
+      "has_uppercase": "تحتوي على حرف كبير"
+    },
+    "validation": {
+      "name_min": "يجب أن يكون الاسم مكون من حرفين على الأقل",
+      "email_invalid": "الرجاء إدخال بريد إلكتروني صالح",
+      "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
+      "password_min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "confirm_password": "الرجاء تأكيد كلمة المرور",
+      "passwords_not_match": "كلمتا المرور غير متطابقتين",
+      "role_required": "الرجاء اختيار نوع الحساب",
+      "id_number_required": "الرجاء إدخال رقم الهوية",
+      "commercial_registration_required": "الرجاء إدخال رقم السجل التجاري",
+      "license_number_required": "الرجاء إدخال رقم الرخصة",
+      "error": "حدث خطأ ما"
+    }
+  },
+  "otp": {
+    "title": "تحقق من رقمك",
+    "code_sent_to": "لقد تم إرسال الكود علي رقم الهاتف",
+    "enter_code": "إدخال الكـــود",
+    "not_received": "لم يصلك الكود بعد ؟",
+    "resend": "إعادة إرسال",
+    "verify_button": "تأكيد الكود",
+    "success": "تم التحقق بنجاح",
+    "under_review": "طلبك قيد المراجعة حالياً",
+    "validation": {
+      "code_length": "يجب أن يتكون الكود من 4 أرقام",
+      "error": "حدث خطأ ما"
+    }
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "phone_number": "رقم الهاتف",
+    "password": "كلمة المرور",
+    "password_placeholder": "أدخل كلمة المرور",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "submit_button": "تسجيل الدخول",
+    "no_account": "ليس لديك حساب؟",
+    "create_account": "إنشاء حساب",
+    "login_failed": "فشل تسجيل الدخول. يرجى التحقق من بياناتك",
+    "validation": {
+      "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
+      "password_required": "الرجاء إدخال كلمة المرور"
+    }
+  },
+  "forget-password": {
+    "title": "نسيت كلمة المرور",
+    "phone_number": "رقم الهاتف",
+    "submit_button": "إرسال",
+    "validation": {
+      "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
+      "error": "حدث خطأ ما"
+    }
+  },
+  "new-password": {
+    "title": "تغيير كلمة المرور",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "submit_button": "تغيير كلمة المرور",
+    "validation": {
+      "password_min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "confirm_password": "الرجاء تأكيد كلمة المرور",
+      "passwords_not_match": "كلمتا المرور غير متطابقتين",
+      "error": "حدث خطأ ما"
+    }
+  },
+  "Profile": {
+    "my_account": "حسابي",
+    "points_count": "عدد النقاط",
+    "total_points": "العدد الإجمالي للنقاط",
+    "featured_client": "عميل مميز",
+    "join_date": "تاريخ الانضمام",
+    "active_status": "نشط منذ 5 دقائق",
+    "personal_data": "البيانات الشخصية",
+    "save_data": "حفظ البيانات",
+    "name_label": "الاسم",
+    "name_placeholder": "عادل سميد",
+    "email_label": "البريد الإلكتروني",
+    "email_placeholder": "NAME@mail.com",
+    "phone_label": "رقم الهاتف",
+    "my_data": "بياناتي",
+    "my_properties": "عقاراتي",
+    "no_properties": "لا توجد عقارات",
+    "save_success": "تم تحديث الملف الشخصي بنجاح",
+    "save_error": "فشل تحديث الملف الشخصي",
+    "validation_name": "الاسم قصير جداً",
+    "validation_email": "البريد غير صالح",
+    "validation_phone": "رقم الهاتف غير صالح",
+    "back": "رجوع",
+    "edit_data": "تعديل البيانات",
+    "cancel": "إلغاء",
+    "financials": "المالية",
+    "statistics": "الإحصائيات",
+    "packages": "الباقات",
+    "payment_methods": "طرق الدفع",
+    "my_ads": "إعلاناتي",
+    "my_offers": "عروضي",
+    "add_new_ad": "إضافة إعلان جديد",
+    "search_ad_placeholder": "إبحث عن إعلان",
+    "upgrade_ad": "ترقية إعلانك",
+    "view_price": "عرض سعر",
+    "serious_request": "طلب جاد",
+    "total_earnings": "إجمالي المكسب",
+    "views_count": "عدد المشاهدات",
+    "ads_count": "عدد الإعلانات",
+    "visitors_count": "عدد الزائرين",
+    "views_chart_title": "عدد المشاهدات",
+    "all_projects": "كل المشاريع",
+    "status_label": "الحالة",
+    "amount": "المبلغ",
+    "currency_label": "العملة",
+    "invoice": "الفاتورة",
+    "transfer_type": "نوع التحويل",
+    "operation": "العملية",
+    "date": "التاريخ",
+    "add_property": "إضافة عقار",
+    "ad_funding": "تمويل إعلان",
+    "bank_visa": "فيزا بنكية",
+    "current_package": "الباقة الحالية",
+    "other_packages": "باقات أخري",
+    "days": "أيام",
+    "for_duration": "لمدة {duration} {unit}",
+    "renew_package": "تجديد الباقة",
+    "change_plan": "تغيير الخطه",
+    "unlimited_ads": "إعلانات غير محدودة",
+    "continuous_technical_support": "دعم فني مستمر",
+    "search_ad_button": "بحث",
+    "package_2": "الباقة الثانية",
+    "package_3": "الباقة الثالثة",
+    "saudi_arabia": "المملكة العربية السعودية",
+    "k_suffix": "ألف",
+    "currency": "ر.س"
+  },
+  "Navbar": {
+    "address": "العنوان الرئيسي - الرياض",
+    "phone_default": "+966-4552-58",
+    "email_default": "info@alsokoor.com",
+    "home": "الرئيسية",
+    "estates": "العقارات",
+    "partners": "الوسطاء",
+    "packages": "الباقات",
+    "blogs": "المدونة",
+    "deals": "الصفقات",
+    "requests": "الطلبات",
+    "offers": "العروض",
+    "ads": "الإعلانات",
+    "aboutus": "من نحن",
+    "marketplace": "السوق",
+    "properties": "عقارات"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "about_us": "من نحن",
+    "login": "تسجيل الدخول",
+    "sign_up": "إنشاء حساب",
+    "otp": "التحقق من الرمز",
+    "forget_password": "نسيت كلمة المرور",
+    "reset_code": "إعادة تعيين الرمز",
+    "new_password": "كلمة مرور جديدة",
+    "estates": "العقارات",
+    "partners": "شركاء النجاح",
+    "blogs": "المدونة",
+    "contact_us": "اتصل بنا",
+    "privacy_policy": "سياسة الخصوصية",
+    "terms_conditions": "الشروط والأحكام",
+    "favorite": "المفضلة",
+    "offers": "العروض",
+    "packages": "الباقات",
+    "user_manual": "دليل المستخدم",
+    "notifications": "الإشعارات",
+    "deals": "الصفقات",
+    "complaints": "الشكاوى",
+    "details": "تفاصيل العقار",
+    "properties": "العقارات",
+    "requests": "الطلبات",
+    "no_properties": "لا توجد عقارات لهذا الشريك",
+    "featured_users": "عملاء نثق بهم",
+    "contact_info": "معلومات الاتصال",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "member_since": "عضو منذ",
+    "points_balance": "رصيد النقاط",
+    "marketplace": "السوق",
+    "project_details": "تفاصيل المشروع"
+  },
+  "offers_page": {
+    "title": "العروض",
+    "no_offers": "لا توجد عروض متاحة حالياً",
+    "currency": "ر.س",
+    "valid_for": "صالح لمدة {days} يوم",
+    "features": "المميزات:",
+    "other_features": "+{count} مميزات أخرى"
+  },
+  "offers": {
+    "title": "عروض العقارات",
+    "my_offers": "عروضي",
+    "sent_offers": "العروض المرسلة",
+    "received_offers": "العروض المستلمة",
+    "submit_offer": "تقديم عرض",
+    "submit_offer_for": "تقديم عرض على",
+    "submit_offer_description": "قدم عرضك على هذا العقار",
+    "offer_details": "تفاصيل العرض",
+    "offer_details_placeholder": "اكتب تفاصيل عرضك هنا... (على الأقل 10 أحرف)",
+    "offer_details_hint": "يرجى تقديم تفاصيل واضحة عن عرضك",
+    "to": "إلى",
+    "from": "من",
+    "cancel": "إلغاء",
+    "submit": "إرسال",
+    "validation_error": "يرجى تصحيح الأخطاء",
+    "error_loading": "فشل في تحميل العروض",
+    "no_offers": "لا توجد عروض",
+    "no_sent_offers": "لم ترسل أي عروض بعد",
+    "no_received_offers": "لم تستلم أي عروض بعد",
+    "status": {
+      "pending": "قيد الانتظار",
+      "accepted": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "actions": {
+      "accept": "قبول",
+      "reject": "رفض",
+      "view_property": "عرض العقار"
+    },
+    "filters": {
+      "all": "الكل"
+    },
+    "messages": {
+      "submit_success": "تم إرسال العرض بنجاح",
+      "accept_success": "تم قبول العرض بنجاح",
+      "reject_success": "تم رفض العرض بنجاح",
+      "submit_error": "فشل في إرسال العرض",
+      "accept_error": "فشل في قبول العرض",
+      "reject_error": "فشل في رفض العرض"
+    }
+  },
+  "packages_page": {
+    "title": "الباقات",
+    "basic_plan": "الباقة الأساسية",
+    "premium_plan": "الباقة المميزة",
+    "golden_plan": "الباقة الذهبية",
+    "popular_badge": "الأكثر شهرة",
+    "monthly": "شهريًا",
+    "subscribe_now": "اشترك الآن",
+    "currency": "ر.س",
+    "features": {
+      "publish_5": "نشر 5 عقارات",
+      "support_working_hours": "دعم فني خلال أوقات العمل",
+      "limited_visibility": "ظهور محدود في نتائج البحث",
+      "publish_15": "نشر 15 عقار",
+      "support_24": "دعم فني على مدار الساعة",
+      "top_visibility": "ظهور في أعلى نتائج البحث",
+      "featured_ads": "إعلانات مميزة",
+      "unlimited_publish": "عدد غير محدود من العقارات",
+      "support_vip": "دعم فني VIP",
+      "home_ads": "إعلانات في الصفحة الرئيسية",
+      "analytics": "تحليل أداء العقارات"
+    }
+  },
+  "deals_page": {
+    "title": "الصفقات المباشرة",
+    "add_deal": "إضافة صفقة",
+    "edit": "تعديل",
+    "edit_deal": "تعديل الصفقة",
+    "new_deal": "إضافة صفقة جديدة",
+    "page_info": "صفحة {page} من {totalPages} ({total} صفقة)",
+    "previous": "السابق",
+    "next": "التالي",
+    "error_fetch": "فشل في جلب البيانات",
+    "error_generic": "حدث خطأ أثناء جلب البيانات",
+    "no_deals": "لا توجد صفقات متاحة حالياً",
+    "not_found": "الصفقة غير موجودة",
+    "not_found_desc": "لم يتم العثور على الصفقة المطلوبة",
+    "price": "السعر",
+    "validity": "مدة الصلاحية",
+    "features_count": "عدد المميزات",
+    "status": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "features": "المميزات",
+    "price_change": "تغير الأسعار",
+    "high": "الأعلى",
+    "avg": "المتوسط",
+    "low": "الأقل",
+    "additional_info": "معلومات إضافية",
+    "created_at": "تاريخ الإنشاء",
+    "updated_at": "آخر تحديث",
+    "area": "المساحة",
+    "total_price": "السعر الإجمالي",
+    "price_per_meter": "سعر المتر",
+    "min_area": "أقل مساحة",
+    "max_area": "أكبر مساحة",
+    "min_total_price": "أقل سعر إجمالي",
+    "max_total_price": "أكبر سعر إجمالي",
+    "min_price_per_meter": "أقل سعر للمتر",
+    "max_price_per_meter": "أكبر سعر للمتر",
+    "sar": "ر.س",
+    "sqm": "م²"
+  },
+  "services_card": {
+    "title": "وسطاء معتمدين",
+    "description": "نسهّل وصولك للوسطاء المعتمدين من حولك لإتمام إجراءاتك الإيجارية"
+  },
+  "floating_socials": {
+    "whatsapp": "واتساب",
+    "twitter": "تويتر",
+    "snapchat": "سناب شات",
+    "chatbot": "الشات بوت"
+  },
+  "Metadata": {
+    "title": "الصقور العقارية",
+    "description": "منصة عقارية متكاملة",
+    "home": {
+      "title": "الرئيسية | الصقور العقارية",
+      "description": "اكتشف عقارك المثالي مع الصقور العقارية - شريكك الموثوق في شراء وبيع وتأجير العقارات"
+    },
+    "about": {
+      "title": "من نحن | الصقور العقارية",
+      "description": "تعرف على الصقور العقارية - شريكك الأول لتحقيق أحلامك العقارية بكل ثقة واطمئنان"
+    },
+    "blogs": {
+      "title": "المدونة | الصقور العقارية",
+      "description": "اقرأ أحدث المقالات والنصائح العقارية ورؤى السوق في مدونتنا"
+    },
+    "complaints": {
+      "title": "الشكاوى | الصقور العقارية",
+      "description": "قدم شكواك وملاحظاتك - نحن هنا لمساعدتك وتحسين خدماتنا"
+    },
+    "deals": {
+      "title": "الصفقات المباشرة | الصقور العقارية",
+      "description": "تصفح الصفقات العقارية المباشرة واعثر على أفضل الفرص في السوق"
+    },
+    "estates": {
+      "title": "العقارات | الصقور العقارية",
+      "description": "استكشف مجموعتنا الواسعة من العقارات للبيع والإيجار - فلل وشقق وأراضي والمزيد"
+    },
+    "featuredUsers": {
+      "title": "عملاء نثق بهم | الصقور العقارية",
+      "description": "تعرف على عملائنا الموثوقين وشركاء النجاح في سوق العقارات"
+    },
+    "marketplace": {
+      "title": "السوق | الصقور العقارية",
+      "description": "استكشف عقارات الوسطاء وعقارات الملاك ومشاريع المطورين في السوق"
+    },
+    "notifications": {
+      "title": "الإشعارات | الصقور العقارية",
+      "description": "عرض إشعاراتك والبقاء على اطلاع بأحدث تنبيهات العقارات"
+    },
+    "offers": {
+      "title": "العروض | الصقور العقارية",
+      "description": "اكتشف العروض الحصرية والصفقات الخاصة على الخدمات العقارية"
+    },
+    "packages": {
+      "title": "الباقات | الصقور العقارية",
+      "description": "اختر من باقات الاشتراك لدينا واستفد من الميزات المميزة لنشاطك العقاري"
+    },
+    "partners": {
+      "title": "شركاء النجاح | الصقور العقارية",
+      "description": "تعرف على شركاء النجاح والوسطاء العقاريين الموثوقين لدينا"
+    },
+    "profile": {
+      "title": "حسابي | الصقور العقارية",
+      "description": "إدارة حسابك وعقاراتك وإعداداتك"
+    },
+    "requests": {
+      "title": "الطلبات | الصقور العقارية",
+      "description": "تصفح طلبات العقارات أو قدم طلبك - اعثر على العقار الذي يناسب احتياجاتك"
+    },
+    "userManual": {
+      "title": "دليل المستخدم | الصقور العقارية",
+      "description": "تعلم كيفية استخدام منصة الصقور العقارية من خلال دليلنا الشامل"
+    },
+    "wishlist": {
+      "title": "المفضلة | الصقور العقارية",
+      "description": "عرض العقارات المحفوظة والقوائم المفضلة لديك"
+    },
+    "login": {
+      "title": "تسجيل الدخول | الصقور العقارية",
+      "description": "تسجيل الدخول إلى حسابك للوصول إلى لوحة التحكم الخاصة بك"
+    },
+    "signUp": {
+      "title": "إنشاء حساب | الصقور العقارية",
+      "description": "أنشئ حسابك المجاني وابدأ رحلتك العقارية معنا"
+    },
+    "forgotPassword": {
+      "title": "نسيت كلمة المرور | الصقور العقارية",
+      "description": "أعد تعيين كلمة المرور الخاصة بك لاستعادة الوصول إلى حسابك"
+    },
+    "verifyOtp": {
+      "title": "تأكيد الرمز | الصقور العقارية",
+      "description": "أدخل رمز التحقق المرسل إلى هاتفك"
+    },
+    "resetCode": {
+      "title": "رمز إعادة التعيين | الصقور العقارية",
+      "description": "أدخل رمز إعادة التعيين لتغيير كلمة المرور"
+    },
+    "newPassword": {
+      "title": "كلمة مرور جديدة | الصقور العقارية",
+      "description": "تعيين كلمة مرور جديدة لحسابك"
+    },
+    "advertisements": {
+      "add": {
+        "title": "إضافة إعلان | الصقور العقارية",
+        "description": "أضف عقارك للبيع أو الإيجار بسهولة"
+      }
+    }
+  },
+  "property_details": {
+    "views": "مشاهدات",
+    "description": "الوصف",
+    "details_title": "تفاصيل العقار",
+    "amenities_title": "المميزات",
+    "location_title": "الموقع",
+    "reviews_title": "تقييمات العملاء عن العقار",
+    "reviews_subtitle": "({count} تقييم - متوسط {rating})",
+    "payment_methods": "طرق الدفع",
+    "cash": "كاش",
+    "bank_transfer": "تحويل بنكي",
+    "advertisement": "اعلان الهيئه العامه للعقار",
+    "similar_properties": {
+      "title": "عقارات مشابهة",
+      "subtitle": "عقارات مشابهة",
+      "description": "نقترح لك بعض أفضل العقارات المميزة والموثوقة لدينا"
+    },
+    "fields": {
+      "area_unit": "م²",
+      "garages": "عدد الجراجات",
+      "balconies": "البلكوة",
+      "rooms": "عدد الغرف",
+      "bathrooms": "عدد الحمامات",
+      "area": "المساحة",
+      "finishing_type": "نوع التشطيب",
+      "none": "لا يوجد",
+      "usable_area": "المساحة الصافية",
+      "operation_type": "نوع العملية"
+    },
+    "finishing_types": {
+      "none": "بدون تشطيب",
+      "basic": "بسيط",
+      "good": "جيد",
+      "luxury": "فاخر",
+      "super_luxury": "سوبر لوكس"
+    },
+    "operation_types": {
+      "sale": "للبيع",
+      "rent": "للإيجار"
+    }
+  },
+  "estate_card": {
+    "show_details": "عرض التفاصيل",
+    "featured": "عقار مميز",
+    "deal": "طلب جاد",
+    "sar": "ريال",
+    "sqm": "م²",
+    "price_hidden": "تواصل للسعر",
+    "no_reviews": "لا توجد تقييمات بعد"
+  },
+  "property_actions": {
+    "show_more": "عرض المزيد",
+    "buy_now": "شراء الآن",
+    "whatsapp": "واتساب",
+    "message": "رسالة",
+    "call_us": "اتصل بنا",
+    "whatsapp_message": "مرحباً، أنا مهتم بشراء هذا العقار ({title}) وأريد معرفة المزيد من التفاصيل."
+  },
+  "property_chat": {
+    "owner_details": "تفاصيل صاحب الإعلان",
+    "view_profile": "عرض البروفايل",
+    "open_chat": "فتح شات كامل",
+    "write_message": "كتابة الرسالة..."
+  },
+  "add_deal": {
+    "start_date": "تاريخ البداية",
+    "end_date": "تاريخ النهاية",
+    "city": "المدينة",
+    "district": "الحي",
+    "country": "الدولة",
+    "plan_number": "رقم المخطط",
+    "plot_number": "رقم القطعة",
+    "min_area": "الحد الأدنى للمساحة (م²)",
+    "max_area": "الحد الأعلى للمساحة (م²)",
+    "min_total_price": "الحد الأدنى للسعر الإجمالي",
+    "max_total_price": "الحد الأعلى للسعر الإجمالي",
+    "min_price_per_meter": "الحد الأدنى لسعر المتر",
+    "max_price_per_meter": "الحد الأعلى لسعر المتر",
+    "property_type": "نوع العقار",
+    "transaction_type": "نوع المعاملة",
+    "identity_number": "رقم الهوية",
+    "select_property_type": "اختر نوع العقار",
+    "select_transaction_type": "اختر نوع المعاملة",
+    "cancel": "إلغاء",
+    "add_deal": "إضافة الصفقة",
+    "update_deal": "تحديث الصفقة",
+    "adding": "جاري الإضافة...",
+    "updating": "جاري التحديث...",
+    "success_add": "تم إضافة الصفقة بنجاح",
+    "success_update": "تم تحديث الصفقة بنجاح",
+    "error_add": "فشل في إضافة الصفقة",
+    "error_update": "فشل في تحديث الصفقة",
+    "types": {
+      "residential": "سكني",
+      "commercial": "تجاري",
+      "industrial": "صناعي",
+      "agricultural": "زراعي"
+    },
+    "transactions": {
+      "ownership_transfer": "نقل ملكية",
+      "mortgage": "رهن",
+      "mortgage_release": "فك رهن",
+      "division_merge": "تقسيم/دمج"
+    }
+  },
+  "validations": {
+    "required": "هذا الحقل مطلوب",
+    "email_invalid": "البريد الإلكتروني غير صالح",
+    "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
+    "password_min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "confirm_password": "كلمة المرور غير متطابقة",
+    "name_min": "يجب أن يكون الاسم مكون من حرفين على الأقل",
+    "code_length": "يجب أن يتكون الكود من 4 أرقام",
+    "role_required": "الرجاء اختيار نوع الحساب",
+    "price_range_invalid": "نطاق السعر غير صالح",
+    "integer_only": "يجب أن يكون رقماً صحيحاً",
+    "number_only": "يجب أن يكون رقماً"
+  },
+  "toasts": {
+    "success": "تمت العملية بنجاح",
+    "error": "حدث خطأ ما",
+    "unauthorized": "يجب تسجيل الدخول أولاً",
+    "login_success": "تم تسجيل الدخول بنجاح",
+    "login_failed": "فشل تسجيل الدخول",
+    "register_success": "تم إنشاء الحساب بنجاح",
+    "otp_sent": "تم إرسال رمز التحقق",
+    "otp_verified": "تم التحقق من الرمز بنجاح",
+    "password_changed": "تم تغيير كلمة المرور بنجاح",
+    "email_sent": "تم إرسال البريد الإلكتروني بنجاح",
+    "complaint_sent": "تم إرسال الشكوى بنجاح",
+    "newsletter_success": "تم الاشتراك في النشرة البريدية",
+    "newsletter_error": "فشل الاشتراك في النشرة البريدية",
+    "fetch_error": "فشل في جلب البيانات"
+  },
+  "estates_filter": {
+    "operation_type": "نوع العملية",
+    "property_type": "نوع العقار",
+    "rooms": "عدد الغرف",
+    "finishing_type": "نوع التشطيب",
+    "location": "الموقع",
+    "price_range": "نطاق السعر",
+    "search": "بحث",
+    "clear": "مسح",
+    "no_properties_found": "لا توجد عقارات متاحة حالياً",
+    "customize_property": "خصص عقارك",
+    "customize_description": "ابحث عن العقار الذي تريده",
+    "from": "من",
+    "to": "إلى",
+    "types": {
+      "villa": "فيلا",
+      "apartment": "شقة",
+      "land": "اراضي"
+    },
+    "finishes": {
+      "luxury": "لوكس",
+      "average": "متوسط",
+      "simple": "بسيط"
+    },
+    "operations": {
+      "sale": "بيع",
+      "rent": "إيجار"
+    }
+  },
+  "faq": {
+    "title": "الأسئلة الشائعة",
+    "brand": "الصقور العقارية"
+  },
+  "wishlist": {
+    "title": "المفضلة",
+    "no_favorites": "لا توجد عقارات في المفضلة",
+    "added": "تمت الإضافة إلى المفضلة",
+    "removed": "تمت الإزالة من المفضلة",
+    "login_required": "يجب تسجيل الدخول أولاً",
+    "login_button": "تسجيل الدخول"
+  },
+  "requests_legacy": {
+    "page_title": "الطلبات",
+    "results_count": "عدد النتائج",
+    "result": "طلب",
+    "add_request": "إضافة طلب",
+    "add_new_request": "إضافة طلب جديد",
+    "no_requests": "لا توجد طلبات متاحة حالياً",
+    "loading": "جاري التحميل...",
+    "load_more": "عرض المزيد",
+    "login_required": "يجب تسجيل الدخول أولاً",
+    "bookmarked": "تمت الإضافة للمفضلة",
+    "types": {
+      "all": "الكل",
+      "villa_sale": "فلل للبيع",
+      "villa_rent": "فلل للإيجار",
+      "land_sale": "أراضي للبيع",
+      "apartment_sale": "شقق للبيع",
+      "apartment_rent": "شقق للإيجار",
+      "floor_sale": "دور للبيع",
+      "floor_rent": "دور للإيجار",
+      "shop_sale": "محلات للبيع",
+      "shop_rent": "محلات للإيجار",
+      "warehouse_sale": "عمائر للبيع",
+      "warehouse_rent": "عمائر للإيجار"
+    },
+    "operations": {
+      "sale": "للبيع",
+      "rent": "للإيجار"
+    },
+    "tags": {
+      "serious_request": "طلب جاد",
+      "subscribers_only": "للمشتركين فقط"
+    },
+    "units": {
+      "sqm": "م²",
+      "sar": "ريال"
+    },
+    "price": {
+      "market_price": "سعر السوق"
+    },
+    "time": {
+      "minutes_ago": "منذ {count} دقيقة",
+      "hours_ago": "منذ {count} ساعة",
+      "days_ago": "منذ {count} يوم"
+    },
+    "filter": {
+      "location_placeholder": "الموقع / المدينة",
+      "sort_by": "ترتيب حسب",
+      "search": "بحث",
+      "clear": "مسح",
+      "interests": "اهتماماتك",
+      "add_interest": "+أضف لاهتماماتك",
+      "customize_request": "خصص طلبك",
+      "customize_description": "ابحث عن الطلب الذي تريده",
+      "sort": {
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "price_low": "السعر: من الأقل للأعلى",
+        "price_high": "السعر: من الأعلى للأقل"
+      }
+    },
+    "form": {
+      "title": "عنوان الطلب",
+      "title_placeholder": "مثال: مطلوب فيلا للبيع",
+      "property_type": "نوع العقار",
+      "select_type": "اختر النوع",
+      "operation_type": "نوع العملية",
+      "select_operation": "اختر نوع العملية",
+      "city": "المدينة",
+      "city_placeholder": "الرياض",
+      "neighborhoods": "الأحياء",
+      "neighborhoods_placeholder": "النخيل، المحمدية، حطين...",
+      "min_area": "الحد الأدنى للمساحة (م²)",
+      "min_area_placeholder": "300",
+      "max_area": "الحد الأعلى للمساحة (م²)",
+      "max_area_placeholder": "500",
+      "min_price": "الحد الأدنى للسعر",
+      "min_price_placeholder": "1,000,000",
+      "max_price": "الحد الأعلى للسعر",
+      "max_price_placeholder": "2,500,000",
+      "description": "وصف الطلب",
+      "description_placeholder": "اكتب تفاصيل إضافية عن طلبك...",
+      "is_serious": "طلب جاد",
+      "cancel": "إلغاء",
+      "submit": "إضافة الطلب",
+      "submitting": "جاري الإضافة...",
+      "success": "تم إضافة الطلب بنجاح",
+      "error": "فشل في إضافة الطلب",
+      "request_type": "نوع الطلب",
+      "budget": "الميزانية",
+      "area": "المساحة",
+      "details": "تفاصيل",
+      "details_placeholder": "بإمكانك كتابة تفاصيل إضافية توضح مواصفات العقار المطلوب",
+      "contact_channels": "قنوات التواصل",
+      "contact_channels_desc": "وسائل التواصل المتعددة تتيح لأكبر عدد من العقاريون التواصل معك",
+      "contact_in_app": "محادثة في التطبيق",
+      "next": "التالي",
+      "step_title": "طلب"
+    },
+    "welcome": {
+      "title": "اطلب عقارك!",
+      "description": "سيقوم العقاريين بتقديم العروض العقارية المناسبة لطلبك",
+      "received": "تم استلام طلبك مجاناً",
+      "cta_button": "قدم طلبك الان",
+      "feature1_title": "عقاريون متخصصون",
+      "feature1_desc": "يساعدونك للوصول إلى العقار المناسب",
+      "feature2_title": "عروض عقارية ملائمة لطلبك",
+      "feature2_desc": "ستصلك العروض المتاحة في التطبيق فوراً",
+      "feature3_title": "تواصل مباشر",
+      "feature3_desc": "مع العقاريين المناسبين لطلبك"
+    },
+    "details": {
+      "area": "المساحة",
+      "price": "السعر",
+      "type": "النوع",
+      "operation": "العملية",
+      "description": "الوصف",
+      "requirements": "المتطلبات",
+      "requester_info": "معلومات صاحب الطلب",
+      "call": "اتصال",
+      "whatsapp": "واتساب",
+      "email": "بريد إلكتروني",
+      "member_since": "عضو منذ"
+    },
+    "error": {
+      "fetch_failed": "فشل في جلب البيانات"
+    }
+  },
+  "marketplace": {
+    "title": "عقارات",
+    "add_property": "إضافة عقار",
+    "tabs": {
+      "brokers": "عقارات الوسطاء",
+      "owners": "عقارات الملاك",
+      "developers": "عقارات المطورين"
+    },
+    "broker": {
+      "commission_info": "ستحصل على {percentage}% من السعي عند إتمام الصفقة",
+      "start_marketing": "ابدأ بتسويق العقار",
+      "rooms": "غرف",
+      "status": {
+        "new": "جديد",
+        "marketing": "تحت التسويق",
+        "half_deal": "تمت الصفقة",
+        "limited": "محدود"
+      },
+      "types": {
+        "individual": "أفراد",
+        "office": "مكاتب",
+        "all": "الكل"
+      }
+    },
+    "owner": {
+      "submit_offer": "تقديم عرض خدمة",
+      "offers_count": "عدد العروض المقدمة: {count} عرض",
+      "verified": "تم التحقق من الملك",
+      "subscribers_only": "للمشتركين فقط",
+      "unread": "غير مقروء",
+      "reject": "رفض",
+      "request": "طلب",
+      "sort_label": "الترتيب",
+      "filter_label": "الفرز",
+      "property_types": {
+        "villa_sale": "فلل للبيع",
+        "land_sale": "أراضي للبيع",
+        "apartment_sale": "شقق للبيع",
+        "apartment_rent": "شقق للإيجار",
+        "floor_sale": "دور للبيع",
+        "floor_rent": "دور للإيجار",
+        "building_sale": "عمائر للبيع",
+        "building_rent": "عمائر للإيجار",
+        "shop_sale": "محلات للبيع",
+        "shop_rent": "محلات للإيجار"
+      }
+    },
+    "owner_filter_dialog": {
+      "title": "الفرز",
+      "all_requests": "كل الطلبات",
+      "unread": "غير مقروء",
+      "read": "مقروء",
+      "active_requests": "طلبات نشطة",
+      "waiting_owner": "طلبات بإنتظار المالك",
+      "pending": "طلبات معلقة",
+      "apply": "تطبيق"
+    },
+    "owner_sort_dialog": {
+      "title": "ترتيب حسب",
+      "default": "تلقائي",
+      "newest": "حسب الأحدث",
+      "oldest": "حسب الأقدم",
+      "largest_area": "الأكثر مساحة",
+      "smallest_area": "الأقل مساحة",
+      "highest_price": "الأعلى سعراً",
+      "lowest_price": "الأقل سعراً",
+      "apply": "تطبيق"
+    },
+    "subscription_dialog": {
+      "title": "خدمة تسويق عقارات الملاك",
+      "subscribers_only": "هذا الطلب للمشتركين فقط",
+      "description": "اشترك في إحدى باقاتنا الشهرية من لتتمكن من تقديم عروض خدمات تسويق عقارات الملاك",
+      "subscribe_now": "اشترك الآن"
+    },
+    "developer": {
+      "add_property": "إضافة عقار",
+      "starting_from": "يبدأ من",
+      "broker_commission": "سيحصل الوسيط العقاري على {percentage}% من المشتري",
+      "broker_opportunity": "فرصة للوسطاء",
+      "about_project": "عن المشروع",
+      "project_details": "تفاصيل المشروع",
+      "available_units": "العقارات المتاحة",
+      "unit_available": "وحدة متوفرة",
+      "rooms": "غرف",
+      "bathrooms": "حمام",
+      "back_to_projects": "العودة للمشاريع",
+      "search_placeholder": "ابحث عن مشروع...",
+      "filter": {
+        "all": "الكل"
+      },
+      "results_count": "عدد النتائج",
+      "project": "مشروع",
+      "no_projects": "لا توجد مشاريع متاحة حالياً"
+    },
+    "marketing_dialog": {
+      "title": "كيف تعمل الخدمة؟",
+      "confirm_title": "تأكيد بدء التسويق",
+      "step_1": "ابدأ بتسويق العقار وعرضه على عملائك",
+      "step_2": "إذا وجدت عميل مهتم تواصل مع الوسيط المعلن",
+      "step_3": "إذا تمت الصفقة من طلبك ستحصل على حصتك من السعي",
+      "step_4": "بعد حصولك على حصتك من السعي ستدفع رسم تطبيق ديل",
+      "step_5": "السعي المتفق عليه هو المبلغ الذي سيدفعه المشتري كعمولة عند إتمام الصفقة",
+      "commission_note": "السعي المتفق عليه هو {percentage}% كعمولة عند إتمام الصفقة",
+      "accept_commission": "أتعهد بدفع {percentage}% من حصتي من السعي لتطبيق ديل",
+      "accept_terms": "تطبيق ديل لا يتحمل أي مسؤولية ولا ضمان للسعي وحصولك على السعي من الوسيط المعلن هي مسؤوليتك أنت",
+      "next": "التالي",
+      "back": "رجوع",
+      "confirm": "تأكيد",
+      "submitting": "جاري التأكيد..."
+    },
+    "sort_dialog": {
+      "title": "ترتيب حسب",
+      "default": "الاعتراضي",
+      "newest": "الأحدث",
+      "highest_commission": "الأعلى نسبة سعي",
+      "lowest_commission": "الأقل نسبة سعي",
+      "highest_price": "الأعلى سعراً",
+      "lowest_price": "الأقل سعراً",
+      "largest_area": "الأعلى مساحة",
+      "smallest_area": "الأقل مساحة",
+      "apply": "تطبيق"
+    },
+    "filter": {
+      "all": "الكل"
+    },
+    "search": "البحث",
+    "sort_by": "ترتيب حسب",
+    "results_count": "عدد النتائج",
+    "opportunity": "فرصة",
+    "no_properties": "لا توجد عقارات متاحة حالياً",
+    "currency": "ريال",
+    "area_unit": "م²"
+  },
+  "broker_properties": {
+    "status": {
+      "new": "جديد",
+      "marketing": "تحت التسويق",
+      "sold": "تمت الصفقة",
+      "deleted": "محذوف"
+    },
+    "start_marketing": "قم بالتسويق للعقار",
+    "no_properties": "لا توجد عقارات في هذا التصنيف",
+    "marketing_dialog": {
+      "title": "التسويق للعقار",
+      "step": "الخطوة {current} من {total}",
+      "confirm_title": "هل تريد التسويق لهذا العقار؟",
+      "confirm_description": "قم بالتسويق لعقارك للوصول لأكبر عدد من المشترين المحتملين",
+      "benefits_title": "مميزات التسويق",
+      "benefit_1": "ظهور العقار في نتائج البحث الأولى",
+      "benefit_2": "الوصول لآلاف المشترين المحتملين",
+      "benefit_3": "إحصائيات مفصلة عن أداء الإعلان",
+      "terms_title": "الشروط والأحكام",
+      "terms_content_1": "بموافقتك على التسويق، فإنك توافق على شروط وأحكام المنصة.",
+      "terms_content_2": "سيتم عرض العقار للمستخدمين وفقاً للباقة المشترك بها.",
+      "terms_content_3": "يحق لك إيقاف التسويق في أي وقت من لوحة التحكم.",
+      "accept_terms": "أوافق على الشروط والأحكام",
+      "package_required_title": "يجب الاشتراك في باقة",
+      "package_required_description": "للتسويق للعقار، يجب أن يكون لديك اشتراك نشط في إحدى الباقات",
+      "package_cta_text": "اشترك في إحدى الباقات للاستفادة من مميزات التسويق والوصول لأكبر عدد من المشترين",
+      "view_packages": "عرض الباقات",
+      "package_note": "سيتم تفعيل التسويق تلقائياً بعد الاشتراك",
+      "back": "رجوع",
+      "next": "التالي",
+      "agree_and_continue": "موافقة والمتابعة"
+    }
+  },
+  "advertisements": {
+    "property_types": {
+      "villa": "فيلا",
+      "residential_land": "أرض سكنية",
+      "commercial_land": "أرض تجارية",
+      "apartment": "شقة",
+      "floor": "دور",
+      "shop": "محل",
+      "building": "عمارة",
+      "warehouse": "مستودع",
+      "rest_house": "استراحة",
+      "farm": "مزرعة"
+    },
+    "usage_types": {
+      "residential": "سكني",
+      "commercial": "تجاري",
+      "industrial": "صناعي",
+      "agricultural": "زراعي"
+    },
+    "amenities": {
+      "parking": "موقف سيارات",
+      "elevator": "مصعد",
+      "security": "حراسة",
+      "pool": "مسبح",
+      "gym": "صالة رياضية",
+      "garden": "حديقة",
+      "central_ac": "تكييف مركزي",
+      "furnished": "مفروشة",
+      "kitchen": "مطبخ",
+      "maid_room": "غرفة خادمة",
+      "driver_room": "غرفة سائق",
+      "basement": "قبو"
+    },
+    "street_facing": {
+      "north": "شمال",
+      "south": "جنوب",
+      "east": "شرق",
+      "west": "غرب",
+      "northeast": "شمال شرق",
+      "northwest": "شمال غرب",
+      "southeast": "جنوب شرق",
+      "southwest": "جنوب غرب"
+    },
+    "contact_methods": {
+      "phone": {
+        "title": "اتصال هاتفي",
+        "description": "يمكن للعملاء الاتصال بك مباشرة"
+      },
+      "whatsapp": {
+        "title": "واتساب",
+        "description": "التواصل عبر واتساب"
+      },
+      "chat": {
+        "title": "محادثة في التطبيق",
+        "description": "محادثة داخل المنصة"
+      }
+    },
+    "wizard": {
+      "header": {
+        "title": "إضافة إعلان",
+        "step": "الخطوة {current} من {total}"
+      },
+      "common": {
+        "back": "رجوع",
+        "next": "التالي",
+        "submit": "نشر الإعلان"
+      },
+      "intro": {
+        "title": "اضف إعلانك!",
+        "description": "وسيقوم العملاء المهتمين بالتواصل معك",
+        "feature1_title": "وصول إعلانك للمهتمين",
+        "feature1_desc": "سيظهر إعلانك لاكثر المشتريين",
+        "feature2_title": "ظهور مميز على الخريطة",
+        "feature2_desc": "إمكانية ظهور إعلانك بشكل مميز",
+        "feature3_title": "وسائل متعددين لتسويق عقارك",
+        "feature3_desc": "إمكانية التعاقد مع وسطاء لتسويق عقارك",
+        "cta_button": "اضف إعلانك الان"
+      },
+      "license": {
+        "step_label": "إضافة إعلان",
+        "has_license": "لدي رخصة إعلان",
+        "has_license_desc": "سيتم نشر إعلانك فوراً بعد المراجعة",
+        "no_license": "ليس لدي رخصة إعلان",
+        "no_license_desc": "سنساعدك في إصدار رخصة إعلان من الهيئة العامة للعقار"
+      },
+      "property_type": {
+        "title": "تفاصيل الإعلان",
+        "type_label": "نوع العقار",
+        "search_placeholder": "بحث",
+        "ad_type_label": "نوع الإعلان",
+        "select_ad_type": "اختر نوع الإعلان",
+        "rent_period_label": "نوع الإيجار",
+        "select_rent_period": "اختر نوع الإيجار",
+        "housing_type_label": "نوع السكن",
+        "select_housing_type": "اختر نوع السكن"
+      },
+      "ad_types": {
+        "sale": "بيع",
+        "rent": "إيجار"
+      },
+      "rent_periods": {
+        "daily": "يومي",
+        "monthly": "شهري",
+        "yearly": "سنوي"
+      },
+      "housing_types": {
+        "families": "عائلات",
+        "singles": "عزاب",
+        "both": "الكل"
+      },
+      "location": {
+        "title": "الموقع",
+        "city_label": "المدينة",
+        "select_city": "اختر المدينة",
+        "neighborhood_label": "الحي",
+        "select_neighborhood": "اختر الحي"
+      },
+      "details": {
+        "title": "تفاصيل العقار",
+        "area_label": "المساحة (م²)",
+        "area_placeholder": "أدخل المساحة",
+        "total_price_label": "السعر الإجمالي",
+        "price_placeholder": "أدخل السعر",
+        "price_per_meter_label": "سعر المتر",
+        "price_per_meter_placeholder": "أدخل سعر المتر",
+        "usage_label": "استخدامات العقار",
+        "amenities_label": "خدمات العقار",
+        "street_width_label": "عرض الشارع",
+        "street_width_placeholder": "مثال: 20 متر",
+        "street_facing_label": "واجهة الشارع",
+        "select_facing": "اختر الواجهة",
+        "obligations_label": "هل لديك أي التزامات",
+        "obligations_placeholder": "أدخل تفاصيل الالتزامات إن وجدت",
+        "description_label": "التفاصيل",
+        "description_placeholder": "اكتب وصفاً تفصيلياً للعقار..."
+      },
+      "contact": {
+        "title": "طرق التواصل",
+        "description": "حدد قنوات التواصل المتاحة للعملاء",
+        "methods_label": "حدد قنوات التواصل"
+      },
+      "authority": {
+        "title": "تفاصيل رخصة الإعلان",
+        "license_number_label": "رقم رخصة الإعلان",
+        "license_number_placeholder": "أدخل رقم الرخصة",
+        "advertiser_id_type_label": "نوع هوية المعلن",
+        "select_id_type": "اختر نوع الهوية",
+        "id_types": {
+          "national_id": "هوية وطنية",
+          "iqama": "إقامة",
+          "commercial_register": "سجل تجاري"
+        },
+        "advertiser_id_label": "رقم هوية المعلن",
+        "advertiser_id_placeholder": "أدخل رقم الهوية",
+        "broker_options_label": "خيارات التسويق",
+        "self_marketing_title": "أرغب بتولي تسويق الإعلان",
+        "self_marketing_desc": "ستقوم أنت بالتسويق للعقار بنفسك والتواصل مع العملاء",
+        "broker_contract_title": "أرغب بالتعاقد مع وسيط عقاري",
+        "broker_contract_desc": "وسيقوم التعاقد مع وسيط عقاري لتسويق والتفاوض نيابة عن المالك"
+      },
+      "media": {
+        "title": "صور وفيديوهات العقار",
+        "description": "أضف صور وفيديوهات لعرض عقارك بشكل أفضل",
+        "images_title": "الصور",
+        "videos_title": "الفيديوهات",
+        "add_image": "إضافة صورة",
+        "add_video": "إضافة فيديو",
+        "main_image": "الرئيسية",
+        "image_size_error": "حجم الصورة يجب أن يكون أقل من 5MB",
+        "video_size_error": "حجم الفيديو يجب أن يكون أقل من 50MB",
+        "max_images_error": "الحد الأقصى للصور هو {max}",
+        "max_videos_error": "الحد الأقصى للفيديوهات هو {max}",
+        "images_hint": "يمكنك رفع حتى {max} صور (الحد الأقصى {size} لكل صورة)",
+        "videos_hint": "يمكنك رفع حتى {max} فيديوهات (الحد الأقصى {size} لكل فيديو)",
+        "back": "السابق",
+        "next": "التالي"
+      },
+      "preview": {
+        "title": "مراجعة الإعلان",
+        "description": "تأكد من صحة البيانات قبل النشر",
+        "property_type": "نوع العقار",
+        "ad_type": "نوع الإعلان",
+        "price": "السعر",
+        "area": "المساحة",
+        "sale": "بيع",
+        "rent": "إيجار",
+        "family": "عائلات",
+        "singles": "عزاب",
+        "contact_methods": "طرق التواصل",
+        "phone": "هاتف",
+        "whatsapp": "واتساب",
+        "chat": "محادثة",
+        "advertiser_info": "معلومات المعلن",
+        "your_name": "اسمك",
+        "licensed": "معلن مرخص",
+        "pending_license": "بانتظار الترخيص",
+        "terms_notice": "بالضغط على نشر الإعلان، أنت توافق على الشروط والأحكام وسياسة الخصوصية",
+        "back": "السابق",
+        "publish": "نشر الإعلان",
+        "publishing": "جاري النشر..."
+      }
+    },
+    "broker_selector": {
+      "title": "اختر وسيط عقاري",
+      "description": "اختر الوسيط الذي ترغب بالتعاقد معه لتسويق عقارك",
+      "search_placeholder": "ابحث عن وسيط...",
+      "properties": "عقار",
+      "no_brokers": "لا يوجد وسطاء متاحين",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد الاختيار"
+    }
+  },
+  "owner_properties": {
+    "add_property": "إضافة عقار كمالك",
+    "add_property_desc": "أدخل تفاصيل عقارك أدناه.",
+    "no_properties": "لا توجد عقارات",
+    "status": {
+      "published": "منشور",
+      "pending": "قيد المراجعة",
+      "rejected": "مرفوض"
+    },
+    "offers": "عرض",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "agent_profile": {
+    "verified_agent": "وسيط معتمد",
+    "properties": "عقار",
+    "member_since": "عضو منذ",
+    "agent_properties": "عقارات الوسيط",
+    "no_properties_yet": "لا توجد عقارات حالياً",
+    "contact_agent": "تواصل مع الوسيط",
+    "request_property": "اطلب عقار",
+    "show_property": "اعرض عقارك",
+    "whatsapp": "واتساب",
+    "request_dialog": {
+      "title": "اطلب عقار",
+      "description": "أرسل طلبك إلى {agentName}",
+      "property_type": "نوع العقار",
+      "select_type": "اختر النوع",
+      "types": {
+        "villa": "فيلا",
+        "apartment": "شقة",
+        "land": "أرض",
+        "building": "عمارة"
+      },
+      "operation_type": "نوع العملية",
+      "select_operation": "اختر نوع العملية",
+      "operations": {
+        "sale": "شراء",
+        "rent": "إيجار"
+      },
+      "city": "المدينة",
+      "city_placeholder": "أدخل المدينة",
+      "min_price": "أقل سعر",
+      "max_price": "أعلى سعر",
+      "price_placeholder": "السعر",
+      "min_area": "أقل مساحة",
+      "max_area": "أعلى مساحة",
+      "area_placeholder": "المساحة م²",
+      "description_label": "تفاصيل إضافية",
+      "description_placeholder": "اكتب تفاصيل طلبك...",
+      "cancel": "إلغاء",
+      "submit": "إرسال الطلب",
+      "submitting": "جاري الإرسال...",
+      "success_title": "تم إرسال الطلب",
+      "success_description": "سيتواصل معك الوسيط قريباً",
+      "close": "إغلاق"
+    },
+    "show_dialog": {
+      "title": "اعرض عقارك",
+      "description": "أرسل تفاصيل عقارك إلى {agentName}",
+      "property_title": "عنوان العقار",
+      "title_placeholder": "فيلا فاخرة في...",
+      "property_type": "نوع العقار",
+      "select_type": "اختر النوع",
+      "types": {
+        "villa": "فيلا",
+        "apartment": "شقة",
+        "land": "أرض",
+        "building": "عمارة"
+      },
+      "operation_type": "نوع العملية",
+      "select_operation": "اختر نوع العملية",
+      "operations": {
+        "sale": "بيع",
+        "rent": "إيجار"
+      },
+      "city": "المدينة",
+      "city_placeholder": "أدخل المدينة",
+      "neighborhood": "الحي",
+      "neighborhood_placeholder": "أدخل الحي",
+      "area": "المساحة م²",
+      "area_placeholder": "المساحة",
+      "price": "السعر",
+      "price_placeholder": "السعر",
+      "images": "صور العقار",
+      "upload_images": "اضغط لرفع الصور",
+      "description_label": "وصف العقار",
+      "description_placeholder": "اكتب وصفاً للعقار...",
+      "cancel": "إلغاء",
+      "submit": "عرض العقار",
+      "submitting": "جاري الإرسال...",
+      "success_title": "تم عرض العقار",
+      "success_description": "سيتواصل معك الوسيط قريباً",
+      "close": "إغلاق"
+    }
+  },
+  "locations": {
+    "cities": {
+      "riyadh": "الرياض",
+      "jeddah": "جدة",
+      "dammam": "الدمام",
+      "mecca": "مكة المكرمة",
+      "medina": "المدينة المنورة"
+    },
+    "neighborhoods": {
+      "alnakhil": "النخيل",
+      "alolaya": "العليا",
+      "almalqa": "الملقا",
+      "hittin": "حطين",
+      "alhamra": "الحمراء",
+      "alrawdah": "الروضة",
+      "alnasim": "النسيم",
+      "alshatea": "الشاطئ",
+      "alfaisaliyah": "الفيصلية",
+      "alaziziyah": "العزيزية",
+      "alshawqiyah": "الشوقية",
+      "quba": "قباء",
+      "alawali": "العوالي"
+    }
+  },
+  "propertyRequestsPage": {
+    "page_title": "طلبات العقارات",
+    "results_count": "عدد النتائج",
+    "result": "طلب",
+    "no_requests": "لا توجد طلبات",
+    "add_request": "إضافة طلب",
+    "create_request": "إنشاء طلب",
+    "filter": {
+      "location_placeholder": "الموقع / المدينة",
+      "sort_by": "ترتيب حسب",
+      "search": "بحث",
+      "clear": "مسح",
+      "interests": "اهتماماتك",
+      "add_interest": "+أضف لاهتماماتك",
+      "customize_request": "خصص طلبك",
+      "customize_description": "ابحث عن الطلب الذي تريده",
+      "sort": {
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "price_low": "السعر: من الأقل للأعلى",
+        "price_high": "السعر: من الأعلى للأقل"
+      }
+    },
+    "types": {
+      "all": "الكل",
+      "villa_sale": "فلل للبيع",
+      "villa_rent": "فلل للإيجار",
+      "land_sale": "أراضي للبيع",
+      "apartment_sale": "شقق للبيع",
+      "apartment_rent": "شقق للإيجار",
+      "floor_sale": "دور للبيع",
+      "floor_rent": "دور للإيجار",
+      "shop_sale": "محلات للبيع",
+      "shop_rent": "محلات للإيجار",
+      "warehouse_sale": "عمائر للبيع",
+      "warehouse_rent": "عمائر للإيجار"
+    },
+    "my_requests": "طلباتي",
+    "all_requests": "جميع الطلبات",
+    "request_details": "تفاصيل الطلب",
+    "edit_request": "تعديل الطلب",
+    "request_type": {
+      "buy": "شراء",
+      "rent": "إيجار"
+    },
+    "payment_method": {
+      "cash": "نقدي",
+      "finance": "تمويل"
+    },
+    "budget_type": {
+      "market_price": "سعر السوق",
+      "specific_budget": "ميزانية محددة"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "accepted": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "fields": {
+      "request_number": "رقم الطلب",
+      "request_type": "نوع الطلب",
+      "area": "المساحة (م²)",
+      "property_age": "عمر العقار (سنوات)",
+      "payment_method": "طريقة الدفع",
+      "details": "التفاصيل",
+      "offer": "عرضك",
+      "budget_type": "نوع الميزانية",
+      "budget_amount": "قيمة الميزانية",
+      "whatsapp": "واتساب",
+      "telegram": "تيليجرام",
+      "country": "الدولة",
+      "city": "المدينة",
+      "district": "الحي",
+      "status": "الحالة",
+      "created_at": "تاريخ الإنشاء",
+      "updated_at": "تاريخ التحديث"
+    },
+    "placeholders": {
+      "area": "أدخل المساحة بالمتر المربع",
+      "property_age": "أدخل عمر العقار بالسنوات",
+      "details": "صف متطلبات العقار بالتفصيل",
+      "offer": "صف ما يمكنك تقديمه",
+      "budget_amount": "أدخل قيمة الميزانية",
+      "whatsapp": "أدخل رقم الواتساب",
+      "telegram": "أدخل اسم المستخدم في تيليجرام",
+      "district": "أدخل اسم الحي"
+    },
+    "messages": {
+      "create_success": "تم إنشاء الطلب بنجاح",
+      "update_success": "تم تحديث الطلب بنجاح",
+      "delete_success": "تم حذف الطلب بنجاح",
+      "delete_confirm": "هل أنت متأكد من حذف هذا الطلب؟",
+      "no_requests": "لا توجد طلبات",
+      "loading": "جاري تحميل الطلبات...",
+      "error_fetch": "فشل في تحميل الطلبات",
+      "error_create": "فشل في إنشاء الطلب",
+      "error_update": "فشل في تحديث الطلب",
+      "error_delete": "فشل في حذف الطلب"
+    },
+    "validation": {
+      "request_type_required": "نوع الطلب مطلوب",
+      "area_required": "المساحة مطلوبة",
+      "property_age_required": "عمر العقار مطلوب",
+      "payment_method_required": "طريقة الدفع مطلوبة",
+      "details_min": "التفاصيل يجب أن تكون 10 أحرف على الأقل",
+      "offer_min": "العرض يجب أن يكون 10 أحرف على الأقل",
+      "budget_type_required": "نوع الميزانية مطلوب",
+      "whatsapp_required": "رقم الواتساب مطلوب",
+      "telegram_required": "اسم المستخدم في تيليجرام مطلوب",
+      "country_required": "الدولة مطلوبة",
+      "city_required": "المدينة مطلوبة",
+      "district_required": "الحي مطلوب"
+    },
+    "time": {
+      "minutes_ago": "منذ {count} دقيقة",
+      "hours_ago": "منذ {count} ساعة",
+      "days_ago": "منذ {count} يوم"
+    },
+    "units": {
+      "sar": "ر.س",
+      "sqm": "م²"
+    },
+    "price": {
+      "market_price": "سعر السوق"
+    },
+    "tags": {
+      "serious_request": "طلب جاد",
+      "subscribers_only": "للمشتركين فقط"
+    },
+    "login_required": "يرجى تسجيل الدخول أولاً",
+    "bookmarked": "تم حفظ الطلب في المفضلة"
+  },
+  "properties": {
+    "featured": "مميز",
+    "error_loading": "حدث خطأ أثناء تحميل العقارات",
+    "showing_results": "عرض {count} من {total} عقار",
+    "no_properties": "لا توجد عقارات متاحة",
+    "sqm": "م²",
+    "per_sqm": "لكل م²",
+    "price": "السعر",
+    "key_features": "المميزات الرئيسية",
+    "rooms": "الغرف",
+    "bathrooms": "الحمامات",
+    "area": "المساحة",
+    "age": "عمر العقار",
+    "years": "سنوات",
+    "description": "الوصف",
+    "property_details": "تفاصيل العقار",
+    "amenities": "المرافق والخدمات",
+    "legal_info": "المعلومات القانونية",
+    "license_number": "رقم الرخصة",
+    "has_mortgage": "يوجد رهن",
+    "has_restriction": "يوجد قيود",
+    "yes": "نعم",
+    "no": "لا",
+    "similar_properties": "عقارات مشابهة",
+    "not_found": "العقار غير موجود",
+    "not_found_description": "لم يتم العثور على العقار المطلوب",
+    "usable_area": "المساحة الصافية",
+    "balconies": "الشرفات",
+    "garages": "المواقف",
+    "operation_type": {
+      "sale": "للبيع",
+      "rent": "للإيجار"
+    },
+    "finishing_type": {
+      "label": "نوع التشطيب",
+      "none": "بدون تشطيب",
+      "basic": "بسيط",
+      "good": "جيد",
+      "luxury": "فاخر",
+      "super_luxury": "سوبر لوكس"
+    },
+    "property_use": {
+      "label": "نوع العقار",
+      "apartment": "شقة",
+      "villa": "فيلا",
+      "land_residential": "أرض سكنية",
+      "land_commercial": "أرض تجارية",
+      "commercial_shop": "محل تجاري",
+      "office": "مكتب",
+      "warehouse": "مستودع",
+      "building": "عمارة",
+      "farm": "مزرعة",
+      "factory": "مصنع",
+      "other": "أخرى"
+    },
+    "facade": {
+      "label": "الواجهة",
+      "north": "شمالية",
+      "south": "جنوبية",
+      "east": "شرقية",
+      "west": "غربية",
+      "north_east": "شمالية شرقية",
+      "north_west": "شمالية غربية",
+      "south_east": "جنوبية شرقية",
+      "south_west": "جنوبية غربية",
+      "multiple": "متعددة"
+    },
+    "status": {
+      "new": "جديد",
+      "marketing": "قيد التسويق",
+      "sold": "مباع",
+      "deleted": "محذوف"
+    },
+    "filters": {
+      "title": "الفلاتر",
+      "clear": "مسح الفلاتر",
+      "search": "بحث",
+      "search_placeholder": "ابحث عن عقار...",
+      "operation_type": "نوع العملية",
+      "property_use": "نوع العقار",
+      "finishing_type": "نوع التشطيب",
+      "price_range": "نطاق السعر",
+      "min_price": "الحد الأدنى",
+      "max_price": "الحد الأعلى",
+      "rooms": "عدد الغرف",
+      "bathrooms": "عدد الحمامات",
+      "all": "الكل",
+      "any": "أي عدد",
+      "apply": "تطبيق الفلاتر"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "title": "Title",
+    "add_property": "Add Property",
+    "add_new_property": "Add New Property",
+    "search_result": "Search Result",
+    "loading": "Loading...",
+    "load_more": "Load More",
+    "error_server": "Error Server",
+    "error_fetch": "Error Fetch",
+    "error_general": "Error General"
+  }
+}

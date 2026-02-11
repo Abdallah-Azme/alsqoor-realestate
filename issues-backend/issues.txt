@@ -1,0 +1,7 @@
+cannot create a developer
+
+
+{{url}}/properties/owner-property
+
+i cannot add property {{url}}/properties/add
+

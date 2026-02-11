@@ -1,0 +1,277 @@
+﻿src/actions/deals.ts(3,26): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/components/auth/forget-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/forget-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/forget-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/forget-form.tsx(19,33): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/forget-form.tsx(22,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/login-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/login-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/login-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/login-form.tsx(19,33): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/login-form.tsx(22,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/login-form.tsx(23,26): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/components/auth/login-form.tsx(24,29): error TS2307: Cannot find module '@/context/user-context' or its corresponding type declarations.
+src/components/auth/login-form.tsx(35,11): error TS2339: Property 'setUser' does not exist on type '{}'.
+src/components/auth/new-password-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/new-password-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/new-password-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/new-password-form.tsx(19,33): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/new-password-form.tsx(20,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(16,55): error TS2307: Cannot find module '@/components/ui/input-otp' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(21,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(23,26): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(24,27): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(26,29): error TS2307: Cannot find module '@/context/user-context' or its corresponding type declarations.
+src/components/auth/otp-form.tsx(36,11): error TS2339: Property 'setUser' does not exist on type '{}'.
+src/components/auth/reset-code-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/reset-code-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/reset-code-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/reset-code-form.tsx(20,8): error TS2307: Cannot find module '@/components/ui/input-otp' or its corresponding type declarations.
+src/components/auth/reset-code-form.tsx(25,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/reset-code-form.tsx(27,27): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(25,33): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(28,44): error TS2307: Cannot find module '@/components/ui/radio-group' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(29,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/auth/sign-up-form.tsx(118,5): error TS2322: Type 'Resolver<{ name: string; email: string; mobile: string; password: string; password_confirmation: string; role: "seeker" | "owner"; }, unknown, { name: string; email: string; mobile: string; password: string; password_confirmation: string; role: "seeker" | "owner"; }>' is not assignable to type 'Resolver<{ name: string; email: string; mobile: string; password: string; password_confirmation: string; role: string; }, unknown, { name: string; email: string; mobile: string; password: string; password_confirmation: string; role: "seeker" | "owner"; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ name: string; email: string; mobile: string; password: string; password_confirmation: string; role: string; }>' is not assignable to type 'ResolverOptions<{ name: string; email: string; mobile: string; password: string; password_confirmation: string; role: "seeker" | "owner"; }>'.
+      Type 'string' is not assignable to type '"seeker" | "owner"'.
+src/components/deals/add-deal-form.tsx(7,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/deals/add-deal-form.tsx(8,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/deals/add-deal-form.tsx(9,23): error TS2307: Cannot find module '@/components/ui/label' or its corresponding type declarations.
+src/components/deals/add-deal-form.tsx(16,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
+src/components/deals/add-deal-form.tsx(17,52): error TS2307: Cannot find module '@/actions/deals' or its corresponding type declarations.
+src/components/estates/add-form.tsx(8,29): error TS2307: Cannot find module '@/lib/property-actions' or its corresponding type declarations.
+src/components/estates/add-form.tsx(10,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/estates/add-form.tsx(11,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/estates/add-form.tsx(12,23): error TS2307: Cannot find module '@/components/ui/label' or its corresponding type declarations.
+src/components/estates/add-form.tsx(13,35): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/components/estates/add-form.tsx(20,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
+src/components/estates/add-form.tsx(21,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/components/estates/add-form.tsx(203,32): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(204,36): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(206,38): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(207,52): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(210,31): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(212,40): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(224,36): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(230,40): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(238,37): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/add-form.tsx(241,38): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string): void', gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'Blob'.
+src/components/estates/estate-card.tsx(5,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(9,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(16,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(21,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(25,24): error TS2307: Cannot find module '@/components/ui/slider' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(34,8): error TS2307: Cannot find module '@/components/ui/sheet' or its corresponding type declarations.
+src/components/estates/estates-filter.tsx(73,39): error TS2339: Property 'operation_type' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(74,30): error TS2339: Property 'rooms' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(86,15): error TS2339: Property 'category' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(90,15): error TS2339: Property 'finishing_type' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(92,34): error TS2339: Property 'city' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(94,15): error TS2339: Property 'price_min' does not exist on type '{}'.
+src/components/estates/estates-filter.tsx(95,15): error TS2339: Property 'price_max' does not exist on type '{}'.
+src/components/estates/estates-grid.tsx(12,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
+src/components/estates/estates-grid.tsx(26,11): error TS2339: Property 'currentPage' does not exist on type '{}'.
+src/components/estates/estates-grid.tsx(26,28): error TS2339: Property 'lastPage' does not exist on type '{}'.
+src/components/estates/estates-grid.tsx(57,14): error TS2740: Type '{ key: number; }' is missing the following properties from type '{ withBorder?: boolean; property: any; id: any; img: any; title: any; location: any; price: any; area: any; isFeatured: any; slug: any; }': property, id, img, title, and 5 more.
+src/components/estates/estates-grid.tsx(74,16): error TS2740: Type '{ key: any; property: any; }' is missing the following properties from type '{ withBorder?: boolean; property: any; id: any; img: any; title: any; location: any; price: any; area: any; isFeatured: any; slug: any; }': id, img, title, location, and 4 more.
+src/components/estates/property-reviews.tsx(9,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/estates/property-reviews.tsx(10,24): error TS2307: Cannot find module '@/components/shared/client-card' or its corresponding type declarations.
+src/components/home/blog-section.tsx(9,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/home/blog-section.tsx(12,25): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/home/blog-section.tsx(13,33): error TS2307: Cannot find module '@/components/motion/animated-section' or its corresponding type declarations.
+src/components/home/blog-section.tsx(14,38): error TS2307: Cannot find module '@/components/motion/animated-carousel-item' or its corresponding type declarations.
+src/components/home/client-reviews.tsx(9,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/home/client-reviews.tsx(14,25): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/home/client-reviews.tsx(15,33): error TS2307: Cannot find module '@/components/motion/animated-section' or its corresponding type declarations.
+src/components/home/client-reviews.tsx(16,38): error TS2307: Cannot find module '@/components/motion/animated-carousel-item' or its corresponding type declarations.
+src/components/home/hero-section.tsx(2,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/home/partner-section.tsx(9,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/home/partner-section.tsx(13,25): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/home/partner-section.tsx(14,33): error TS2307: Cannot find module '@/components/motion/animated-section' or its corresponding type declarations.
+src/components/home/partner-section.tsx(15,38): error TS2307: Cannot find module '@/components/motion/animated-carousel-item' or its corresponding type declarations.
+src/components/home/state-filter.tsx(4,58): error TS2307: Cannot find module '@/components/ui/tabs' or its corresponding type declarations.
+src/components/home/states-section.tsx(8,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/home/states-section.tsx(9,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/motion/animated-carousel-item.tsx(3,30): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/shared/animated-door.tsx(3,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/blog-card.tsx(1,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(14,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(15,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(24,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(26,35): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(31,27): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(32,26): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/components/shared/complaints-form.tsx(58,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>>; message?: string; }): ZodString', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>>; message?: string; }'.
+  Overload 2 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>>; message?: string; }): $ZodType<string, string, $ZodTypeInternals<string, string>>', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>>; message?: string; }'.
+src/components/shared/custom-breadcrumbs.tsx(2,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/custom-breadcrumbs.tsx(11,8): error TS2307: Cannot find module '@/components/ui/breadcrumb' or its corresponding type declarations.
+src/components/shared/filter-form.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/shared/filter-form.tsx(10,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/shared/filter-form.tsx(17,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
+src/components/shared/filter-grid.tsx(10,8): error TS2307: Cannot find module '@/components/ui/carousel' or its corresponding type declarations.
+src/components/shared/filter-grid.tsx(22,14): error TS2741: Property 'property' is missing in type '{ key: number; withBorder: false; }' but required in type '{ withBorder?: boolean; property: any; }'.
+src/components/shared/filter-grid.tsx(39,18): error TS2741: Property 'property' is missing in type '{}' but required in type '{ withBorder?: boolean; property: any; }'.
+src/components/shared/footer-wrapper.tsx(1,29): error TS2307: Cannot find module '@/lib/settings-actions' or its corresponding type declarations.
+src/components/shared/footer.tsx(6,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/navbar-wrapper.tsx(1,29): error TS2307: Cannot find module '@/lib/settings-actions' or its corresponding type declarations.
+src/components/shared/navbar.tsx(2,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/navbar.tsx(17,8): error TS2307: Cannot find module '@/components/ui/hover-card' or its corresponding type declarations.
+src/components/shared/navbar.tsx(25,8): error TS2307: Cannot find module '@/components/ui/sheet' or its corresponding type declarations.
+src/components/shared/navbar.tsx(28,29): error TS2307: Cannot find module '@/context/user-context' or its corresponding type declarations.
+src/components/shared/navbar.tsx(94,11): error TS2339: Property 'user' does not exist on type '{}'.
+src/components/shared/navbar.tsx(94,17): error TS2339: Property 'logout' does not exist on type '{}'.
+src/components/shared/newsletter.tsx(7,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/shared/newsletter.tsx(16,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/shared/newsletter.tsx(17,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/components/shared/newsletter.tsx(18,26): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/components/shared/partner-card.tsx(1,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/shared/plan-card.tsx(10,8): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/components/shared/plan-card.tsx(11,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/shared/plan-card.tsx(12,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/shared/state-card.tsx(5,22): error TS2307: Cannot find module '@/i18n/navigation' or its corresponding type declarations.
+src/components/ui/breadcrumb.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/breadcrumb.tsx(8,8): error TS2322: Type 'ForwardedRef<unknown>' is not assignable to type 'Ref<HTMLElement>'.
+  Type 'RefObject<unknown>' is not assignable to type 'Ref<HTMLElement>'.
+    Type 'RefObject<unknown>' is not assignable to type 'RefObject<HTMLElement>'.
+      Type '{}' is missing the following properties from type 'HTMLElement': accessKey, accessKeyLabel, autocapitalize, autocorrect, and 314 more.
+src/components/ui/breadcrumb.tsx(12,44): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/ui/breadcrumb.tsx(14,5): error TS2322: Type 'ForwardedRef<unknown>' is not assignable to type 'Ref<HTMLOListElement>'.
+  Type 'RefObject<unknown>' is not assignable to type 'Ref<HTMLOListElement>'.
+    Type 'RefObject<unknown>' is not assignable to type 'RefObject<HTMLOListElement>'.
+      Type '{}' is missing the following properties from type 'HTMLOListElement': compact, reversed, start, type, and 318 more.
+src/components/ui/breadcrumb.tsx(24,44): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/ui/breadcrumb.tsx(26,5): error TS2322: Type 'ForwardedRef<unknown>' is not assignable to type 'Ref<HTMLLIElement>'.
+  Type 'RefObject<unknown>' is not assignable to type 'Ref<HTMLLIElement>'.
+    Type 'RefObject<unknown>' is not assignable to type 'RefObject<HTMLLIElement>'.
+      Type '{}' is missing the following properties from type 'HTMLLIElement': type, value, addEventListener, removeEventListener, and 316 more.
+src/components/ui/breadcrumb.tsx(33,44): error TS2339: Property 'asChild' does not exist on type '{}'.
+src/components/ui/breadcrumb.tsx(33,53): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/ui/breadcrumb.tsx(38,7): error TS2322: Type 'ForwardedRef<unknown>' is not assignable to type 'Ref<HTMLAnchorElement>'.
+  Type 'RefObject<unknown>' is not assignable to type 'Ref<HTMLAnchorElement>'.
+    Type 'RefObject<unknown>' is not assignable to type 'RefObject<HTMLAnchorElement>'.
+      Type '{}' is missing the following properties from type 'HTMLAnchorElement': charset, coords, download, hreflang, and 339 more.
+src/components/ui/breadcrumb.tsx(46,44): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/ui/breadcrumb.tsx(48,5): error TS2322: Type 'ForwardedRef<unknown>' is not assignable to type 'Ref<HTMLSpanElement>'.
+  Type 'RefObject<unknown>' is not assignable to type 'Ref<HTMLSpanElement>'.
+    Type 'RefObject<unknown>' is not assignable to type 'RefObject<HTMLSpanElement>'.
+      Type '{}' is missing the following properties from type 'HTMLSpanElement': addEventListener, removeEventListener, accessKey, accessKeyLabel, and 314 more.
+src/components/ui/button.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/card.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/carousel.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/carousel.tsx(7,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/components/ui/dialog.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/dialog.tsx(56,8): error TS2741: Property 'className' is missing in type '{}' but required in type '{ [x: string]: any; className: any; }'.
+src/components/ui/form.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/form.tsx(7,23): error TS2307: Cannot find module '@/components/ui/label' or its corresponding type declarations.
+src/components/ui/form.tsx(20,8): error TS2741: Property 'render' is missing in type '{}' but required in type '{ render: ({ field, fieldState, formState, }: { field: ControllerRenderProps<FieldValues, string>; fieldState: ControllerFieldState; formState: UseFormStateReturn<FieldValues>; }) => ReactElement<...>; }'.
+src/components/ui/form.tsx(29,55): error TS2339: Property 'name' does not exist on type '{}'.
+src/components/ui/form.tsx(30,49): error TS2339: Property 'name' does not exist on type '{}'.
+src/components/ui/form.tsx(36,11): error TS2339: Property 'id' does not exist on type '{}'.
+src/components/ui/form.tsx(40,24): error TS2339: Property 'name' does not exist on type '{}'.
+src/components/ui/hover-card.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/hover-card.tsx(30,9): error TS2322: Type 'string' is not assignable to type '"end" | "center" | "start"'.
+src/components/ui/input-otp.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/input-otp.tsx(15,6): error TS2322: Type '{ "data-slot": string; containerClassName: any; className: any; }' is not assignable to type 'IntrinsicAttributes & (OTPInputProps & RefAttributes<HTMLInputElement>)'.
+  Property 'maxLength' is missing in type '{ "data-slot": string; containerClassName: any; className: any; }' but required in type '{ value?: string; onChange?: (newValue: string) => unknown; maxLength: number; textAlign?: "left" | "right" | "center"; onComplete?: (...args: any[]) => unknown; pushPasswordManagerStrategy?: "none" | "increase-width"; pasteTransformer?: (pasted: string) => string; containerClassName?: string; noScriptCSSFallback?: ...'.
+src/components/ui/input.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/label.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/radio-group.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/radio-group.tsx(26,6): error TS2741: Property 'value' is missing in type '{ children: Element; "data-slot": string; className: any; }' but required in type 'RadioGroupItemProps'.
+src/components/ui/select.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/select.tsx(60,9): error TS2322: Type 'string' is not assignable to type '"popper" | "item-aligned"'.
+src/components/ui/select.tsx(63,10): error TS2741: Property 'className' is missing in type '{}' but required in type '{ [x: string]: any; className: any; }'.
+src/components/ui/select.tsx(73,10): error TS2741: Property 'className' is missing in type '{}' but required in type '{ [x: string]: any; className: any; }'.
+src/components/ui/select.tsx(91,6): error TS2741: Property 'value' is missing in type '{ children: Element[]; "data-slot": string; className: any; }' but required in type 'SelectItemProps'.
+src/components/ui/separator.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/separator.tsx(18,7): error TS2322: Type 'string' is not assignable to type '"horizontal" | "vertical"'.
+src/components/ui/sheet.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/sheet.tsx(56,8): error TS2741: Property 'className' is missing in type '{}' but required in type '{ [x: string]: any; className: any; }'.
+src/components/ui/slider.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/sonner.tsx(20,7): error TS2322: Type 'string' is not assignable to type '"system" | "light" | "dark"'.
+src/components/ui/sonner.tsx(31,11): error TS2353: Object literal may only specify known properties, and '"--normal-bg"' does not exist in type 'Properties<string | number, string & {}>'.
+src/components/ui/tabs.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/tabs.tsx(40,6): error TS2741: Property 'value' is missing in type '{ "data-slot": string; className: any; }' but required in type 'TabsTriggerProps'.
+src/components/ui/tabs.tsx(55,6): error TS2741: Property 'value' is missing in type '{ "data-slot": string; className: any; }' but required in type 'TabsContentProps'.
+src/components/ui/textarea.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/context/user-context.tsx(2,35): error TS2307: Cannot find module '@/lib/fetch-methods' or its corresponding type declarations.
+src/context/user-context.tsx(3,39): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/context/user-context.tsx(6,35): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+src/lib/blog-actions.ts(4,54): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+src/lib/fetch-methods.ts(3,39): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/lib/fetch-methods.ts(5,29): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+src/lib/property-actions.ts(3,26): error TS2307: Cannot find module '@/services' or its corresponding type declarations.
+src/lib/property-actions.ts(5,39): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+src/lib/settings-actions.ts(2,39): error TS2307: Cannot find module '@/types' or its corresponding type declarations.

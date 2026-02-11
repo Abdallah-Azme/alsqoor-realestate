@@ -1,0 +1,1696 @@
+{
+  "common": {
+    "next": "Next",
+    "previous": "Previous",
+    "sqm": "m²",
+    "mb": "MB",
+    "sar": "SAR",
+    "ellipsis": "...",
+    "select_country": "Select Country",
+    "select_currency": "Currency"
+  },
+  "currencies": {
+    "sar": "Saudi Riyal",
+    "usd": "US Dollar",
+    "eur": "Euro",
+    "gbp": "British Pound",
+    "aed": "UAE Dirham",
+    "egp": "Egyptian Pound",
+    "kwd": "Kuwaiti Dinar",
+    "qar": "Qatari Riyal",
+    "bhd": "Bahraini Dinar",
+    "omr": "Omani Rial"
+  },
+  "home": {
+    "featured_properties": {
+      "title": "Featured Properties",
+      "subtitle": "Best Featured Properties",
+      "description": "We suggest some of our best and trusted featured properties",
+      "view_all": "View All"
+    },
+    "estates_page": {
+      "title": "Properties",
+      "add_property": "Add Property",
+      "add_new_property": "Add New Property",
+      "search_result": "Search Result",
+      "no_properties": "No properties available currently",
+      "loading": "Loading...",
+      "load_more": "Load More",
+      "error_server": "Server error. Please try again.",
+      "error_fetch": "Failed to fetch properties",
+      "error_general": "An error occurred while fetching properties"
+    },
+    "hero": {
+      "whatsapp_message": "Hello, I am interested in requesting a real estate expert consultation",
+      "show_more": "Show More",
+      "consult_expert": "Consult Real Estate Expert"
+    },
+    "about": {
+      "who_we_are": "Who We Are",
+      "trusted_by": "Trusted by our clients",
+      "reviews": "Reviews",
+      "stats": {
+        "listed_property": "Listed Property",
+        "daily_sales": "Daily Sales",
+        "active_user": "Active User",
+        "positive_rating": "Positive Rating"
+      }
+    },
+    "state_filter": {
+      "success_partners": "Success Partners",
+      "choose_property": "Choose your property easily",
+      "rent": "Rent",
+      "sale": "Sale",
+      "all": "All",
+      "villas": "Villas",
+      "apartments": "Apartments",
+      "towers": "Towers",
+      "error_fetch": "Failed to fetch properties",
+      "error_general": "An error occurred while fetching properties"
+    }
+  },
+  "featured_users": {
+    "title": "Trusted Customers",
+    "search_placeholder": "Search",
+    "no_users": "No users found",
+    "transfer_company": "Transfer Company"
+  },
+  "about": "about",
+  "contact": "contact",
+  "Complaints": {
+    "title": "Complaints",
+    "complaint_form": "Complaint Form",
+    "complaint_type": "Complaint Type",
+    "select_type": "Select Type",
+    "phone_number": "Phone Number",
+    "enter_phone": "Enter phone number",
+    "email": "Email",
+    "enter_email": "Enter email address",
+    "message_label": "Complaint Message",
+    "message_placeholder": "Enter your complaint message",
+    "submit_complaint": "Submit Complaint",
+    "submitting": "Submitting...",
+    "technical_issue": "Technical Issue",
+    "billing_issue": "Billing Issue",
+    "general_inquiry": "General Inquiry",
+    "other": "Other",
+    "validation": {
+      "complaint_type_required": "Please select a complaint type",
+      "phone_min": "Phone number must be at least 10 digits",
+      "email_invalid": "Invalid email address",
+      "message_min": "Message must be at least 10 characters",
+      "unauthorized": "You must be logged in first"
+    }
+  },
+  "Newsletter": {
+    "title": "Newsletter",
+    "email_placeholder": "Email address...",
+    "subscribe": "Subscribe",
+    "error": "Invalid email address"
+  },
+  "Footer": {
+    "company_name": "Real Estate Falcons",
+    "company_description": "Real Estate Falcons is your first partner to achieve your real estate dreams with confidence and peace of mind. We offer you a comprehensive range of services including buying, selling, renting and property management,",
+    "important_links": "Important Links",
+    "about_us": "About Us",
+    "complaints": "Complaints",
+    "blogs": "Blogs",
+    "packages": "Packages",
+    "our_services": "Our Services",
+    "properties": "Properties",
+    "estates": "Real Estates",
+    "partners": "Partners",
+    "user_manual": "User Manual",
+    "privacy_policy": "Privacy Policy",
+    "all_rights_reserved": "All rights reserved@",
+    "company_short_name": "Falcons"
+  },
+  "partner": {
+    "title": "Success Partners"
+  },
+  "blog": {
+    "title": "Blogs",
+    "subtitle": "Selected Articles",
+    "description": "Some of the most read articles from our blog"
+  },
+  "client_reviews": {
+    "title": "Client Reviews",
+    "subtitle": "Success stories",
+    "description": "Some of the most read articles from our blog"
+  },
+  "sign_up": {
+    "title": "Sign Up",
+    "seeker": "General User",
+    "owner": "Property Owner",
+    "broker": "Broker",
+    "developer": "Developer",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "placeholder": "Write here",
+    "password_placeholder": "••••••••",
+    "id_number": "ID Number",
+    "commercial_registration": "Commercial Registration Number",
+    "license_number": "License Number",
+    "whatsapp": "WhatsApp Number",
+    "backup_mobile": "Backup Mobile Number",
+    "fal_number": "FAL Number",
+    "agent_type": "Agent Type",
+    "select_agent_type": "Select Agent Type",
+    "agent_type_individual": "Individual",
+    "agent_type_office": "Office",
+    "company_name_optional": "Company Name (Optional)",
+    "company_logo_optional": "Company Logo (Optional)",
+    "company_name": "Company Name",
+    "company_logo": "Company Logo",
+    "commercial_register": "Commercial Register Number",
+    "submit_button": "Create Account",
+    "already_have_account": "Already have an account",
+    "login": "Login",
+    "password_requirements": {
+      "min_length": "At least 8 characters",
+      "has_number": "Contains at least one number",
+      "has_special": "Contains a special character",
+      "has_uppercase": "Contains an uppercase letter"
+    },
+    "validation": {
+      "name_min": "Name must be at least 2 characters",
+      "email_invalid": "Please enter a valid email address",
+      "phone_min": "Phone number must be at least 10 digits",
+      "password_min": "Password must be at least 8 characters",
+      "confirm_password": "Please confirm your password",
+      "passwords_not_match": "Passwords do not match",
+      "role_required": "Please select account type",
+      "id_number_required": "Please enter your ID number",
+      "commercial_registration_required": "Please enter commercial registration number",
+      "license_number_required": "Please enter license number",
+      "error": "Something went wrong"
+    }
+  },
+  "otp": {
+    "title": "Verify Your Number",
+    "code_sent_to": "A verification code has been sent to",
+    "enter_code": "Enter Code",
+    "not_received": "Didn't receive the code?",
+    "resend": "Resend",
+    "verify_button": "Verify Code",
+    "success": "Verified successfully",
+    "under_review": "Your request is under review for now",
+    "validation": {
+      "code_length": "Code must be 4 digits",
+      "error": "Something went wrong"
+    }
+  },
+  "login": {
+    "title": "Login",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "password_placeholder": "Enter your password",
+    "forgot_password": "Forgot your password?",
+    "submit_button": "Login",
+    "no_account": "Don't have an account?",
+    "create_account": "Create Account",
+    "login_failed": "Login failed. Please check your credentials",
+    "validation": {
+      "phone_min": "Phone number must be at least 10 digits",
+      "password_required": "Please enter your password"
+    }
+  },
+  "forget-password": {
+    "title": "Forgot Password",
+    "phone_number": "Phone Number",
+    "submit_button": "Send",
+    "validation": {
+      "phone_min": "Phone number must be at least 10 digits",
+      "error": "Something went wrong"
+    }
+  },
+  "new-password": {
+    "title": "New Password",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "submit_button": "Change Password",
+    "validation": {
+      "password_min": "Password must be at least 8 characters",
+      "confirm_password": "Please confirm your password",
+      "passwords_not_match": "Passwords do not match",
+      "error": "Something went wrong"
+    }
+  },
+  "Profile": {
+    "my_account": "My Account",
+    "points_count": "Points Count",
+    "total_points": "Total Points",
+    "featured_client": "Featured Client",
+    "join_date": "Join Date",
+    "active_status": "Active since 5 minutes",
+    "personal_data": "Personal Data",
+    "save_data": "Save Data",
+    "name_label": "Name",
+    "name_placeholder": "Enter your name",
+    "email_label": "Email",
+    "email_placeholder": "Enter your email",
+    "phone_label": "Phone Number",
+    "my_data": "My Data",
+    "my_properties": "My Properties",
+    "no_properties": "No properties found",
+    "save_success": "Profile updated successfully",
+    "save_error": "Failed to update profile",
+    "validation_name": "Name is too short",
+    "validation_email": "Invalid email",
+    "validation_phone": "Invalid phone",
+    "back": "Back",
+    "edit_data": "Edit Data",
+    "cancel": "Cancel",
+    "financials": "Financials",
+    "statistics": "Statistics",
+    "packages": "Packages",
+    "payment_methods": "Payment Methods",
+    "my_ads": "My Ads",
+    "add_new_ad": "Add New Ad",
+    "search_ad_placeholder": "Search ad",
+    "upgrade_ad": "Upgrade Ad",
+    "view_price": "View Price",
+    "serious_request": "Serious Request",
+    "total_earnings": "Total Earnings",
+    "views_count": "Views",
+    "ads_count": "Ads Count",
+    "visitors_count": "Visitors",
+    "views_chart_title": "Views Count",
+    "all_projects": "All Projects",
+    "status_label": "Status",
+    "amount": "Amount",
+    "currency_label": "Currency",
+    "invoice": "Invoice",
+    "transfer_type": "Transfer Type",
+    "operation": "Operation",
+    "date": "Date",
+    "add_property": "Add Property",
+    "ad_funding": "Ad Funding",
+    "bank_visa": "Bank Visa",
+    "current_package": "Current Package",
+    "other_packages": "Other Packages",
+    "days": "Days",
+    "for_duration": "For {duration} {unit}",
+    "renew_package": "Renew Package",
+    "change_plan": "Change Plan",
+    "unlimited_ads": "Unlimited Ads",
+    "continuous_technical_support": "Continuous Technical Support",
+    "search_ad_button": "Search",
+    "package_2": "Second Package",
+    "package_3": "Third Package",
+    "saudi_arabia": "Saudi Arabia",
+    "k_suffix": "k",
+    "currency": "SAR",
+    "my_offers": "My Offers"
+  },
+  "Navbar": {
+    "address": "Main Address - Riyadh",
+    "phone_default": "+966-4552-58",
+    "email_default": "info@alsokoor.com",
+    "home": "Home",
+    "estates": "Properties",
+    "partners": "Partners",
+    "packages": "Packages",
+    "blogs": "Blogs",
+    "deals": "Deals",
+    "requests": "Requests",
+    "offers": "Offers",
+    "ads": "Ads",
+    "aboutus": "About Us",
+    "marketplace": "Marketplace",
+    "properties": "Properties"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "about_us": "About Us",
+    "login": "Login",
+    "sign_up": "Sign Up",
+    "otp": "OTP Verification",
+    "forget_password": "Forget Password",
+    "reset_code": "Reset Code",
+    "new_password": "New Password",
+    "estates": "Properties",
+    "partners": "Partners",
+    "blogs": "Blogs",
+    "contact_us": "Contact Us",
+    "privacy_policy": "Privacy Policy",
+    "terms_conditions": "Terms & Conditions",
+    "favorite": "Favorites",
+    "offers": "Offers",
+    "packages": "Packages",
+    "user_manual": "User Manual",
+    "notifications": "Notifications",
+    "deals": "Deals",
+    "complaints": "Complaints",
+    "details": "Property Details",
+    "properties": "Properties",
+    "requests": "Requests",
+    "no_properties": "No properties found for this partner.",
+    "featured_users": "Trusted Customers",
+    "contact_info": "Contact Information",
+    "email": "Email",
+    "phone": "Phone",
+    "member_since": "Member Since",
+    "points_balance": "Points Balance",
+    "marketplace": "Marketplace",
+    "project_details": "Project Details"
+  },
+  "offers_page": {
+    "title": "Offers",
+    "no_offers": "No offers available currently",
+    "currency": "SAR",
+    "valid_for": "Valid for {days} days",
+    "features": "Features:",
+    "other_features": "+{count} other features"
+  },
+  "offers": {
+    "title": "Property Offers",
+    "my_offers": "My Offers",
+    "sent_offers": "Sent Offers",
+    "received_offers": "Received Offers",
+    "submit_offer": "Submit Offer",
+    "submit_offer_for": "Submit Offer For",
+    "submit_offer_description": "Submit your offer for this property",
+    "offer_details": "Offer Details",
+    "offer_details_placeholder": "Write your offer details here... (at least 10 characters)",
+    "offer_details_hint": "Please provide clear details about your offer",
+    "to": "To",
+    "from": "From",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "validation_error": "Please correct the errors",
+    "error_loading": "Failed to load offers",
+    "no_offers": "No offers found",
+    "no_sent_offers": "You haven't sent any offers yet",
+    "no_received_offers": "You haven't received any offers yet",
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "accept": "Accept",
+      "reject": "Reject",
+      "view_property": "View Property"
+    },
+    "filters": {
+      "all": "All"
+    },
+    "messages": {
+      "submit_success": "Offer submitted successfully",
+      "accept_success": "Offer accepted successfully",
+      "reject_success": "Offer rejected successfully",
+      "submit_error": "Failed to submit offer",
+      "accept_error": "Failed to accept offer",
+      "reject_error": "Failed to reject offer"
+    }
+  },
+  "properties": {
+    "title": "Properties",
+    "add_property": "Add Property",
+    "add_new_property": "Add New Property",
+    "search_result": "Search Result",
+    "no_properties": "No properties available currently",
+    "loading": "Loading...",
+    "load_more": "Load More",
+    "error_server": "Server error. Please try again.",
+    "error_fetch": "Failed to fetch properties",
+    "error_general": "An error occurred while fetching properties",
+    "showing_results": "Showing {count} of {total} results",
+    "error_loading": "Error loading properties",
+    "filters": {
+      "title": "Filters",
+      "clear": "Clear",
+      "search": "Search",
+      "search_placeholder": "Search...",
+      "operation_type": "Operation Type",
+      "all": "All",
+      "property_use": "Property Use",
+      "finishing_type": "Finishing Type",
+      "price_range": "Price Range",
+      "min_price": "Min Price",
+      "max_price": "Max Price",
+      "rooms": "Rooms",
+      "any": "Any",
+      "bathrooms": "Bathrooms",
+      "apply": "Apply"
+    },
+    "operation_type": {
+      "sale": "Sale",
+      "rent": "Rent"
+    },
+    "property_use": {
+      "apartment": "Apartment",
+      "villa": "Villa",
+      "land_residential": "Residential Land",
+      "commercial_shop": "Commercial Shop",
+      "office": "Office",
+      "label": "Label",
+      "land_commercial": "Land Commercial",
+      "warehouse": "Warehouse",
+      "building": "Building",
+      "farm": "Farm",
+      "factory": "Factory",
+      "other": "Other"
+    },
+    "finishing_type": {
+      "none": "Unfinished",
+      "basic": "Basic",
+      "good": "Good",
+      "luxury": "Luxury",
+      "super_luxury": "Super Luxury",
+      "label": "Label"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "featured": "Featured",
+    "sqm": "m²",
+    "per_sqm": "Per Sqm",
+    "price": "Price",
+    "key_features": "Key Features",
+    "rooms": "Rooms",
+    "bathrooms": "Bathrooms",
+    "area": "Area",
+    "age": "Age",
+    "years": "Years",
+    "description": "Description",
+    "property_details": "Property Details",
+    "amenities": "Amenities",
+    "legal_info": "Legal Info",
+    "license_number": "License Number",
+    "has_mortgage": "Has Mortgage",
+    "has_restriction": "Has Restriction",
+    "yes": "Yes",
+    "no": "No",
+    "similar_properties": "Similar Properties",
+    "not_found": "Not Found",
+    "not_found_description": "Not Found Description",
+    "usable_area": "Usable Area",
+    "balconies": "Balconies",
+    "garages": "Garages",
+    "facade": {
+      "label": "Label",
+      "north": "North",
+      "south": "South",
+      "east": "East",
+      "west": "West",
+      "north_east": "North East",
+      "north_west": "North West",
+      "south_east": "South East",
+      "south_west": "South West",
+      "multiple": "Multiple"
+    },
+    "status": {
+      "new": "New",
+      "marketing": "Marketing",
+      "sold": "Sold",
+      "deleted": "Deleted"
+    }
+  },
+  "packages_page": {
+    "title": "Packages",
+    "basic_plan": "Basic Plan",
+    "premium_plan": "Premium Plan",
+    "golden_plan": "Golden Plan",
+    "popular_badge": "Most Popular",
+    "monthly": "Monthly",
+    "subscribe_now": "Subscribe Now",
+    "currency": "SAR",
+    "features": {
+      "publish_5": "Publish 5 Properties",
+      "support_working_hours": "Support during working hours",
+      "limited_visibility": "Limited visibility in search results",
+      "publish_15": "Publish 15 Properties",
+      "support_24": "24/7 Support",
+      "top_visibility": "Top visibility in search results",
+      "featured_ads": "Featured Ads",
+      "unlimited_publish": "Unlimited Properties",
+      "support_vip": "VIP Support",
+      "home_ads": "Home Page Ads",
+      "analytics": "Property Analytics"
+    }
+  },
+  "deals_page": {
+    "title": "Direct Deals",
+    "add_deal": "Add Deal",
+    "edit": "Edit",
+    "edit_deal": "Edit Deal",
+    "new_deal": "Add New Deal",
+    "page_info": "Page {page} of {totalPages} ({total} deals)",
+    "previous": "Previous",
+    "next": "Next",
+    "error_fetch": "Failed to fetch data",
+    "error_generic": "An error occurred while fetching data",
+    "no_deals": "No deals available currently",
+    "not_found": "Deal Not Found",
+    "not_found_desc": "The requested deal was not found",
+    "price": "Price",
+    "validity": "Validity",
+    "features_count": "Features Count",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "features": "Features",
+    "price_change": "Price Change",
+    "high": "High",
+    "avg": "Average",
+    "low": "Low",
+    "additional_info": "Additional Info",
+    "created_at": "Created At",
+    "updated_at": "Updated At",
+    "area": "Area",
+    "total_price": "Total Price",
+    "price_per_meter": "Price Per Meter",
+    "min_area": "Min Area",
+    "max_area": "Max Area",
+    "min_total_price": "Min Total Price",
+    "max_total_price": "Max Total Price",
+    "min_price_per_meter": "Min Price Per Meter",
+    "max_price_per_meter": "Max Price Per Meter",
+    "sar": "SAR",
+    "sqm": "m²"
+  },
+  "services_card": {
+    "title": "Certified Brokers",
+    "description": "We facilitate your access to certified brokers around you to complete your rental procedures"
+  },
+  "floating_socials": {
+    "whatsapp": "WhatsApp",
+    "twitter": "Twitter",
+    "snapchat": "Snapchat",
+    "chatbot": "Chatbot"
+  },
+  "Metadata": {
+    "title": "Real Estate Falcons",
+    "description": "Integrated Real Estate Platform",
+    "home": {
+      "title": "Home | Real Estate Falcons",
+      "description": "Discover your dream property with Real Estate Falcons - your trusted partner for buying, selling, and renting properties"
+    },
+    "about": {
+      "title": "About Us | Real Estate Falcons",
+      "description": "Learn about Real Estate Falcons - your first partner to achieve your real estate dreams with confidence and peace of mind"
+    },
+    "blogs": {
+      "title": "Blogs | Real Estate Falcons",
+      "description": "Read the latest real estate articles, tips, and market insights on our blog"
+    },
+    "complaints": {
+      "title": "Complaints | Real Estate Falcons",
+      "description": "Submit your complaints and feedback - we are here to help and improve our services"
+    },
+    "deals": {
+      "title": "Direct Deals | Real Estate Falcons",
+      "description": "Browse direct real estate deals and find the best opportunities in the market"
+    },
+    "estates": {
+      "title": "Properties | Real Estate Falcons",
+      "description": "Explore our wide range of properties for sale and rent - villas, apartments, land, and more"
+    },
+    "featuredUsers": {
+      "title": "Trusted Customers | Real Estate Falcons",
+      "description": "Meet our trusted customers and success partners in the real estate market"
+    },
+    "marketplace": {
+      "title": "Marketplace | Real Estate Falcons",
+      "description": "Explore broker properties, owner properties, and developer projects in our marketplace"
+    },
+    "notifications": {
+      "title": "Notifications | Real Estate Falcons",
+      "description": "View your notifications and stay updated with the latest property alerts"
+    },
+    "offers": {
+      "title": "Offers | Real Estate Falcons",
+      "description": "Discover exclusive offers and special deals on real estate services"
+    },
+    "packages": {
+      "title": "Packages | Real Estate Falcons",
+      "description": "Choose from our subscription packages and unlock premium features for your real estate business"
+    },
+    "partners": {
+      "title": "Partners | Real Estate Falcons",
+      "description": "Meet our success partners and trusted real estate agents"
+    },
+    "profile": {
+      "title": "My Profile | Real Estate Falcons",
+      "description": "Manage your account, properties, and settings"
+    },
+    "requests": {
+      "title": "Requests | Real Estate Falcons",
+      "description": "Browse property requests or submit your own - find the property that matches your needs"
+    },
+    "userManual": {
+      "title": "User Manual | Real Estate Falcons",
+      "description": "Learn how to use Real Estate Falcons platform with our comprehensive user guide"
+    },
+    "wishlist": {
+      "title": "Wishlist | Real Estate Falcons",
+      "description": "View your saved properties and favorite listings"
+    },
+    "login": {
+      "title": "Login | Real Estate Falcons",
+      "description": "Login to your Real Estate Falcons account to access your dashboard"
+    },
+    "signUp": {
+      "title": "Sign Up | Real Estate Falcons",
+      "description": "Create your free account and start your real estate journey with us"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password | Real Estate Falcons",
+      "description": "Reset your password to regain access to your account"
+    },
+    "verifyOtp": {
+      "title": "Verify Code | Real Estate Falcons",
+      "description": "Enter the verification code sent to your phone"
+    },
+    "resetCode": {
+      "title": "Reset Code | Real Estate Falcons",
+      "description": "Enter the reset code to change your password"
+    },
+    "newPassword": {
+      "title": "New Password | Real Estate Falcons",
+      "description": "Set a new password for your account"
+    },
+    "advertisements": {
+      "add": {
+        "title": "Add Advertisement | Real Estate Falcons",
+        "description": "Add your property for sale or rent easily"
+      }
+    }
+  },
+  "property_details": {
+    "views": "Views",
+    "description": "Description",
+    "details_title": "Property Details",
+    "amenities_title": "Amenities",
+    "location_title": "Location",
+    "reviews_title": "Client Reviews",
+    "reviews_subtitle": "({count} reviews - average {rating})",
+    "payment_methods": "Payment Methods",
+    "cash": "Cash",
+    "bank_transfer": "Bank Transfer",
+    "advertisement": "General Real Estate Authority Ad",
+    "similar_properties": {
+      "title": "Similar Properties",
+      "subtitle": "Similar Properties",
+      "description": "We suggest some of our best and trusted properties"
+    },
+    "fields": {
+      "area_unit": "m²",
+      "garages": "Garages",
+      "balconies": "Balconies",
+      "rooms": "Rooms",
+      "bathrooms": "Bathrooms",
+      "area": "Area",
+      "finishing_type": "Finishing Type",
+      "none": "None",
+      "usable_area": "Usable Area",
+      "operation_type": "Operation Type"
+    },
+    "finishing_types": {
+      "none": "No Finishing",
+      "basic": "Basic",
+      "good": "Good",
+      "luxury": "Luxury",
+      "super_luxury": "Super Luxury"
+    },
+    "operation_types": {
+      "sale": "For Sale",
+      "rent": "For Rent"
+    }
+  },
+  "estate_card": {
+    "show_details": "Show Details",
+    "featured": "Featured",
+    "deal": "Serious Request",
+    "sar": "SAR",
+    "sqm": "m²",
+    "price_hidden": "Contact for Price",
+    "no_reviews": "No reviews yet"
+  },
+  "property_actions": {
+    "show_more": "Show More",
+    "buy_now": "Buy Now",
+    "whatsapp": "WhatsApp",
+    "message": "Message",
+    "call_us": "Call Us",
+    "whatsapp_message": "Hello, I am interested in this property ({title}) and would like to know more details."
+  },
+  "property_chat": {
+    "owner_details": "Owner Details",
+    "view_profile": "View Profile",
+    "open_chat": "Open Full Chat",
+    "write_message": "Write a message..."
+  },
+  "add_deal": {
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "city": "City",
+    "district": "District",
+    "country": "Country",
+    "plan_number": "Plan Number",
+    "plot_number": "Plot Number",
+    "min_area": "Min Area (m²)",
+    "max_area": "Max Area (m²)",
+    "min_total_price": "Min Total Price",
+    "max_total_price": "Max Total Price",
+    "min_price_per_meter": "Min Price Per Meter",
+    "max_price_per_meter": "Max Price Per Meter",
+    "property_type": "Property Type",
+    "transaction_type": "Transaction Type",
+    "identity_number": "Identity Number",
+    "select_property_type": "Select Property Type",
+    "select_transaction_type": "Select Transaction Type",
+    "cancel": "Cancel",
+    "add_deal": "Add Deal",
+    "update_deal": "Update Deal",
+    "adding": "Adding...",
+    "updating": "Updating...",
+    "success_add": "Deal added successfully",
+    "success_update": "Deal updated successfully",
+    "error_add": "Failed to add deal",
+    "error_update": "Failed to update deal",
+    "types": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "agricultural": "Agricultural"
+    },
+    "transactions": {
+      "ownership_transfer": "Ownership Transfer",
+      "mortgage": "Mortgage",
+      "mortgage_release": "Mortgage Release",
+      "division_merge": "Division/Merge"
+    }
+  },
+  "validations": {
+    "required": "This field is required",
+    "email_invalid": "Invalid email address",
+    "phone_min": "Phone number must be at least 10 digits",
+    "password_min": "Password must be at least 8 characters",
+    "confirm_password": "Passwords do not match",
+    "name_min": "Name must be at least 2 characters",
+    "code_length": "Code must be 4 digits",
+    "role_required": "Please select account type",
+    "price_range_invalid": "Invalid price range",
+    "integer_only": "Must be an integer",
+    "number_only": "Must be a number"
+  },
+  "toasts": {
+    "success": "Operation completed successfully",
+    "error": "Something went wrong",
+    "unauthorized": "You must be logged in first",
+    "login_success": "Logged in successfully",
+    "login_failed": "Login failed",
+    "register_success": "Account created successfully",
+    "otp_sent": "Verification code sent",
+    "otp_verified": "Code verified successfully",
+    "password_changed": "Password changed successfully",
+    "email_sent": "Email sent successfully",
+    "complaint_sent": "Complaint submitted successfully",
+    "newsletter_success": "Subscribed to newsletter successfully",
+    "newsletter_error": "Failed to subscribe to newsletter",
+    "fetch_error": "Failed to fetch data"
+  },
+  "estates_filter": {
+    "operation_type": "Operation Type",
+    "property_type": "Property Type",
+    "rooms": "Rooms",
+    "finishing_type": "Finishing Type",
+    "location": "Location",
+    "price_range": "Price Range",
+    "search": "Search",
+    "clear": "Clear",
+    "no_properties_found": "No properties available currently",
+    "customize_property": "Customize Your Property",
+    "customize_description": "Search for the property you want",
+    "from": "From",
+    "to": "To",
+    "types": {
+      "villa": "Villa",
+      "apartment": "Apartment",
+      "land": "Land"
+    },
+    "finishes": {
+      "luxury": "Luxury",
+      "average": "Good",
+      "simple": "Basic"
+    },
+    "operations": {
+      "sale": "Sale",
+      "rent": "Rent"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "brand": "Falcons Real Estate"
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "no_favorites": "No properties in your wishlist",
+    "added": "Added to wishlist",
+    "removed": "Removed from wishlist",
+    "login_required": "Please login first",
+    "login_button": "Login"
+  },
+  "requests": {
+    "page_title": "Requests",
+    "results_count": "Results count",
+    "result": "request",
+    "add_request": "Add Request",
+    "add_new_request": "Add New Request",
+    "no_requests": "No requests available currently",
+    "loading": "Loading...",
+    "load_more": "Load More",
+    "login_required": "Please login first",
+    "bookmarked": "Added to favorites",
+    "types": {
+      "all": "All",
+      "villa_sale": "Villas for Sale",
+      "villa_rent": "Villas for Rent",
+      "land_sale": "Land for Sale",
+      "apartment_sale": "Apartments for Sale",
+      "apartment_rent": "Apartments for Rent",
+      "floor_sale": "Floors for Sale",
+      "floor_rent": "Floors for Rent",
+      "shop_sale": "Shops for Sale",
+      "shop_rent": "Shops for Rent",
+      "warehouse_sale": "Buildings for Sale",
+      "warehouse_rent": "Buildings for Rent"
+    },
+    "operations": {
+      "sale": "For Sale",
+      "rent": "For Rent"
+    },
+    "tags": {
+      "serious_request": "Serious Request",
+      "subscribers_only": "Subscribers Only"
+    },
+    "units": {
+      "sqm": "m²",
+      "sar": "SAR"
+    },
+    "price": {
+      "market_price": "Market Price"
+    },
+    "time": {
+      "minutes_ago": "{count} minutes ago",
+      "hours_ago": "{count} hours ago",
+      "days_ago": "{count} days ago"
+    },
+    "filter": {
+      "location_placeholder": "Location / City",
+      "sort_by": "Sort by",
+      "search": "Search",
+      "clear": "Clear",
+      "interests": "Your interests",
+      "add_interest": "+Add to interests",
+      "customize_request": "Customize your request",
+      "customize_description": "Find the request you want",
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "price_low": "Price: Low to High",
+        "price_high": "Price: High to Low"
+      }
+    },
+    "form": {
+      "title": "Request Title",
+      "title_placeholder": "Example: Looking for a villa for sale",
+      "property_type": "Property Type",
+      "select_type": "Select type",
+      "operation_type": "Operation Type",
+      "select_operation": "Select operation",
+      "city": "City",
+      "city_placeholder": "Riyadh",
+      "neighborhoods": "Neighborhoods",
+      "neighborhoods_placeholder": "Al Nakheel, Al Muhammadiyah, Hittin...",
+      "min_area": "Min Area (m²)",
+      "min_area_placeholder": "300",
+      "max_area": "Max Area (m²)",
+      "max_area_placeholder": "500",
+      "min_price": "Min Price",
+      "min_price_placeholder": "1,000,000",
+      "max_price": "Max Price",
+      "max_price_placeholder": "2,500,000",
+      "description": "Description",
+      "description_placeholder": "Write additional details about your request...",
+      "is_serious": "Serious Request",
+      "cancel": "Cancel",
+      "submit": "Add Request",
+      "submitting": "Adding...",
+      "success": "Request added successfully",
+      "error": "Failed to add request",
+      "request_type": "Request Type",
+      "budget": "Budget",
+      "area": "Area",
+      "details": "Details",
+      "details_placeholder": "You can write additional details about the required property specifications",
+      "contact_channels": "Communication Channels",
+      "contact_channels_desc": "Multiple communication channels allow more real estate agents to contact you",
+      "contact_in_app": "Chat in App",
+      "next": "Next",
+      "step_title": "Request"
+    },
+    "welcome": {
+      "title": "Request Your Property!",
+      "description": "Real estate agents will offer you suitable property offers for your request",
+      "received": "Your request received for free",
+      "cta_button": "Submit Your Request Now",
+      "feature1_title": "Specialized Agents",
+      "feature1_desc": "Help you find the right property",
+      "feature2_title": "Property Offers Matching Your Request",
+      "feature2_desc": "Available offers will reach you in the app instantly",
+      "feature3_title": "Direct Communication",
+      "feature3_desc": "With suitable agents for your request"
+    },
+    "details": {
+      "area": "Area",
+      "price": "Price",
+      "type": "Type",
+      "operation": "Operation",
+      "description": "Description",
+      "requirements": "Requirements",
+      "requester_info": "Requester Info",
+      "call": "Call",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "member_since": "Member since"
+    },
+    "error": {
+      "fetch_failed": "Failed to fetch data"
+    },
+    "create_request": "Create Request",
+    "my_requests": "My Requests",
+    "all_requests": "All Requests",
+    "request_details": "Request Details",
+    "edit_request": "Edit Request",
+    "request_type": {
+      "buy": "Buy",
+      "rent": "Rent"
+    },
+    "payment_method": {
+      "cash": "Cash",
+      "finance": "Finance"
+    },
+    "budget_type": {
+      "market_price": "Market Price",
+      "specific_budget": "Specific Budget"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "fields": {
+      "request_number": "Request Number",
+      "request_type": "Request Type",
+      "area": "Area (m²)",
+      "property_age": "Property Age (years)",
+      "payment_method": "Payment Method",
+      "details": "Details",
+      "offer": "Your Offer",
+      "budget_type": "Budget Type",
+      "budget_amount": "Budget Amount",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "country": "Country",
+      "city": "City",
+      "district": "District",
+      "status": "Status",
+      "created_at": "Created At",
+      "updated_at": "Updated At"
+    },
+    "placeholders": {
+      "area": "Enter area in square meters",
+      "property_age": "Enter property age in years",
+      "details": "Describe your property requirements in detail",
+      "offer": "Describe what you can offer",
+      "budget_amount": "Enter your budget amount",
+      "whatsapp": "Enter WhatsApp number",
+      "telegram": "Enter Telegram username",
+      "district": "Enter district name"
+    },
+    "messages": {
+      "create_success": "Request created successfully",
+      "update_success": "Request updated successfully",
+      "delete_success": "Request deleted successfully",
+      "delete_confirm": "Are you sure you want to delete this request?",
+      "no_requests": "No requests found",
+      "loading": "Loading requests...",
+      "error_fetch": "Failed to fetch requests",
+      "error_create": "Failed to create request",
+      "error_update": "Failed to update request",
+      "error_delete": "Failed to delete request"
+    },
+    "validation": {
+      "request_type_required": "Request type is required",
+      "area_required": "Area is required",
+      "property_age_required": "Property age is required",
+      "payment_method_required": "Payment method is required",
+      "details_min": "Details must be at least 10 characters",
+      "offer_min": "Offer must be at least 10 characters",
+      "budget_type_required": "Budget type is required",
+      "whatsapp_required": "WhatsApp number is required",
+      "telegram_required": "Telegram username is required",
+      "country_required": "Country is required",
+      "city_required": "City is required",
+      "district_required": "District is required"
+    }
+  },
+  "marketplace": {
+    "title": "Properties",
+    "add_property": "Add Property",
+    "tabs": {
+      "brokers": "Broker Properties",
+      "owners": "Owner Properties",
+      "developers": "Developer Properties"
+    },
+    "broker": {
+      "commission_info": "You will receive {percentage}% commission upon deal completion",
+      "start_marketing": "Start Marketing Property",
+      "rooms": "rooms",
+      "status": {
+        "new": "New",
+        "marketing": "Under Marketing",
+        "half_deal": "Deal Completed",
+        "limited": "Limited"
+      },
+      "types": {
+        "individual": "Individuals",
+        "office": "Offices",
+        "all": "All"
+      }
+    },
+    "owner": {
+      "submit_offer": "Submit Service Offer",
+      "offers_count": "Number of offers: {count}",
+      "verified": "Owner Verified",
+      "subscribers_only": "Subscribers Only",
+      "unread": "Unread",
+      "reject": "Reject",
+      "request": "request",
+      "sort_label": "Sort",
+      "filter_label": "Filter",
+      "property_types": {
+        "villa_sale": "Villas for Sale",
+        "land_sale": "Land for Sale",
+        "apartment_sale": "Apartments for Sale",
+        "apartment_rent": "Apartments for Rent",
+        "floor_sale": "Floors for Sale",
+        "floor_rent": "Floors for Rent",
+        "building_sale": "Buildings for Sale",
+        "building_rent": "Buildings for Rent",
+        "shop_sale": "Shops for Sale",
+        "shop_rent": "Shops for Rent"
+      }
+    },
+    "owner_filter_dialog": {
+      "title": "Filter",
+      "all_requests": "All Requests",
+      "unread": "Unread",
+      "read": "Read",
+      "active_requests": "Active Requests",
+      "waiting_owner": "Waiting for Owner",
+      "pending": "Pending Requests",
+      "apply": "Apply"
+    },
+    "owner_sort_dialog": {
+      "title": "Sort by",
+      "default": "Default",
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "largest_area": "Largest Area",
+      "smallest_area": "Smallest Area",
+      "highest_price": "Highest Price",
+      "lowest_price": "Lowest Price",
+      "apply": "Apply"
+    },
+    "subscription_dialog": {
+      "title": "Owner Property Marketing Service",
+      "subscribers_only": "This request is for subscribers only",
+      "description": "Subscribe to one of our monthly packages to be able to submit service offers for owner properties",
+      "subscribe_now": "Subscribe Now"
+    },
+    "developer": {
+      "add_property": "Add Property",
+      "starting_from": "Starting from",
+      "broker_commission": "Broker receives {percentage}% from buyer",
+      "broker_opportunity": "Broker Opportunity",
+      "about_project": "About Project",
+      "project_details": "Project Details",
+      "available_units": "Available Units",
+      "unit_available": "unit available",
+      "rooms": "rooms",
+      "bathrooms": "bathrooms",
+      "back_to_projects": "Back to Projects",
+      "search_placeholder": "Search for a project...",
+      "filter": {
+        "all": "All"
+      },
+      "results_count": "Results",
+      "project": "project",
+      "no_projects": "No projects available"
+    },
+    "marketing_dialog": {
+      "title": "How does the service work?",
+      "confirm_title": "Confirm Marketing Start",
+      "step_1": "Start marketing the property and present it to your clients",
+      "step_2": "If you find an interested client, contact the advertising broker",
+      "step_3": "If the deal is completed through your request, you will receive your share of the commission",
+      "step_4": "After receiving your commission share, you will pay the Deal app fee",
+      "step_5": "The agreed commission is the amount the buyer will pay as a commission upon deal completion",
+      "commission_note": "The agreed commission is {percentage}% upon deal completion",
+      "accept_commission": "I agree to pay {percentage}% of my commission share to Deal app",
+      "accept_terms": "Deal app does not bear any responsibility or guarantee for the commission. Receiving the commission from the advertising broker is your responsibility",
+      "next": "Next",
+      "back": "Back",
+      "confirm": "Confirm",
+      "submitting": "Confirming..."
+    },
+    "sort_dialog": {
+      "title": "Sort by",
+      "default": "Default",
+      "newest": "Newest",
+      "highest_commission": "Highest Commission",
+      "lowest_commission": "Lowest Commission",
+      "highest_price": "Highest Price",
+      "lowest_price": "Lowest Price",
+      "largest_area": "Largest Area",
+      "smallest_area": "Smallest Area",
+      "apply": "Apply"
+    },
+    "filter": {
+      "all": "All"
+    },
+    "search": "Search",
+    "sort_by": "Sort by",
+    "results_count": "Results",
+    "opportunity": "opportunity",
+    "no_properties": "No properties available",
+    "currency": "SAR",
+    "area_unit": "m²"
+  },
+  "broker_properties": {
+    "status": {
+      "new": "New",
+      "marketing": "Under Marketing",
+      "sold": "Deal Closed",
+      "deleted": "Deleted"
+    },
+    "start_marketing": "Start Marketing Property",
+    "no_properties": "No properties in this category",
+    "marketing_dialog": {
+      "title": "Marketing Property",
+      "step": "Step {current} of {total}",
+      "confirm_title": "Do you want to market this property?",
+      "confirm_description": "Market your property to reach the maximum number of potential buyers",
+      "benefits_title": "Marketing Benefits",
+      "benefit_1": "Property appears in top search results",
+      "benefit_2": "Reach thousands of potential buyers",
+      "benefit_3": "Detailed analytics on ad performance",
+      "terms_title": "Terms and Conditions",
+      "terms_content_1": "By agreeing to market, you agree to the platform's terms and conditions.",
+      "terms_content_2": "The property will be displayed to users according to your subscription package.",
+      "terms_content_3": "You can stop marketing at any time from the dashboard.",
+      "accept_terms": "I agree to the terms and conditions",
+      "package_required_title": "Package Subscription Required",
+      "package_required_description": "To market a property, you need an active subscription to one of our packages",
+      "package_cta_text": "Subscribe to one of our packages to benefit from marketing features and reach more buyers",
+      "view_packages": "View Packages",
+      "package_note": "Marketing will be activated automatically after subscription",
+      "back": "Back",
+      "next": "Next",
+      "agree_and_continue": "Agree and Continue"
+    }
+  },
+  "advertisements": {
+    "property_types": {
+      "villa": "Villa",
+      "residential_land": "Residential Land",
+      "commercial_land": "Commercial Land",
+      "apartment": "Apartment",
+      "floor": "Floor",
+      "shop": "Shop",
+      "building": "Building",
+      "warehouse": "Warehouse",
+      "rest_house": "Rest House",
+      "farm": "Farm"
+    },
+    "usage_types": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "agricultural": "Agricultural"
+    },
+    "amenities": {
+      "parking": "Parking",
+      "elevator": "Elevator",
+      "security": "Security",
+      "pool": "Pool",
+      "gym": "Gym",
+      "garden": "Garden",
+      "central_ac": "Central AC",
+      "furnished": "Furnished",
+      "kitchen": "Kitchen",
+      "maid_room": "Maid Room",
+      "driver_room": "Driver Room",
+      "basement": "Basement"
+    },
+    "street_facing": {
+      "north": "North",
+      "south": "South",
+      "east": "East",
+      "west": "West",
+      "northeast": "Northeast",
+      "northwest": "Northwest",
+      "southeast": "Southeast",
+      "southwest": "Southwest"
+    },
+    "contact_methods": {
+      "phone": {
+        "title": "Phone Call",
+        "description": "Clients can call you directly"
+      },
+      "whatsapp": {
+        "title": "WhatsApp",
+        "description": "Communicate via WhatsApp"
+      },
+      "chat": {
+        "title": "In-App Chat",
+        "description": "Chat within the platform"
+      }
+    },
+    "wizard": {
+      "header": {
+        "title": "Add Advertisement",
+        "step": "Step {current} of {total}"
+      },
+      "common": {
+        "back": "Back",
+        "next": "Next",
+        "submit": "Publish Advertisement"
+      },
+      "intro": {
+        "title": "Add Your Advertisement!",
+        "description": "Interested clients will contact you",
+        "feature1_title": "Reach Interested Buyers",
+        "feature1_desc": "Your ad will appear to the most buyers",
+        "feature2_title": "Featured on Map",
+        "feature2_desc": "Option to feature your ad prominently",
+        "feature3_title": "Multiple Marketing Options",
+        "feature3_desc": "Option to contract with brokers to market your property",
+        "cta_button": "Add Your Ad Now"
+      },
+      "license": {
+        "step_label": "Add Advertisement",
+        "has_license": "I have an ad license",
+        "has_license_desc": "Your ad will be published immediately after review",
+        "no_license": "I don't have an ad license",
+        "no_license_desc": "We will help you get an ad license from the Real Estate Authority"
+      },
+      "property_type": {
+        "title": "Advertisement Details",
+        "type_label": "Property Type",
+        "search_placeholder": "Search",
+        "ad_type_label": "Advertisement Type",
+        "select_ad_type": "Select advertisement type",
+        "rent_period_label": "Rent Period",
+        "select_rent_period": "Select rent period",
+        "housing_type_label": "Housing Type",
+        "select_housing_type": "Select housing type"
+      },
+      "ad_types": {
+        "sale": "Sale",
+        "rent": "Rent"
+      },
+      "rent_periods": {
+        "daily": "Daily",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      },
+      "housing_types": {
+        "families": "Families",
+        "singles": "Singles",
+        "both": "Both"
+      },
+      "location": {
+        "title": "Location",
+        "city_label": "City",
+        "select_city": "Select city",
+        "neighborhood_label": "Neighborhood",
+        "select_neighborhood": "Select neighborhood"
+      },
+      "details": {
+        "title": "Property Details",
+        "area_label": "Area (m²)",
+        "area_placeholder": "Enter area",
+        "total_price_label": "Total Price",
+        "price_placeholder": "Enter price",
+        "price_per_meter_label": "Price per Meter",
+        "price_per_meter_placeholder": "Enter price per meter",
+        "usage_label": "Property Usage",
+        "amenities_label": "Property Amenities",
+        "street_width_label": "Street Width",
+        "street_width_placeholder": "Example: 20 meters",
+        "street_facing_label": "Street Facing",
+        "select_facing": "Select facing",
+        "obligations_label": "Any Obligations",
+        "obligations_placeholder": "Enter obligation details if any",
+        "description_label": "Details",
+        "description_placeholder": "Write a detailed description..."
+      },
+      "contact": {
+        "title": "Contact Methods",
+        "description": "Select available contact channels for clients",
+        "methods_label": "Select contact channels"
+      },
+      "authority": {
+        "title": "Ad License Details",
+        "license_number_label": "Ad License Number",
+        "license_number_placeholder": "Enter license number",
+        "advertiser_id_type_label": "Advertiser ID Type",
+        "select_id_type": "Select ID type",
+        "id_types": {
+          "national_id": "National ID",
+          "iqama": "Iqama",
+          "commercial_register": "Commercial Register"
+        },
+        "advertiser_id_label": "Advertiser ID Number",
+        "advertiser_id_placeholder": "Enter ID number",
+        "broker_options_label": "Marketing Options",
+        "self_marketing_title": "I want to market the ad myself",
+        "self_marketing_desc": "You will market the property yourself and communicate with clients",
+        "broker_contract_title": "I want to contract with a real estate broker",
+        "broker_contract_desc": "Contract with a broker to market and negotiate on behalf of the owner"
+      },
+      "media": {
+        "title": "Property Photos & Videos",
+        "description": "Add photos and videos to showcase your property better",
+        "images_title": "Images",
+        "videos_title": "Videos",
+        "add_image": "Add Image",
+        "add_video": "Add Video",
+        "main_image": "Main",
+        "image_size_error": "Image size must be less than 5MB",
+        "video_size_error": "Video size must be less than 50MB",
+        "max_images_error": "Maximum images allowed is {max}",
+        "max_videos_error": "Maximum videos allowed is {max}",
+        "images_hint": "You can upload up to {max} images (max {size} each)",
+        "videos_hint": "You can upload up to {max} videos (max {size} each)",
+        "back": "Back",
+        "next": "Next"
+      },
+      "preview": {
+        "title": "Review Advertisement",
+        "description": "Make sure the data is correct before publishing",
+        "property_type": "Property Type",
+        "ad_type": "Advertisement Type",
+        "price": "Price",
+        "area": "Area",
+        "sale": "Sale",
+        "rent": "Rent",
+        "family": "Families",
+        "singles": "Singles",
+        "contact_methods": "Contact Methods",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "chat": "Chat",
+        "advertiser_info": "Advertiser Info",
+        "your_name": "Your Name",
+        "licensed": "Licensed Advertiser",
+        "pending_license": "Pending License",
+        "terms_notice": "By clicking Publish, you agree to our Terms & Conditions and Privacy Policy",
+        "back": "Back",
+        "publish": "Publish Advertisement",
+        "publishing": "Publishing..."
+      }
+    },
+    "broker_selector": {
+      "title": "Choose a Real Estate Broker",
+      "description": "Select the broker you want to contract with to market your property",
+      "search_placeholder": "Search for a broker...",
+      "properties": "property",
+      "no_brokers": "No brokers available",
+      "cancel": "Cancel",
+      "confirm": "Confirm Selection"
+    }
+  },
+  "owner_properties": {
+    "add_property": "Add Property as Owner",
+    "add_property_desc": "Enter your property details below.",
+    "no_properties": "No properties found",
+    "status": {
+      "published": "Published",
+      "pending": "Pending Review",
+      "rejected": "Rejected"
+    },
+    "offers": "offer",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "agent_profile": {
+    "verified_agent": "Verified Agent",
+    "properties": "property",
+    "member_since": "Member since",
+    "agent_properties": "Agent Properties",
+    "no_properties_yet": "No properties available",
+    "contact_agent": "Contact Agent",
+    "request_property": "Request Property",
+    "show_property": "Show Your Property",
+    "whatsapp": "WhatsApp",
+    "request_dialog": {
+      "title": "Request Property",
+      "description": "Send your request to {agentName}",
+      "property_type": "Property Type",
+      "select_type": "Select type",
+      "types": {
+        "villa": "Villa",
+        "apartment": "Apartment",
+        "land": "Land",
+        "building": "Building"
+      },
+      "operation_type": "Operation Type",
+      "select_operation": "Select operation",
+      "operations": {
+        "sale": "Buy",
+        "rent": "Rent"
+      },
+      "city": "City",
+      "city_placeholder": "Enter city",
+      "min_price": "Min Price",
+      "max_price": "Max Price",
+      "price_placeholder": "Price",
+      "min_area": "Min Area",
+      "max_area": "Max Area",
+      "area_placeholder": "Area m²",
+      "description_label": "Additional Details",
+      "description_placeholder": "Describe your request...",
+      "cancel": "Cancel",
+      "submit": "Send Request",
+      "submitting": "Sending...",
+      "success_title": "Request Sent",
+      "success_description": "The agent will contact you soon",
+      "close": "Close"
+    },
+    "show_dialog": {
+      "title": "Show Your Property",
+      "description": "Send your property details to {agentName}",
+      "property_title": "Property Title",
+      "title_placeholder": "Luxury villa in...",
+      "property_type": "Property Type",
+      "select_type": "Select type",
+      "types": {
+        "villa": "Villa",
+        "apartment": "Apartment",
+        "land": "Land",
+        "building": "Building"
+      },
+      "operation_type": "Operation Type",
+      "select_operation": "Select operation",
+      "operations": {
+        "sale": "Sale",
+        "rent": "Rent"
+      },
+      "city": "City",
+      "city_placeholder": "Enter city",
+      "neighborhood": "Neighborhood",
+      "neighborhood_placeholder": "Enter neighborhood",
+      "area": "Area m²",
+      "area_placeholder": "Area",
+      "price": "Price",
+      "price_placeholder": "Price",
+      "images": "Property Images",
+      "upload_images": "Click to upload images",
+      "description_label": "Property Description",
+      "description_placeholder": "Describe your property...",
+      "cancel": "Cancel",
+      "submit": "Show Property",
+      "submitting": "Sending...",
+      "success_title": "Property Sent",
+      "success_description": "The agent will contact you soon",
+      "close": "Close"
+    }
+  },
+  "locations": {
+    "cities": {
+      "riyadh": "Riyadh",
+      "jeddah": "Jeddah",
+      "dammam": "Dammam",
+      "mecca": "Makkah",
+      "medina": "Madinah"
+    },
+    "neighborhoods": {
+      "alnakhil": "Al Nakhil",
+      "alolaya": "Al Olaya",
+      "almalqa": "Al Malqa",
+      "hittin": "Hittin",
+      "alhamra": "Al Hamra",
+      "alrawdah": "Al Rawdah",
+      "alnasim": "Al Nasim",
+      "alshatea": "Al Shatea",
+      "alfaisaliyah": "Al Faisaliyah",
+      "alaziziyah": "Al Aziziyah",
+      "alshawqiyah": "Al Shawqiyah",
+      "quba": "Quba",
+      "alawali": "Al Awali"
+    }
+  },
+  "propertyRequestsPage": {
+    "page_title": "Property Requests",
+    "results_count": "Results Count",
+    "result": "Result",
+    "no_requests": "No requests found",
+    "add_request": "Add Request",
+    "create_request": "Create Request",
+    "filter": {
+      "location_placeholder": "Select location",
+      "sort_by": "Sort by",
+      "search": "Search",
+      "clear": "Clear",
+      "interests": "Interests",
+      "add_interest": "Add Interest",
+      "customize_request": "Customize Request",
+      "customize_description": "Customize Description",
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "price_low": "Price: Low to High",
+        "price_high": "Price: High to Low"
+      }
+    },
+    "types": {
+      "all": "All",
+      "villa_sale": "Villa for Sale",
+      "villa_rent": "Villa for Rent",
+      "land_sale": "Land for Sale",
+      "apartment_sale": "Apartment for Sale",
+      "apartment_rent": "Apartment for Rent",
+      "floor_sale": "Floor for Sale",
+      "floor_rent": "Floor for Rent",
+      "shop_sale": "Shop for Sale",
+      "shop_rent": "Shop for Rent",
+      "warehouse_sale": "Warehouse for Sale",
+      "warehouse_rent": "Warehouse for Rent"
+    },
+    "my_requests": "My Requests",
+    "all_requests": "All Requests",
+    "request_details": "Request Details",
+    "edit_request": "Edit Request",
+    "request_type": {
+      "buy": "Buy",
+      "rent": "Rent"
+    },
+    "payment_method": {
+      "cash": "Cash",
+      "finance": "Finance"
+    },
+    "budget_type": {
+      "market_price": "Market Price",
+      "specific_budget": "Specific Budget"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "fields": {
+      "request_number": "Request Number",
+      "request_type": "Request Type",
+      "area": "Area",
+      "property_age": "Property Age",
+      "payment_method": "Payment Method",
+      "details": "Details",
+      "offer": "Offer",
+      "budget_type": "Budget Type",
+      "budget_amount": "Budget Amount",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "country": "Country",
+      "city": "City",
+      "district": "District",
+      "status": "Status",
+      "created_at": "Created At",
+      "updated_at": "Updated At"
+    },
+    "placeholders": {
+      "area": "Area",
+      "property_age": "Property Age",
+      "details": "Details",
+      "offer": "Offer",
+      "budget_amount": "Budget Amount",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "district": "District"
+    },
+    "messages": {
+      "create_success": "Create Success",
+      "update_success": "Update Success",
+      "delete_success": "Delete Success",
+      "delete_confirm": "Delete Confirm",
+      "no_requests": "No requests found",
+      "loading": "Loading...",
+      "error_fetch": "Error Fetch",
+      "error_create": "Error Create",
+      "error_update": "Error Update",
+      "error_delete": "Error Delete"
+    },
+    "validation": {
+      "request_type_required": "Request Type Required",
+      "area_required": "Area Required",
+      "property_age_required": "Property Age Required",
+      "payment_method_required": "Payment Method Required",
+      "details_min": "Details Min",
+      "offer_min": "Offer Min",
+      "budget_type_required": "Budget Type Required",
+      "whatsapp_required": "Whatsapp Required",
+      "telegram_required": "Telegram Required",
+      "country_required": "Country Required",
+      "city_required": "City Required",
+      "district_required": "District Required"
+    },
+    "time": {
+      "minutes_ago": "minutes ago",
+      "hours_ago": "hours ago",
+      "days_ago": "days ago"
+    },
+    "units": {
+      "sar": "SAR",
+      "sqm": "m²"
+    },
+    "price": {
+      "market_price": "Market Price"
+    },
+    "tags": {
+      "serious_request": "Serious Request",
+      "subscribers_only": "Subscribers Only"
+    },
+    "login_required": "Login Required",
+    "bookmarked": "Bookmarked"
+  }
+}
