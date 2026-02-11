@@ -24,7 +24,7 @@ const ClientReviews = async () => {
   }
 
   // Don't render the section if there's no data
-  if (!data || data.length === 0) {
+  if (!data || !Array.isArray(data) || data.length === 0) {
     return null;
   }
 

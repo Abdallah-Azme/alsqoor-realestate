@@ -10,7 +10,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const t = useTranslations("Common");
+  const t = useTranslations("common");
 
   useEffect(() => {
     // Log the error to an error reporting service

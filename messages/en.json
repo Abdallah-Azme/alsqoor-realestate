@@ -7,7 +7,12 @@
     "sar": "SAR",
     "ellipsis": "...",
     "select_country": "Select Country",
-    "select_currency": "Currency"
+    "select_currency": "Currency",
+    "error": {
+      "title": "Something went wrong!",
+      "description": "Sorry, an unexpected error occurred. Please try again later.",
+      "retry": "Try again"
+    }
   },
   "currencies": {
     "sar": "Saudi Riyal",

@@ -7,7 +7,12 @@
     "sar": "ر.س",
     "ellipsis": "...",
     "select_country": "اختر الدولة",
-    "select_currency": "العملة"
+    "select_currency": "العملة",
+    "error": {
+      "title": "حدث خطأ ما!",
+      "description": "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.",
+      "retry": "المحاولة مرة أخرى"
+    }
   },
   "currencies": {
     "sar": "ريال سعودي",
