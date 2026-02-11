@@ -5,13 +5,15 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { usePackages } from "@/features/packages/hooks/use-packages";
+import { Package } from "@/features/packages/types/packages.types";
 
 interface PackageProps {
-  title: string; // e.g., "Current Package" or "Second Package"
+  title: string;
   price: string;
-  duration: string; // e.g., "For 7 days"
+  duration: string;
   features: string[];
   isCurrent?: boolean;
 }
@@ -72,41 +74,42 @@ const PackageCard = ({
 
 const PackagesTab = () => {
   const t = useTranslations("Profile");
+  const { data: packages, isLoading, error } = usePackages();
 
-  const features = [
-    t("unlimited_ads"),
-    t("continuous_technical_support"),
-    t("continuous_technical_support"), // Repeated in screenshot
-    t("unlimited_ads"),
-    t("unlimited_ads"),
-  ];
+  const getFeaturesList = (pkg: Package) => {
+    const features = [];
+    if (pkg.hasUnlimitedAds) features.push(t("unlimited_ads"));
+    else features.push(`${pkg.adCount} ${t("ads_suffix")}`);
+
+    if (pkg.accessToPropertyRequests) features.push(t("access_to_requests"));
+    if (pkg.accessToPartners) features.push(t("access_to_partners"));
+    if (pkg.participateInPropertyMarketing)
+      features.push(t("marketing_participation"));
+    if (pkg.specialSearchSupport) features.push(t("search_support"));
+    if (pkg.hasPersonalAccountManager) features.push(t("account_manager"));
+    if (pkg.allowFeaturedAd) features.push(t("featured_ads"));
+    if (pkg.allowUrgentRequest) features.push(t("urgent_requests"));
+
+    return features;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-main-green" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 text-red-500">{t("error_loading")}</div>
+    );
+  }
 
   return (
-    <div className="space-y-8  ">
-      {/* Current Package Section */}
-      <div className="space-y-4">
-        <div className="flex  ">
-          <h2 className="text-2xl font-bold text-main-navy">
-            {t("current_package")}
-          </h2>
-        </div>
-
-        {/* Current Package Card */}
-        {/* Use flex justify-end which respects RTL direction */}
-        <div className="flex ">
-          <div className="w-full md:w-1/3">
-            <PackageCard
-              title={t("current_package")}
-              price="8.99"
-              duration={t("for_duration", { duration: 7, unit: t("days") })}
-              features={features}
-              isCurrent={true}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Other Packages Section */}
+    <div className="space-y-8">
+      {/* Packages Grid */}
       <div className="space-y-4">
         <div className="flex justify-start">
           <h2 className="text-2xl font-bold text-main-navy">
@@ -115,24 +118,18 @@ const PackagesTab = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <PackageCard
-            title={t("package_2")}
-            price="8.99"
-            duration={t("for_duration", { duration: 2, unit: t("days") })}
-            features={features.slice(0, 4)}
-          />
-          <PackageCard
-            title={t("package_3")}
-            price="8.99"
-            duration={t("for_duration", { duration: 3, unit: t("days") })}
-            features={features.slice(0, 4)}
-          />
-          <PackageCard
-            title={t("package_2")}
-            price="8.99"
-            duration={t("for_duration", { duration: 2, unit: t("days") })}
-            features={features.slice(0, 4)}
-          />
+          {packages?.map((pkg) => (
+            <PackageCard
+              key={pkg.id}
+              title={pkg.name}
+              price={pkg.price}
+              duration={t("for_duration", {
+                duration: pkg.durationDays,
+                unit: t("days"),
+              })}
+              features={getFeaturesList(pkg)}
+            />
+          ))}
         </div>
       </div>
     </div>

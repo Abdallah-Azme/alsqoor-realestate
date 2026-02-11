@@ -37,8 +37,14 @@ export function PropertyOffersList() {
   }
 
   // Separate sent and received offers
-  const sentOffers = offers?.filter((offer) => offer.sender) || [];
-  const receivedOffers = offers?.filter((offer) => offer.receiver) || [];
+  const offersData = Array.isArray(offers)
+    ? offers
+    : (offers as any)?.data || (offers as any)?.data?.data || [];
+
+  const sentOffers =
+    offersData?.filter((offer: PropertyOffer) => offer.sender) || [];
+  const receivedOffers =
+    offersData?.filter((offer: PropertyOffer) => offer.receiver) || [];
 
   // Filter by status
   const filterOffers = (offersList: PropertyOffer[]) => {

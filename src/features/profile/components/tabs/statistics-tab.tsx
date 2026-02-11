@@ -40,11 +40,13 @@ const StatCard = ({
           {icon}
         </div>
         {/* Content */}
-        <div className="space-y-1 flex-1">
-          <p className="text-sm text-gray-500 font-medium">{title}</p>
+        <div className="space-y-1 flex-1 min-w-0">
+          <p className="text-sm text-gray-500 font-medium truncate">{title}</p>
           <div className="flex items-center gap-3">
-            <h3 className="text-xl font-bold text-gray-900">{value}</h3>
-            <div className="flex items-center gap-1">
+            <h3 className="text-xl font-bold text-gray-900 truncate">
+              {value}
+            </h3>
+            <div className="flex items-center gap-1 shrink-0">
               <span
                 className={`text-xs font-semibold ${
                   isPositive ? "text-green-500" : "text-red-500"
@@ -131,7 +133,7 @@ const StatisticsTab = () => {
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <StatCard
             key={index}

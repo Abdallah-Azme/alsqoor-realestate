@@ -30,7 +30,10 @@ const RequestsPage = () => {
   };
 
   // Fetch requests using the hook
-  const { data, isLoading, error } = useRequests(filters);
+  // const { data, isLoading, error } = useRequests(filters);
+  const data = null;
+  const isLoading = false;
+  const error = null;
 
   // Handle filter submission
   const handleFilterSubmit = (newFilters: Record<string, any>) => {
@@ -59,10 +62,10 @@ const RequestsPage = () => {
   };
 
   // Extract data from the response
-  const requests = data?.data?.data || [];
-  const totalResults = data?.data?.meta?.total || 0;
-  const currentPage = data?.data?.meta?.current_page || 1;
-  const lastPage = data?.data?.meta?.total_pages || 1;
+  const requests = []; // data?.data?.data || [];
+  const totalResults = 0; // data?.data?.meta?.total || 0;
+  const currentPage = 1; // data?.data?.meta?.current_page || 1;
+  const lastPage = 1; // data?.data?.meta?.total_pages || 1;
 
   return (
     <main className="space-y-12">
@@ -84,9 +87,12 @@ const RequestsPage = () => {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="container space-y-8"
       >
-        <RequestsFilterPanel onSubmit={handleFilterSubmit} />
+        {/* <RequestsFilterPanel onSubmit={handleFilterSubmit} /> */}
+        <div className="text-center py-12 text-muted-foreground">
+          {tBreadcrumbs("no_properties")}
+        </div>
 
-        {error && (
+        {/* {error && (
           <div className="text-center py-4 text-red-500">
             {t("messages.error_fetch")}
           </div>
@@ -102,7 +108,7 @@ const RequestsPage = () => {
           }}
           onLoadMore={handleLoadMore}
           loadingMore={false}
-        />
+        /> */}
       </motion.section>
     </main>
   );

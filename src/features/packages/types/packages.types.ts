@@ -1,20 +1,30 @@
 export interface Package {
   id: number;
   name: string;
-  description: string | null;
+  description: string;
   price: string;
-  pointsRequired: number;
   durationDays: number;
   adCount: number;
-  features: string[];
-  allowPointsPayment: boolean;
-  pointsAwarded: number;
-  paymentOptions: {
-    cash: boolean;
-    points: boolean;
-  };
-  awardPointsImmediately: boolean;
+  hasUnlimitedAds: boolean;
+  yearlyPriceBefore: string | null;
+  yearlyPriceAfter: string | null;
+  yearlyAdCount: number | null;
+  hasUnlimitedYearlyAds: boolean;
+  yearlyDurationDays: number | null;
+  yearlyDiscountPercent: string | null;
+  platformFeePercent: string | null;
+  platformFeeAfterAdsCount: number | null;
+  platformFeePercentAfter: string | null;
+  accessToPropertyRequests: number;
+  showPropertiesAndRequests: number;
+  accessToPartners: number;
+  participateInPropertyMarketing: boolean;
+  specialSearchSupport: boolean;
+  hasPersonalAccountManager: boolean;
+  allowFeaturedAd: boolean;
+  allowUrgentRequest: boolean;
   isActive: boolean;
+  allowedRoles: string[] | null;
   createdAt: string;
   updatedAt: string;
 }

@@ -18,7 +18,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-const PartnersPage = async ({ searchParams }) => {
+const PartnersPage = async (props: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
+  const searchParams = await props.searchParams;
   const t = await getTranslations("breadcrumbs");
 
   // Get current page from search params, default to 1
@@ -58,7 +61,7 @@ const PartnersPage = async ({ searchParams }) => {
               ))
             ) : (
               <p className="col-span-full text-center text-gray-500">
-                No featured users found
+                {t("no_featured_users")}
               </p>
             )}
           </div>
