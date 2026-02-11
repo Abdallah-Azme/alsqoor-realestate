@@ -35,11 +35,14 @@ export function AllPropertyOffers() {
     );
   }
 
+  // Safely ensure offers is an array
+  const offersArray = Array.isArray(offers) ? offers : [];
+
   // Filter all offers by status
   const filteredOffers =
     statusFilter === "all"
-      ? offers || []
-      : (offers || []).filter((offer) => offer.status === statusFilter);
+      ? offersArray
+      : offersArray.filter((offer) => offer.status === statusFilter);
 
   // Determine offer type based on sender/receiver
   const getOfferType = (offer: any): "sent" | "received" => {
