@@ -63,12 +63,23 @@ interface RequestOptions {
 // ─── Helpers ───────────────────────────────────────────────────────
 
 /**
- * Get the auth token from client-side cookies
+ * Get the auth token from client-side cookies or localStorage
  */
 function getClientToken(): string | null {
   if (typeof document === "undefined") return null;
+
+  // First, try to get from cookie
   const match = document.cookie.match(/(?:^|;\s*)token=([^;]*)/);
-  return match ? decodeURIComponent(match[1]) : null;
+  if (match) {
+    return decodeURIComponent(match[1]);
+  }
+
+  // Fallback to localStorage
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+
+  return null;
 }
 
 /**

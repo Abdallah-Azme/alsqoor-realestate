@@ -42,11 +42,16 @@ export function useRequest(id: number) {
 
 /**
  * Hook to fetch current user's requests
+ * Only fetches if user is authenticated
  */
 export function useMyRequests() {
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("user");
+
   return useQuery({
     queryKey: QUERY_KEYS.myRequests(),
     queryFn: () => requestsService.getMyRequests(),
+    enabled: isAuthenticated, // Only fetch if user is logged in
   });
 }
 

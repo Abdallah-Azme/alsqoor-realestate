@@ -24,24 +24,20 @@ export function useRegistration() {
           return registrationService.registerSeeker(data);
       }
     },
-    onSuccess: (response, variables) => {
-      if (response?.code === 200) {
-        toast.success(response?.data?.message);
+    onSuccess: (data, variables) => {
+      // API client automatically unwraps response.data, so we receive the data object directly
+      // data = { verificationCode: "6288", id: 30, name: "...", email: "...", ... }
+      if (data?.verificationCode) {
+        // Success message is shown by global handler or we can show a custom one
+        toast.success("تم إنشاء الحساب بنجاح");
         const encodedMobile = encodeURIComponent(variables.mobile);
-        const encodedCode = encodeURIComponent(
-          response?.data?.data?.verificationCode || "",
-        );
+        const encodedCode = encodeURIComponent(data.verificationCode);
         router.push(
           `/auth/verfiy-otp?mobile=${encodedMobile}&code=${encodedCode}`,
         );
-      } else {
-        toast.error(response?.data?.message || "Registration failed");
       }
     },
-    onError: (error) => {
-      toast.error("An error occurred during registration");
-      console.error(error);
-    },
+    // Removed onError handler - global error handler in QueryClient will show backend errors
   });
 
   return mutation;

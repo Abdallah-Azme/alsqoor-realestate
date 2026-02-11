@@ -58,25 +58,27 @@ export function LoginForm() {
   const { isSubmitting } = form.formState;
   async function onSubmit(values: any) {
     try {
+      // API client unwraps response.data, so res = { accessToken, user, ... }
       const res = await api.post<any>("/login", values);
-      toast.success(res?.message);
+
+      // Show success message
+      toast.success("تم تسجيل الدخول بنجاح");
+
       // Store the access token
-      const token = res?.data?.accessToken;
+      const token = res?.accessToken;
       if (token) {
         setToken(token);
         localStorage.setItem("token", token);
       }
       // Store user data
-      if (res?.data?.user) {
-        setUser(res.data.user);
+      if (res?.user) {
+        setUser(res.user);
       }
       router.push(`/`);
     } catch (error) {
-      if (error instanceof ApiError) {
-        toast.error(error.message || t("login_failed"));
-      } else {
-        toast.error(t("login_failed"));
-      }
+      // Global error handler will show the backend error message
+      // No need to show error toast here
+      console.error("Login error:", error);
     }
   }
 

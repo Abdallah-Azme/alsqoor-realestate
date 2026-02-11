@@ -69,11 +69,16 @@ export function useSimilarProperties(slug: string) {
 
 /**
  * Hook to fetch owner's property
+ * Only fetches if user is authenticated
  */
 export function useOwnerProperty() {
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("user");
+
   return useQuery({
     queryKey: ["property", "owner"],
     queryFn: () => propertiesService.getOwnerProperty(),
+    enabled: isAuthenticated, // Only fetch if user is logged in
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }
@@ -91,14 +96,19 @@ export function useAmenities() {
 
 /**
  * Hook to fetch user's properties
+ * Only fetches if user is authenticated
  */
 export function useUserProperties(params?: {
   page?: number;
   per_page?: number;
 }) {
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("user");
+
   return useQuery({
     queryKey: ["properties", "user", params],
     queryFn: () => propertiesService.getUserProperties(params),
+    enabled: isAuthenticated, // Only fetch if user is logged in
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
 }

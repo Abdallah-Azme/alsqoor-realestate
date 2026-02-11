@@ -9,10 +9,15 @@ export const propertyOfferKeys = {
 };
 
 // Get user property offers (both sent and received)
+// Only fetches if user is authenticated
 export const useUserPropertyOffers = () => {
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("user");
+
   return useQuery({
     queryKey: propertyOfferKeys.user(),
     queryFn: propertyOffersService.getUserOffers,
+    enabled: isAuthenticated, // Only fetch if user is logged in
   });
 };
 

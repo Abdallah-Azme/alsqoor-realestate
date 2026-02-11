@@ -26,6 +26,9 @@ function makeQueryClient() {
             ? error.message
             : error?.message || "حدث خطأ غير متوقع";
 
+        // Skip showing "Unauthenticated." message
+        if (message === "Unauthenticated.") return;
+
         toast.error(message);
       },
     }),
@@ -40,6 +43,9 @@ function makeQueryClient() {
           error instanceof ApiError
             ? error.message
             : error?.message || "حدث خطأ غير متوقع";
+
+        // Skip showing "Unauthenticated." message
+        if (message === "Unauthenticated.") return;
 
         toast.error(message);
       },
