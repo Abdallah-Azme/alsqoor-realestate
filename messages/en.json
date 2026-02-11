@@ -425,9 +425,65 @@
     }
   },
   "properties": {
-    "title": "Properties",
-    "add_property": "Add Property",
     "add_new_property": "Add New Property",
+    "fill_required_fields": "Fill in all required fields to add a new property",
+    "basic_info": "Basic Information",
+    "title": "Title",
+    "title_placeholder": "Example: Apartment for sale in a prime location",
+    "description": "Description",
+    "description_placeholder": "Detailed property description...",
+    "operation_type_label": "Operation Type",
+    "operation_type": {
+      "sale": "Sale",
+      "rent": "Rent"
+    },
+    "property_type": "Property Type",
+    "property_use": {
+      "apartment": "Apartment",
+      "villa": "Villa",
+      "land_residential": "Residential Land",
+      "land_commercial": "Commercial Land",
+      "commercial_shop": "Commercial Shop",
+      "office": "Office",
+      "warehouse": "Warehouse",
+      "building": "Building",
+      "farm": "Farm",
+      "factory": "Factory",
+      "other": "Other"
+    },
+    "category": "Property Category",
+    "location": "Location",
+    "country": "Country",
+    "city": "City",
+    "district": "District",
+    "district_placeholder": "Example: Fifth Settlement",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "pricing": "Pricing",
+    "price_min": "Minimum Price",
+    "price_max": "Maximum Price",
+    "features": "Features",
+    "area": "Area (m²)",
+    "usable_area": "Usable Area (m²)",
+    "rooms": "Rooms",
+    "bathrooms": "Bathrooms",
+    "balconies": "Balconies",
+    "garages": "Garages",
+    "finishing_type_label": "Finishing Type",
+    "finishing_type": {
+      "none": "No Finishing",
+      "basic": "Basic Finishing",
+      "good": "Good Finishing",
+      "luxury": "Luxury Finishing",
+      "super_luxury": "Super Luxury Finishing"
+    },
+    "images": "Images",
+    "property_images": "Property Images",
+    "images_selected": "{count} images selected",
+    "cancel": "Cancel",
+    "add_property": "Add Property",
+    "add_success": "Property added successfully",
+    "add_error": "Failed to add property",
     "search_result": "Search Result",
     "no_properties": "No properties available currently",
     "loading": "Loading...",
@@ -454,32 +510,6 @@
       "bathrooms": "Bathrooms",
       "apply": "Apply"
     },
-    "operation_type": {
-      "sale": "Sale",
-      "rent": "Rent"
-    },
-    "property_use": {
-      "apartment": "Apartment",
-      "villa": "Villa",
-      "land_residential": "Residential Land",
-      "commercial_shop": "Commercial Shop",
-      "office": "Office",
-      "label": "Label",
-      "land_commercial": "Land Commercial",
-      "warehouse": "Warehouse",
-      "building": "Building",
-      "farm": "Farm",
-      "factory": "Factory",
-      "other": "Other"
-    },
-    "finishing_type": {
-      "none": "Unfinished",
-      "basic": "Basic",
-      "good": "Good",
-      "luxury": "Luxury",
-      "super_luxury": "Super Luxury",
-      "label": "Label"
-    },
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -489,12 +519,8 @@
     "per_sqm": "Per Sqm",
     "price": "Price",
     "key_features": "Key Features",
-    "rooms": "Rooms",
-    "bathrooms": "Bathrooms",
-    "area": "Area",
     "age": "Age",
     "years": "Years",
-    "description": "Description",
     "property_details": "Property Details",
     "amenities": "Amenities",
     "legal_info": "Legal Info",
@@ -506,9 +532,6 @@
     "similar_properties": "Similar Properties",
     "not_found": "Not Found",
     "not_found_description": "Not Found Description",
-    "usable_area": "Usable Area",
-    "balconies": "Balconies",
-    "garages": "Garages",
     "facade": {
       "label": "Label",
       "north": "North",
@@ -1708,5 +1731,23 @@
     },
     "login_required": "Login Required",
     "bookmarked": "Bookmarked"
+  },
+
+  "validation": {
+    "required": "This field is required",
+    "string_min": "Must be at least {min} characters",
+    "string_max": "Must not exceed {max} characters",
+    "number_positive": "Must be a positive number",
+    "number_min": "Must be at least {min}",
+    "number_max": "Must not exceed {max}",
+    "email": "Invalid email address",
+    "price_max_greater": "Maximum price must be greater than or equal to minimum price",
+    "country_required": "Country is required",
+    "city_required": "City is required",
+    "district_required": "District is required",
+    "category_required": "Category is required",
+    "area_positive": "Area must be positive",
+    "rooms_positive": "Number of rooms must be positive",
+    "bathrooms_positive": "Number of bathrooms must be positive"
   }
 }
