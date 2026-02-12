@@ -11,6 +11,8 @@ export const homeService = {
    * Get home page data
    */
   async getHomeData(): Promise<HomeData> {
-    return api.get<HomeData>(BASE_PATH);
+    const res = await api.get<HomeData>(BASE_PATH);
+    console.log(res);
+    return res;
   },
 };

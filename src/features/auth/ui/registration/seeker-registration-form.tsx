@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { seekerRegistrationSchema } from "../../schemas/registration.schemas";
+import { createSeekerRegistrationSchema } from "../../schemas/registration.schemas";
 import { useRegistration } from "../../hooks/use-registration";
 import { CommonFields } from "./common-fields";
 import type { SeekerRegistrationFormData } from "../../schemas/registration.schemas";
@@ -19,7 +19,7 @@ export function SeekerRegistrationForm() {
   const { mutate: register, isPending } = useRegistration();
 
   const form = useForm<SeekerRegistrationFormData>({
-    resolver: zodResolver(seekerRegistrationSchema),
+    resolver: zodResolver(createSeekerRegistrationSchema(t)),
     defaultValues: {
       name: "",
       email: "",
@@ -38,7 +38,6 @@ export function SeekerRegistrationForm() {
   return (
     <Form {...form}>
       <form
-        dir={locale === "ar" ? "rtl" : "ltr"}
         onSubmit={form.handleSubmit(onSubmit)}
         className="lg:p-10 p-8 border border-main-gray rounded-lg w-full"
       >

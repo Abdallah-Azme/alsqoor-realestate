@@ -59,9 +59,21 @@ export function ResetCodeForm() {
       };
 
       const res = await api.post<any>("/verify-reset-code", data);
-      toast.success(res?.message);
-      const encodedToken = encodeURIComponent(res?.data?.token);
-      router.push(`/auth/new-password?token=${encodedToken}`);
+
+      // Robust check for token:
+      const token = res?.token || res?.data?.token;
+
+      if (token) {
+        toast.success(res?.message || t("success"));
+        const encodedToken = encodeURIComponent(token);
+        router.push(`/auth/new-password?token=${encodedToken}`);
+      } else {
+        console.error("Token not found in response", res);
+        // Fallback: maybe the response IS the token string? unlikely but possible.
+        // Or maybe api-client didn't unwrap it?
+        // We will stick to res.token as per pattern.
+        toast.error(t("validation.error"));
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.message || t("validation.error"));

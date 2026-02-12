@@ -76,11 +76,8 @@ export function CommonFields({ form, t }: CommonFieldsProps) {
               <PhoneInput
                 {...field}
                 defaultCountry="sa"
-                withFlagShown
-                withFullNumber
                 inputClassName={`${inputStyle} w-full`}
-                containerClassName={`${inputStyle} w-full`}
-                inputComponent={Input}
+                className={`${inputStyle} w-full`}
               />
             </FormControl>
             <FormMessage className="" />

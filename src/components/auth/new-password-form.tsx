@@ -63,7 +63,12 @@ export function NewPasswordForm() {
         token,
       };
       const res = await api.post<any>("/reset-password", data);
-      toast.success(res?.message);
+
+      // The API returns { status: true, message: "...", data: [] }
+      // api-client unwraps 'data', so res becomes [] (empty array).
+      // The 'message' property is lost.
+      // We will show a success message from translations.
+      toast.success(t("success_message"));
       router.push("/auth/login");
     } catch (error) {
       if (error instanceof ApiError) {

@@ -71,9 +71,8 @@ export function OtpForm() {
         toast.success(res?.message || t("success"));
       }
 
-      setToken(res?.data?.accessToken);
-      setUser(user);
-      router.push("/");
+      // Removed automatic login logic (setToken, setUser) as we want them to login manually
+      router.push("/auth/login");
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.message);

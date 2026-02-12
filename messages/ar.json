@@ -48,7 +48,8 @@
     "hero": {
       "whatsapp_message": "مرحباً، أنا مهتم بطلب استشارة خبير عقاري",
       "show_more": "عرض المــزيد",
-      "consult_expert": "استشير خبير عقاري"
+      "consult_expert": "استشير خبير عقاري",
+      "title_fallback": "حلول عقارية ميسرة"
     },
     "about": {
       "who_we_are": "من نحن",
@@ -191,7 +192,11 @@
       "id_number_required": "الرجاء إدخال رقم الهوية",
       "commercial_registration_required": "الرجاء إدخال رقم السجل التجاري",
       "license_number_required": "الرجاء إدخال رقم الرخصة",
-      "error": "حدث خطأ ما"
+      "error": "حدث خطأ ما",
+      "fal_number_required": "رقم فال مطلوب",
+      "company_name_required": "اسم الشركة مطلوب",
+      "company_logo_required": "شعار الشركة مطلوب",
+      "required": "هذا الحقل مطلوب"
     }
   },
   "otp": {
@@ -227,6 +232,7 @@
     "title": "نسيت كلمة المرور",
     "phone_number": "رقم الهاتف",
     "submit_button": "إرسال",
+    "otp_sent_success": "تم إرسال رمز التحقق بنجاح",
     "validation": {
       "phone_min": "يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل",
       "error": "حدث خطأ ما"
@@ -237,6 +243,7 @@
     "password": "كلمة المرور",
     "confirm_password": "تأكيد كلمة المرور",
     "submit_button": "تغيير كلمة المرور",
+    "success_message": "تم إعادة تعيين كلمة المرور بنجاح",
     "validation": {
       "password_min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
       "confirm_password": "الرجاء تأكيد كلمة المرور",

@@ -25,7 +25,7 @@ import { Loader2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { agentRegistrationSchema } from "../../schemas/registration.schemas";
+import { createAgentRegistrationSchema } from "../../schemas/registration.schemas";
 import { useRegistration } from "../../hooks/use-registration";
 import { CommonFields } from "./common-fields";
 import type { AgentRegistrationFormData } from "../../schemas/registration.schemas";
@@ -36,7 +36,7 @@ export function AgentRegistrationForm() {
   const { mutate: register, isPending } = useRegistration();
 
   const form = useForm<AgentRegistrationFormData>({
-    resolver: zodResolver(agentRegistrationSchema),
+    resolver: zodResolver(createAgentRegistrationSchema(t)),
     defaultValues: {
       name: "",
       email: "",
@@ -50,6 +50,8 @@ export function AgentRegistrationForm() {
       company_name: "",
       whatsapp: "",
       backup_mobile: "",
+      fal_expiry_date: "",
+      has_ad_license: undefined,
     },
   });
 
@@ -168,11 +170,8 @@ export function AgentRegistrationForm() {
                   <PhoneInput
                     {...field}
                     defaultCountry="sa"
-                    withFlagShown
-                    withFullNumber
                     inputClassName={`${inputStyle} w-full`}
-                    containerClassName={`${inputStyle} w-full`}
-                    inputComponent={Input}
+                    className={`${inputStyle} w-full`}
                   />
                 </FormControl>
                 <FormMessage />
@@ -190,13 +189,49 @@ export function AgentRegistrationForm() {
                   <PhoneInput
                     {...field}
                     defaultCountry="sa"
-                    withFlagShown
-                    withFullNumber
                     inputClassName={`${inputStyle} w-full`}
-                    containerClassName={`${inputStyle} w-full`}
-                    inputComponent={Input}
+                    className={`${inputStyle} w-full`}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="fal_expiry_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("fal_expiry_date")}</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} className={inputStyle} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="has_ad_license"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("has_ad_license")}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className={inputStyle}>
+                      <SelectValue placeholder={t("select_option")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="1">{t("yes")}</SelectItem>
+                    <SelectItem value="0">{t("no")}</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

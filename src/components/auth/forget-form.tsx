@@ -49,12 +49,24 @@ export function ForgetForm() {
   async function onSubmit(values: any) {
     try {
       const res = await api.post<any>("/forgot-password", values);
-      toast.success(res?.message);
-      const encodedCode = encodeURIComponent(res?.data?.reset_code);
-      const encodedMobile = encodeURIComponent(values.mobile);
-      router.push(
-        `/auth/reset-code?code=${encodedCode}&mobile=${encodedMobile}`,
-      );
+      // Note: api-client unwraps the 'data' property if it exists.
+      // So 'res' is effectively the 'data' object { reset_code: "..." }.
+      // 'message' might be lost due to unwrapping, so we fallback or use a static success message if undefined.
+      toast.success(res?.message || t("otp_sent_success"));
+
+      const resetCode = res?.reset_code;
+
+      if (resetCode) {
+        const encodedCode = encodeURIComponent(resetCode);
+        const encodedMobile = encodeURIComponent(values.mobile);
+        router.push(
+          `/auth/reset-code?code=${encodedCode}&mobile=${encodedMobile}`,
+        );
+      } else {
+        // Fallback if structure is unexpected (e.g. if api-client didn't unwrap as expected)
+        // But based on user input, it's inside 'data', so api-client unwraps it.
+        console.error("Reset code not found in response", res);
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.message || t("validation.error"));
@@ -82,11 +94,8 @@ export function ForgetForm() {
                   <PhoneInput
                     {...field}
                     defaultCountry="sa"
-                    withFlagShown
-                    withFullNumber
                     inputClassName={`${inputStyle} w-full`}
-                    containerClassName={`${inputStyle} w-full`}
-                    inputComponent={Input}
+                    className={`${inputStyle} w-full`}
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />

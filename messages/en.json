@@ -48,7 +48,8 @@
     "hero": {
       "whatsapp_message": "Hello, I am interested in requesting a real estate expert consultation",
       "show_more": "Show More",
-      "consult_expert": "Consult Real Estate Expert"
+      "consult_expert": "Consult Real Estate Expert",
+      "title_fallback": "Affordable Real Estate Solutions"
     },
     "about": {
       "who_we_are": "Who We Are",
@@ -191,7 +192,11 @@
       "id_number_required": "Please enter your ID number",
       "commercial_registration_required": "Please enter commercial registration number",
       "license_number_required": "Please enter license number",
-      "error": "Something went wrong"
+      "error": "Something went wrong",
+      "fal_number_required": "FAL number is required",
+      "company_name_required": "Company name is required",
+      "company_logo_required": "Company logo is required",
+      "required": "This field is required"
     }
   },
   "otp": {
@@ -227,6 +232,7 @@
     "title": "Forgot Password",
     "phone_number": "Phone Number",
     "submit_button": "Send",
+    "otp_sent_success": "Verification code sent successfully",
     "validation": {
       "phone_min": "Phone number must be at least 10 digits",
       "error": "Something went wrong"
@@ -237,6 +243,7 @@
     "password": "Password",
     "confirm_password": "Confirm Password",
     "submit_button": "Change Password",
+    "success_message": "Password reset successfully",
     "validation": {
       "password_min": "Password must be at least 8 characters",
       "confirm_password": "Please confirm your password",

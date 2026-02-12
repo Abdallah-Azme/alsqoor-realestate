@@ -17,7 +17,12 @@ import { AnimatedCarouselItem } from "@/components/motion/animated-carousel-item
 const PartnerSection = async () => {
   const locale = await getLocale();
   const t = await getTranslations("partner");
-  const data = await partnersService.getAll();
+  let data = [];
+  try {
+    data = await partnersService.getAll();
+  } catch (error) {
+    console.error("Failed to fetch partners:", error);
+  }
   return (
     <section className="container space-y-6 py-12">
       {/* header */}
