@@ -2,6 +2,7 @@
 
 import { api, ApiError } from "@/lib/api-client";
 import { removeToken, getToken } from "@/services";
+import { useTranslations } from "next-intl";
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { toast } from "sonner";
 import { User } from "@/types";
@@ -25,6 +26,7 @@ interface UserContextProviderProps {
 export default function UserContextProvider({
   children,
 }: UserContextProviderProps) {
+  const t = useTranslations("common");
   // Initialize state with null to avoid SSR issues
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ export default function UserContextProvider({
 
   async function logout() {
     try {
-      await api.post("/auth/logout", {});
+      await api.post("/logout", {});
 
       // Clear local state
       setUser(null);
@@ -111,7 +113,7 @@ export default function UserContextProvider({
         localStorage.removeItem("token");
       }
 
-      toast.success("Logged out successfully");
+      toast.success(t("logout_success"));
     } catch (error) {
       // Still clear local state even on error
       setUser(null);

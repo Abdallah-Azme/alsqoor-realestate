@@ -111,38 +111,6 @@ export function OwnerRegistrationForm() {
 
           <FormField
             control={form.control}
-            name="fal_number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_number")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fal_expiry_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_expiry_date")}</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} className={inputStyle} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="has_fal_license"
             render={({ field }) => (
               <FormItem>
@@ -165,6 +133,42 @@ export function OwnerRegistrationForm() {
               </FormItem>
             )}
           />
+
+          {form.watch("has_fal_license") === "1" && (
+            <>
+              <FormField
+                control={form.control}
+                name="fal_number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fal_number")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("placeholder")}
+                        {...field}
+                        className={inputStyle}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="fal_expiry_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fal_expiry_date")}</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} className={inputStyle} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
 
           <FormField
             control={form.control}
@@ -195,7 +199,7 @@ export function OwnerRegistrationForm() {
             <Button
               disabled={isPending}
               type="submit"
-              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:!px-8 p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
+              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:px-8! p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
             >
               {isPending ? (
                 <Loader2 size={20} className="animate-spin" />

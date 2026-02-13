@@ -61,24 +61,31 @@ export function LoginForm() {
       // API client unwraps response.data, so res = { accessToken, user, ... }
       const res = await api.post<any>("/login", values);
 
+      // Handle business logic status (e.g. account under review)
+      if (res?.status === false) {
+        toast.error(res?.message || "حدث خطأ أثناء تسجيل الدخول");
+        return;
+      }
+
       // Show success message
       toast.success("تم تسجيل الدخول بنجاح");
 
       // Store the access token
-      const token = res?.accessToken;
+      const token = res?.accessToken || res?.token;
       if (token) {
         setToken(token);
         localStorage.setItem("token", token);
+        // Store user data
+        if (res?.user) {
+          setUser(res.user);
+        }
+        router.push(`/`);
+      } else {
+        console.error("Token missing in response", res);
       }
-      // Store user data
-      if (res?.user) {
-        setUser(res.user);
-      }
-      router.push(`/`);
-    } catch (error) {
-      // Global error handler will show the backend error message
-      // No need to show error toast here
+    } catch (error: any) {
       console.error("Login error:", error);
+      toast.error(error?.message || "حدث خطأ أثناء تسجيل الدخول");
     }
   }
 
@@ -127,11 +134,8 @@ export function LoginForm() {
                     <PhoneInput
                       {...field}
                       defaultCountry="sa"
-                      withFlagShown
-                      withFullNumber
                       inputClassName={`${inputStyle} w-full`}
-                      containerClassName={`${inputStyle} w-full`}
-                      inputComponent={Input}
+                      className={`${inputStyle} w-full`}
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />

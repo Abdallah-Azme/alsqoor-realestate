@@ -61,6 +61,6 @@ export const authService = {
    * Logout user
    */
   async logout() {
-    return api.post(`${BASE_PATH}/logout`, {});
+    return api.post("/logout", {});
   },
 };

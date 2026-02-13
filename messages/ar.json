@@ -12,7 +12,8 @@
       "title": "حدث خطأ ما!",
       "description": "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.",
       "retry": "المحاولة مرة أخرى"
-    }
+    },
+    "logout_success": "تم تسجيل الخروج بنجاح"
   },
   "currencies": {
     "sar": "ريال سعودي",
@@ -172,6 +173,12 @@
     "company_name": "اسم الشركة",
     "company_logo": "شعار الشركة",
     "commercial_register": "رقم السجل التجاري",
+    "fal_expiry_date": "تاريخ انتهاء رخصة فال",
+    "has_fal_license": "هل لديك رخصة فال؟",
+    "has_ad_license": "هل لديك رخصة إعلانية؟",
+    "select_option": "اختر من القائمة",
+    "yes": "نعم",
+    "no": "لا",
     "submit_button": "إنشاء حساب",
     "already_have_account": "لدي حساب بالفعل",
     "login": "تسجيل الدخول",

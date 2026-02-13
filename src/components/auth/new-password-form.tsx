@@ -155,7 +155,7 @@ export function NewPasswordForm() {
             <Button
               disabled={isSubmitting}
               type="submit"
-              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:!px-8 p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
+              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:px-8! p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
             >
               {isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

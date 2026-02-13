@@ -12,7 +12,8 @@
       "title": "Something went wrong!",
       "description": "Sorry, an unexpected error occurred. Please try again later.",
       "retry": "Try again"
-    }
+    },
+    "logout_success": "Logged out successfully"
   },
   "currencies": {
     "sar": "Saudi Riyal",
@@ -172,6 +173,12 @@
     "company_name": "Company Name",
     "company_logo": "Company Logo",
     "commercial_register": "Commercial Register Number",
+    "fal_expiry_date": "FAL Expiry Date",
+    "has_fal_license": "Do you have a FAL license?",
+    "has_ad_license": "Do you have an ad license?",
+    "select_option": "Select an option",
+    "yes": "Yes",
+    "no": "No",
     "submit_button": "Create Account",
     "already_have_account": "Already have an account",
     "login": "Login",
