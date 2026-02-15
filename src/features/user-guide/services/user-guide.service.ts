@@ -1,5 +1,5 @@
 import { api } from "@/lib/api-client";
-import { UserGuideSection } from "../types/user-guide.types";
+import { UserGuide } from "../types/user-guide.types";
 
 const BASE_PATH = "/user-guide";
 
@@ -10,7 +10,7 @@ export const userGuideService = {
   /**
    * Get user guide sections
    */
-  async getUserGuide(): Promise<UserGuideSection[]> {
-    return api.get<UserGuideSection[]>(BASE_PATH);
+  async getUserGuide(): Promise<UserGuide> {
+    return api.get<UserGuide>(BASE_PATH);
   },
 };

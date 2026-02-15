@@ -1,19 +1,17 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { motion } from "motion/react";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
-import MarketplaceTabs from "@/components/marketplace/marketplace-tabs";
 import BrokersListing from "@/components/marketplace/brokers-listing";
-import OwnersListing from "@/components/marketplace/owners-listing";
 import DevelopersListing from "@/components/marketplace/developers-listing";
+import MarketplaceTabs from "@/components/marketplace/marketplace-tabs";
+import OwnersListing from "@/components/marketplace/owners-listing";
+import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
 import { Button } from "@/components/ui/button";
-import { FiPlus } from "react-icons/fi";
-import { useContext } from "react";
 import { UserContext } from "@/context/user-context";
-import { useRouter, usePathname } from "next/navigation";
-import { useLocale } from "next-intl";
+import { motion } from "motion/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useContext } from "react";
+import { FiPlus } from "react-icons/fi";
 
 const MarketplacePage = () => {
   const t = useTranslations("marketplace");
@@ -73,13 +71,6 @@ const MarketplacePage = () => {
             />
             <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
           </div>
-          <Button
-            onClick={handleAddProperty}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-          >
-            <FiPlus />
-            {t("add_property") || "Add Property"}
-          </Button>
         </div>
       </motion.div>
 

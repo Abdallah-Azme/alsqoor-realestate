@@ -217,7 +217,7 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
           transition={{ duration: 0.4, delay: 0.7 }}
           className="max-md:hidden flex items-center gap-2"
         >
-          <CountrySelector />
+          {/* <CountrySelector /> */}
           <CurrencySelector />
         </motion.div>
 

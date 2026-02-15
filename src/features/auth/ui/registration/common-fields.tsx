@@ -25,125 +25,131 @@ export function CommonFields({ form, t }: CommonFieldsProps) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
 
-  const inputStyle = "!h-14 rounded-none rounded-s-lg";
+  const inputStyle = "w-full !h-14 rounded-none rounded-s-lg";
 
   return (
     <>
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem className="">
-            <FormLabel className="">{t("full_name")}</FormLabel>
-            <FormControl>
-              <Input
-                placeholder={t("placeholder")}
-                {...field}
-                className={inputStyle}
-              />
-            </FormControl>
-            <FormMessage className="" />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">{t("full_name")}</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t("placeholder")}
+                  {...field}
+                  className={inputStyle}
+                />
+              </FormControl>
+              <FormMessage className="" />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="email"
-        render={({ field }) => (
-          <FormItem className="">
-            <FormLabel className="">{t("email")}</FormLabel>
-            <FormControl>
-              <Input
-                type="email"
-                placeholder={t("placeholder")}
-                {...field}
-                className={inputStyle}
-              />
-            </FormControl>
-            <FormMessage className="" />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">{t("email")}</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder={t("placeholder")}
+                  {...field}
+                  className={inputStyle}
+                />
+              </FormControl>
+              <FormMessage className="" />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="mobile"
-        render={({ field }) => (
-          <FormItem className="">
-            <FormLabel className="">{t("phone_number")}</FormLabel>
-            <FormControl>
-              <PhoneInput
-                {...field}
-                defaultCountry="sa"
-                inputClassName={`${inputStyle} w-full`}
-                className={`${inputStyle} w-full`}
-              />
-            </FormControl>
-            <FormMessage className="" />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="mobile"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">{t("phone_number")}</FormLabel>
+              <FormControl>
+                <PhoneInput
+                  {...field}
+                  defaultCountry="sa"
+                  inputClassName={`${inputStyle} w-full`}
+                  className={`${inputStyle} w-full`}
+                />
+              </FormControl>
+              <FormMessage className="" />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="password"
-        render={({ field }) => (
-          <FormItem className="">
-            <FormLabel className="">{t("password")}</FormLabel>
-            <div className="relative">
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder={t("password_placeholder")}
-                {...field}
-                onChange={(e) => {
-                  field.onChange(e);
-                  setPassword(e.target.value);
-                }}
-                className={`${inputStyle} pr-10`}
-              />
-              <button
-                type="button"
-                className="absolute end-3 top-1/2 -translate-y-1/2 text-main-green"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-              </button>
-            </div>
-            <FormMessage className="" />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">{t("password")}</FormLabel>
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("password_placeholder")}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    setPassword(e.target.value);
+                  }}
+                  className={`${inputStyle} pr-10`}
+                />
+                <button
+                  type="button"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-main-green"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
+                </button>
+              </div>
+              <FormMessage className="" />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="password_confirmation"
-        render={({ field }) => (
-          <FormItem className="">
-            <FormLabel className="">{t("confirm_password")}</FormLabel>
-            <div className="relative">
-              <Input
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder={t("password_placeholder")}
-                {...field}
-                className={`${inputStyle} pr-10`}
-              />
-              <button
-                type="button"
-                className="absolute end-3 top-1/2 -translate-y-1/2 text-main-green"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? (
-                  <FaEyeSlash size={20} />
-                ) : (
-                  <FaEye size={20} />
-                )}
-              </button>
-            </div>
-            <FormMessage className="" />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="password_confirmation"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">{t("confirm_password")}</FormLabel>
+              <div className="relative">
+                <Input
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder={t("password_placeholder")}
+                  {...field}
+                  className={`${inputStyle} pr-10`}
+                />
+                <button
+                  type="button"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-main-green"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
+                </button>
+              </div>
+              <FormMessage className="" />
+            </FormItem>
+          )}
+        />
+      </div>
 
       <PasswordStrength password={password} />
     </>

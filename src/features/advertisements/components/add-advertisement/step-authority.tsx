@@ -190,7 +190,7 @@ const StepAuthority = ({
         </Button>
         <Button
           onClick={onNext}
-          className="flex-1 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-6"
+          className="flex-1 bg-main-green hover:bg-main-green/90 text-white font-semibold py-6"
         >
           {t("common.next")}
         </Button>

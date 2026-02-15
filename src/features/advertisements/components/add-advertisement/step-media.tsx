@@ -275,7 +275,7 @@ const StepMedia = ({ values, onChange, onNext, onBack }: StepMediaProps) => {
         <Button
           onClick={onNext}
           disabled={!isValid}
-          className="flex-1 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-6 disabled:opacity-50"
+          className="flex-1 bg-main-green hover:bg-main-green/90 text-white font-semibold py-6 disabled:opacity-50"
         >
           {t("next")}
         </Button>

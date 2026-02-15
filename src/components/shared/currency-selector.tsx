@@ -39,7 +39,15 @@ const CurrencySelector = () => {
     if (savedCurrencyCode) {
       if (CURRENCIES.some((c) => c.code === savedCurrencyCode)) {
         setSelectedCurrencyCode(savedCurrencyCode);
+      } else {
+        // Fallback to SAR if saved code is invalid
+        setSelectedCurrencyCode("SAR");
+        localStorage.setItem("selectedCurrency", "SAR");
       }
+    } else {
+      // Default to SAR if nothing is saved
+      setSelectedCurrencyCode("SAR");
+      localStorage.setItem("selectedCurrency", "SAR");
     }
   }, []);
 

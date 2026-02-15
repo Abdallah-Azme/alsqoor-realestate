@@ -220,7 +220,7 @@ const StepPreview = ({
       </div>
 
       {/* Terms Notice */}
-      <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl text-sm text-amber-800">
+      <div className="bg-main-light-green border border-main-green p-4 rounded-xl text-sm text-main-navy">
         {t("terms_notice")}
       </div>
 

@@ -57,7 +57,7 @@ export function DeveloperRegistrationForm() {
     },
   });
 
-  const inputStyle = "!h-14 rounded-none rounded-s-lg";
+  const inputStyle = "w-full !h-14 rounded-none rounded-s-lg";
 
   function onSubmit(values: DeveloperRegistrationFormData) {
     register(values);
@@ -73,185 +73,214 @@ export function DeveloperRegistrationForm() {
         <div className="space-y-6 w-full">
           <CommonFields form={form} t={t} />
 
-          {/* Developer-specific fields */}
-          <FormField
-            control={form.control}
-            name="company_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("company_name")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="company_logo"
-            render={({ field: { value, onChange, ...field } }) => (
-              <FormItem>
-                <FormLabel>{t("company_logo")}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      onChange(file);
-                    }}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="commercial_register"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("commercial_register")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="whatsapp"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("whatsapp")}</FormLabel>
-                <FormControl>
-                  <PhoneInput
-                    {...field}
-                    defaultCountry="sa"
-                    inputClassName={`${inputStyle} w-full`}
-                    className={`${inputStyle} w-full`}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="backup_mobile"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("backup_mobile")}</FormLabel>
-                <FormControl>
-                  <PhoneInput
-                    {...field}
-                    defaultCountry="sa"
-                    inputClassName={`${inputStyle} w-full`}
-                    className={`${inputStyle} w-full`}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fal_number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_number")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fal_expiry_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_expiry_date")}</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} className={inputStyle} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="has_fal_license"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("has_fal_license")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            {/* Developer-specific fields */}
+            <FormField
+              control={form.control}
+              name="company_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("company_name")}</FormLabel>
                   <FormControl>
-                    <SelectTrigger className={inputStyle}>
-                      <SelectValue placeholder={t("select_option")} />
-                    </SelectTrigger>
+                    <Input
+                      placeholder={t("placeholder")}
+                      {...field}
+                      className={inputStyle}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">{t("yes")}</SelectItem>
-                    <SelectItem value="0">{t("no")}</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="has_ad_license"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("has_ad_license")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+            <FormField
+              control={form.control}
+              name="company_logo"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem>
+                  <FormLabel>{t("company_logo")}</FormLabel>
                   <FormControl>
-                    <SelectTrigger className={inputStyle}>
-                      <SelectValue placeholder={t("select_option")} />
-                    </SelectTrigger>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        onChange(file);
+                      }}
+                      {...field}
+                      className={inputStyle}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">{t("yes")}</SelectItem>
-                    <SelectItem value="0">{t("no")}</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="commercial_register"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("commercial_register")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("placeholder")}
+                      {...field}
+                      className={inputStyle}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("whatsapp")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="backup_mobile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("backup_mobile")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="has_fal_license"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("has_fal_license")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_option")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">{t("yes")}</SelectItem>
+                      <SelectItem value="0">{t("no")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {form.watch("has_fal_license") === "1" && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="fal_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("fal_number")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("placeholder")}
+                          {...field}
+                          className={inputStyle}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="fal_expiry_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("fal_expiry_date")}</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} className={inputStyle} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="fal_license_image"
+                  render={({ field: { value, onChange, ...field } }) => (
+                    <FormItem>
+                      <FormLabel>{t("fal_license_image")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            onChange(file);
+                          }}
+                          {...field}
+                          className={inputStyle}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
             )}
-          />
+
+            <FormField
+              control={form.control}
+              name="has_ad_license"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("has_ad_license")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_option")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">{t("yes")}</SelectItem>
+                      <SelectItem value="0">{t("no")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="w-full flex items-center justify-between">
             <Button

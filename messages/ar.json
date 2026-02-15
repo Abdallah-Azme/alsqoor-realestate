@@ -129,6 +129,10 @@
     "partners": "الوسطاء",
     "user_manual": "دليل المستخدم",
     "privacy_policy": "سياسة الخصوصية",
+    "terms_conditions": "الشروط والأحكام",
+    "intellectual_property": "سياسة الملكية الفكرية",
+    "complaints_policy": "سياسة الشكاوي",
+    "contact_info": "معلومات التواصل",
     "all_rights_reserved": "جميع الحقوق محفوظة@",
     "company_short_name": "الصقور"
   },
@@ -175,6 +179,7 @@
     "commercial_register": "رقم السجل التجاري",
     "fal_expiry_date": "تاريخ انتهاء رخصة فال",
     "has_fal_license": "هل لديك رخصة فال؟",
+    "fal_license_image": "صورة رخصة فال",
     "has_ad_license": "هل لديك رخصة إعلانية؟",
     "select_option": "اختر من القائمة",
     "yes": "نعم",
@@ -571,6 +576,10 @@
       "description": "تصفح طلبات العقارات أو قدم طلبك - اعثر على العقار الذي يناسب احتياجاتك"
     },
     "userManual": {
+      "title": "دليل المستخدم | الصقور العقارية",
+      "description": "تعلم كيفية استخدام منصة الصقور العقارية من خلال دليلنا الشامل"
+    },
+    "user_manual": {
       "title": "دليل المستخدم | الصقور العقارية",
       "description": "تعلم كيفية استخدام منصة الصقور العقارية من خلال دليلنا الشامل"
     },

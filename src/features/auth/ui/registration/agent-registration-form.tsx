@@ -55,7 +55,7 @@ export function AgentRegistrationForm() {
     },
   });
 
-  const inputStyle = "!h-14 rounded-none rounded-s-lg";
+  const inputStyle = "w-full !h-14 rounded-none rounded-s-lg";
 
   function onSubmit(values: AgentRegistrationFormData) {
     register(values);
@@ -71,171 +71,196 @@ export function AgentRegistrationForm() {
         <div className="space-y-6 w-full">
           <CommonFields form={form} t={t} />
 
-          {/* Agent-specific fields */}
-          <FormField
-            control={form.control}
-            name="fal_number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_number")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="agent_type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("agent_type")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            {/* Agent-specific fields */}
+            <FormField
+              control={form.control}
+              name="fal_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("fal_number")}</FormLabel>
                   <FormControl>
-                    <SelectTrigger className={inputStyle}>
-                      <SelectValue placeholder={t("select_agent_type")} />
-                    </SelectTrigger>
+                    <Input
+                      placeholder={t("placeholder")}
+                      {...field}
+                      className={inputStyle}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="individual">
-                      {t("agent_type_individual")}
-                    </SelectItem>
-                    <SelectItem value="office">
-                      {t("agent_type_office")}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="company_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("company_name_optional")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("placeholder")}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="agent_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("agent_type")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_agent_type")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="individual">
+                        {t("agent_type_individual")}
+                      </SelectItem>
+                      <SelectItem value="office">
+                        {t("agent_type_office")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="company_logo"
-            render={({ field: { value, onChange, ...field } }) => (
-              <FormItem>
-                <FormLabel>{t("company_logo_optional")}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      onChange(file);
-                    }}
-                    {...field}
-                    className={inputStyle}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="whatsapp"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("whatsapp")}</FormLabel>
-                <FormControl>
-                  <PhoneInput
-                    {...field}
-                    defaultCountry="sa"
-                    inputClassName={`${inputStyle} w-full`}
-                    className={`${inputStyle} w-full`}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="backup_mobile"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("backup_mobile")}</FormLabel>
-                <FormControl>
-                  <PhoneInput
-                    {...field}
-                    defaultCountry="sa"
-                    inputClassName={`${inputStyle} w-full`}
-                    className={`${inputStyle} w-full`}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fal_expiry_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("fal_expiry_date")}</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} className={inputStyle} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="has_ad_license"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("has_ad_license")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+            <FormField
+              control={form.control}
+              name="company_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("company_name_optional")}</FormLabel>
                   <FormControl>
-                    <SelectTrigger className={inputStyle}>
-                      <SelectValue placeholder={t("select_option")} />
-                    </SelectTrigger>
+                    <Input
+                      placeholder={t("placeholder")}
+                      {...field}
+                      className={inputStyle}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">{t("yes")}</SelectItem>
-                    <SelectItem value="0">{t("no")}</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="company_logo"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem>
+                  <FormLabel>{t("company_logo_optional")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        onChange(file);
+                      }}
+                      {...field}
+                      className={inputStyle}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("whatsapp")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="backup_mobile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("backup_mobile")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="fal_expiry_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("fal_expiry_date")}</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} className={inputStyle} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="has_ad_license"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("has_ad_license")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_option")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">{t("yes")}</SelectItem>
+                      <SelectItem value="0">{t("no")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="fal_license_image"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem>
+                  <FormLabel>{t("fal_license_image")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        onChange(file);
+                      }}
+                      {...field}
+                      className={inputStyle}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="w-full flex items-center justify-between">
             <Button

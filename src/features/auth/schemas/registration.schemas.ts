@@ -42,6 +42,7 @@ export const createOwnerRegistrationSchema = (t: TFunction) =>
       fal_number: z.string().optional(),
       fal_expiry_date: z.string().optional(),
       has_fal_license: z.enum(["0", "1"]).optional(),
+      fal_license_image: z.instanceof(File).optional(),
       has_ad_license: z.enum(["0", "1"]).optional(),
     }),
     t,
@@ -60,6 +61,9 @@ export const createAgentRegistrationSchema = (t: TFunction) =>
       backup_mobile: z.string().optional(),
       fal_expiry_date: z.string().min(1, t("validation.required")),
       has_ad_license: z.enum(["0", "1"]),
+      fal_license_image: z.instanceof(File, {
+        message: t("validation.required"),
+      }),
     }),
     t,
   );
@@ -88,6 +92,7 @@ export const createDeveloperRegistrationSchema = (t: TFunction) =>
       fal_number: z.string().min(1, t("validation.required")),
       fal_expiry_date: z.string().min(1, t("validation.required")),
       has_fal_license: z.enum(["0", "1"]),
+      fal_license_image: z.instanceof(File).optional(),
       has_ad_license: z.enum(["0", "1"]),
     }),
     t,
@@ -129,6 +134,7 @@ const staticOwnerSchema = staticWithPasswordConfirmation(
     fal_number: z.string().optional(),
     fal_expiry_date: z.string().optional(),
     has_fal_license: z.enum(["0", "1"]).optional(),
+    fal_license_image: z.instanceof(File).optional(),
     has_ad_license: z.enum(["0", "1"]).optional(),
   }),
 );
@@ -144,6 +150,7 @@ const staticAgentSchema = staticWithPasswordConfirmation(
     backup_mobile: z.string().optional(),
     fal_expiry_date: z.string(),
     has_ad_license: z.enum(["0", "1"]),
+    fal_license_image: z.instanceof(File),
   }),
 );
 
@@ -159,6 +166,7 @@ const staticDeveloperSchema = staticWithPasswordConfirmation(
     fal_number: z.string(),
     fal_expiry_date: z.string(),
     has_fal_license: z.enum(["0", "1"]),
+    fal_license_image: z.instanceof(File).optional(),
     has_ad_license: z.enum(["0", "1"]),
   }),
 );

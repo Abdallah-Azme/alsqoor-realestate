@@ -129,6 +129,10 @@
     "partners": "Partners",
     "user_manual": "User Manual",
     "privacy_policy": "Privacy Policy",
+    "terms_conditions": "Terms & Conditions",
+    "intellectual_property": "Intellectual Property Policy",
+    "complaints_policy": "Complaints Policy",
+    "contact_info": "Contact Information",
     "all_rights_reserved": "All rights reserved@",
     "company_short_name": "Falcons"
   },
@@ -175,6 +179,7 @@
     "commercial_register": "Commercial Register Number",
     "fal_expiry_date": "FAL Expiry Date",
     "has_fal_license": "Do you have a FAL license?",
+    "fal_license_image": "FAL License Image",
     "has_ad_license": "Do you have an ad license?",
     "select_option": "Select an option",
     "yes": "Yes",
@@ -644,6 +649,10 @@
     "home": {
       "title": "Home | Real Estate Falcons",
       "description": "Discover your dream property with Real Estate Falcons - your trusted partner for buying, selling, and renting properties"
+    },
+    "user_manual": {
+      "title": "User Manual | Real Estate Falcons",
+      "description": "User manual and guide for using the Real Estate Falcons platform"
     },
     "about": {
       "title": "About Us | Real Estate Falcons",

@@ -5,18 +5,23 @@ import React from "react";
 
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
-    title: t("userManual.title"),
-    description: t("userManual.description"),
+    title: t("user_manual.title"),
+    description: t("user_manual.description"),
   };
 }
 
 const UserManualPage = async () => {
   const t = await getTranslations("breadcrumbs");
-  const sections = await userGuideService.getUserGuide();
+  const data = await userGuideService.getUserGuide();
+  const sections = data?.sections || [];
 
   // First section (with image at top)
   const firstSection = sections[0];
@@ -45,7 +50,7 @@ const UserManualPage = async () => {
           )}
           <div className="*:leading-8 space-y-6">
             <h1
-              className="text-main-navy lg:text-4xl md:text-2xl text-xl !font-bold !leading-12"
+              className="text-main-navy lg:text-4xl md:text-2xl text-xl font-bold! leading-12!"
               dangerouslySetInnerHTML={{
                 __html: firstSection.title
                   .replace(/\n/g, "<br />")
@@ -82,7 +87,7 @@ const UserManualPage = async () => {
                   }`}
                 >
                   <h3
-                    className="text-main-navy lg:text-3xl !text-2xl lg:max-w-xl font-bold !leading-12"
+                    className="text-main-navy lg:text-3xl text-2xl! lg:max-w-xl font-bold leading-12!"
                     dangerouslySetInnerHTML={{
                       __html: section.title
                         .replace(

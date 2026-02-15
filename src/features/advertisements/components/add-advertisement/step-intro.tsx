@@ -90,7 +90,7 @@ const StepIntro = ({ onNext }: StepIntroProps) => {
       {/* CTA Button */}
       <Button
         onClick={onNext}
-        className="w-full max-w-md bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-6 text-lg"
+        className="w-full max-w-md bg-main-green hover:bg-main-green/90 text-white font-semibold py-6 text-lg"
       >
         {t("intro.cta_button")}
       </Button>

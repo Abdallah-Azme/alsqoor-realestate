@@ -55,7 +55,7 @@ const StepLicense = ({ value, onChange, onNext, onBack }: StepLicenseProps) => {
               value === option.value
                 ? "border-main-green bg-main-green/5"
                 : option.highlighted
-                  ? "border-amber-400 bg-amber-50"
+                  ? "border-main-green bg-main-light-green"
                   : "border-gray-200 bg-white hover:border-gray-300",
             )}
           >
@@ -94,7 +94,7 @@ const StepLicense = ({ value, onChange, onNext, onBack }: StepLicenseProps) => {
         <Button
           onClick={onNext}
           disabled={value === null}
-          className="flex-1 bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-6 disabled:opacity-50"
+          className="flex-1 bg-main-green hover:bg-main-green/90 text-white font-semibold py-6 disabled:opacity-50"
         >
           {t("common.next")}
         </Button>

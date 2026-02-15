@@ -94,7 +94,7 @@ const Footer = ({ settings = null }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
             <h4 className="font-bold text-lg mb-6">{t("important_links")}</h4>
             <motion.ul
@@ -111,6 +111,7 @@ const Footer = ({ settings = null }) => {
                 { href: "/packages", label: "packages" },
                 { href: "/complaints", label: "complaints" },
                 { href: "/blogs", label: "blogs" },
+                { href: "/contact-info", label: "contact_info" },
               ].map((link, index) => (
                 <motion.li
                   key={index}
@@ -135,7 +136,7 @@ const Footer = ({ settings = null }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
             <h4 className="font-bold text-lg mb-6">{t("our_services")}</h4>
             <motion.ul
@@ -189,19 +190,40 @@ const Footer = ({ settings = null }) => {
         className="container py-6 flex items-center justify-between max-md:flex-col max-md:gap-4"
       >
         {/* terms */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-center">
           <Link
-            href={"/user-manual"}
-            className="hover:text-main-green transition-all duration-300"
+            href={"/terms-and-conditions"}
+            className="hover:text-main-green transition-all duration-300 text-xs"
           >
-            {t("user_manual")}
+            {t("terms_conditions")}
           </Link>
-          <div className="w-[1px] h-4 bg-gray-400"></div>
+          <div className="w-px h-3 bg-gray-400"></div>
           <Link
-            href={"/user-manual"}
-            className="hover:text-main-green transition-all duration-300"
+            href={"/privacy-policy"}
+            className="hover:text-main-green transition-all duration-300 text-xs"
           >
             {t("privacy_policy")}
+          </Link>
+          <div className="w-px h-3 bg-gray-400"></div>
+          <Link
+            href={"/ip-policy"}
+            className="hover:text-main-green transition-all duration-300 text-xs"
+          >
+            {t("intellectual_property")}
+          </Link>
+          <div className="w-px h-3 bg-gray-400"></div>
+          <Link
+            href={"/complaints-policy"}
+            className="hover:text-main-green transition-all duration-300 text-xs"
+          >
+            {t("complaints_policy")}
+          </Link>
+          <div className="w-px h-3 bg-gray-400"></div>
+          <Link
+            href={"/contact-info"}
+            className="hover:text-main-green transition-all duration-300 text-xs"
+          >
+            {t("contact_info")}
           </Link>
         </div>
         {/* copy */}

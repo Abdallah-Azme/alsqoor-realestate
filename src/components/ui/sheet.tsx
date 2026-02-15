@@ -22,7 +22,7 @@ function SheetPortal({ ...props }) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({ className, ...props }) {
+function SheetOverlay({ className = "", ...props }) {
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
@@ -35,7 +35,7 @@ function SheetOverlay({ className, ...props }) {
   );
 }
 
-function SheetContent({ className, children, side = "right", ...props }) {
+function SheetContent({ className = "", children, side = "right", ...props }) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -65,7 +65,7 @@ function SheetContent({ className, children, side = "right", ...props }) {
   );
 }
 
-function SheetHeader({ className, ...props }) {
+function SheetHeader({ className = "", ...props }) {
   return (
     <div
       data-slot="sheet-header"
@@ -75,7 +75,7 @@ function SheetHeader({ className, ...props }) {
   );
 }
 
-function SheetFooter({ className, ...props }) {
+function SheetFooter({ className = "", ...props }) {
   return (
     <div
       data-slot="sheet-footer"
@@ -85,7 +85,7 @@ function SheetFooter({ className, ...props }) {
   );
 }
 
-function SheetTitle({ className, ...props }) {
+function SheetTitle({ className = "", ...props }) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -95,7 +95,7 @@ function SheetTitle({ className, ...props }) {
   );
 }
 
-function SheetDescription({ className, ...props }) {
+function SheetDescription({ className = "", ...props }) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"

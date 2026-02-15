@@ -6,7 +6,11 @@ import Image from "next/image";
 import React from "react";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
@@ -50,7 +54,7 @@ const AboutUsPage = async () => {
           )}
           <div className="*:leading-8 space-y-6">
             <h1
-              className="text-main-navy lg:text-4xl md:text-2xl text-xl !font-bold !leading-12"
+              className="text-main-navy lg:text-4xl md:text-2xl text-xl font-bold! leading-12!"
               dangerouslySetInnerHTML={{
                 __html: firstSection.title
                   .replace(/\n/g, "<br />")
@@ -87,7 +91,7 @@ const AboutUsPage = async () => {
                   }`}
                 >
                   <h3
-                    className="text-main-navy lg:text-3xl !text-2xl lg:max-w-xl font-bold !leading-12"
+                    className="text-main-navy lg:text-3xl text-2xl! lg:max-w-xl font-bold leading-12!"
                     dangerouslySetInnerHTML={{
                       __html: section.title
                         .replace(
