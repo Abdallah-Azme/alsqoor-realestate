@@ -1,14 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
-import RequestsFilterPanel from "@/components/requests/requests-filter";
-import RequestsGrid from "@/components/requests/requests-grid";
-import { motion } from "motion/react";
-import { useRequests } from "@/features/requests";
 import type { PropertyRequestFilters } from "@/features/requests/types/request.types";
+import { motion } from "motion/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RequestsPage = () => {
   const t = useTranslations("propertyRequestsPage");

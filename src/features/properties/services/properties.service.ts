@@ -6,6 +6,8 @@ import {
   Amenity,
   PropertyFormInput,
   ConvertToAdvertisementInput,
+  MarketplaceResponse,
+  MarketplaceData,
 } from "../types/property.types";
 
 const BASE_PATH = "/properties";
@@ -61,6 +63,14 @@ export const propertiesService = {
    */
   async getAll(params?: Record<string, any>) {
     return api.get<Property[]>(BASE_PATH, params);
+  },
+
+  /**
+   * Get marketplace properties (new endpoint)
+   * Supports filtering by type: 'agent', 'owner', 'developer'
+   */
+  async getMarketplaceProperties(params?: Record<string, any>) {
+    return api.get<MarketplaceData>("/properties-new", params);
   },
 
   /**

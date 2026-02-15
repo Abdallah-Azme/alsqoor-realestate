@@ -38,6 +38,7 @@
       "title": "Properties",
       "add_property": "Add Property",
       "add_new_property": "Add New Property",
+      "add_ad": "Add Advertisement",
       "search_result": "Search Result",
       "no_properties": "No properties available currently",
       "loading": "Loading...",
@@ -1140,6 +1141,7 @@
       "status": {
         "new": "New",
         "marketing": "Under Marketing",
+        "under_marketing": "Under Marketing",
         "half_deal": "Deal Completed",
         "limited": "Limited"
       },

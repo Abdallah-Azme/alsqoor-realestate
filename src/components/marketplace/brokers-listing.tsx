@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import BrokerPropertyCard from "./broker-property-card";
@@ -8,83 +9,18 @@ import SortDialog, { SortOption } from "./sort-dialog";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-
-// Mock data for development
-const mockBrokerProperties = [
-  {
-    id: "1",
-    slug: "villa-for-sale-jeddah",
-    title: "فيلا للبيع",
-    price: 1850000,
-    formattedPrice: "1,850,000",
-    area: 360,
-    rooms: 9,
-    location: "حي الرياض",
-    city: "جدة",
-    image: "/images/state.png",
-    commissionPercentage: 50,
-    timePosted: "منذ 24 دقيقة",
-    status: "new" as const,
-    type: "office",
-  },
-  {
-    id: "2",
-    slug: "land-for-sale-kaec",
-    title: "أرض سكنية للبيع",
-    price: 3200014.38,
-    formattedPrice: "3,200,014.38",
-    area: 1364.03,
-    location: "مدينة الملك عبدالله الاقتصادية",
-    city: "الملك عبدالله",
-    image: "/images/state.png",
-    commissionPercentage: 50,
-    timePosted: "منذ 23 دقيقة",
-    status: "new" as const,
-    type: "individual",
-  },
-  {
-    id: "3",
-    slug: "apartment-for-sale-kaec",
-    title: "شقة للبيع",
-    price: 1100000,
-    formattedPrice: "1,100,000",
-    area: 125.9,
-    location: "مدينة الملك عبدالله الاقتصادية",
-    city: "الملك عبدالله",
-    image: "/images/state.png",
-    commissionPercentage: 20,
-    timePosted: "منذ 33 دقيقة",
-    status: "marketing" as const,
-    type: "office",
-  },
-  {
-    id: "4",
-    slug: "apartment-for-sale-madinah",
-    title: "شقة للبيع",
-    price: 690000,
-    formattedPrice: "690,000",
-    area: 172.27,
-    rooms: 4,
-    location: "المدينة المنورة، شوران",
-    city: "المدينة المنورة",
-    image: "/images/state.png",
-    commissionPercentage: 10,
-    timePosted: "منذ 41 دقيقة",
-    status: "half_deal" as const,
-    type: "individual",
-  },
-];
+import { propertiesService } from "@/features/properties/services/properties.service";
+import { AddPropertyDialog } from "@/features/properties/ui";
 
 const BrokersListing = () => {
   const t = useTranslations("marketplace");
   const router = useRouter();
   const tSort = useTranslations("marketplace.sort_dialog");
-  const [properties] = useState(mockBrokerProperties);
-  const [loading] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all");
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortOption, setSortOption] = useState<SortOption>("default");
   const [showSortDialog, setShowSortDialog] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const filterTabs = [
     { id: "all", label: t("filter.all") },
@@ -100,49 +36,78 @@ const BrokersListing = () => {
     { id: "office", label: t("broker.types.office") },
   ];
 
-  // Filter and sort properties
-  const filteredAndSortedProperties = useMemo(() => {
-    let result = properties;
+  // Fetch brokers properties
+  const { data: response, isLoading } = useQuery({
+    queryKey: ["marketplace-brokers", activeCategory, activeFilter, sortOption],
+    queryFn: () =>
+      propertiesService.getMarketplaceProperties({
+        type: activeCategory !== "all" ? "agent" : undefined,
+        agent_type: activeCategory !== "all" ? activeCategory : undefined,
+        status: activeFilter !== "all" ? activeFilter : undefined,
+      }),
+  });
 
-    // Filter by User Type (Individual/Office)
-    if (activeCategory !== "all") {
-      result = result.filter((p) => p.type === activeCategory);
-    }
+  const properties = response?.data || [];
+  const loading = isLoading;
 
-    // Filter by Status
-    if (activeFilter !== "all") {
-      result = result.filter((p) => p.status === activeFilter);
-    }
+  // Client-side sorting (since API might not support all sort options yet)
+  const sortedProperties = useMemo(() => {
+    let result = [...properties];
 
     // Apply sorting
     switch (sortOption) {
-      case "newest":
-        // In real implementation, sort by date
-        break;
       case "highest_commission":
-        result.sort((a, b) => b.commissionPercentage - a.commissionPercentage);
+        result.sort(
+          (a, b) =>
+            Number(b.commissionPercentage || 0) -
+            Number(a.commissionPercentage || 0),
+        );
         break;
       case "lowest_commission":
-        result.sort((a, b) => a.commissionPercentage - b.commissionPercentage);
+        result.sort(
+          (a, b) =>
+            Number(a.commissionPercentage || 0) -
+            Number(b.commissionPercentage || 0),
+        );
         break;
       case "highest_price":
-        result.sort((a, b) => b.price - a.price);
+        result.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
         break;
       case "lowest_price":
-        result.sort((a, b) => a.price - b.price);
+        result.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
         break;
       case "largest_area":
-        result.sort((a, b) => b.area - a.area);
+        result.sort((a, b) => Number(b.area || 0) - Number(a.area || 0));
         break;
       case "smallest_area":
-        result.sort((a, b) => a.area - b.area);
+        result.sort((a, b) => Number(a.area || 0) - Number(b.area || 0));
         break;
       default:
         break;
     }
 
     return result;
-  }, [properties, activeFilter, sortOption, activeCategory]);
+  }, [properties, sortOption]);
+
+  // Format properties for card component
+  const formattedProperties = sortedProperties.map((p) => ({
+    id: String(p.id),
+    slug: p.slug,
+    title: p.title,
+    price: Number(p.price || 0),
+    formattedPrice: Number(p.price || 0).toLocaleString(),
+    area: Number(p.area || 0),
+    rooms: p.rooms || 0,
+    location: p.location || p.city || "",
+    city: p.city || "",
+    image: p.image || "",
+    commissionPercentage: Number(p.commissionPercentage || 0),
+    timePosted:
+      p.timePosted || p.createdAt
+        ? new Date(p.createdAt).toLocaleDateString()
+        : "",
+    status: (p.status as any) || "new",
+  }));
 
   const getSortLabel = () => {
     if (sortOption === "default") {
@@ -215,14 +180,14 @@ const BrokersListing = () => {
         <p className="text-gray-600 text-sm">
           {t("results_count")}:{" "}
           <span className="font-bold text-main-navy">
-            {filteredAndSortedProperties.length}
+            {formattedProperties.length}
           </span>{" "}
           {t("opportunity")}
         </p>
 
         <div className="flex items-center gap-3">
           <Button
-            onClick={() => router.push("/advertisements/add")}
+            onClick={() => setIsAddDialogOpen(true)}
             className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm"
           >
             <FiPlus />
@@ -275,7 +240,7 @@ const BrokersListing = () => {
           }}
           className="space-y-4"
         >
-          {filteredAndSortedProperties.map((property, index) => (
+          {formattedProperties.map((property, index) => (
             <BrokerPropertyCard
               key={property.id}
               property={property}
@@ -285,7 +250,7 @@ const BrokersListing = () => {
         </motion.div>
       )}
 
-      {filteredAndSortedProperties.length === 0 && !loading && (
+      {formattedProperties.length === 0 && !loading && (
         <div className="text-center py-12">
           <p className="text-gray-500">{t("no_properties")}</p>
         </div>
@@ -297,6 +262,12 @@ const BrokersListing = () => {
         onOpenChange={setShowSortDialog}
         currentSort={sortOption}
         onSortChange={setSortOption}
+      />
+
+      {/* Add Property Dialog */}
+      <AddPropertyDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
       />
     </div>
   );

@@ -10,100 +10,51 @@ import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 
-// Mock data for development
-const mockOwnerProperties = [
-  {
-    id: "1",
-    title: "شقة للإيجار",
-    propertyType: "apartment",
-    operationType: "rent" as const,
-    price: 26000,
-    formattedPrice: "26,000",
-    area: 128,
-    location: "جدة، الحمراء",
-    city: "جدة",
-    timePosted: "منذ ساعتين",
-    offersCount: 0,
-    isVerified: true,
-    isSubscribersOnly: false,
-    isUnread: true,
-  },
-  {
-    id: "2",
-    title: "شقة للإيجار",
-    propertyType: "apartment",
-    operationType: "rent" as const,
-    price: 20000,
-    formattedPrice: "20,000",
-    area: 145,
-    location: "مكة المكرمة، العدل",
-    city: "مكة المكرمة",
-    timePosted: "منذ 3 ساعات",
-    offersCount: 2,
-    isVerified: true,
-    isSubscribersOnly: false,
-    isUnread: true,
-  },
-  {
-    id: "3",
-    title: "دور للإيجار",
-    propertyType: "floor",
-    operationType: "rent" as const,
-    price: 36000,
-    formattedPrice: "36,000",
-    area: 300,
-    location: "المدينة المنورة، حمراء الأسد",
-    city: "المدينة المنورة",
-    timePosted: "منذ 4 ساعات",
-    offersCount: 3,
-    isVerified: true,
-    isSubscribersOnly: false,
-    isUnread: true,
-  },
-  {
-    id: "4",
-    title: "عمارة تجارية سكنية للبيع",
-    propertyType: "building",
-    operationType: "sale" as const,
-    price: 7000000,
-    formattedPrice: "7,000,000",
-    area: 750,
-    location: "الرياض، السويدي الغربي",
-    city: "الرياض",
-    timePosted: "منذ 5 ساعات",
-    offersCount: 22,
-    isVerified: true,
-    isSubscribersOnly: true,
-    isUnread: false,
-  },
-  {
-    id: "5",
-    title: "شقة للبيع",
-    propertyType: "apartment",
-    operationType: "sale" as const,
-    price: 700000,
-    formattedPrice: "700,000",
-    area: 256,
-    location: "أبها، الرفيق",
-    city: "أبها",
-    timePosted: "منذ 5 ساعات",
-    offersCount: 0,
-    isVerified: true,
-    isSubscribersOnly: false,
-    isUnread: true,
-  },
-];
+import { propertiesService } from "@/features/properties/services/properties.service";
+import { useQuery } from "@tanstack/react-query";
+
+// Helper to parse tab ID to property type and operation
+const parseTabId = (tabId: string) => {
+  if (tabId === "all")
+    return { propertyType: undefined, operationType: undefined };
+  const [type, op] = tabId.split("_");
+  return { propertyType: type, operationType: op };
+};
 
 const OwnersListing = () => {
   const t = useTranslations("marketplace");
   const router = useRouter();
-  const [properties] = useState(mockOwnerProperties);
-  const [loading] = useState(false);
   const [activePropertyType, setActivePropertyType] = useState("all");
   const [filterOption, setFilterOption] = useState<OwnerFilterOption>("all");
   const [sortOption, setSortOption] = useState<OwnerSortOption>("default");
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [showSortDialog, setShowSortDialog] = useState(false);
+
+  // Fetch owner properties
+  const { data: response, isLoading } = useQuery({
+    queryKey: [
+      "marketplace-owners",
+      activePropertyType,
+      filterOption,
+      sortOption,
+    ],
+    queryFn: () => {
+      const { propertyType, operationType } = parseTabId(activePropertyType);
+
+      const params: any = {
+        type: "owner",
+        property_type: propertyType,
+      };
+
+      if (operationType === "sale") params.transaction_type = "buy";
+      else if (operationType === "rent") params.transaction_type = "rent";
+
+      return propertiesService.getMarketplaceProperties(params);
+    },
+  });
+
+  const properties = response?.data || [];
+  const loading = isLoading;
 
   const propertyTypeTabs = [
     { id: "all", label: t("filter.all") },
@@ -121,9 +72,29 @@ const OwnersListing = () => {
 
   // Filter and sort properties
   const filteredAndSortedProperties = useMemo(() => {
-    let result = [...properties];
+    // Map API properties to component format first
+    let result = properties.map((p) => ({
+      id: String(p.id),
+      title: p.title,
+      propertyType: p.propertyType || "",
+      operationType: (p.transactionType === "buy" ? "sale" : "rent") as
+        | "sale"
+        | "rent",
+      price: Number(p.price || 0),
+      formattedPrice: Number(p.price || 0).toLocaleString(),
+      area: Number(p.area || 0),
+      location: p.location || p.city || "",
+      city: p.city || "",
+      timePosted:
+        p.timePosted ||
+        (p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""),
+      offersCount: p.offersCount || 0,
+      isVerified: p.isVerified,
+      isSubscribersOnly: false, // Not available in API yet
+      isUnread: false, // Not available in API yet
+    }));
 
-    // Apply filter
+    // Apply client-side filter for things API might miss or if we rely on it
     switch (filterOption) {
       case "unread":
         result = result.filter((p) => p.isUnread);

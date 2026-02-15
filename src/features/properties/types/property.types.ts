@@ -325,3 +325,63 @@ export interface ConvertToAdvertisementInput {
   is_featured?: boolean;
   marketing_option?: MarketingOption;
 }
+
+// ============= Marketplace Types =============
+
+export interface MarketplaceProperty {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  propertyType: string | null;
+  area: string;
+  rooms: number | null;
+  price: number | null;
+  currency: string;
+  status: string;
+  transactionType: string | null;
+  commissionPercentage: string | null;
+  commissionFrom: string | null;
+  isVerified: boolean;
+  offersCount: number;
+  startingPrice: string | null;
+  totalUnits: number | null;
+  isApproved: boolean;
+  views: number;
+  image: string | null;
+  createdAt: string;
+  isConverted: boolean;
+  // Additional fields that might be useful or present in other contexts
+  developerName?: string;
+  developerLogo?: string;
+  availableUnits?: number;
+  brokerCommission?: number;
+  isBrokerOpportunity?: boolean;
+  location?: string;
+  city?: string;
+  timePosted?: string;
+}
+
+export interface MarketplaceData {
+  data: MarketplaceProperty[];
+  meta: {
+    total: number;
+    per_page: number;
+    current_page: number;
+    last_page: number;
+    from: number;
+    to: number;
+  };
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+}
+
+export interface MarketplaceResponse {
+  success: boolean;
+  message: string;
+  data: MarketplaceData;
+}

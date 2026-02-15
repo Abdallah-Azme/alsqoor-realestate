@@ -3,91 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { Input } from "@/components/ui/input";
-import { FiSearch } from "react-icons/fi";
 import DeveloperProjectCard from "./developer-project-card";
-import SmartPagination, {
-  usePagination,
-} from "@/components/shared/smart-pagination";
+import SmartPagination from "@/components/shared/smart-pagination";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-
-// Mock data for development
-const mockDeveloperProjects = [
-  {
-    id: "1",
-    slug: "al-jadah-luxury-apartments",
-    title: "الجادة الأولى شقق فاخرة بحي المحمدية",
-    developerName: "مكين العقارية",
-    developerLogo: "/images/logo.jpg",
-    startingPrice: 1660000,
-    formattedStartingPrice: "1,660,000",
-    location: "الرياض، المحمدية",
-    city: "الرياض",
-    image: "/images/state.png",
-    brokerCommission: 1,
-    timePosted: "منذ 8 أيام",
-    isBrokerOpportunity: true,
-    propertyType: "apartment",
-    totalUnits: 45,
-    availableUnits: 18,
-  },
-  {
-    id: "2",
-    slug: "tamr-residence-townhouse",
-    title: "مشروع تمر ريزيدنس - تاون هاوس",
-    developerName: "نجمة التمر للإستثمار والتطوير العقاري",
-    developerLogo: "/images/logo.jpg",
-    startingPrice: 690000,
-    formattedStartingPrice: "690,000",
-    location: "الرياض، حراء",
-    city: "الرياض",
-    image: "/images/state.png",
-    brokerCommission: 2.5,
-    timePosted: "منذ 8 أيام",
-    isBrokerOpportunity: true,
-    propertyType: "villa",
-    totalUnits: 25,
-    availableUnits: 10,
-  },
-  {
-    id: "3",
-    slug: "seel-35-luxury-units",
-    title: "مشروع سيل 35 وحدات فاخرة بحي النرجس",
-    developerName: "عقار ماب",
-    developerLogo: "/images/logo.jpg",
-    startingPrice: 2500000,
-    formattedStartingPrice: "2,500,000",
-    location: "الرياض، النرجس",
-    city: "الرياض",
-    image: "/images/state.png",
-    brokerCommission: 1.5,
-    timePosted: "منذ 8 أيام",
-    isBrokerOpportunity: false,
-    propertyType: "villa",
-    totalUnits: 35,
-    availableUnits: 22,
-  },
-  {
-    id: "4",
-    slug: "ajdal-jeddah-land",
-    title: "أراضي مخطط أجدال جدة بحي التعاون",
-    developerName: "أجدال",
-    developerLogo: "/images/logo.jpg",
-    startingPrice: 450000,
-    formattedStartingPrice: "450,000",
-    location: "جدة، التعاون",
-    city: "جدة",
-    image: "/images/state.png",
-    brokerCommission: 2,
-    timePosted: "منذ 8 أيام",
-    isBrokerOpportunity: true,
-    propertyType: "land",
-    totalUnits: 100,
-    availableUnits: 65,
-  },
-];
+import { propertiesService } from "@/features/properties/services/properties.service";
+import { useQuery } from "@tanstack/react-query";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -95,11 +17,47 @@ const DevelopersListing = () => {
   const t = useTranslations("marketplace.developer");
   const router = useRouter();
   const tTypes = useTranslations("advertisements.property_types");
-  const [projects] = useState(mockDeveloperProjects);
-  const [loading] = useState(false);
   const [activePropertyType, setActivePropertyType] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: response, isLoading } = useQuery({
+    queryKey: ["marketplace-developers", activePropertyType, currentPage],
+    queryFn: () =>
+      propertiesService.getMarketplaceProperties({
+        type: "developer",
+        page: currentPage,
+        per_page: ITEMS_PER_PAGE,
+        property_type:
+          activePropertyType !== "all" ? activePropertyType : undefined,
+      }),
+  });
+
+  const properties = response?.data || [];
+  const meta = response?.meta;
+  const loading = isLoading;
+  const totalPages = meta?.last_page || 1;
+
+  // Map API data to component props
+  const currentProjects = properties.map((p) => ({
+    id: String(p.id),
+    slug: p.slug,
+    title: p.title,
+    developerName: p.developerName || "Developer", // fallback
+    developerLogo: p.developerLogo,
+    startingPrice: Number(p.startingPrice || 0),
+    formattedStartingPrice: Number(p.startingPrice || 0).toLocaleString(),
+    location: p.location || p.city || "",
+    city: p.city || "",
+    image: p.image || "",
+    brokerCommission: p.brokerCommission || 0,
+    timePosted:
+      p.timePosted ||
+      (p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""),
+    isBrokerOpportunity: p.isBrokerOpportunity || false,
+    propertyType: p.propertyType || "",
+    totalUnits: p.totalUnits || 0,
+    availableUnits: p.availableUnits || 0,
+  }));
 
   const propertyTypeTabs = [
     { id: "all", label: t("filter.all") },
@@ -113,39 +71,10 @@ const DevelopersListing = () => {
     { id: "farm", label: tTypes("farm") },
   ];
 
-  // Filter projects
-  const filteredProjects = projects.filter((project) => {
-    const matchesType =
-      activePropertyType === "all" ||
-      project.propertyType === activePropertyType;
-    const matchesSearch =
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.developerName.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesType && matchesSearch;
-  });
-
-  // Pagination
-  const { totalPages, getPageItems } = usePagination(
-    filteredProjects,
-    ITEMS_PER_PAGE,
-  );
-  const currentProjects = getPageItems(currentPage);
-
   return (
     <div className="space-y-6">
       {/* Search and Property Type Filter */}
       <div className="space-y-4">
-        {/* Search Input */}
-        <div className="relative max-w-lg">
-          <Input
-            placeholder={t("search_placeholder")}
-            className="ps-10 h-11 bg-white"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <FiSearch className="absolute start-3 top-3.5 text-gray-400" />
-        </div>
-
         {/* Property Type Tabs */}
         <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
           <div className="flex items-center gap-2 pb-2">
@@ -173,9 +102,7 @@ const DevelopersListing = () => {
       <div className="flex items-center justify-between">
         <p className="text-gray-600 text-sm">
           {t("results_count")}:{" "}
-          <span className="font-bold text-main-navy">
-            {filteredProjects.length}
-          </span>{" "}
+          <span className="font-bold text-main-navy">{meta?.total || 0}</span>{" "}
           {t("project")}
         </p>
 

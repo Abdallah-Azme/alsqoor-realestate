@@ -38,6 +38,7 @@
       "title": "العقارات",
       "add_property": "إضافة عقار",
       "add_new_property": "إضافة عقار جديد",
+      "add_ad": "إضافة إعلان",
       "search_result": "نتيجة بحث",
       "no_properties": "لا توجد عقارات متاحة حالياً",
       "loading": "جاري التحميل...",
@@ -936,6 +937,7 @@
       "status": {
         "new": "جديد",
         "marketing": "تحت التسويق",
+        "under_marketing": "تحت التسويق",
         "half_deal": "تمت الصفقة",
         "limited": "محدود"
       },

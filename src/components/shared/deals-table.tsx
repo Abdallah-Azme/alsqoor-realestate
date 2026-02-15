@@ -7,6 +7,8 @@ import { useSettings } from "@/features/settings/hooks/use-settings";
 const DealsTable = ({ deals = [], isLoading = false, onEdit }) => {
   const t = useTranslations("deals_page");
   const { data: settings } = useSettings();
+
+  console.log({ deals });
   const siteLogo = settings?.siteInfo?.siteLogo || "/images/logo.jpg";
 
   if (isLoading) {

@@ -20,14 +20,10 @@ const AdsPage = () => {
   const locale = useLocale();
   const router = useRouter();
   const { user } = useContext(UserContext);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
-  // Use featured properties endpoint
   const { data: properties, isLoading, error } = useFeaturedProperties();
 
   const handleAddProperty = () => {
-    // Open the dialog - authentication will be checked on submit
-    setIsAddDialogOpen(true);
+    router.push("/advertisements/add");
   };
 
   return (
@@ -46,7 +42,7 @@ const AdsPage = () => {
           </div>
           <Button onClick={handleAddProperty} className="gap-2">
             <FiPlus className="h-5 w-5" />
-            {tPage("add_property")}
+            {tPage("add_ad")}
           </Button>
         </div>
       </motion.div>
@@ -86,12 +82,6 @@ const AdsPage = () => {
           </div>
         )}
       </motion.section>
-
-      {/* Add Property Dialog */}
-      <AddPropertyDialog
-        open={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
-      />
     </main>
   );
 };

@@ -25,7 +25,7 @@ interface BrokerPropertyCardProps {
     image: string;
     commissionPercentage: number;
     timePosted: string;
-    status: "new" | "marketing" | "half_deal" | "limited";
+    status: "new" | "marketing" | "under_marketing" | "half_deal" | "limited";
   };
   index?: number;
 }
@@ -41,6 +41,7 @@ const BrokerPropertyCard = ({
   const statusColors = {
     new: "bg-main-green",
     marketing: "bg-main-green",
+    under_marketing: "bg-main-green",
     half_deal: "bg-blue-500",
     limited: "bg-red-500",
   };
@@ -70,22 +71,28 @@ const BrokerPropertyCard = ({
           <div className="flex flex-col md:flex-row">
             {/* Image Section */}
             <div className="relative w-full md:w-72 h-48 md:h-auto shrink-0">
-              <Image
-                src={property.image || "/images/state.png"}
-                alt={property.title}
-                fill
-                className="object-cover"
-              />
+              <div className="relative w-full h-full">
+                <Image
+                  src={
+                    property.image && property.image.startsWith("http")
+                      ? property.image
+                      : "/images/state.png"
+                  }
+                  alt={property.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
               {/* Status Badge */}
               <div
                 className={`absolute top-3 start-3 ${
-                  statusColors[property.status]
-                } text-white text-xs px-3 py-1 rounded-full`}
+                  statusColors[property.status] || "bg-main-green"
+                } text-white text-xs px-3 py-1 rounded-full z-10`}
               >
                 {t(`status.${property.status}`)}
               </div>
               {/* Image count badge */}
-              <div className="absolute bottom-3 start-3 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+              <div className="absolute bottom-3 start-3 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1 z-10">
                 <FiHome size={12} />
                 <span>30</span>
               </div>
