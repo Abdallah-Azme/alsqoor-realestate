@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -12,16 +13,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FiCheck, FiUsers } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { MarketingOption } from "../../types/advertisement.types";
+import { useRef } from "react";
 
 interface StepAuthorityProps {
   values: {
     hasLicense?: boolean;
-    licenseNumber?: string;
-    advertiserId?: string;
-    advertiserIdType?: string;
-    wantsBrokerContract?: boolean;
+    license_number?: string;
+    license_expiry_date?: string;
+    qr_code?: File;
+    plan_number?: string;
+    plot_number?: string;
+    area_name?: string;
+    has_mortgage?: boolean;
+    has_restriction?: boolean;
+    guarantees?: string;
+    marketing_option?: MarketingOption;
+    is_featured?: boolean;
   };
   onChange: (field: string, value: any) => void;
   onNext: () => void;
@@ -35,9 +44,14 @@ const StepAuthority = ({
   onBack,
 }: StepAuthorityProps) => {
   const t = useTranslations("advertisements.wizard");
+  const qrCodeInputRef = useRef<HTMLInputElement>(null);
 
-  // Skip this step if user has license
-  const showLicenseFields = !values.hasLicense;
+  const handleQrCodeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      onChange("qr_code", file);
+    }
+  };
 
   return (
     <motion.div
@@ -51,136 +65,170 @@ const StepAuthority = ({
         <h2 className="text-xl font-bold text-main-navy mb-2">
           {t("authority.title")}
         </h2>
+        <p className="text-sm text-gray-500">{t("authority.subtitle")}</p>
       </div>
 
-      {/* License Registration Fields (only if no license) */}
-      {showLicenseFields && (
-        <div className="space-y-4 mb-6">
-          <div>
-            <Label className="text-sm font-medium text-gray-700 mb-2 block">
-              {t("authority.license_number_label")}
-            </Label>
-            <Input
-              placeholder={t("authority.license_number_placeholder")}
-              value={values.licenseNumber || ""}
-              onChange={(e) => onChange("licenseNumber", e.target.value)}
-            />
-          </div>
-
-          <div>
-            <Label className="text-sm font-medium text-gray-700 mb-2 block">
-              {t("authority.advertiser_id_type_label")}
-            </Label>
-            <Select
-              value={values.advertiserIdType}
-              onValueChange={(value) => onChange("advertiserIdType", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t("authority.select_id_type")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="national_id">
-                  {t("authority.id_types.national_id")}
-                </SelectItem>
-                <SelectItem value="iqama">
-                  {t("authority.id_types.iqama")}
-                </SelectItem>
-                <SelectItem value="commercial_register">
-                  {t("authority.id_types.commercial_register")}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label className="text-sm font-medium text-gray-700 mb-2 block">
-              {t("authority.advertiser_id_label")}
-            </Label>
-            <Input
-              placeholder={t("authority.advertiser_id_placeholder")}
-              value={values.advertiserId || ""}
-              onChange={(e) => onChange("advertiserId", e.target.value)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Broker Contract Options */}
-      <div className="space-y-4 mb-8">
-        <Label className="text-sm font-medium text-gray-700 mb-3 block">
-          {t("authority.broker_options_label")}
+      {/* License Number */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.license_number_label")}
         </Label>
+        <Input
+          placeholder={t("authority.license_number_placeholder")}
+          value={values.license_number || ""}
+          onChange={(e) => onChange("license_number", e.target.value)}
+        />
+      </div>
 
-        {/* Option 1: Self Marketing */}
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          onClick={() => onChange("wantsBrokerContract", false)}
-          className={cn(
-            "flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all",
-            !values.wantsBrokerContract
-              ? "border-main-green bg-main-green/5"
-              : "border-gray-200 hover:border-gray-300",
-          )}
-        >
-          <div
-            className={cn(
-              "w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5",
-              !values.wantsBrokerContract
-                ? "border-main-green bg-main-green"
-                : "border-gray-300",
-            )}
-          >
-            {!values.wantsBrokerContract && (
-              <FiCheck className="w-4 h-4 text-white" />
-            )}
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-1">
-              {t("authority.self_marketing_title")}
-            </h3>
-            <p className="text-sm text-gray-500">
-              {t("authority.self_marketing_desc")}
-            </p>
-          </div>
-        </motion.div>
+      {/* License Expiry Date */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.license_expiry_label")}
+        </Label>
+        <Input
+          type="date"
+          value={values.license_expiry_date || ""}
+          onChange={(e) => onChange("license_expiry_date", e.target.value)}
+        />
+      </div>
 
-        {/* Option 2: Broker Contract */}
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          onClick={() => onChange("wantsBrokerContract", true)}
+      {/* QR Code Upload */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.qr_code_label")}
+        </Label>
+        <div
           className={cn(
-            "flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all",
-            values.wantsBrokerContract
+            "border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors",
+            values.qr_code
               ? "border-main-green bg-main-green/5"
-              : "border-gray-200 hover:border-gray-300",
+              : "border-gray-300 hover:border-gray-400",
           )}
+          onClick={() => qrCodeInputRef.current?.click()}
         >
-          <div
-            className={cn(
-              "w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5",
-              values.wantsBrokerContract
-                ? "border-main-green bg-main-green"
-                : "border-gray-300",
-            )}
-          >
-            {values.wantsBrokerContract && (
-              <FiCheck className="w-4 h-4 text-white" />
-            )}
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <FiUsers className="text-main-green" />
-              <h3 className="font-semibold text-gray-900">
-                {t("authority.broker_contract_title")}
-              </h3>
-            </div>
+          {values.qr_code ? (
+            <p className="text-sm text-main-green">{values.qr_code.name}</p>
+          ) : (
             <p className="text-sm text-gray-500">
-              {t("authority.broker_contract_desc")}
+              {t("authority.qr_code_placeholder")}
             </p>
-          </div>
-        </motion.div>
+          )}
+          <input
+            ref={qrCodeInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleQrCodeUpload}
+          />
+        </div>
+      </div>
+
+      {/* Plan Number & Plot Number */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <Label className="text-sm font-medium text-gray-700 mb-2 block">
+            {t("authority.plan_number_label")}
+          </Label>
+          <Input
+            placeholder={t("authority.plan_number_placeholder")}
+            value={values.plan_number || ""}
+            onChange={(e) => onChange("plan_number", e.target.value)}
+          />
+        </div>
+        <div>
+          <Label className="text-sm font-medium text-gray-700 mb-2 block">
+            {t("authority.plot_number_label")}
+          </Label>
+          <Input
+            placeholder={t("authority.plot_number_placeholder")}
+            value={values.plot_number || ""}
+            onChange={(e) => onChange("plot_number", e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Area Name */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.area_name_label")}
+        </Label>
+        <Input
+          placeholder={t("authority.area_name_placeholder")}
+          value={values.area_name || ""}
+          onChange={(e) => onChange("area_name", e.target.value)}
+        />
+      </div>
+
+      {/* Guarantees */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.guarantees_label")}
+        </Label>
+        <Input
+          placeholder={t("authority.guarantees_placeholder")}
+          value={values.guarantees || ""}
+          onChange={(e) => onChange("guarantees", e.target.value)}
+        />
+      </div>
+
+      {/* Marketing Option */}
+      <div className="mb-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          {t("authority.marketing_option_label")}
+        </Label>
+        <Select
+          value={values.marketing_option || "none"}
+          onValueChange={(value) => onChange("marketing_option", value)}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none">{t("marketing_options.none")}</SelectItem>
+            <SelectItem value="advertising">
+              {t("marketing_options.advertising")}
+            </SelectItem>
+            <SelectItem value="agent">
+              {t("marketing_options.agent")}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Toggles */}
+      <div className="space-y-3 mb-6">
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="has_mortgage"
+            checked={values.has_mortgage || false}
+            onCheckedChange={(checked) => onChange("has_mortgage", checked)}
+          />
+          <Label htmlFor="has_mortgage" className="text-sm text-gray-700">
+            {t("authority.has_mortgage_label")}
+          </Label>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="has_restriction"
+            checked={values.has_restriction || false}
+            onCheckedChange={(checked) => onChange("has_restriction", checked)}
+          />
+          <Label htmlFor="has_restriction" className="text-sm text-gray-700">
+            {t("authority.has_restriction_label")}
+          </Label>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="is_featured"
+            checked={values.is_featured || false}
+            onCheckedChange={(checked) => onChange("is_featured", checked)}
+          />
+          <Label htmlFor="is_featured" className="text-sm text-gray-700">
+            {t("authority.is_featured_label")}
+          </Label>
+        </div>
       </div>
 
       {/* Navigation */}

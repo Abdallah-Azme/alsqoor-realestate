@@ -1100,7 +1100,13 @@
       "building": "عمارة",
       "warehouse": "مستودع",
       "rest_house": "استراحة",
-      "farm": "مزرعة"
+      "farm": "مزرعة",
+      "land_residential": "أرض سكنية",
+      "land_commercial": "أرض تجارية",
+      "commercial_shop": "محل تجاري",
+      "office": "مكتب",
+      "factory": "مصنع",
+      "other": "أخرى"
     },
     "usage_types": {
       "residential": "سكني",
@@ -1154,8 +1160,11 @@
       "common": {
         "back": "رجوع",
         "next": "التالي",
-        "submit": "نشر الإعلان"
+        "submit": "نشر الإعلان",
+        "loading": "جاري التحميل..."
       },
+      "submit_success": "تم نشر الإعلان بنجاح!",
+      "submit_error": "فشل في نشر الإعلان. يرجى المحاولة مرة أخرى.",
       "intro": {
         "title": "اضف إعلانك!",
         "description": "وسيقوم العملاء المهتمين بالتواصل معك",
@@ -1176,14 +1185,12 @@
       },
       "property_type": {
         "title": "تفاصيل الإعلان",
+        "category_label": "تصنيف العقار",
+        "select_category": "اختر تصنيف العقار",
         "type_label": "نوع العقار",
         "search_placeholder": "بحث",
-        "ad_type_label": "نوع الإعلان",
-        "select_ad_type": "اختر نوع الإعلان",
-        "rent_period_label": "نوع الإيجار",
-        "select_rent_period": "اختر نوع الإيجار",
-        "housing_type_label": "نوع السكن",
-        "select_housing_type": "اختر نوع السكن"
+        "ad_type_label": "نوع العملية",
+        "select_ad_type": "اختر نوع العملية"
       },
       "ad_types": {
         "sale": "بيع",
@@ -1199,31 +1206,75 @@
         "singles": "عزاب",
         "both": "الكل"
       },
+      "finishing_types": {
+        "none": "بدون تشطيب",
+        "basic": "تشطيب أساسي",
+        "good": "تشطيب جيد",
+        "luxury": "تشطيب فاخر",
+        "super_luxury": "تشطيب سوبر لوكس"
+      },
+      "facades": {
+        "north": "شمال",
+        "south": "جنوب",
+        "east": "شرق",
+        "west": "غرب",
+        "north_east": "شمال شرق",
+        "north_west": "شمال غرب",
+        "south_east": "جنوب شرق",
+        "south_west": "جنوب غرب",
+        "multiple": "متعددة",
+        "unknown": "غير محدد"
+      },
+      "marketing_options": {
+        "none": "بدون تسويق",
+        "advertising": "إعلان مبوب",
+        "agent": "وسيط عقاري"
+      },
       "location": {
         "title": "الموقع",
+        "subtitle": "حدد موقع العقار",
+        "country_label": "الدولة",
+        "select_country": "اختر الدولة",
         "city_label": "المدينة",
         "select_city": "اختر المدينة",
-        "neighborhood_label": "الحي",
-        "select_neighborhood": "اختر الحي"
+        "select_country_first": "اختر الدولة أولاً",
+        "district_label": "الحي / المنطقة",
+        "district_placeholder": "أدخل اسم الحي أو المنطقة"
       },
       "details": {
         "title": "تفاصيل العقار",
+        "subtitle": "أدخل تفاصيل العقار ومواصفاته",
+        "property_title_label": "عنوان الإعلان",
+        "property_title_placeholder": "أدخل عنوان الإعلان",
         "area_label": "المساحة (م²)",
         "area_placeholder": "أدخل المساحة",
-        "total_price_label": "السعر الإجمالي",
+        "usable_area_label": "المساحة القابلة للاستخدام (م²)",
+        "usable_area_placeholder": "أدخل المساحة",
+        "rooms_label": "الغرف",
+        "bathrooms_label": "دورات المياه",
+        "balconies_label": "الشُرف",
+        "garages_label": "الكراجات",
+        "finishing_type_label": "نوع التشطيب",
+        "select_finishing_type": "اختر نوع التشطيب",
+        "property_age_label": "عمر العقار (سنة)",
+        "property_age_placeholder": "أدخل العمر",
+        "facade_label": "الواجهة",
+        "select_facade": "اختر الواجهة",
+        "price_min_label": "السعر الأدنى",
+        "price_max_label": "السعر الأعلى",
         "price_placeholder": "أدخل السعر",
         "price_per_meter_label": "سعر المتر",
         "price_per_meter_placeholder": "أدخل سعر المتر",
-        "usage_label": "استخدامات العقار",
+        "price_hidden_label": "إخفاء السعر عن الزوار",
         "amenities_label": "خدمات العقار",
-        "street_width_label": "عرض الشارع",
-        "street_width_placeholder": "مثال: 20 متر",
-        "street_facing_label": "واجهة الشارع",
-        "select_facing": "اختر الواجهة",
-        "obligations_label": "هل لديك أي التزامات",
+        "services_label": "خدمات إضافية",
+        "services_placeholder": "مثل: أمن, نظافة, صيانة",
+        "services_hint": "أدخل الخدمات مفصولة بفاصلة",
+        "obligations_label": "الالتزامات",
         "obligations_placeholder": "أدخل تفاصيل الالتزامات إن وجدت",
         "description_label": "التفاصيل",
-        "description_placeholder": "اكتب وصفاً تفصيلياً للعقار..."
+        "description_placeholder": "اكتب وصفاً تفصيلياً للعقار...",
+        "description_min_hint": "يجب أن يحتوي الوصف على 10 أحرف على الأقل"
       },
       "contact": {
         "title": "طرق التواصل",
@@ -1231,23 +1282,25 @@
         "methods_label": "حدد قنوات التواصل"
       },
       "authority": {
-        "title": "تفاصيل رخصة الإعلان",
+        "title": "التفاصيل القانونية",
+        "subtitle": "أدخل البيانات القانونية والتراخيص",
         "license_number_label": "رقم رخصة الإعلان",
         "license_number_placeholder": "أدخل رقم الرخصة",
-        "advertiser_id_type_label": "نوع هوية المعلن",
-        "select_id_type": "اختر نوع الهوية",
-        "id_types": {
-          "national_id": "هوية وطنية",
-          "iqama": "إقامة",
-          "commercial_register": "سجل تجاري"
-        },
-        "advertiser_id_label": "رقم هوية المعلن",
-        "advertiser_id_placeholder": "أدخل رقم الهوية",
-        "broker_options_label": "خيارات التسويق",
-        "self_marketing_title": "أرغب بتولي تسويق الإعلان",
-        "self_marketing_desc": "ستقوم أنت بالتسويق للعقار بنفسك والتواصل مع العملاء",
-        "broker_contract_title": "أرغب بالتعاقد مع وسيط عقاري",
-        "broker_contract_desc": "وسيقوم التعاقد مع وسيط عقاري لتسويق والتفاوض نيابة عن المالك"
+        "license_expiry_label": "تاريخ انتهاء الرخصة",
+        "qr_code_label": "رمز QR",
+        "qr_code_placeholder": "اضغط لرفع صورة رمز QR",
+        "plan_number_label": "رقم المخطط",
+        "plan_number_placeholder": "أدخل رقم المخطط",
+        "plot_number_label": "رقم القطعة",
+        "plot_number_placeholder": "أدخل رقم القطعة",
+        "area_name_label": "اسم المنطقة",
+        "area_name_placeholder": "أدخل اسم المنطقة",
+        "guarantees_label": "الضمانات",
+        "guarantees_placeholder": "أدخل تفاصيل الضمانات",
+        "marketing_option_label": "خيار التسويق",
+        "has_mortgage_label": "يوجد رهن عقاري",
+        "has_restriction_label": "يوجد قيود",
+        "is_featured_label": "إعلان مميز"
       },
       "media": {
         "title": "صور وفيديوهات العقار",
@@ -1272,6 +1325,7 @@
         "property_type": "نوع العقار",
         "ad_type": "نوع الإعلان",
         "price": "السعر",
+        "price_hidden": "السعر مخفي",
         "area": "المساحة",
         "sale": "بيع",
         "rent": "إيجار",

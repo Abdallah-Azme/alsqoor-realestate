@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,52 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  useCountries,
+  useCities,
+} from "@/features/properties/hooks/use-properties";
 
 interface StepLocationProps {
   values: {
-    city?: string;
-    neighborhood?: string;
+    country_id?: number | string;
+    city_id?: number | string;
+    district?: string;
   };
   onChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
-
-// Mock cities - in production, fetch from API
-const MOCK_CITIES = [
-  { id: "1", key: "riyadh" },
-  { id: "2", key: "jeddah" },
-  { id: "3", key: "dammam" },
-  { id: "4", key: "mecca" },
-  { id: "5", key: "medina" },
-];
-
-// Mock neighborhoods - in production, fetch based on city
-const MOCK_NEIGHBORHOODS: Record<string, { id: string; key: string }[]> = {
-  "1": [
-    { id: "1-1", key: "alnakhil" },
-    { id: "1-2", key: "alolaya" },
-    { id: "1-3", key: "almalqa" },
-    { id: "1-4", key: "hittin" },
-  ],
-  "2": [
-    { id: "2-1", key: "alhamra" },
-    { id: "2-2", key: "alrawdah" },
-    { id: "2-3", key: "alnasim" },
-  ],
-  "3": [
-    { id: "3-1", key: "alshatea" },
-    { id: "3-2", key: "alfaisaliyah" },
-  ],
-  "4": [
-    { id: "4-1", key: "alaziziyah" },
-    { id: "4-2", key: "alshawqiyah" },
-  ],
-  "5": [
-    { id: "5-1", key: "quba" },
-    { id: "5-2", key: "alawali" },
-  ],
-};
 
 const StepLocation = ({
   values,
@@ -65,12 +35,30 @@ const StepLocation = ({
   onBack,
 }: StepLocationProps) => {
   const t = useTranslations("advertisements.wizard");
-  const tLoc = useTranslations("locations");
 
-  const neighborhoods = values.city
-    ? MOCK_NEIGHBORHOODS[values.city] || []
-    : [];
-  const isValid = values.city && values.neighborhood;
+  // Fetch countries from API
+  const { data: countriesResponse, isLoading: countriesLoading } =
+    useCountries();
+
+  // Fetch cities only when country is selected
+  const { data: citiesResponse, isLoading: citiesLoading } = useCities(
+    values.country_id || undefined,
+  );
+
+  // Extract arrays from response
+  const countries = Array.isArray(countriesResponse)
+    ? countriesResponse
+    : (countriesResponse as any)?.data || [];
+
+  const cities = Array.isArray(citiesResponse)
+    ? citiesResponse
+    : (citiesResponse as any)?.data || [];
+
+  const isValid =
+    values.country_id &&
+    values.city_id &&
+    values.district &&
+    values.district.trim().length > 0;
 
   return (
     <motion.div
@@ -84,6 +72,39 @@ const StepLocation = ({
         <h2 className="text-xl font-bold text-main-navy mb-2">
           {t("location.title")}
         </h2>
+        <p className="text-sm text-gray-500">{t("location.subtitle")}</p>
+      </div>
+
+      {/* Country Select */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          {t("location.country_label")}
+        </Label>
+        <Select
+          value={values.country_id ? String(values.country_id) : undefined}
+          onValueChange={(value) => {
+            onChange("country_id", value);
+            onChange("city_id", ""); // Reset city when country changes
+          }}
+          disabled={countriesLoading}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue
+              placeholder={
+                countriesLoading
+                  ? t("common.loading")
+                  : t("location.select_country")
+              }
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {countries.map((country: any) => (
+              <SelectItem key={country.id} value={String(country.id)}>
+                {country.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* City Select */}
@@ -92,46 +113,41 @@ const StepLocation = ({
           {t("location.city_label")}
         </Label>
         <Select
-          value={values.city}
-          onValueChange={(value) => {
-            onChange("city", value);
-            onChange("neighborhood", ""); // Reset neighborhood when city changes
-          }}
+          value={values.city_id ? String(values.city_id) : undefined}
+          onValueChange={(value) => onChange("city_id", value)}
+          disabled={!values.country_id || citiesLoading}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder={t("location.select_city")} />
+            <SelectValue
+              placeholder={
+                citiesLoading
+                  ? t("common.loading")
+                  : !values.country_id
+                    ? t("location.select_country_first")
+                    : t("location.select_city")
+              }
+            />
           </SelectTrigger>
           <SelectContent>
-            {MOCK_CITIES.map((city) => (
-              <SelectItem key={city.id} value={city.id}>
-                {tLoc(`cities.${city.key}`)}
+            {cities.map((city: any) => (
+              <SelectItem key={city.id} value={String(city.id)}>
+                {city.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
-      {/* Neighborhood Select */}
+      {/* District (free text) */}
       <div className="mb-8">
         <Label className="text-sm font-medium text-gray-700 mb-3 block">
-          {t("location.neighborhood_label")}
+          {t("location.district_label")}
         </Label>
-        <Select
-          value={values.neighborhood}
-          onValueChange={(value) => onChange("neighborhood", value)}
-          disabled={!values.city}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder={t("location.select_neighborhood")} />
-          </SelectTrigger>
-          <SelectContent>
-            {neighborhoods.map((neighborhood) => (
-              <SelectItem key={neighborhood.id} value={neighborhood.id}>
-                {tLoc(`neighborhoods.${neighborhood.key}`)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Input
+          placeholder={t("location.district_placeholder")}
+          value={values.district || ""}
+          onChange={(e) => onChange("district", e.target.value)}
+        />
       </div>
 
       {/* Navigation */}

@@ -1,97 +1,105 @@
 import { z } from "zod";
 
-// Property type enum
-export const propertyTypeSchema = z.enum([
-  "villa",
-  "residential_land",
-  "commercial_land",
-  "apartment",
-  "floor",
-  "shop",
-  "building",
-  "warehouse",
-  "rest_house",
-  "farm",
+// Operation type: sale or rent
+export const operationTypeSchema = z.enum(["sale", "rent"]);
+
+// Finishing type
+export const finishingTypeSchema = z.enum([
+  "none",
+  "basic",
+  "good",
+  "luxury",
+  "super_luxury",
 ]);
 
-// Ad type enum
-export const adTypeSchema = z.enum(["sale", "rent"]);
+// Property use
+export const propertyUseSchema = z.enum([
+  "apartment",
+  "villa",
+  "land_residential",
+  "land_commercial",
+  "commercial_shop",
+  "office",
+  "warehouse",
+  "building",
+  "farm",
+  "factory",
+  "other",
+]);
 
-// Rent period enum
-export const rentPeriodSchema = z.enum(["daily", "monthly", "yearly"]);
-
-// Housing type enum
-export const housingTypeSchema = z.enum(["families", "singles", "both"]);
-
-// Street facing enum
-export const streetFacingSchema = z.enum([
+// Facade direction
+export const facadeSchema = z.enum([
   "north",
   "south",
   "east",
   "west",
-  "northeast",
-  "northwest",
-  "southeast",
-  "southwest",
+  "north_east",
+  "north_west",
+  "south_east",
+  "south_west",
+  "multiple",
+  "unknown",
 ]);
 
-// Property usage enum
-export const propertyUsageSchema = z.enum([
-  "residential",
-  "commercial",
-  "industrial",
-  "agricultural",
-]);
+// Marketing option
+export const marketingOptionSchema = z.enum(["none", "advertising", "agent"]);
 
-// Property amenity enum
-export const propertyAmenitySchema = z.enum([
-  "parking",
-  "elevator",
-  "security",
-  "pool",
-  "gym",
-  "garden",
-  "central_ac",
-  "furnished",
-  "kitchen",
-  "maid_room",
-  "driver_room",
-  "basement",
-]);
-
-// Contact method enum
+// Contact method (UI only, not sent to API)
 export const contactMethodSchema = z.enum(["phone", "whatsapp", "chat"]);
+
+// ============= Step Schemas =============
 
 // Step 1: License check
 export const licenseStepSchema = z.object({
   hasLicense: z.boolean(),
 });
 
-// Step 2: Property type & ad type
+// Step 2: Property type & category
 export const propertyTypeStepSchema = z.object({
-  propertyType: propertyTypeSchema,
-  adType: adTypeSchema,
-  rentPeriod: rentPeriodSchema.optional(),
-  housingType: housingTypeSchema.optional(),
+  category_id: z
+    .union([z.string(), z.number()])
+    .refine((val) => val !== "" && val !== 0, {
+      message: "category_required",
+    }),
+  operation_type: operationTypeSchema,
+  property_use: propertyUseSchema,
 });
 
 // Step 3: Location
 export const locationStepSchema = z.object({
-  city: z.string().min(1, "city_required"),
-  neighborhood: z.string().min(1, "neighborhood_required"),
+  country_id: z
+    .union([z.string(), z.number()])
+    .refine((val) => val !== "" && val !== 0, {
+      message: "country_required",
+    }),
+  city_id: z
+    .union([z.string(), z.number()])
+    .refine((val) => val !== "" && val !== 0, {
+      message: "city_required",
+    }),
+  district: z.string().min(1, "district_required"),
 });
 
 // Step 4: Details
 export const detailsStepSchema = z.object({
-  area: z.string().min(1, "area_required"),
-  totalPrice: z.string().min(1, "price_required"),
-  pricePerMeter: z.string().optional(),
-  usage: z.array(propertyUsageSchema).min(1, "usage_required"),
-  amenities: z.array(propertyAmenitySchema).optional(),
-  streetWidth: z.string().optional(),
-  streetFacing: streetFacingSchema.optional(),
-  obligations: z.string().optional(),
+  title: z.string().min(3, "title_required"),
   description: z.string().min(10, "description_min"),
+  area: z.string().min(1, "area_required"),
+  usable_area: z.string().optional(),
+  rooms: z.string().optional(),
+  bathrooms: z.string().optional(),
+  balconies: z.string().optional(),
+  garages: z.string().optional(),
+  finishing_type: finishingTypeSchema,
+  property_age: z.string().optional(),
+  facade: facadeSchema.optional(),
+  price_min: z.string().min(1, "price_required"),
+  price_max: z.string().min(1, "price_required"),
+  price_per_meter: z.string().optional(),
+  price_hidden: z.boolean().optional(),
+  amenity_ids: z.array(z.number()).optional(),
+  services: z.array(z.string()).optional(),
+  obligations: z.string().optional(),
 });
 
 // Step 5: Media
@@ -105,41 +113,91 @@ export const contactStepSchema = z.object({
   contactMethods: z.array(contactMethodSchema).min(1, "contact_required"),
 });
 
-// Step 7: Authority registration
+// Step 7: Authority / Legal
 export const authorityStepSchema = z.object({
-  licenseNumber: z.string().optional(),
-  advertiserId: z.string().optional(),
-  advertiserIdType: z.string().optional(),
-  wantsBrokerContract: z.boolean().default(false),
+  license_number: z.string().optional(),
+  license_expiry_date: z.string().optional(),
+  qr_code: z.any().optional(),
+  plan_number: z.string().optional(),
+  plot_number: z.string().optional(),
+  area_name: z.string().optional(),
+  has_mortgage: z.boolean().optional(),
+  has_restriction: z.boolean().optional(),
+  guarantees: z.string().optional(),
+  marketing_option: marketingOptionSchema,
+  is_featured: z.boolean().optional(),
 });
 
 // Full advertisement schema
 export const createAdvertisementSchema = z.object({
+  // License (UI only)
   hasLicense: z.boolean(),
-  propertyType: propertyTypeSchema,
-  adType: adTypeSchema,
-  rentPeriod: rentPeriodSchema.optional(),
-  housingType: housingTypeSchema.optional(),
-  city: z.string().min(1),
-  neighborhood: z.string().min(1),
-  area: z.string().min(1),
-  totalPrice: z.string().min(1),
-  pricePerMeter: z.string().optional(),
-  usage: z.array(propertyUsageSchema).min(1),
-  amenities: z.array(propertyAmenitySchema).optional(),
-  streetWidth: z.string().optional(),
-  streetFacing: streetFacingSchema.optional(),
-  obligations: z.string().optional(),
+
+  // Property type & category
+  category_id: z.union([z.string(), z.number()]),
+  operation_type: operationTypeSchema,
+  property_use: propertyUseSchema,
+
+  // Location
+  country_id: z.union([z.string(), z.number()]),
+  city_id: z.union([z.string(), z.number()]),
+  district: z.string().min(1),
+
+  // Details
+  title: z.string().min(3),
   description: z.string().min(10),
+  area: z.string().min(1),
+  usable_area: z.string().optional(),
+  rooms: z.string().optional(),
+  bathrooms: z.string().optional(),
+  balconies: z.string().optional(),
+  garages: z.string().optional(),
+  finishing_type: finishingTypeSchema,
+  property_age: z.string().optional(),
+  facade: facadeSchema.optional(),
+  price_min: z.string().min(1),
+  price_max: z.string().min(1),
+  price_per_meter: z.string().optional(),
+  price_hidden: z.boolean().optional(),
+  amenity_ids: z.array(z.number()).optional(),
+  services: z.array(z.string()).optional(),
+  obligations: z.string().optional(),
+
+  // Media
   images: z.array(z.any()).min(1),
   videos: z.array(z.any()).optional(),
+
+  // Contact (UI only)
   contactMethods: z.array(contactMethodSchema).min(1),
-  licenseNumber: z.string().optional(),
-  advertiserId: z.string().optional(),
-  advertiserIdType: z.string().optional(),
-  wantsBrokerContract: z.boolean().default(false),
+
+  // Authority / Legal
+  license_number: z.string().optional(),
+  license_expiry_date: z.string().optional(),
+  qr_code: z.any().optional(),
+  plan_number: z.string().optional(),
+  plot_number: z.string().optional(),
+  area_name: z.string().optional(),
+  has_mortgage: z.boolean().optional(),
+  has_restriction: z.boolean().optional(),
+  guarantees: z.string().optional(),
+  marketing_option: marketingOptionSchema,
+  is_featured: z.boolean().optional(),
 });
 
 export type CreateAdvertisementFormData = z.infer<
   typeof createAdvertisementSchema
 >;
+
+// Legacy aliases for backward compatibility
+export const propertyTypeSchema = propertyUseSchema;
+export const adTypeSchema = operationTypeSchema;
+export const streetFacingSchema = facadeSchema;
+export const rentPeriodSchema = z.enum(["daily", "monthly", "yearly"]);
+export const housingTypeSchema = z.enum(["families", "singles", "both"]);
+export const propertyUsageSchema = z.enum([
+  "residential",
+  "commercial",
+  "industrial",
+  "agricultural",
+]);
+export const propertyAmenitySchema = z.string();

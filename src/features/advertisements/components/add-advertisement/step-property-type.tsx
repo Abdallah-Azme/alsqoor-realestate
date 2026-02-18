@@ -14,37 +14,34 @@ import {
 } from "@/components/ui/select";
 import { FiSearch, FiCheck } from "react-icons/fi";
 import { cn } from "@/lib/utils";
-import {
-  PropertyType,
-  AdType,
-  RentPeriod,
-  HousingType,
-} from "../../types/advertisement.types";
+import { AdType, PropertyUse } from "../../types/advertisement.types";
+import { useCategories } from "@/features/properties/hooks/use-properties";
 import { useState } from "react";
 
 interface StepPropertyTypeProps {
   values: {
-    propertyType?: PropertyType;
-    adType?: AdType;
-    rentPeriod?: RentPeriod;
-    housingType?: HousingType;
+    category_id?: number | string;
+    operation_type?: AdType;
+    property_use?: PropertyUse;
   };
-  onChange: (field: string, value: string) => void;
+  onChange: (field: string, value: string | number) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
-const PROPERTY_TYPES: { value: PropertyType; icon: string }[] = [
-  { value: "villa", icon: "🏠" },
-  { value: "residential_land", icon: "🏗️" },
-  { value: "commercial_land", icon: "🏢" },
+// Property use options with icons
+const PROPERTY_USE_OPTIONS: { value: PropertyUse; icon: string }[] = [
   { value: "apartment", icon: "🏢" },
-  { value: "floor", icon: "🏠" },
-  { value: "shop", icon: "🏪" },
-  { value: "building", icon: "🏛️" },
+  { value: "villa", icon: "🏠" },
+  { value: "land_residential", icon: "🏗️" },
+  { value: "land_commercial", icon: "🏬" },
+  { value: "commercial_shop", icon: "🏪" },
+  { value: "office", icon: "🏛️" },
   { value: "warehouse", icon: "🏭" },
-  { value: "rest_house", icon: "🏡" },
+  { value: "building", icon: "🏗️" },
   { value: "farm", icon: "🌾" },
+  { value: "factory", icon: "🏭" },
+  { value: "other", icon: "🏘️" },
 ];
 
 const StepPropertyType = ({
@@ -57,11 +54,27 @@ const StepPropertyType = ({
   const tTypes = useTranslations("advertisements.property_types");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTypes = PROPERTY_TYPES.filter((type) =>
-    tTypes(type.value).toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  // Fetch categories from API
+  const { data: categoriesResponse, isLoading: categoriesLoading } =
+    useCategories();
 
-  const isValid = values.propertyType && values.adType;
+  // Extract categories array from response
+  const categories = Array.isArray(categoriesResponse)
+    ? categoriesResponse
+    : (categoriesResponse as any)?.data || [];
+
+  const filteredUseOptions = PROPERTY_USE_OPTIONS.filter((type) => {
+    try {
+      return tTypes(type.value)
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+    } catch {
+      return type.value.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+  });
+
+  const isValid =
+    values.category_id && values.operation_type && values.property_use;
 
   return (
     <motion.div
@@ -77,7 +90,36 @@ const StepPropertyType = ({
         </h2>
       </div>
 
-      {/* Section: Property Type */}
+      {/* Section: Category (from API) */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          {t("property_type.category_label")}
+        </Label>
+        <Select
+          value={values.category_id ? String(values.category_id) : undefined}
+          onValueChange={(value) => onChange("category_id", value)}
+          disabled={categoriesLoading}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue
+              placeholder={
+                categoriesLoading
+                  ? t("common.loading")
+                  : t("property_type.select_category")
+              }
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((cat: any) => (
+              <SelectItem key={cat.id} value={String(cat.id)}>
+                {cat.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Section: Property Use */}
       <div className="mb-6">
         <Label className="text-sm font-medium text-gray-700 mb-3 block">
           {t("property_type.type_label")}
@@ -94,17 +136,17 @@ const StepPropertyType = ({
           <FiSearch className="absolute start-3 top-3 text-gray-400" />
         </div>
 
-        {/* Property Types List */}
+        {/* Property Use List */}
         <div className="space-y-2 max-h-60 overflow-y-auto">
-          {filteredTypes.map((type) => (
+          {filteredUseOptions.map((type) => (
             <motion.button
               key={type.value}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              onClick={() => onChange("propertyType", type.value)}
+              onClick={() => onChange("property_use", type.value)}
               className={cn(
                 "w-full p-3 rounded-lg border text-start flex items-center gap-3 transition-colors",
-                values.propertyType === type.value
+                values.property_use === type.value
                   ? "border-main-green bg-main-green/5"
                   : "border-gray-200 hover:border-gray-300",
               )}
@@ -112,32 +154,38 @@ const StepPropertyType = ({
               <div
                 className={cn(
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center",
-                  values.propertyType === type.value
+                  values.property_use === type.value
                     ? "border-main-green bg-main-green"
                     : "border-gray-300",
                 )}
               >
-                {values.propertyType === type.value && (
+                {values.property_use === type.value && (
                   <FiCheck className="w-3 h-3 text-white" />
                 )}
               </div>
               <span className="text-lg">{type.icon}</span>
               <span className="font-medium text-gray-900">
-                {tTypes(type.value)}
+                {(() => {
+                  try {
+                    return tTypes(type.value);
+                  } catch {
+                    return type.value;
+                  }
+                })()}
               </span>
             </motion.button>
           ))}
         </div>
       </div>
 
-      {/* Section: Ad Type */}
-      <div className="mb-6">
+      {/* Section: Operation Type (sale / rent) */}
+      <div className="mb-8">
         <Label className="text-sm font-medium text-gray-700 mb-3 block">
           {t("property_type.ad_type_label")}
         </Label>
         <Select
-          value={values.adType}
-          onValueChange={(value) => onChange("adType", value)}
+          value={values.operation_type}
+          onValueChange={(value) => onChange("operation_type", value)}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder={t("property_type.select_ad_type")} />
@@ -145,60 +193,6 @@ const StepPropertyType = ({
           <SelectContent>
             <SelectItem value="sale">{t("ad_types.sale")}</SelectItem>
             <SelectItem value="rent">{t("ad_types.rent")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Conditional: Rent Period (if rent) */}
-      {values.adType === "rent" && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="mb-6"
-        >
-          <Label className="text-sm font-medium text-gray-700 mb-3 block">
-            {t("property_type.rent_period_label")}
-          </Label>
-          <Select
-            value={values.rentPeriod}
-            onValueChange={(value) => onChange("rentPeriod", value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue
-                placeholder={t("property_type.select_rent_period")}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="daily">{t("rent_periods.daily")}</SelectItem>
-              <SelectItem value="monthly">
-                {t("rent_periods.monthly")}
-              </SelectItem>
-              <SelectItem value="yearly">{t("rent_periods.yearly")}</SelectItem>
-            </SelectContent>
-          </Select>
-        </motion.div>
-      )}
-
-      {/* Section: Housing Type */}
-      <div className="mb-8">
-        <Label className="text-sm font-medium text-gray-700 mb-3 block">
-          {t("property_type.housing_type_label")}
-        </Label>
-        <Select
-          value={values.housingType}
-          onValueChange={(value) => onChange("housingType", value)}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder={t("property_type.select_housing_type")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="families">
-              {t("housing_types.families")}
-            </SelectItem>
-            <SelectItem value="singles">
-              {t("housing_types.singles")}
-            </SelectItem>
-            <SelectItem value="both">{t("housing_types.both")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

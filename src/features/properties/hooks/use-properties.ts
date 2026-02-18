@@ -230,3 +230,14 @@ export function useCities(countryId: string | number | undefined) {
     staleTime: 60 * 60 * 1000, // 1 hour
   });
 }
+
+/**
+ * Hook to fetch property categories
+ */
+export function useCategories() {
+  return useQuery({
+    queryKey: ["property-categories"],
+    queryFn: () => propertiesService.getCategories(),
+    staleTime: 30 * 60 * 1000, // 30 minutes
+  });
+}

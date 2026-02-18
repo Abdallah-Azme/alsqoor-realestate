@@ -35,8 +35,7 @@ const StepPreview = ({
   isSubmitting = false,
 }: StepPreviewProps) => {
   const t = useTranslations("advertisements.wizard.preview");
-  const tTypes = useTranslations("advertisements.property_types");
-  const tAmenities = useTranslations("advertisements.amenities");
+  const tWizard = useTranslations("advertisements.wizard");
   const tCommon = useTranslations("common");
   const locale = useLocale();
 
@@ -104,17 +103,33 @@ const StepPreview = ({
         )}
 
         <div className="p-4 space-y-4">
-          {/* Property Type & Ad Type */}
+          {/* Title */}
+          {values.title && (
+            <h3 className="font-semibold text-gray-900 text-lg">
+              {values.title}
+            </h3>
+          )}
+
+          {/* Badges */}
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge className="bg-main-green/10 text-main-green">
-              {values.propertyType ? tTypes(values.propertyType) : "-"}
-            </Badge>
+            {values.property_use && (
+              <Badge className="bg-main-green/10 text-main-green">
+                {(() => {
+                  try {
+                    const tTypes = require("next-intl");
+                    return values.property_use;
+                  } catch {
+                    return values.property_use;
+                  }
+                })()}
+              </Badge>
+            )}
             <Badge className="bg-gray-100 text-gray-700">
-              {values.adType === "sale" ? t("sale") : t("rent")}
+              {values.operation_type === "sale" ? t("sale") : t("rent")}
             </Badge>
-            {values.housingType && (
+            {values.finishing_type && (
               <Badge className="bg-gray-100 text-gray-600">
-                {values.housingType === "families" ? t("family") : t("singles")}
+                {values.finishing_type}
               </Badge>
             )}
           </div>
@@ -136,41 +151,39 @@ const StepPreview = ({
               </span>
             </div>
 
-            {/* Price */}
+            {/* Price Range */}
             <div className="flex items-center gap-2 text-gray-600">
               <FiDollarSign className="text-main-green" />
               <span className="text-sm font-medium">
-                {formatPrice(values.totalPrice)}
+                {values.price_hidden
+                  ? t("price_hidden")
+                  : `${formatPrice(values.price_min)} - ${formatPrice(values.price_max)}`}
               </span>
             </div>
+
+            {/* Rooms */}
+            {values.rooms && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <FiHome className="text-main-green" />
+                <span className="text-sm">
+                  {values.rooms} {tWizard("details.rooms_label")}
+                </span>
+              </div>
+            )}
 
             {/* Location */}
             <div className="flex items-center gap-2 text-gray-600 col-span-2">
               <FiMapPin className="text-main-green" />
-              <span className="text-sm">
-                {values.city && values.neighborhood
-                  ? `${values.city} - ${values.neighborhood}`
-                  : "-"}
-              </span>
+              <span className="text-sm">{values.district || "-"}</span>
             </div>
           </div>
 
-          {/* Amenities */}
-          {values.amenities && values.amenities.length > 0 && (
+          {/* Amenity IDs count */}
+          {values.amenity_ids && values.amenity_ids.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {values.amenities.slice(0, 4).map((amenity) => (
-                <Badge
-                  key={amenity}
-                  className="bg-gray-100 text-gray-600 text-xs"
-                >
-                  {tAmenities(amenity)}
-                </Badge>
-              ))}
-              {values.amenities.length > 4 && (
-                <Badge className="bg-gray-100 text-gray-600 text-xs">
-                  +{values.amenities.length - 4}
-                </Badge>
-              )}
+              <Badge className="bg-gray-100 text-gray-600 text-xs">
+                {values.amenity_ids.length} {tWizard("details.amenities_label")}
+              </Badge>
             </div>
           )}
 

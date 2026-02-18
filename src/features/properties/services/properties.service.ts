@@ -237,6 +237,13 @@ export const propertiesService = {
   },
 
   /**
+   * Get all property categories
+   */
+  async getCategories() {
+    return api.get<any[]>("/property-categories");
+  },
+
+  /**
    * Add a new marketplace property (owner/agent)
    */
   async addMarketplaceProperty(data: FormData) {

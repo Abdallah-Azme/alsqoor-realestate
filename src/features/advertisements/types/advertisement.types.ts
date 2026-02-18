@@ -1,53 +1,60 @@
 // Advertisement feature types
+// Aligned with POST /properties/add API endpoint
 
-export type PropertyType =
-  | "villa"
-  | "residential_land"
-  | "commercial_land"
-  | "apartment"
-  | "floor"
-  | "shop"
-  | "building"
-  | "warehouse"
-  | "rest_house"
-  | "farm";
+// ============= API-aligned Enums =============
 
+// Operation type: sale or rent (maps to API operation_type)
 export type AdType = "sale" | "rent";
 
-export type RentPeriod = "daily" | "monthly" | "yearly";
+// Finishing type (maps to API finishing_type)
+export type FinishingType =
+  | "none"
+  | "basic"
+  | "good"
+  | "luxury"
+  | "super_luxury";
 
-export type HousingType = "families" | "singles" | "both";
+// Property use (maps to API property_use)
+export type PropertyUse =
+  | "apartment"
+  | "villa"
+  | "land_residential"
+  | "land_commercial"
+  | "commercial_shop"
+  | "office"
+  | "warehouse"
+  | "building"
+  | "farm"
+  | "factory"
+  | "other";
 
-export type StreetFacing =
+// Facade direction (maps to API facade)
+export type Facade =
   | "north"
   | "south"
   | "east"
   | "west"
-  | "northeast"
-  | "northwest"
-  | "southeast"
-  | "southwest";
+  | "north_east"
+  | "north_west"
+  | "south_east"
+  | "south_west"
+  | "multiple"
+  | "unknown";
 
+// Marketing option (maps to API marketing_option)
+export type MarketingOption = "none" | "advertising" | "agent";
+
+// ============= Legacy aliases (for backward compatibility) =============
+export type PropertyType = PropertyUse;
+export type RentPeriod = "daily" | "monthly" | "yearly";
+export type HousingType = "families" | "singles" | "both";
+export type StreetFacing = Facade;
 export type PropertyUsage =
   | "residential"
   | "commercial"
   | "industrial"
   | "agricultural";
-
-export type PropertyAmenity =
-  | "parking"
-  | "elevator"
-  | "security"
-  | "pool"
-  | "gym"
-  | "garden"
-  | "central_ac"
-  | "furnished"
-  | "kitchen"
-  | "maid_room"
-  | "driver_room"
-  | "basement";
-
+export type PropertyAmenity = string; // Now dynamic from API
 export type ContactMethod = "phone" | "whatsapp" | "chat";
 
 export type AdStatus =
@@ -55,99 +62,122 @@ export type AdStatus =
   | "pending"
   | "published"
   | "rejected"
-  | "expired";
+  | "expired"
+  | "sold"
+  | "hidden"
+  | "unlicensed";
+
+// ============= Interfaces =============
 
 export interface Advertisement {
   id: number;
-
-  // License info
-  hasLicense: boolean;
-  licenseNumber?: string;
-  advertiserId?: string;
-  advertiserIdType?: string;
-
-  // Property details
-  propertyType: PropertyType;
-  adType: AdType;
-  rentPeriod?: RentPeriod;
-  housingType?: HousingType;
-
-  // Location
-  city: string;
-  neighborhood: string;
-
-  // Measurements & Pricing
-  area: number;
-  totalPrice: number;
-  pricePerMeter?: number;
-
-  // Property attributes
-  usage: PropertyUsage[];
-  amenities: PropertyAmenity[];
-  streetWidth?: string;
-  streetFacing?: StreetFacing;
-
-  // Additional info
-  obligations?: string;
+  title: string;
+  slug: string;
   description: string;
+  operationType: AdType;
+  priceMin: string;
+  priceMax: string;
+  pricePerMeter: string;
+  priceHidden: boolean;
+  currency: string;
+  area: string;
+  usableArea: string;
+  rooms: number | null;
+  bathrooms: number;
+  balconies: number;
+  garages: number;
+  finishingType: FinishingType;
+  propertyUse: PropertyUse;
+  facade: Facade;
+  propertyAge: number;
+  services: string[];
+  obligations: string | null;
+  country: string;
+  city: string;
+  district: string;
+  latitude: string;
+  longitude: string;
   images: string[];
-  videos?: string[];
-
-  // Contact
-  contactMethods: ContactMethod[];
-
-  // Broker contract option
-  wantsBrokerContract: boolean;
-
-  // Status
+  videos: string[];
   status: AdStatus;
+  isFeatured: boolean;
+  viewsCount: number;
+  postedAt: string;
+  soldAt: string | null;
+  isDeal: boolean;
   createdAt: string;
-  updatedAt?: string;
-
-  // User info
-  userId: number;
+  updatedAt: string;
+  adNumber: string | null;
+  licenseNumber: string | null;
+  licenseExpiryDate: string | null;
+  qrCode: string | null;
+  planNumber: string;
+  guarantees: string;
+  plotNumber: string;
+  areaName: string;
+  hasMortgage: boolean;
+  hasRestriction: boolean;
+  marketingOption: MarketingOption;
+  amenities: string[];
 }
 
-// Form data for creating advertisement (multi-step)
+// Form data for creating advertisement (multi-step wizard)
+// Maps to POST /properties/add FormData fields
 export interface CreateAdvertisementData {
-  // Step 1: License check
+  // Step 1: License check (UI only)
   hasLicense: boolean;
 
-  // Step 2: Property type & ad type
-  propertyType: PropertyType;
-  adType: AdType;
-  rentPeriod?: RentPeriod;
-  housingType?: HousingType;
+  // Step 2: Property type & category
+  category_id: number | string;
+  operation_type: AdType;
+  property_use: PropertyUse;
 
   // Step 3: Location
-  city: string;
-  neighborhood: string;
+  country_id: number | string;
+  city_id: number | string;
+  district: string;
+  latitude?: string;
+  longitude?: string;
 
   // Step 4: Details
-  area: string;
-  totalPrice: string;
-  pricePerMeter?: string;
-  usage: PropertyUsage[];
-  amenities: PropertyAmenity[];
-  streetWidth?: string;
-  streetFacing?: StreetFacing;
-  obligations?: string;
+  title: string;
   description: string;
+  area: string;
+  usable_area?: string;
+  rooms?: string;
+  bathrooms?: string;
+  balconies?: string;
+  garages?: string;
+  finishing_type: FinishingType;
+  property_age?: string;
+  facade?: Facade;
+  price_min: string;
+  price_max: string;
+  price_per_meter?: string;
+  price_hidden?: boolean;
+  amenity_ids: number[];
+  services: string[];
+  obligations?: string;
 
   // Step 5: Media
   images: File[];
   videos?: File[];
 
-  // Step 6: Contact
+  // Step 6: Contact (UI only — not sent to API)
   contactMethods: ContactMethod[];
 
-  // Step 7: License registration (if no license)
-  licenseNumber?: string;
-  advertiserId?: string;
-  advertiserIdType?: string;
-
-  // Broker contract option
-  wantsBrokerContract: boolean;
+  // Step 7: Authority / Legal
+  license_number?: string;
+  license_expiry_date?: string;
+  qr_code?: File;
+  plan_number?: string;
+  plot_number?: string;
+  area_name?: string;
+  has_mortgage?: boolean;
+  has_restriction?: boolean;
+  guarantees?: string;
+  marketing_option: MarketingOption;
+  is_featured?: boolean;
 }
 
 // Step configuration
@@ -166,7 +196,7 @@ export interface AdvertisementFilters {
   page?: number;
   perPage?: number;
   status?: AdStatus;
-  propertyType?: PropertyType;
+  propertyType?: PropertyUse;
   adType?: AdType;
   city?: string;
 }

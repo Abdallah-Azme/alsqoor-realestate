@@ -1306,7 +1306,13 @@
       "building": "Building",
       "warehouse": "Warehouse",
       "rest_house": "Rest House",
-      "farm": "Farm"
+      "farm": "Farm",
+      "land_residential": "Residential Land",
+      "land_commercial": "Commercial Land",
+      "commercial_shop": "Commercial Shop",
+      "office": "Office",
+      "factory": "Factory",
+      "other": "Other"
     },
     "usage_types": {
       "residential": "Residential",
@@ -1360,8 +1366,11 @@
       "common": {
         "back": "Back",
         "next": "Next",
-        "submit": "Publish Advertisement"
+        "submit": "Publish Advertisement",
+        "loading": "Loading..."
       },
+      "submit_success": "Advertisement published successfully!",
+      "submit_error": "Failed to publish advertisement. Please try again.",
       "intro": {
         "title": "Add Your Advertisement!",
         "description": "Interested clients will contact you",
@@ -1382,14 +1391,12 @@
       },
       "property_type": {
         "title": "Advertisement Details",
+        "category_label": "Property Category",
+        "select_category": "Select property category",
         "type_label": "Property Type",
         "search_placeholder": "Search",
-        "ad_type_label": "Advertisement Type",
-        "select_ad_type": "Select advertisement type",
-        "rent_period_label": "Rent Period",
-        "select_rent_period": "Select rent period",
-        "housing_type_label": "Housing Type",
-        "select_housing_type": "Select housing type"
+        "ad_type_label": "Operation Type",
+        "select_ad_type": "Select operation type"
       },
       "ad_types": {
         "sale": "Sale",
@@ -1405,31 +1412,75 @@
         "singles": "Singles",
         "both": "Both"
       },
+      "finishing_types": {
+        "none": "No Finishing",
+        "basic": "Basic Finishing",
+        "good": "Good Finishing",
+        "luxury": "Luxury Finishing",
+        "super_luxury": "Super Luxury Finishing"
+      },
+      "facades": {
+        "north": "North",
+        "south": "South",
+        "east": "East",
+        "west": "West",
+        "north_east": "Northeast",
+        "north_west": "Northwest",
+        "south_east": "Southeast",
+        "south_west": "Southwest",
+        "multiple": "Multiple",
+        "unknown": "Unknown"
+      },
+      "marketing_options": {
+        "none": "No Marketing",
+        "advertising": "Classified Ad",
+        "agent": "Real Estate Agent"
+      },
       "location": {
         "title": "Location",
+        "subtitle": "Specify the property location",
+        "country_label": "Country",
+        "select_country": "Select country",
         "city_label": "City",
         "select_city": "Select city",
-        "neighborhood_label": "Neighborhood",
-        "select_neighborhood": "Select neighborhood"
+        "select_country_first": "Select country first",
+        "district_label": "District / Area",
+        "district_placeholder": "Enter district or area name"
       },
       "details": {
         "title": "Property Details",
+        "subtitle": "Enter property details and specifications",
+        "property_title_label": "Ad Title",
+        "property_title_placeholder": "Enter ad title",
         "area_label": "Area (m²)",
         "area_placeholder": "Enter area",
-        "total_price_label": "Total Price",
+        "usable_area_label": "Usable Area (m²)",
+        "usable_area_placeholder": "Enter area",
+        "rooms_label": "Rooms",
+        "bathrooms_label": "Bathrooms",
+        "balconies_label": "Balconies",
+        "garages_label": "Garages",
+        "finishing_type_label": "Finishing Type",
+        "select_finishing_type": "Select finishing type",
+        "property_age_label": "Property Age (years)",
+        "property_age_placeholder": "Enter age",
+        "facade_label": "Facade",
+        "select_facade": "Select facade",
+        "price_min_label": "Minimum Price",
+        "price_max_label": "Maximum Price",
         "price_placeholder": "Enter price",
         "price_per_meter_label": "Price per Meter",
         "price_per_meter_placeholder": "Enter price per meter",
-        "usage_label": "Property Usage",
+        "price_hidden_label": "Hide price from visitors",
         "amenities_label": "Property Amenities",
-        "street_width_label": "Street Width",
-        "street_width_placeholder": "Example: 20 meters",
-        "street_facing_label": "Street Facing",
-        "select_facing": "Select facing",
-        "obligations_label": "Any Obligations",
+        "services_label": "Additional Services",
+        "services_placeholder": "e.g., Security, Cleaning, Maintenance",
+        "services_hint": "Enter services separated by commas",
+        "obligations_label": "Obligations",
         "obligations_placeholder": "Enter obligation details if any",
         "description_label": "Details",
-        "description_placeholder": "Write a detailed description..."
+        "description_placeholder": "Write a detailed description...",
+        "description_min_hint": "Description must be at least 10 characters"
       },
       "contact": {
         "title": "Contact Methods",
@@ -1437,23 +1488,25 @@
         "methods_label": "Select contact channels"
       },
       "authority": {
-        "title": "Ad License Details",
+        "title": "Legal Details",
+        "subtitle": "Enter legal information and licenses",
         "license_number_label": "Ad License Number",
         "license_number_placeholder": "Enter license number",
-        "advertiser_id_type_label": "Advertiser ID Type",
-        "select_id_type": "Select ID type",
-        "id_types": {
-          "national_id": "National ID",
-          "iqama": "Iqama",
-          "commercial_register": "Commercial Register"
-        },
-        "advertiser_id_label": "Advertiser ID Number",
-        "advertiser_id_placeholder": "Enter ID number",
-        "broker_options_label": "Marketing Options",
-        "self_marketing_title": "I want to market the ad myself",
-        "self_marketing_desc": "You will market the property yourself and communicate with clients",
-        "broker_contract_title": "I want to contract with a real estate broker",
-        "broker_contract_desc": "Contract with a broker to market and negotiate on behalf of the owner"
+        "license_expiry_label": "License Expiry Date",
+        "qr_code_label": "QR Code",
+        "qr_code_placeholder": "Click to upload QR code image",
+        "plan_number_label": "Plan Number",
+        "plan_number_placeholder": "Enter plan number",
+        "plot_number_label": "Plot Number",
+        "plot_number_placeholder": "Enter plot number",
+        "area_name_label": "Area Name",
+        "area_name_placeholder": "Enter area name",
+        "guarantees_label": "Guarantees",
+        "guarantees_placeholder": "Enter guarantee details",
+        "marketing_option_label": "Marketing Option",
+        "has_mortgage_label": "Has Mortgage",
+        "has_restriction_label": "Has Restrictions",
+        "is_featured_label": "Featured Ad"
       },
       "media": {
         "title": "Property Photos & Videos",
@@ -1478,6 +1531,7 @@
         "property_type": "Property Type",
         "ad_type": "Advertisement Type",
         "price": "Price",
+        "price_hidden": "Price Hidden",
         "area": "Area",
         "sale": "Sale",
         "rent": "Rent",
