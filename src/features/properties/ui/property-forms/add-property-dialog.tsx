@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useCreateProperty } from "../../hooks/use-properties";
+import {
+  useCreateProperty,
+  useCountries,
+  useCities,
+} from "../../hooks/use-properties";
 import { createPropertySchema } from "../../schemas/property-schema-factory";
 import {
   Dialog,
@@ -23,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FiLoader } from "react-icons/fi";
 import {
   Form,
   FormControl,
@@ -138,6 +143,7 @@ export function AddPropertyDialog({
                           t("description_placeholder") || "وصف تفصيلي للعقار..."
                         }
                         rows={4}
+                        className="resize-none"
                         {...field}
                       />
                     </FormControl>
@@ -251,51 +257,7 @@ export function AddPropertyDialog({
               </h3>
 
               <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="country_id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("country") || "الدولة"} *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="1"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              parseInt(e.target.value) || undefined,
-                            )
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="city_id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("city") || "المدينة"} *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="2"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              parseInt(e.target.value) || undefined,
-                            )
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <LocationFields form={form} />
               </div>
 
               <FormField
@@ -661,5 +623,87 @@ export function AddPropertyDialog({
         </Form>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function LocationFields({ form }: { form: any }) {
+  const t = useTranslations("properties");
+  const countryId = form.watch("country_id");
+
+  const { data: countries, isLoading: loadingCountries } = useCountries();
+  const { data: cities, isLoading: loadingCities } = useCities(countryId);
+
+  return (
+    <>
+      <FormField
+        control={form.control}
+        name="country_id"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t("country") || "الدولة"} *</FormLabel>
+            <Select
+              onValueChange={(value) => {
+                field.onChange(parseInt(value));
+                form.setValue("city_id", undefined);
+              }}
+              value={field.value ? String(field.value) : undefined}
+            >
+              <FormControl>
+                <SelectTrigger disabled={loadingCountries}>
+                  <SelectValue
+                    placeholder={
+                      loadingCountries
+                        ? "..."
+                        : t("select_country") || "اختر الدولة"
+                    }
+                  />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {countries?.map((country: any) => (
+                  <SelectItem key={country.id} value={String(country.id)}>
+                    {country.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="city_id"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t("city") || "المدينة"} *</FormLabel>
+            <Select
+              onValueChange={(value) => field.onChange(parseInt(value))}
+              value={field.value ? String(field.value) : undefined}
+              disabled={!countryId || loadingCities}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={
+                      loadingCities ? "..." : t("select_city") || "اختر المدينة"
+                    }
+                  />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {cities?.map((city: any) => (
+                  <SelectItem key={city.id} value={String(city.id)}>
+                    {city.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
   );
 }

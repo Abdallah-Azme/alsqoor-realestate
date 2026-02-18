@@ -64,13 +64,22 @@ const MarketplacePage = () => {
         transition={{ duration: 0.6 }}
         className="bg-main-light-gray p-4 pb-8 space-y-4 rounded-b-xl container"
       >
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center gap-4">
           <div>
             <CustomBreadcrumbs
               items={[{ label: tBreadcrumbs("marketplace") }]}
             />
             <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
           </div>
+
+          <Button
+            onClick={handleAddProperty}
+            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
+          >
+            <FiPlus className="text-lg" />
+            <span className="hidden sm:inline">{t("add_property")}</span>
+            <span className="sm:hidden">{t("add")}</span>
+          </Button>
         </div>
       </motion.div>
 

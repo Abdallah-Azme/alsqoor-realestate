@@ -474,7 +474,9 @@
     "category": "Property Category",
     "location": "Location",
     "country": "Country",
+    "select_country": "Select Country",
     "city": "City",
+    "select_city": "Select City",
     "district": "District",
     "district_placeholder": "Example: Fifth Settlement",
     "latitude": "Latitude",
@@ -1516,8 +1518,16 @@
     },
     "offers": "offer",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "success_add": "Property added successfully!",
+    "failed_to_add": "Failed to add property. Please try again.",
+    "please_select_location": "Please select country and city",
+    "select_country": "Select Country",
+    "select_city": "Select City",
+    "loading": "Loading...",
+    "close": "Close"
   },
+
   "agent_profile": {
     "verified_agent": "Verified Agent",
     "properties": "property",
@@ -1573,7 +1583,9 @@
         "villa": "Villa",
         "apartment": "Apartment",
         "land": "Land",
-        "building": "Building"
+        "building": "Building",
+        "floor": "Floor",
+        "shop": "Shop"
       },
       "operation_type": "Operation Type",
       "select_operation": "Select operation",
@@ -1598,7 +1610,11 @@
       "submitting": "Sending...",
       "success_title": "Property Sent",
       "success_description": "The agent will contact you soon",
-      "close": "Close"
+      "close": "Close",
+      "country": "Country",
+      "select_country": "Select Country",
+      "select_city": "Select City",
+      "loading": "Loading..."
     }
   },
   "locations": {

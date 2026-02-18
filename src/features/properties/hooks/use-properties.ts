@@ -207,3 +207,26 @@ export function useDeleteProperty() {
     },
   });
 }
+
+/**
+ * Hook to fetch countries
+ */
+export function useCountries() {
+  return useQuery({
+    queryKey: ["countries"],
+    queryFn: () => propertiesService.getCountries(),
+    staleTime: 24 * 60 * 60 * 1000, // 24 hours
+  });
+}
+
+/**
+ * Hook to fetch cities by country ID
+ */
+export function useCities(countryId: string | number | undefined) {
+  return useQuery({
+    queryKey: ["cities", countryId],
+    queryFn: () => propertiesService.getCities(countryId!),
+    enabled: !!countryId,
+    staleTime: 60 * 60 * 1000, // 1 hour
+  });
+}

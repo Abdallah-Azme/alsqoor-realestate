@@ -22,6 +22,11 @@ import {
 } from "@/components/ui/select";
 import { FiCheck, FiUpload, FiX } from "react-icons/fi";
 import Image from "next/image";
+import {
+  useCountries,
+  useCities,
+} from "@/features/properties/hooks/use-properties";
+import { FiLoader } from "react-icons/fi";
 
 interface ShowPropertyDialogProps {
   open: boolean;
@@ -45,12 +50,18 @@ const ShowPropertyDialog = ({
     title: "",
     propertyType: "",
     operationType: "",
-    city: "",
+    country_id: "",
+    city_id: "",
     neighborhood: "",
     area: "",
     price: "",
     description: "",
   });
+
+  const { data: countries, isLoading: loadingCountries } = useCountries();
+  const { data: cities, isLoading: loadingCities } = useCities(
+    formData.country_id,
+  );
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -90,7 +101,8 @@ const ShowPropertyDialog = ({
       title: "",
       propertyType: "",
       operationType: "",
-      city: "",
+      country_id: "",
+      city_id: "",
       neighborhood: "",
       area: "",
       price: "",
@@ -190,25 +202,67 @@ const ShowPropertyDialog = ({
           {/* Location */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label>{t("city")}</Label>
-              <Input
-                placeholder={t("city_placeholder")}
-                value={formData.city}
-                onChange={(e) =>
-                  setFormData({ ...formData, city: e.target.value })
+              <Label>{t("country") || "Country"}</Label>
+              <Select
+                value={formData.country_id}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, country_id: value, city_id: "" })
                 }
-              />
+              >
+                <SelectTrigger disabled={loadingCountries}>
+                  <SelectValue
+                    placeholder={
+                      loadingCountries
+                        ? "..."
+                        : t("select_country") || "Select Country"
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {countries?.map((country: any) => (
+                    <SelectItem key={country.id} value={String(country.id)}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <Label>{t("neighborhood")}</Label>
-              <Input
-                placeholder={t("neighborhood_placeholder")}
-                value={formData.neighborhood}
-                onChange={(e) =>
-                  setFormData({ ...formData, neighborhood: e.target.value })
+              <Label>{t("city") || "City"}</Label>
+              <Select
+                value={formData.city_id}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, city_id: value })
                 }
-              />
+                disabled={!formData.country_id || loadingCities}
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={
+                      loadingCities ? "..." : t("select_city") || "Select City"
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {cities?.map((city: any) => (
+                    <SelectItem key={city.id} value={String(city.id)}>
+                      {city.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+          </div>
+
+          <div>
+            <Label>{t("neighborhood")}</Label>
+            <Input
+              placeholder={t("neighborhood_placeholder")}
+              value={formData.neighborhood}
+              onChange={(e) =>
+                setFormData({ ...formData, neighborhood: e.target.value })
+              }
+            />
           </div>
 
           {/* Area & Price */}
@@ -286,6 +340,7 @@ const ShowPropertyDialog = ({
                 setFormData({ ...formData, description: e.target.value })
               }
               rows={3}
+              className="resize-none"
             />
           </div>
 

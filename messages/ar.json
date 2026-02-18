@@ -1312,8 +1312,16 @@
     },
     "offers": "عرض",
     "edit": "تعديل",
-    "delete": "حذف"
+    "delete": "حذف",
+    "success_add": "تمت إضافة العقار بنجاح!",
+    "failed_to_add": "فشل في إضافة العقار. يرجى المحاولة مرة أخرى.",
+    "please_select_location": "يرجى اختيار الدولة والمدينة",
+    "select_country": "اختر الدولة",
+    "select_city": "اختر المدينة",
+    "loading": "جاري التحميل...",
+    "close": "إغلاق"
   },
+
   "agent_profile": {
     "verified_agent": "وسيط معتمد",
     "properties": "عقار",
@@ -1369,7 +1377,9 @@
         "villa": "فيلا",
         "apartment": "شقة",
         "land": "أرض",
-        "building": "عمارة"
+        "building": "عمارة",
+        "floor": "دور",
+        "shop": "محل"
       },
       "operation_type": "نوع العملية",
       "select_operation": "اختر نوع العملية",
@@ -1394,7 +1404,11 @@
       "submitting": "جاري الإرسال...",
       "success_title": "تم عرض العقار",
       "success_description": "سيتواصل معك الوسيط قريباً",
-      "close": "إغلاق"
+      "close": "إغلاق",
+      "country": "الدولة",
+      "select_country": "اختر الدولة",
+      "select_city": "اختر المدينة",
+      "loading": "جاري التحميل..."
     }
   },
   "locations": {
@@ -1583,7 +1597,9 @@
     "category": "تصنيف العقار",
     "location": "الموقع",
     "country": "الدولة",
+    "select_country": "اختر الدولة",
     "city": "المدينة",
+    "select_city": "اختر المدينة",
     "district": "الحي",
     "district_placeholder": "مثال: التجمع الخامس",
     "latitude": "خط العرض",

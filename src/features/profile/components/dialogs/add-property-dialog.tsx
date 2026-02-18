@@ -20,7 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FiCheck, FiUpload } from "react-icons/fi";
+import { FiCheck, FiUpload, FiLoader } from "react-icons/fi";
+import {
+  useCountries,
+  useCities,
+} from "@/features/properties/hooks/use-properties";
+import { propertiesService } from "@/features/properties/services/properties.service";
+import { toast } from "sonner";
 
 interface AddPropertyDialogProps {
   open: boolean;
@@ -38,26 +44,53 @@ const AddPropertyDialog = ({ open, onOpenChange }: AddPropertyDialogProps) => {
   // Basic form state
   const [formData, setFormData] = useState({
     title: "",
-    propertyType: "",
-    operationType: "sale",
-    city: "",
-    neighborhood: "",
+    property_type: "villa",
+    transaction_type: "buy",
+    country_id: "",
+    city_id: "",
+    district: "",
     price: "",
     area: "",
     description: "",
   });
 
+  const { data: countries, isLoading: loadingCountries } = useCountries();
+  const { data: cities, isLoading: loadingCities } = useCities(
+    formData.country_id,
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.country_id || !formData.city_id) {
+      toast.error(
+        t("please_select_location") || "Please select country and city",
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // TODO: Submit to Owner Property API
-      console.log("Submitting owner property:", formData);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("country_id", formData.country_id);
+      data.append("city_id", formData.city_id);
+      data.append("district", formData.district);
+      data.append("area", formData.area);
+      data.append("price", formData.price);
+      data.append("transaction_type", formData.transaction_type);
+      data.append("property_type", formData.property_type);
+
+      await propertiesService.addMarketplaceProperty(data);
       setIsSuccess(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to submit property:", error);
+      toast.error(
+        error?.response?.data?.message ||
+          t("failed_to_add") ||
+          "Failed to add property",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -67,14 +100,16 @@ const AddPropertyDialog = ({ open, onOpenChange }: AddPropertyDialogProps) => {
     setIsSuccess(false);
     setFormData({
       title: "",
-      propertyType: "",
-      operationType: "sale",
-      city: "",
-      neighborhood: "",
+      property_type: "villa",
+      transaction_type: "buy",
+      country_id: "",
+      city_id: "",
+      district: "",
       price: "",
       area: "",
       description: "",
     });
+
     onOpenChange(false);
   };
 
@@ -125,14 +160,14 @@ const AddPropertyDialog = ({ open, onOpenChange }: AddPropertyDialogProps) => {
             />
           </div>
 
-          {/* Property Type & Operation */}
+          {/* Property Type & Transaction Type */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="">{tAgent("property_type")}</Label>
               <Select
-                value={formData.propertyType}
+                value={formData.property_type}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, propertyType: value })
+                  setFormData({ ...formData, property_type: value })
                 }
               >
                 <SelectTrigger>
@@ -147,54 +182,117 @@ const AddPropertyDialog = ({ open, onOpenChange }: AddPropertyDialogProps) => {
                   <SelectItem value="building">
                     {tAgent("types.building")}
                   </SelectItem>
+                  <SelectItem value="floor">
+                    {tAgent("types.floor") || "Floor"}
+                  </SelectItem>
+                  <SelectItem value="shop">
+                    {tAgent("types.shop") || "Shop"}
+                  </SelectItem>
+                  <SelectItem value="resthouse">
+                    {tAgent("types.rest_house") || "Rest House"}
+                  </SelectItem>
+                  <SelectItem value="farm">
+                    {tAgent("types.farm") || "Farm"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label className="">{tAgent("operation_type")}</Label>
               <Select
-                value={formData.operationType}
+                value={formData.transaction_type}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, operationType: value })
+                  setFormData({ ...formData, transaction_type: value })
                 }
               >
                 <SelectTrigger>
                   <SelectValue placeholder={tAgent("select_operation")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="sale">
-                    {tAgent("operations.sale")}
+                  <SelectItem value="buy">
+                    {tAgent("operations.sale") || "Sale"}
                   </SelectItem>
                   <SelectItem value="rent">
-                    {tAgent("operations.rent")}
+                    {tAgent("operations.rent") || "Rent"}
                   </SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {/* Location */}
+          {/* Location - Country & City */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label className="">{tAgent("city")}</Label>
-              <Input
-                placeholder={tAgent("city_placeholder")}
-                value={formData.city}
-                onChange={(e) =>
-                  setFormData({ ...formData, city: e.target.value })
+              <Label className="">{tAgent("country") || "Country"}</Label>
+              <Select
+                value={formData.country_id}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, country_id: value, city_id: "" })
                 }
-              />
+              >
+                <SelectTrigger disabled={loadingCountries}>
+                  {loadingCountries ? (
+                    <div className="flex items-center gap-2">
+                      <FiLoader className="animate-spin" />
+                      <span>{tAgent("loading") || "Loading..."}</span>
+                    </div>
+                  ) : (
+                    <SelectValue
+                      placeholder={tAgent("select_country") || "Select Country"}
+                    />
+                  )}
+                </SelectTrigger>
+                <SelectContent>
+                  {countries.map((country) => (
+                    <SelectItem key={country.id} value={String(country.id)}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <Label className="">{tAgent("neighborhood")}</Label>
-              <Input
-                placeholder={tAgent("neighborhood_placeholder")}
-                value={formData.neighborhood}
-                onChange={(e) =>
-                  setFormData({ ...formData, neighborhood: e.target.value })
+              <Label className="">{tAgent("city")}</Label>
+              <Select
+                value={formData.city_id}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, city_id: value })
                 }
-              />
+                disabled={!formData.country_id || loadingCities}
+              >
+                <SelectTrigger>
+                  {loadingCities ? (
+                    <div className="flex items-center gap-2">
+                      <FiLoader className="animate-spin" />
+                      <span>{tAgent("loading") || "Loading..."}</span>
+                    </div>
+                  ) : (
+                    <SelectValue
+                      placeholder={tAgent("select_city") || "Select City"}
+                    />
+                  )}
+                </SelectTrigger>
+                <SelectContent>
+                  {cities.map((city) => (
+                    <SelectItem key={city.id} value={String(city.id)}>
+                      {city.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+          </div>
+
+          {/* District/Neighborhood */}
+          <div>
+            <Label className="">{tAgent("neighborhood")}</Label>
+            <Input
+              placeholder={tAgent("neighborhood_placeholder")}
+              value={formData.district}
+              onChange={(e) =>
+                setFormData({ ...formData, district: e.target.value })
+              }
+            />
           </div>
 
           {/* Price & Area */}
@@ -242,6 +340,7 @@ const AddPropertyDialog = ({ open, onOpenChange }: AddPropertyDialogProps) => {
                 setFormData({ ...formData, description: e.target.value })
               }
               rows={3}
+              className="resize-none"
             />
           </div>
 

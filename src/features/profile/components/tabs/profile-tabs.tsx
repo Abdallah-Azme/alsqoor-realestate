@@ -11,6 +11,8 @@ import { User } from "@/types";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import AddPropertyDialog from "../dialogs/add-property-dialog";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const ProfileTabs = ({
   isEditing,
@@ -22,6 +24,15 @@ const ProfileTabs = ({
   const t = useTranslations("Profile");
   const router = useRouter();
   const [addPropertyOpen, setAddPropertyOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const action = searchParams.get("action");
+  const tabFromUrl = searchParams.get("tab");
+
+  useEffect(() => {
+    if (action === "add-property") {
+      setAddPropertyOpen(true);
+    }
+  }, [action]);
 
   const tabs = [
     { value: "financials", label: t("financials") },
@@ -50,7 +61,7 @@ const ProfileTabs = ({
   return (
     <div className="min-h-[500px]">
       {/* Tabs component now auto-detects RTL via useDirection hook */}
-      <Tabs defaultValue="financials" className="w-full">
+      <Tabs defaultValue={tabFromUrl || "financials"} className="w-full">
         <div className="mb-6 overflow-visible">
           <TabsList className="bg-transparent gap-3 p-0 h-auto w-full flex flex-wrap justify-start">
             {tabs.map((tab) => (

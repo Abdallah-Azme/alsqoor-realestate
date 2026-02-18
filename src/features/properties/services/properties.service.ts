@@ -222,4 +222,31 @@ export const propertiesService = {
       dealDetails || {},
     );
   },
+  /**
+   * Get all countries
+   */
+  async getCountries() {
+    return api.get<any[]>("/countries");
+  },
+
+  /**
+   * Get cities by country ID
+   */
+  async getCities(countryId: number | string) {
+    return api.get<any[]>(`/countries/${countryId}/cities`);
+  },
+
+  /**
+   * Add a new marketplace property (owner/agent)
+   */
+  async addMarketplaceProperty(data: FormData) {
+    return api.post<any>("/properties-new/add", data);
+  },
+
+  /**
+   * Add a new developer property
+   */
+  async addDeveloperProperty(data: FormData) {
+    return api.post<any>("/properties-new", data);
+  },
 };
