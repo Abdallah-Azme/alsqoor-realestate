@@ -186,13 +186,13 @@ const BrokersListing = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          <Button
+          {/* <Button
             onClick={() => setIsAddDialogOpen(true)}
             className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm"
           >
             <FiPlus />
             {t("add_property")}
-          </Button>
+          </Button> */}
 
           {/* Sort Button */}
           <button
@@ -221,11 +221,11 @@ const BrokersListing = () => {
 
       {/* Properties List */}
       {loading ? (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-gray-100 rounded-xl h-48 animate-pulse"
+              className="bg-gray-100/80 rounded-xl h-80 animate-pulse border border-gray-100"
             />
           ))}
         </div>
@@ -238,7 +238,7 @@ const BrokersListing = () => {
               transition: { staggerChildren: 0.1 },
             },
           }}
-          className="space-y-4"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {formattedProperties.map((property, index) => (
             <BrokerPropertyCard

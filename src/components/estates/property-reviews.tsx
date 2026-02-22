@@ -28,11 +28,11 @@ export default function PropertyReviews({ reviews, locale }) {
       <CarouselContent className={"lg:w-[98%] ms-auto max-lg:container"}>
         {reviews.map((review, index) => (
           <CarouselItem key={review.id || index} className="basis-[95%]">
-            <ClientCard review={review} />
+            <ClientCard item={review} />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <div className="flex items-center justify-center gap-3 flex-row-reverse">
+      <div className="flex items-center justify-center gap-3">
         <CarouselPrevious className={"static translate-0"} />
         <CarouselNext className={"static translate-0"} />
       </div>

@@ -53,11 +53,7 @@ const PartnerSection = async () => {
               </AnimatedCarouselItem>
             ))}
           </CarouselContent>
-          <div
-            className={`flex items-center justify-center gap-3  ${
-              locale === "ar" ? "flex-row-reverse" : ""
-            }`}
-          >
+          <div className={`flex items-center justify-center gap-3`}>
             <CarouselPrevious className={"static translate-0 "} />
             <CarouselNext className={"static translate-0 "} />
           </div>

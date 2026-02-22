@@ -83,6 +83,7 @@ const OwnersListing = () => {
       price: Number(p.price || 0),
       formattedPrice: Number(p.price || 0).toLocaleString(),
       area: Number(p.area || 0),
+      image: p.image || "",
       location: p.location || p.city || "",
       city: p.city || "",
       timePosted:
@@ -248,7 +249,7 @@ const OwnersListing = () => {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-gray-100 rounded-xl h-36 animate-pulse"
+              className="bg-gray-100/80 rounded-xl h-80 animate-pulse border border-gray-100"
             />
           ))}
         </div>
@@ -261,7 +262,7 @@ const OwnersListing = () => {
               transition: { staggerChildren: 0.1 },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {filteredAndSortedProperties.map((property, index) => (
             <OwnerPropertyCard

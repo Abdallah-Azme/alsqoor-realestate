@@ -51,11 +51,7 @@ const ClientReviews = async () => {
               <h3 className="text-4xl font-semibold">{t("subtitle")}</h3>
               <p className="text-xs"> {t("description")}</p>
             </div>
-            <div
-              className={`flex items-center gap-3 ${
-                locale === "ar" ? "flex-row-reverse" : ""
-              } w-fit`}
-            >
+            <div className={`flex items-center gap-3 w-fit`}>
               <CarouselPrevious className={"static translate-0 "} />
               <CarouselNext className={"static translate-0 "} />
             </div>

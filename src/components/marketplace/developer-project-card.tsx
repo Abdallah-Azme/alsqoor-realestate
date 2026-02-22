@@ -38,10 +38,10 @@ const DeveloperProjectCard = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: index * 0.1 }}
-        className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
+        className="bg-white rounded-lg p-4 space-y-5 border-2 border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer h-full flex flex-col group"
       >
         {/* Image Section */}
-        <div className="relative h-52 overflow-hidden">
+        <div className="h-52 rounded-xl relative overflow-hidden group shrink-0">
           <Image
             src={project.image || "/images/state.png"}
             alt={project.title}
@@ -49,76 +49,84 @@ const DeveloperProjectCard = ({
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
 
-          {/* Developer Logo */}
-          {/* {project.developerLogo && (
-            <div className="absolute bottom-3 end-3 bg-white rounded-lg p-2 shadow-md">
-              <Image
-                src={project.developerLogo}
-                alt={project.developerName}
-                width={60}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-          )} */}
-
           {/* Broker Opportunity Badge */}
           {project.isBrokerOpportunity && (
-            <div className="absolute top-3 start-3 bg-main-green text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1">
+            <div className="absolute top-3 start-3 bg-main-green text-white text-[0.65rem] font-medium px-2 py-1 rounded-full shadow-md flex items-center gap-1 z-10 w-fit">
               <span>🏆</span>
-              <span>{t("broker_opportunity")}</span>
+              {t("broker_opportunity")}
             </div>
           )}
         </div>
 
         {/* Content Section */}
-        <div className="p-4">
-          {/* Time Posted */}
-          <div className="flex items-center gap-1 text-gray-400 text-xs mb-2">
-            <FiClock size={12} />
-            <span>{project.timePosted}</span>
-          </div>
+        <div className="space-y-3 flex-1 flex flex-col justify-between">
+          <div className="space-y-2">
+            <h3 className="font-bold text-lg text-gray-900 line-clamp-1 mb-1">
+              {project.title}
+            </h3>
 
-          {/* Title & Developer */}
-          <h3 className="font-bold text-lg text-gray-900 line-clamp-1 mb-1">
-            {project.title}
-          </h3>
-          <p className="text-sm text-gray-500 mb-2">{project.developerName}</p>
+            <p className="text-xs text-gray-500 flex items-center gap-1 line-clamp-1">
+              <HiOutlineLocationMarker className="text-main-green size-3" />
+              {project.location}
+            </p>
 
-          {/* Location */}
-          <div className="flex items-center gap-1 text-gray-500 text-sm mb-3">
-            <HiOutlineLocationMarker className="text-main-green" size={14} />
-            <span>{project.location}</span>
-          </div>
-
-          {/* Starting Price */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-sm text-gray-500">{t("starting_from")}</span>
-            <span className="text-xl font-bold text-main-green">
-              {project.formattedStartingPrice}
-            </span>
-            <Image
-              src="/images/ryal.svg"
-              alt="SAR"
-              width={16}
-              height={16}
-              className="size-4"
-            />
-          </div>
-
-          {/* Broker Commission Info */}
-          {project.brokerCommission > 0 && (
-            <div className="bg-main-green/5 border border-main-green/20 rounded-lg px-3 py-2">
-              <div className="flex items-center gap-2 text-xs text-main-green">
-                <span>💰</span>
-                <span>
-                  {t("broker_commission", {
-                    percentage: project.brokerCommission,
-                  })}
+            {/* Starting Price */}
+            <div className="flex flex-col gap-0.5 mt-2">
+              <span className="text-xs text-gray-400">
+                {t("starting_from")}
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="text-xl font-bold text-main-green">
+                  {project.formattedStartingPrice}
                 </span>
+                <Image
+                  src="/images/ryal.svg"
+                  alt="SAR"
+                  width={16}
+                  height={16}
+                  className="size-4"
+                />
               </div>
             </div>
-          )}
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-main-green/10 text-main-green font-bold flex items-center justify-center text-xs shrink-0">
+                {project.developerName.charAt(0)}
+              </div>
+              <p className="text-xs font-medium text-gray-600 line-clamp-1">
+                {project.developerName}
+              </p>
+            </div>
+
+            {/* Broker Commission Info */}
+            {project.brokerCommission > 0 && (
+              <div className="bg-main-green/5 border border-main-green/20 rounded-md px-2 py-1.5 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-xs text-main-green font-medium">
+                  <span>💰</span>
+                  <span>
+                    {t("broker_commission", {
+                      percentage: project.brokerCommission,
+                    })}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Specs Grid (Time) */}
+            <div className="flex items-center justify-between text-[0.65rem] text-gray-400 pt-2 border-t border-gray-100">
+              <div className="flex items-center gap-1">
+                <FiClock size={10} />
+                <span>{project.timePosted}</span>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="w-full text-sm font-medium text-center rounded-md py-2 px-3 border border-main-green text-main-green group-hover:bg-main-green group-hover:text-white transition-all duration-300 mt-2">
+              {t("show_details")}
+            </div>
+          </div>
         </div>
       </motion.div>
     </Link>

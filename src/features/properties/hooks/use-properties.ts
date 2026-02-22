@@ -21,6 +21,17 @@ export function useProperties(filters?: PropertyFilters) {
 }
 
 /**
+ * Hook to search properties
+ */
+export function useSearchProperties(params?: Record<string, any>) {
+  return useQuery({
+    queryKey: ["properties", "search", params],
+    queryFn: () => propertiesService.searchProperties(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
+/**
  * Hook to fetch a single property by ID
  */
 export function useProperty(id: string | number) {

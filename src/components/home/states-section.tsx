@@ -80,7 +80,7 @@ const StatesSection = ({ properties = null }) => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex items-center justify-center gap-3 flex-row-reverse">
+          <div className="flex items-center justify-center gap-3">
             <CarouselPrevious className={"static translate-0"} />
             <CarouselNext className={"static translate-0"} />
           </div>

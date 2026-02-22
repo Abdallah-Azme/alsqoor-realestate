@@ -66,6 +66,13 @@ export const propertiesService = {
   },
 
   /**
+   * Search properties
+   */
+  async searchProperties(params?: Record<string, any>) {
+    return api.get<any>(`${BASE_PATH}/search`, params);
+  },
+
+  /**
    * Get marketplace properties (new endpoint)
    * Supports filtering by type: 'agent', 'owner', 'developer'
    */

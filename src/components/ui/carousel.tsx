@@ -27,6 +27,14 @@ function Carousel({
   className,
   children,
   ...props
+}: {
+  orientation?: "horizontal" | "vertical";
+  opts?: any;
+  setApi?: any;
+  plugins?: any;
+  className?: string;
+  children: React.ReactNode;
+  [key: string]: any;
 }) {
   const [carouselRef, api] = useEmblaCarousel(
     {

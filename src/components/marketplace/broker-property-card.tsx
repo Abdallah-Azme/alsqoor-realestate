@@ -66,82 +66,82 @@ const BrokerPropertyCard = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 }}
-          className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+          className="bg-white rounded-lg p-4 space-y-5 border-2 border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer h-full flex flex-col"
         >
-          <div className="flex flex-col md:flex-row">
-            {/* Image Section */}
-            <div className="relative w-full md:w-72 h-48 md:h-auto shrink-0">
-              <div className="relative w-full h-full">
+          {/* Image Section */}
+          <div className="h-52 rounded-xl relative overflow-hidden group shrink-0">
+            <Image
+              src={
+                property.image && property.image.startsWith("http")
+                  ? property.image
+                  : "/images/state.png"
+              }
+              alt={property.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            {/* Status Badge */}
+            <div
+              className={`absolute top-3 start-3 ${
+                statusColors[property.status] || "bg-main-green"
+              } text-white text-xs px-3 py-1 rounded-full z-10`}
+            >
+              {t(`status.${property.status}`)}
+            </div>
+            {/* Area Badge at right top like state-card */}
+            {property.area && (
+              <div className="text-[.6rem] font-semibold flex items-center bg-white p-2 rounded-md absolute z-10 top-3 end-3 shadow-md">
+                <TbDimensions className="mr-1 text-main-green" size={12} />
+                {property.area}
+                <sup className="ms-1">{tCommon("area_unit")}</sup>
+              </div>
+            )}
+          </div>
+
+          {/* Content Section */}
+          <div className="space-y-3 flex-1 flex flex-col justify-between">
+            <div className="space-y-2">
+              <h4 className="font-bold text-lg line-clamp-1">
+                {property.title}
+              </h4>
+              <p className="text-xs text-gray-500 flex items-center gap-1 line-clamp-1">
+                <HiOutlineLocationMarker className="text-main-green size-3" />
+                {property.location}
+              </p>
+
+              {/* Price */}
+              <div className="flex items-center gap-1">
+                <span className="text-xl font-bold text-main-green">
+                  {property.formattedPrice}
+                </span>
                 <Image
-                  src={
-                    property.image && property.image.startsWith("http")
-                      ? property.image
-                      : "/images/state.png"
-                  }
-                  alt={property.title}
-                  fill
-                  className="object-cover"
+                  src="/images/ryal.svg"
+                  alt="SAR"
+                  width={16}
+                  height={16}
+                  className="size-4"
                 />
-              </div>
-              {/* Status Badge */}
-              <div
-                className={`absolute top-3 start-3 ${
-                  statusColors[property.status] || "bg-main-green"
-                } text-white text-xs px-3 py-1 rounded-full z-10`}
-              >
-                {t(`status.${property.status}`)}
-              </div>
-              {/* Image count badge */}
-              <div className="absolute bottom-3 start-3 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1 z-10">
-                <FiHome size={12} />
-                <span>30</span>
               </div>
             </div>
 
-            {/* Content Section */}
-            <div className="flex-1 p-4 flex flex-col">
-              {/* Header */}
-              <div className="flex items-start justify-between gap-4 mb-3">
-                <div>
-                  <h3 className="font-bold text-lg text-gray-900 line-clamp-1">
-                    {property.title}
-                  </h3>
-                  <div className="flex items-center gap-1 text-gray-500 text-sm mt-1">
-                    <HiOutlineLocationMarker className="text-main-green" />
-                    <span>{property.location}</span>
-                  </div>
-                </div>
-                <div className="text-end shrink-0">
-                  <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
-                    <FiClock size={12} />
-                    <span>{property.timePosted}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xl font-bold text-main-green">
-                      {property.formattedPrice}
-                    </span>
-                    <Image
-                      src="/images/ryal.svg"
-                      alt="SAR"
-                      width={16}
-                      height={16}
-                      className="size-4"
-                    />
-                  </div>
-                </div>
+            <div className="space-y-3">
+              {/* Commission Info */}
+              <div className="bg-main-green/5 border border-main-green/20 rounded-md px-2 py-1.5 flex items-center justify-center text-xs text-main-green font-medium">
+                💰{" "}
+                {t("commission_info", {
+                  percentage: property.commissionPercentage,
+                })}
               </div>
 
-              {/* Specs */}
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+              {/* Specs Grid */}
+              <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
                 <div className="flex items-center gap-1">
-                  <TbDimensions className="text-main-green" />
-                  <span>
-                    {property.area} {tCommon("area_unit")}
-                  </span>
+                  <FiClock size={12} />
+                  <span>{property.timePosted}</span>
                 </div>
                 {property.rooms && (
-                  <div className="flex items-center gap-1">
-                    <FiHome className="text-main-green" />
+                  <div className="flex items-center gap-1 font-medium bg-gray-50 px-2 py-1 rounded">
+                    <FiHome className="text-main-green" size={12} />
                     <span>
                       {property.rooms} {t("rooms")}
                     </span>
@@ -149,47 +149,13 @@ const BrokerPropertyCard = ({
                 )}
               </div>
 
-              {/* Commission Info */}
-              <div className="bg-main-green/5 border border-main-green/20 rounded-lg px-3 py-2 mb-4">
-                <div className="flex items-center gap-2 text-sm text-main-green">
-                  <span className="text-lg">💰</span>
-                  <span>
-                    {t("commission_info", {
-                      percentage: property.commissionPercentage,
-                    })}
-                  </span>
-                </div>
-              </div>
-
               {/* Action Button */}
-              <div className="mt-auto flex items-center gap-3">
-                <button
-                  onClick={handleMarketingClick}
-                  className="flex-1 bg-main-green hover:bg-main-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                >
-                  {t("start_marketing")}
-                </button>
-                <button
-                  onClick={(e) => e.stopPropagation()}
-                  className="p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="1" />
-                    <circle cx="19" cy="12" r="1" />
-                    <circle cx="5" cy="12" r="1" />
-                  </svg>
-                </button>
-              </div>
+              <button
+                onClick={handleMarketingClick}
+                className="w-full text-sm font-medium text-center rounded-md py-2 px-3 border border-main-green text-main-green hover:bg-main-green hover:text-white transition-all duration-300 mt-2"
+              >
+                {t("start_marketing")}
+              </button>
             </div>
           </div>
         </motion.div>
