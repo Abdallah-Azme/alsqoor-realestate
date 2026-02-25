@@ -1578,6 +1578,7 @@
   },
   "owner_properties": {
     "add_property": "Add Property as Owner",
+    "edit_property": "Edit Property",
     "add_property_desc": "Enter your property details below.",
     "no_properties": "No properties found",
     "status": {
@@ -1588,14 +1589,26 @@
     "offers": "offer",
     "edit": "Edit",
     "delete": "Delete",
+    "update": "Update",
     "success_add": "Property added successfully!",
+    "success_update": "Property updated successfully!",
     "failed_to_add": "Failed to add property. Please try again.",
+    "failed_to_update": "Failed to update property. Please try again.",
     "please_select_location": "Please select country and city",
     "select_country": "Select Country",
     "select_city": "Select City",
     "loading": "Loading...",
     "close": "Close",
+    "edit_dialog": {
+      "description": "Edit your property details below."
+    },
     "add_dialog": {
+      "description": "Enter your property details below to add it.",
+      "basic": "Basic Info",
+      "location": "Location",
+      "pricing_specs": "Pricing & Specs",
+      "features": "Features",
+      "legal": "Legal",
       "tabs": {
         "basic": "Basic Info",
         "location": "Location",
@@ -1682,7 +1695,10 @@
       "guarantees": "Guarantees",
       "cancel": "Cancel",
       "submit": "Submit",
-      "submitting": "Submitting..."
+      "submitting": "Submitting...",
+      "next": "Next",
+      "previous": "Previous",
+      "location_on_map": "Location on Map"
     }
   },
 

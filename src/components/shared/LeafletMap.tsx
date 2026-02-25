@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { cn } from "@/lib/utils";
 
 // Fix for default marker icons in Next.js
 const DefaultIcon = L.icon({
@@ -72,6 +73,11 @@ const LeafletMap = ({
       });
     }
 
+    // Fix for Leaflet initialization in modals/tabs
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+
     // Cleanup
     return () => {
       map.remove();
@@ -82,29 +88,39 @@ const LeafletMap = ({
   // Update marker position when coordinates change
   useEffect(() => {
     if (markerRef.current && mapInstanceRef.current) {
-      markerRef.current.setLatLng([latitude, longitude]);
-      mapInstanceRef.current.setView([latitude, longitude], zoom);
+      const currentPos = markerRef.current.getLatLng();
+      if (currentPos.lat !== latitude || currentPos.lng !== longitude) {
+        markerRef.current.setLatLng([latitude, longitude]);
+        mapInstanceRef.current.setView([latitude, longitude], zoom);
+      }
     }
   }, [latitude, longitude, zoom]);
 
   return (
-    <>
-      {/* CSS overrides for Leaflet z-index to prevent overlapping navbar */}
-      <style jsx global>{`
-        .leaflet-pane,
-        .leaflet-top,
-        .leaflet-bottom,
-        .leaflet-control {
+    <div className="relative w-full h-full">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        .leaflet-container {
+          width: 100%;
+          height: 100%;
           z-index: 1 !important;
         }
-        .leaflet-popup-pane {
+        .leaflet-pane {
+          z-index: 1 !important;
+        }
+        .leaflet-top,
+        .leaflet-bottom {
           z-index: 2 !important;
         }
-      `}</style>
-      <div className="relative z-0">
-        <div ref={mapRef} className={className} />
-      </div>
-    </>
+        .leaflet-control {
+          z-index: 2 !important;
+        }
+      `,
+        }}
+      />
+      <div ref={mapRef} className={cn("relative", className)} />
+    </div>
   );
 };
 

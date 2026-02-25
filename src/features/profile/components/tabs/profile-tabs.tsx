@@ -24,6 +24,7 @@ const ProfileTabs = ({
   const t = useTranslations("Profile");
   const router = useRouter();
   const [addPropertyOpen, setAddPropertyOpen] = useState(false);
+  const [editingProperty, setEditingProperty] = useState<any>(null);
   const searchParams = useSearchParams();
   const action = searchParams.get("action");
   const tabFromUrl = searchParams.get("tab");
@@ -47,7 +48,8 @@ const ProfileTabs = ({
     router.push("/advertisements/add");
   };
 
-  const handleAddProperty = () => {
+  const handleAddProperty = (property?: any) => {
+    setEditingProperty(property || null);
     setAddPropertyOpen(true);
   };
 
@@ -90,7 +92,10 @@ const ProfileTabs = ({
             {isBroker ? (
               <BrokerPropertiesTab onAddProperty={handleAddAdvertisement} />
             ) : isOwner ? (
-              <OwnerPropertiesTab onAddProperty={handleAddProperty} />
+              <OwnerPropertiesTab
+                onAddProperty={() => handleAddProperty()}
+                onEditProperty={(prop) => handleAddProperty(prop)}
+              />
             ) : (
               <MyPropertiesTab />
             )}
@@ -114,7 +119,11 @@ const ProfileTabs = ({
 
       <AddPropertyDialog
         open={addPropertyOpen}
-        onOpenChange={setAddPropertyOpen}
+        onOpenChange={(open) => {
+          setAddPropertyOpen(open);
+          if (!open) setEditingProperty(null);
+        }}
+        property={editingProperty}
       />
     </div>
   );

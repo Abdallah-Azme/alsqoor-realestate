@@ -18,83 +18,62 @@ import SmartPagination, {
   usePagination,
 } from "@/components/shared/smart-pagination";
 import { motion } from "motion/react";
+import {
+  useUserProperties,
+  useDeleteProperty,
+} from "@/features/properties/hooks/use-properties";
+import { toast } from "sonner";
 
-// Mock data for owner properties
-const mockOwnerProperties = [
-  {
-    id: "1",
-    title: "فيلا فاخرة في الرياض",
-    price: 2500000,
-    formattedPrice: "2,500,000",
-    area: 450,
-    rooms: 6,
-    bathrooms: 4,
-    location: "حي النخيل، الرياض",
-    city: "الرياض",
-    image: "/images/state.png",
-    timePosted: "منذ 3 أيام",
-    status: "published",
-    views: 245,
-    offersCount: 12,
-  },
-  {
-    id: "2",
-    title: "شقة حديثة في جدة",
-    price: 750000,
-    formattedPrice: "750,000",
-    area: 180,
-    rooms: 3,
-    bathrooms: 2,
-    location: "حي الحمراء، جدة",
-    city: "جدة",
-    image: "/images/state.png",
-    timePosted: "منذ أسبوع",
-    status: "pending",
-    views: 89,
-    offersCount: 5,
-  },
-  {
-    id: "3",
-    title: "أرض تجارية في الدمام",
-    price: 1200000,
-    formattedPrice: "1,200,000",
-    area: 600,
-    rooms: 0,
-    bathrooms: 0,
-    location: "حي الشاطئ، الدمام",
-    city: "الدمام",
-    image: "/images/state.png",
-    timePosted: "منذ شهر",
-    status: "published",
-    views: 156,
-    offersCount: 8,
-  },
-];
-
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 10;
 
 interface OwnerPropertiesTabProps {
   onAddProperty?: () => void;
+  onEditProperty?: (property: any) => void;
 }
 
-const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
+const OwnerPropertiesTab = ({
+  onAddProperty,
+  onEditProperty,
+}: OwnerPropertiesTabProps) => {
   const t = useTranslations("Profile");
   const tOwner = useTranslations("owner_properties");
   const tCommon = useTranslations("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter by search query
-  const filteredProperties = mockOwnerProperties.filter((p) =>
+  const { data: propertiesData, isLoading } = useUserProperties({
+    page: currentPage,
+    per_page: ITEMS_PER_PAGE,
+  });
+
+  const deleteMutation = useDeleteProperty();
+
+  const properties = propertiesData?.data || [];
+  const meta = propertiesData?.meta;
+  const totalPages = meta?.lastPage || 1;
+
+  // Local filter for search (since API might not support search in /user/properties)
+  const filteredProperties = properties.filter((p) =>
     p.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // Pagination
-  const { totalPages, getPageItems } = usePagination(
-    filteredProperties,
-    ITEMS_PER_PAGE,
-  );
-  const currentProperties = getPageItems(currentPage);
+  const handleDelete = async (id: number) => {
+    if (
+      window.confirm(
+        tOwner("delete_confirm") ||
+          "Are you sure you want to delete this property?",
+      )
+    ) {
+      try {
+        await deleteMutation.mutateAsync(id);
+        toast.success(
+          tOwner("delete_success") || "Property deleted successfully",
+        );
+      } catch (error) {
+        toast.error(tOwner("delete_error") || "Failed to delete property");
+      }
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -147,10 +126,26 @@ const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
       </div>
 
       {/* Properties Grid */}
-      {currentProperties.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+            >
+              <div className="h-48 w-full bg-gray-100 animate-pulse" />
+              <div className="p-4 space-y-3">
+                <div className="h-6 w-3/4 bg-gray-100 animate-pulse rounded" />
+                <div className="h-4 w-1/2 bg-gray-100 animate-pulse rounded" />
+                <div className="h-10 w-full bg-gray-100 animate-pulse rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : filteredProperties.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentProperties.map((property, index) => (
+            {filteredProperties.map((property, index) => (
               <motion.div
                 key={property.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -161,13 +156,13 @@ const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
                 {/* Image */}
                 <div className="relative h-48">
                   <Image
-                    src={property.image}
+                    src={property.images?.[0] || "/images/state.png"}
                     alt={property.title}
                     fill
                     className="object-cover"
                   />
                   <div className="absolute top-3 start-3">
-                    {getStatusBadge(property.status)}
+                    {getStatusBadge(property.status || "pending")}
                   </div>
                   <div className="absolute top-3 end-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-main-navy">
                     {property.area}
@@ -179,7 +174,11 @@ const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
                 <div className="p-4">
                   {/* Price */}
                   <div className="flex items-center gap-1 text-main-green font-bold text-lg mb-2">
-                    <span>{property.formattedPrice}</span>
+                    <span>
+                      {Number(
+                        property.price_min || property.priceMin || 0,
+                      ).toLocaleString()}
+                    </span>
                     <Image
                       src="/images/ryal.svg"
                       alt={tCommon("sar")}
@@ -194,30 +193,35 @@ const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
                   </h3>
 
                   {/* Location */}
-                  <p className="text-sm text-gray-500 mb-4">
-                    {property.location}
+                  <p className="text-sm text-gray-500 mb-4 truncate">
+                    {property.district},{" "}
+                    {typeof property.city === "string"
+                      ? property.city
+                      : property.city?.name}
                   </p>
 
                   {/* Stats */}
                   <div className="flex items-center gap-4 text-sm text-gray-600 mb-4 pb-4 border-b">
                     <div className="flex items-center gap-1">
                       <FiEye className="text-main-green" />
-                      <span>{property.views}</span>
+                      <span>{property.viewsCount || 0}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <FiHome className="text-main-green" />
                       <span>
-                        {property.offersCount} {tOwner("offers")}
+                        {typeof property.category === "string"
+                          ? property.category
+                          : property.category?.name || tOwner("property")}
                       </span>
                     </div>
                   </div>
-
                   {/* Actions */}
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       className="flex-1 gap-1"
+                      onClick={() => onEditProperty?.(property)}
                     >
                       <FiEdit className="w-4 h-4" />
                       {tOwner("edit")}
@@ -225,6 +229,8 @@ const OwnerPropertiesTab = ({ onAddProperty }: OwnerPropertiesTabProps) => {
                     <Button
                       variant="outline"
                       size="sm"
+                      onClick={() => handleDelete(property.id)}
+                      disabled={deleteMutation.isPending}
                       className="text-red-500 hover:text-red-600 hover:bg-red-50"
                     >
                       <FiTrash2 className="w-4 h-4" />

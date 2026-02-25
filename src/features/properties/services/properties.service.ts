@@ -8,6 +8,7 @@ import {
   ConvertToAdvertisementInput,
   MarketplaceResponse,
   MarketplaceData,
+  UserPropertiesData,
 } from "../types/property.types";
 
 const BASE_PATH = "/properties";
@@ -126,7 +127,7 @@ export const propertiesService = {
    * Get user's properties (authenticated)
    */
   async getUserProperties(params?: { page?: number; per_page?: number }) {
-    return api.get<Property[]>("/user/properties", params);
+    return api.get<UserPropertiesData>("/user/properties", params);
   },
 
   /**

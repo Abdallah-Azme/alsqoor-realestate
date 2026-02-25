@@ -1372,6 +1372,7 @@
   },
   "owner_properties": {
     "add_property": "إضافة عقار كمالك",
+    "edit_property": "تعديل العقار",
     "add_property_desc": "أدخل تفاصيل عقارك أدناه.",
     "no_properties": "لا توجد عقارات",
     "status": {
@@ -1382,14 +1383,26 @@
     "offers": "عرض",
     "edit": "تعديل",
     "delete": "حذف",
+    "update": "تحديث",
     "success_add": "تمت إضافة العقار بنجاح!",
+    "success_update": "تم تحديث العقار بنجاح!",
     "failed_to_add": "فشل في إضافة العقار. يرجى المحاولة مرة أخرى.",
+    "failed_to_update": "فشل في تحديث العقار. يرجى المحاولة مرة أخرى.",
     "please_select_location": "يرجى اختيار الدولة والمدينة",
     "select_country": "اختر الدولة",
     "select_city": "اختر المدينة",
     "loading": "جاري التحميل...",
     "close": "إغلاق",
+    "edit_dialog": {
+      "description": "تعديل تفاصيل العقار أدناه."
+    },
     "add_dialog": {
+      "description": "أدخل تفاصيل العقار أدناه لإضافته.",
+      "basic": "المعلومات الأساسية",
+      "location": "الموقع",
+      "pricing_specs": "السعر والمواصفات",
+      "features": "المميزات",
+      "legal": "البيانات القانونية",
       "tabs": {
         "basic": "المعلومات الأساسية",
         "location": "الموقع",
@@ -1476,7 +1489,10 @@
       "guarantees": "الضمانات",
       "cancel": "إلغاء",
       "submit": "إرسال",
-      "submitting": "جاري الإرسال..."
+      "submitting": "جاري الإرسال...",
+      "next": "التالي",
+      "previous": "السابق",
+      "location_on_map": "الموقع على الخريطة"
     }
   },
 

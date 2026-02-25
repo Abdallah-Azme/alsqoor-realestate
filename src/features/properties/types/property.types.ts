@@ -385,3 +385,29 @@ export interface MarketplaceResponse {
   message: string;
   data: MarketplaceData;
 }
+
+// ============= User Properties Response =============
+
+export interface UserPropertiesData {
+  data: Property[];
+  meta: {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+    from: number;
+    to: number;
+  };
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+}
+
+export interface UserPropertiesResponse {
+  success: boolean;
+  message: string;
+  data: UserPropertiesData;
+}
