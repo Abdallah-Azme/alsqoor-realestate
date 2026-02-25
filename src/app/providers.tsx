@@ -95,17 +95,10 @@ function getQueryClient() {
   }
 }
 
-import { DirectionProvider } from "@radix-ui/react-direction";
-import { useLocale } from "next-intl";
-
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
-  const locale = useLocale();
-  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <DirectionProvider dir={dir}>{children}</DirectionProvider>
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

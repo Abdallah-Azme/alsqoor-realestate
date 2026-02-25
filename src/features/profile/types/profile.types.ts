@@ -26,3 +26,49 @@ export interface UpdateProfileRequest {
   password?: string;
   avatar?: File;
 }
+
+export interface TransactionPackage {
+  id: number;
+  name: string;
+  price: string;
+}
+
+export interface TransactionPaymentMethod {
+  id: number;
+  paymentMethodAr: string;
+  paymentMethodEn: string;
+}
+
+export interface Transaction {
+  id: number;
+  operation: string;
+  status: string;
+  description: string;
+  paymentGateway: string | null;
+  gatewayStatus: string | null;
+  transactionDate: string | null;
+  createdAt: string;
+  package?: TransactionPackage;
+  paymentMethod?: TransactionPaymentMethod;
+}
+
+export interface TransactionsResponse {
+  data: Transaction[];
+  meta: {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+    from: number;
+    to: number;
+  };
+  links: any;
+}
+
+export interface StatisticsResponse {
+  viewsCount: number;
+  adsCount: number;
+  transactionsCount: number;
+  propertyNewsCount: number;
+  propertyRequestsCount: number;
+}

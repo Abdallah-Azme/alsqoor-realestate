@@ -1,5 +1,10 @@
 import { api } from "@/lib/api-client";
-import { ProfileData, UpdateProfileRequest } from "../types/profile.types";
+import {
+  ProfileData,
+  UpdateProfileRequest,
+  TransactionsResponse,
+  StatisticsResponse,
+} from "../types/profile.types";
 
 const BASE_PATH = "/profile";
 
@@ -34,5 +39,19 @@ export const profileService = {
       return api.post(BASE_PATH, formData);
     }
     return api.post(BASE_PATH, data);
+  },
+
+  /**
+   * Get user transactions
+   */
+  async getTransactions(page: number = 1): Promise<TransactionsResponse> {
+    return api.get<TransactionsResponse>("/user/transactions", { page });
+  },
+
+  /**
+   * Get user statistics
+   */
+  async getStatistics(): Promise<StatisticsResponse> {
+    return api.get<StatisticsResponse>("/user/statistics");
   },
 };

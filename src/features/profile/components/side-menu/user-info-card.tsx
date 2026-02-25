@@ -31,7 +31,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
         <div className="relative mb-4">
           <div className="size-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
             <Image
-              src={user.avatar || "/images/avatar-placeholder.png"}
+              src={user.avatar || "/images/avatar-placeholder.svg"}
               alt={user.name}
               width={96}
               height={96}

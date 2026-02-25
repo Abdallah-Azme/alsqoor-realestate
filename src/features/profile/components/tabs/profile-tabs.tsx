@@ -39,7 +39,7 @@ const ProfileTabs = ({
     { value: "statistics", label: t("statistics") },
     { value: "my-properties", label: t("my_ads") },
     { value: "my-offers", label: t("my_offers") },
-    { value: "payment-methods", label: t("payment_methods") },
+    // { value: "payment-methods", label: t("payment_methods") },
     { value: "packages", label: t("packages") },
   ];
 
@@ -100,11 +100,11 @@ const ProfileTabs = ({
             <OffersTab />
           </TabsContent>
 
-          <TabsContent value="payment-methods" className="mt-0">
+          {/* <TabsContent value="payment-methods" className="mt-0">
             <div className="py-12 text-center text-gray-500 bg-white rounded-xl border border-gray-200">
               {t("payment_methods")} - {t("no_properties")}
             </div>
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="packages" className="mt-0">
             <PackagesTab />

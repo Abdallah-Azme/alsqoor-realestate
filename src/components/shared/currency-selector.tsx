@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { DollarSign } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface Currency {
   id: number;
   code: string;
   name: string;
-  symbol: string;
 }
 
 const CurrencySelector = () => {
@@ -16,16 +14,16 @@ const CurrencySelector = () => {
   const tCommon = useTranslations("common");
 
   const CURRENCIES: Currency[] = [
-    { id: 1, code: "SAR", name: t("sar"), symbol: tCommon("sar") }, // Use common.sar for symbol if preferred, or hardcode symbol
-    { id: 2, code: "USD", name: t("usd"), symbol: "$" },
-    { id: 3, code: "EUR", name: t("eur"), symbol: "€" },
-    { id: 4, code: "GBP", name: t("gbp"), symbol: "£" },
-    { id: 5, code: "AED", name: t("aed"), symbol: "د.إ" },
-    { id: 6, code: "EGP", name: t("egp"), symbol: "ج.م" },
-    { id: 7, code: "KWD", name: t("kwd"), symbol: "د.ك" },
-    { id: 8, code: "QAR", name: t("qar"), symbol: "ر.ق" },
-    { id: 9, code: "BHD", name: t("bhd"), symbol: "د.ب" },
-    { id: 10, code: "OMR", name: t("omr"), symbol: "ر.ع" },
+    { id: 1, code: "SAR", name: t("sar") },
+    { id: 2, code: "USD", name: t("usd") },
+    { id: 3, code: "EUR", name: t("eur") },
+    { id: 4, code: "GBP", name: t("gbp") },
+    { id: 5, code: "AED", name: t("aed") },
+    { id: 6, code: "EGP", name: t("egp") },
+    { id: 7, code: "KWD", name: t("kwd") },
+    { id: 8, code: "QAR", name: t("qar") },
+    { id: 9, code: "BHD", name: t("bhd") },
+    { id: 10, code: "OMR", name: t("omr") },
   ];
 
   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState<string>(
@@ -66,8 +64,7 @@ const CurrencySelector = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 text-white text-sm hover:text-main-green transition-colors px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20"
       >
-        <DollarSign className="w-4 h-4" />
-        <span>{selectedCurrency.symbol}</span>
+        <span>{selectedCurrency.code}</span>
       </button>
 
       {isOpen && (
@@ -96,9 +93,6 @@ const CurrencySelector = () => {
                   <span>{currency.name}</span>
                   <span className="text-xs text-gray-400">{currency.code}</span>
                 </div>
-                <span className="text-gray-500 font-sans">
-                  {currency.symbol}
-                </span>
               </button>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
+import { useStatistics } from "../../hooks/use-profile";
 import {
   Area,
   AreaChart,
@@ -68,63 +69,60 @@ const StatCard = ({
   );
 };
 
-const data = [
-  { name: "Jan", value: 4000 },
-  { name: "Feb", value: 8000 },
-  { name: "Mar", value: 15000 },
-  { name: "Apr", value: 24000 },
-  { name: "May", value: 24000 },
-  { name: "Jun", value: 20000 },
-  { name: "Jul", value: 24000 },
-];
-
-// Mock secondary line data for the "shadow" effect seen in design
-const data2 = [
-  { name: "Jan", value: 12000 },
-  { name: "Feb", value: 13000 },
-  { name: "Mar", value: 18000 },
-  { name: "Apr", value: 8000 },
-  { name: "May", value: 12000 },
-  { name: "Jun", value: 26000 },
-  { name: "Jul", value: 30000 },
-];
-
-const mergedData = data.map((item, index) => ({
-  name: item.name,
-  value1: item.value,
-  value2: data2[index].value,
-}));
-
 const StatisticsTab = () => {
   const t = useTranslations("Profile");
+  const { data: statsData } = useStatistics();
+
+  const chartData = [
+    { name: t("views_count"), value1: statsData?.viewsCount || 0 },
+    { name: t("ads_count"), value1: statsData?.adsCount || 0 },
+    {
+      name: t("transactions_count"),
+      value1: statsData?.transactionsCount || 0,
+    },
+    {
+      name: t("property_news_count"),
+      value1: statsData?.propertyNewsCount || 0,
+    },
+    {
+      name: t("property_requests_count"),
+      value1: statsData?.propertyRequestsCount || 0,
+    },
+  ];
 
   const stats = [
     {
-      title: t("total_earnings"),
-      value: "53,000 " + t("currency"), // Assuming currency key exists or just hardcode SR/LE based on locale if needed, but for now using value from screenshot
-      valuePrefix: "53,000", // To match exactly
-      percentage: "+55%",
-      isPositive: true,
-      icon: <Wallet className="h-6 w-6" />,
-    },
-    {
       title: t("views_count"),
-      value: "2,300",
-      percentage: "+5%",
+      value: statsData?.viewsCount?.toString() || "0",
+      percentage: "+0%",
       isPositive: true,
       icon: <Globe className="h-6 w-6" />,
     },
     {
       title: t("ads_count"),
-      value: "24",
-      percentage: "-14%",
-      isPositive: false,
+      value: statsData?.adsCount?.toString() || "0",
+      percentage: "+0%",
+      isPositive: true,
       icon: <FileText className="h-6 w-6" />,
     },
     {
-      title: t("visitors_count"),
-      value: "44",
-      percentage: "+8%",
+      title: t("transactions_count"),
+      value: statsData?.transactionsCount?.toString() || "0",
+      percentage: "+0%",
+      isPositive: true,
+      icon: <Wallet className="h-6 w-6" />,
+    },
+    {
+      title: t("property_news_count"),
+      value: statsData?.propertyNewsCount?.toString() || "0",
+      percentage: "+0%",
+      isPositive: true,
+      icon: <TrendingUp className="h-6 w-6" />,
+    },
+    {
+      title: t("property_requests_count"),
+      value: statsData?.propertyRequestsCount?.toString() || "0",
+      percentage: "+0%",
       isPositive: true,
       icon: <Users className="h-6 w-6" />,
     },
@@ -138,7 +136,7 @@ const StatisticsTab = () => {
           <StatCard
             key={index}
             title={stat.title}
-            value={stat.valuePrefix || stat.value} // Use valuePrefix if available for currency formatting manually if needed
+            value={stat.value}
             percentage={stat.percentage}
             isPositive={stat.isPositive}
             icon={stat.icon}
@@ -156,11 +154,9 @@ const StatisticsTab = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-main-green"></span>
-                <span className="text-sm text-gray-500">2024</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-                <span className="text-sm text-gray-500">2025</span>
+                <span className="text-sm text-gray-500">
+                  {t("current_stats", { fallback: "Current Stats" })}
+                </span>
               </div>
             </div>
           </div>
@@ -182,7 +178,7 @@ const StatisticsTab = () => {
               Usually charts are LTR (time goes left to right). */}
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={mergedData}
+              data={chartData}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <defs>
@@ -190,23 +186,18 @@ const StatisticsTab = () => {
                   <stop offset="5%" stopColor="#10B981" stopOpacity={0.1} />
                   <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="colorValue2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9CA3AF" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="#9CA3AF" stopOpacity={0} />
-                </linearGradient>
               </defs>
               <XAxis
                 dataKey="name"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "#9CA3AF", fontSize: 12 }}
-                allowDuplicatedCategory={false}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "#9CA3AF", fontSize: 12 }}
-                tickFormatter={(value) => `${value / 1000}${t("k_suffix")}`}
+                tickFormatter={(value) => value.toString()}
               />
               <Tooltip />
               <Area
@@ -216,15 +207,6 @@ const StatisticsTab = () => {
                 fillOpacity={1}
                 fill="url(#colorValue1)"
                 strokeWidth={2}
-              />
-              <Area
-                type="monotone"
-                dataKey="value2"
-                stroke="#9CA3AF"
-                fillOpacity={1}
-                fill="url(#colorValue2)"
-                strokeWidth={2}
-                strokeDasharray="5 5"
               />
             </AreaChart>
           </ResponsiveContainer>

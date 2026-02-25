@@ -27,7 +27,7 @@ const MOCK_BROKERS = [
   {
     id: "1",
     name: "أحمد محمد الصالح",
-    avatar: "/images/avatar-placeholder.png",
+    avatar: "/images/avatar-placeholder.svg",
     rating: 4.8,
     reviewsCount: 156,
     city: "الرياض",
@@ -39,7 +39,7 @@ const MOCK_BROKERS = [
   {
     id: "2",
     name: "محمد عبدالله العتيبي",
-    avatar: "/images/avatar-placeholder.png",
+    avatar: "/images/avatar-placeholder.svg",
     rating: 4.5,
     reviewsCount: 89,
     city: "جدة",
@@ -51,7 +51,7 @@ const MOCK_BROKERS = [
   {
     id: "3",
     name: "خالد سعود الدوسري",
-    avatar: "/images/avatar-placeholder.png",
+    avatar: "/images/avatar-placeholder.svg",
     rating: 4.9,
     reviewsCount: 210,
     city: "الرياض",
@@ -63,7 +63,7 @@ const MOCK_BROKERS = [
   {
     id: "4",
     name: "عبدالرحمن ناصر القحطاني",
-    avatar: "/images/avatar-placeholder.png",
+    avatar: "/images/avatar-placeholder.svg",
     rating: 4.3,
     reviewsCount: 45,
     city: "الدمام",

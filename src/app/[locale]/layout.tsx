@@ -13,6 +13,7 @@ import { settingsService } from "@/features/settings";
 import { getSettings } from "@/lib/settings-actions";
 import Providers from "../providers";
 import type { Metadata } from "next";
+import { DirectionProvider } from "@/components/ui/direction";
 
 const alexandria = Alexandria({
   subsets: ["latin"],
@@ -80,21 +81,23 @@ export default async function RootLayout({ children, params }) {
         className={`${alexandria.className} antialiased text-main-navy relative`}
       >
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <Providers>
-            <UserContextProvider>
-              <Toaster
-                dir={locale === "ar" ? "rtl" : "ltr"}
-                richColors
-                position="top-right"
-              />
-              <div className="fixed top-0 left-0 right-0 z-50">
-                <Navbar topnavColor={navbarColor} settings={settings} />
-              </div>
-              <div className="mt-40 min-h-screen">{children}</div>
-              <FloatingSocials settings={settings} />
-              <Footer settings={settings} />
-            </UserContextProvider>
-          </Providers>
+          <DirectionProvider dir={locale === "ar" ? "rtl" : "ltr"}>
+            <Providers>
+              <UserContextProvider>
+                <Toaster
+                  dir={locale === "ar" ? "rtl" : "ltr"}
+                  richColors
+                  position="top-right"
+                />
+                <div className="fixed top-0 left-0 right-0 z-50">
+                  <Navbar topnavColor={navbarColor} settings={settings} />
+                </div>
+                <div className="mt-40 min-h-screen">{children}</div>
+                <FloatingSocials settings={settings} />
+                <Footer settings={settings} />
+              </UserContextProvider>
+            </Providers>
+          </DirectionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -8,90 +8,24 @@ import {
 } from "@/components/ui/select";
 import { useDirection } from "@/hooks/use-direction";
 import { ArrowDown, ArrowUp, FileText } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useState } from "react";
 
-// Static data based on the screenshot
-const transactions = [
-  {
-    id: 1,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "add_property",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar", // Assuming 'ريال' translates to SAR based on context or just use translated label
-    amount: "898",
-    isIncoming: false, // Red arrow down
-  },
-  {
-    id: 2,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "ad_funding",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar",
-    amount: "898",
-    isIncoming: false,
-  },
-  {
-    id: 3,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "add_property",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar",
-    amount: "898",
-    isIncoming: true, // Green arrow up
-  },
-  {
-    id: 4,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "ad_funding",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar",
-    amount: "898",
-    isIncoming: false,
-  },
-  {
-    id: 5,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "ad_funding",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar",
-    amount: "898",
-    isIncoming: true,
-  },
-  {
-    id: 6,
-    date: "10 Jun 2024",
-    time: "08:45",
-    operation: "add_property",
-    transferType: "bank_visa",
-    invoice: true,
-    currency: "sar",
-    amount: "898",
-    isIncoming: false,
-  },
-];
+import { useTransactions } from "../../hooks/use-profile";
 
 const FinancialsTab = () => {
   const t = useTranslations("Profile");
+  const locale = useLocale();
   const [date, setDate] = useState<string>("");
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading } = useTransactions(page);
+  const transactions = response?.data || [];
 
   return (
     <div className="space-y-6">
-      {/* Filters Section */}
+      {/* Filters Section
       <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-        {/* explicit dir attribute ensures RTL behavior for flex interactions */}
         <div className="flex flex-wrap gap-4">
-          {/* Transfer Type Select */}
           <div className="space-y-2 min-w-[180px]">
             <label className="text-sm font-medium text-gray-700 block">
               {t("transfer_type")}
@@ -107,7 +41,6 @@ const FinancialsTab = () => {
             </Select>
           </div>
 
-          {/* Date Picker */}
           <div className="space-y-2 min-w-[180px]">
             <label className="text-sm font-medium text-gray-700 block">
               {t("date")}
@@ -121,6 +54,7 @@ const FinancialsTab = () => {
           </div>
         </div>
       </div>
+      */}
 
       {/* Table Section */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -137,51 +71,87 @@ const FinancialsTab = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {transactions.map((tx) => (
-                <tr
-                  key={tx.id}
-                  className="hover:bg-gray-50/50 transition-colors"
-                >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-1 font-bold">
-                      <span
-                        className={
-                          tx.isIncoming ? "text-green-500" : "text-red-500"
-                        }
-                      >
-                        ${tx.amount}
-                      </span>
-                      {tx.isIncoming ? (
-                        <ArrowUp className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <ArrowDown className="w-4 h-4 text-red-500" />
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-gray-600 font-medium">
-                    {tx.currency === "sar" ? t("currency") : tx.currency}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center text-red-500 cursor-pointer hover:bg-red-100 transition-colors">
-                      <FileText className="w-4 h-4" />
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-gray-600">
-                    {t(tx.transferType)}
-                  </td>
-                  <td className="px-6 py-4 text-gray-900 font-medium">
-                    {t(tx.operation)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex flex-col text-xs text-center">
-                      <span className="font-medium text-gray-900">
-                        {tx.date}
-                      </span>
-                      <span className="text-gray-500">{tx.time}</span>
-                    </div>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-4 text-center">
+                    {t("loading", { fallback: "Loading..." })}
                   </td>
                 </tr>
-              ))}
+              ) : transactions.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-4 text-center">
+                    {t("no_data", { fallback: "No transactions found" })}
+                  </td>
+                </tr>
+              ) : (
+                transactions.map((tx) => {
+                  const amount = tx.package?.price || "0";
+                  const isIncoming = false; // Based on context, subscription payments are outgoing
+                  const transferTypeStr = tx.paymentMethod
+                    ? locale === "ar"
+                      ? tx.paymentMethod.paymentMethodAr
+                      : tx.paymentMethod.paymentMethodEn
+                    : "-";
+                  const currencyStr = t("currency");
+
+                  // Format dates
+                  const d = new Date(tx.createdAt);
+                  const txDate = d.toLocaleDateString(
+                    locale === "ar" ? "ar-EG" : "en-US",
+                    { day: "2-digit", month: "short", year: "numeric" },
+                  );
+                  const txTime = d.toLocaleTimeString(
+                    locale === "ar" ? "ar-EG" : "en-US",
+                    { hour: "2-digit", minute: "2-digit" },
+                  );
+
+                  return (
+                    <tr
+                      key={tx.id}
+                      className="hover:bg-gray-50/50 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1 font-bold">
+                          <span
+                            className={
+                              isIncoming ? "text-green-500" : "text-red-500"
+                            }
+                          >
+                            ${amount}
+                          </span>
+                          {isIncoming ? (
+                            <ArrowUp className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <ArrowDown className="w-4 h-4 text-red-500" />
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-600 font-medium">
+                        {currencyStr}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center text-red-500 cursor-pointer hover:bg-red-100 transition-colors">
+                          <FileText className="w-4 h-4" />
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-600">
+                        {transferTypeStr}
+                      </td>
+                      <td className="px-6 py-4 text-gray-900 font-medium">
+                        {tx.description || tx.operation}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col text-xs text-center">
+                          <span className="font-medium text-gray-900">
+                            {txDate}
+                          </span>
+                          <span className="text-gray-500">{txTime}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

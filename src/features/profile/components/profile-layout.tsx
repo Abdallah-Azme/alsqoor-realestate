@@ -57,7 +57,6 @@ const ProfileLayout = () => {
     try {
       const success = await profileService.updateProfile(values);
       if (success) {
-        toast.success(t("save_success"));
         await fetchUserProfile(); // Refresh data
         setIsEditing(false); // Exit edit mode on success
       } else {

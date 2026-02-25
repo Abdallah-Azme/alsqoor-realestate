@@ -28,3 +28,21 @@ export interface Package {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ActiveSubscription {
+  id: number;
+  subscriptionType: string;
+  subscriptionPeriod: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  isActive: boolean;
+  remainingDays: number;
+  earnedPoints: string;
+  package: Package;
+}
+
+export interface UserActiveSubscriptionData {
+  package: ActiveSubscription | null;
+  offers: any[];
+}

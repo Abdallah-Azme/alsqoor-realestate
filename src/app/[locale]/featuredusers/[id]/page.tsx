@@ -53,7 +53,7 @@ const AgentProfilePage = async ({ params }: PageProps) => {
     email: "ahmed@example.com",
     mobile: "+966 50 123 4567",
     role: "broker",
-    avatarUrl: "/images/avatar-placeholder.png",
+    avatarUrl: "/images/avatar-placeholder.svg",
     pointsBalance: 500,
     propertiesCount: 25,
     rating: 4.8,
@@ -92,7 +92,7 @@ const AgentProfilePage = async ({ params }: PageProps) => {
                       <Image
                         src={
                           agentData.avatarUrl ||
-                          "/images/avatar-placeholder.png"
+                          "/images/avatar-placeholder.svg"
                         }
                         alt={agentData.name}
                         fill

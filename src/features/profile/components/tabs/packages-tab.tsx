@@ -5,25 +5,36 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, CreditCard } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { usePackages } from "@/features/packages/hooks/use-packages";
+import {
+  usePackages,
+  useActiveSubscription,
+} from "@/features/packages/hooks/use-packages";
 import { Package } from "@/features/packages/types/packages.types";
+import { useState } from "react";
+import { SubscriptionDialog } from "./subscription-dialog";
 
 interface PackageProps {
+  id: string | number;
   title: string;
   price: string;
   duration: string;
   features: string[];
   isCurrent?: boolean;
+  showRenewButton?: boolean;
+  onSelect: (id: string | number) => void;
 }
 
 const PackageCard = ({
+  id,
   title,
   price,
   duration,
   features,
   isCurrent,
+  showRenewButton = true,
+  onSelect,
 }: PackageProps) => {
   const t = useTranslations("Profile");
 
@@ -31,7 +42,7 @@ const PackageCard = ({
     <Card
       className={`border transition-all duration-300 h-full flex flex-col justify-between ${
         isCurrent
-          ? "border-green-100 bg-green-50/30 shadow-sm"
+          ? "border-main-green bg-green-50/30 shadow-sm"
           : "border-gray-100 bg-white shadow-sm hover:shadow-md"
       }`}
     >
@@ -58,15 +69,19 @@ const PackageCard = ({
       </CardContent>
 
       <CardFooter className="pt-4">
-        <Button
-          className={`w-full font-bold h-10 ${
-            isCurrent
-              ? "bg-main-green hover:bg-green-700 text-white"
-              : "bg-main-navy hover:bg-navy-700 text-white"
-          }`}
-        >
-          {isCurrent ? t("renew_package") : t("change_plan")}
-        </Button>
+        {showRenewButton && (
+          <Button
+            onClick={() => onSelect(id)}
+            className={`w-full font-bold h-10 gap-2 ${
+              isCurrent
+                ? "bg-main-green hover:bg-green-700 text-white"
+                : "bg-main-navy hover:bg-navy-700 text-white"
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            {isCurrent ? t("renew_package") : t("change_plan")}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
@@ -75,6 +90,18 @@ const PackageCard = ({
 const PackagesTab = () => {
   const t = useTranslations("Profile");
   const { data: packages, isLoading, error } = usePackages();
+  const { data: activeSubData, isLoading: isLoadingActive } =
+    useActiveSubscription();
+
+  const [selectedPackageId, setSelectedPackageId] = useState<
+    string | number | null
+  >(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleSelectPackage = (id: string | number) => {
+    setSelectedPackageId(id);
+    setIsDialogOpen(true);
+  };
 
   const getFeaturesList = (pkg: Package) => {
     const features = [];
@@ -93,7 +120,14 @@ const PackagesTab = () => {
     return features;
   };
 
-  if (isLoading) {
+  const isEndDateExceeded = () => {
+    if (!activeSubData?.package?.endDate) return false;
+    const endDate = new Date(activeSubData.package.endDate);
+    const today = new Date();
+    return endDate <= today;
+  };
+
+  if (isLoading || isLoadingActive) {
     return (
       <div className="flex justify-center items-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-main-green" />
@@ -109,8 +143,36 @@ const PackagesTab = () => {
 
   return (
     <div className="space-y-8">
-      {/* Packages Grid */}
+      {/* Active Package */}
       <div className="space-y-4">
+        <div className="flex justify-start">
+          <h2 className="text-2xl font-bold text-main-navy">
+            {t("active_package")}
+          </h2>
+        </div>
+
+        {activeSubData?.package?.package ? (
+          <div className="max-w-md">
+            <PackageCard
+              id={activeSubData.package.package.id}
+              title={activeSubData.package.package.name}
+              price={activeSubData.package.package.price}
+              duration={t("remaining_days", {
+                days: activeSubData.package.remainingDays,
+              })}
+              features={getFeaturesList(activeSubData.package.package)}
+              isCurrent={true}
+              showRenewButton={isEndDateExceeded()}
+              onSelect={handleSelectPackage}
+            />
+          </div>
+        ) : (
+          <p className="text-gray-500">{t("no_active_package")}</p>
+        )}
+      </div>
+
+      {/* Packages Grid */}
+      <div className="space-y-4 pt-6 border-t border-gray-100">
         <div className="flex justify-start">
           <h2 className="text-2xl font-bold text-main-navy">
             {t("other_packages")}
@@ -121,6 +183,7 @@ const PackagesTab = () => {
           {packages?.map((pkg) => (
             <PackageCard
               key={pkg.id}
+              id={pkg.id}
               title={pkg.name}
               price={pkg.price}
               duration={t("for_duration", {
@@ -128,10 +191,17 @@ const PackagesTab = () => {
                 unit: t("days"),
               })}
               features={getFeaturesList(pkg)}
+              onSelect={handleSelectPackage}
             />
           ))}
         </div>
       </div>
+
+      <SubscriptionDialog
+        packageId={selectedPackageId}
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      />
     </div>
   );
 };
