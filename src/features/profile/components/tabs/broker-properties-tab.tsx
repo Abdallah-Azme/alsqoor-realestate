@@ -202,19 +202,8 @@ const BrokerPropertiesTab = ({ onAddProperty }: BrokerPropertiesTabProps) => {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {currentProperties.map((property) => (
-                    <div key={property.id} className="relative">
+                    <div key={property.id} className="h-full">
                       <MyPropertyCard property={property} />
-                      {/* Start Marketing Button - Only for 'new' status */}
-                      {tab.value === "new" && (
-                        <Button
-                          onClick={() =>
-                            handleStartMarketing(Number(property.id))
-                          }
-                          className="absolute bottom-20 start-4 end-4 bg-main-navy hover:bg-main-navy/90 text-white text-sm py-2"
-                        >
-                          {tBroker("start_marketing")}
-                        </Button>
-                      )}
                     </div>
                   ))}
                 </div>

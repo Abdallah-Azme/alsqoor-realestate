@@ -91,3 +91,6 @@ export interface ResetPasswordRequest {
   password: string;
   password_confirmation: string;
 }
+export interface UpdateFcmTokenRequest {
+  fcm_token: string;
+}

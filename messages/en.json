@@ -295,6 +295,12 @@
     "no_properties": "No properties found",
     "save_success": "Profile updated successfully",
     "save_error": "Failed to update profile",
+    "upgrade_success": "Ad upgraded successfully",
+    "upgrade_error": "Failed to upgrade ad",
+    "marketing_success": "Marketing started successfully",
+    "marketing_error": "Failed to start marketing",
+    "market_now": "Market Property",
+    "featured_label": "Featured",
     "validation_name": "Name is too short",
     "validation_email": "Invalid email",
     "validation_phone": "Invalid phone",
@@ -445,6 +451,10 @@
     "actions": {
       "accept": "Accept",
       "reject": "Reject",
+      "accepting": "Accepting...",
+      "rejecting": "Rejecting...",
+      "confirm_accept": "Are you sure you want to accept this offer?",
+      "confirm_reject": "Are you sure you want to reject this offer?",
       "view_property": "View Property"
     },
     "filters": {
@@ -1146,6 +1156,7 @@
   "marketplace": {
     "title": "Properties",
     "add_property": "Add Property",
+    "add": "Add",
     "tabs": {
       "brokers": "Broker Properties",
       "owners": "Owner Properties",

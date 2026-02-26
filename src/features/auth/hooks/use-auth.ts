@@ -8,6 +8,7 @@ import {
   ForgotPasswordRequest,
   VerifyOtpRequest,
   ResetPasswordRequest,
+  UpdateFcmTokenRequest,
 } from "../types/auth.types";
 import { setToken, removeToken } from "@/services";
 
@@ -122,5 +123,15 @@ export function useLogout() {
         localStorage.removeItem("token");
       }
     },
+  });
+}
+
+/**
+ * Hook for updating FCM token
+ */
+export function useUpdateFcmToken() {
+  return useMutation({
+    mutationFn: (data: UpdateFcmTokenRequest) =>
+      authService.updateFcmToken(data),
   });
 }

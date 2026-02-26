@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 import { useAcceptOffer, useRejectOffer } from "../hooks/use-property-offers";
-import { Check, X, ExternalLink, User, Calendar } from "lucide-react";
+import { Check, X, ExternalLink, User, Calendar, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -128,22 +128,34 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
             <Button
               size="sm"
               variant="default"
-              onClick={handleAccept}
+              onClick={() => {
+                if (window.confirm(t("actions.confirm_accept"))) handleAccept();
+              }}
               disabled={isAccepting || isRejecting}
               className="flex-1"
             >
-              <Check className="h-4 w-4 ml-2" />
-              {t("actions.accept")}
+              {isAccepting ? (
+                <Loader2 className="h-4 w-4 animate-spin ml-2" />
+              ) : (
+                <Check className="h-4 w-4 ml-2" />
+              )}
+              {isAccepting ? t("actions.accepting") : t("actions.accept")}
             </Button>
             <Button
               size="sm"
               variant="destructive"
-              onClick={handleReject}
+              onClick={() => {
+                if (window.confirm(t("actions.confirm_reject"))) handleReject();
+              }}
               disabled={isAccepting || isRejecting}
               className="flex-1"
             >
-              <X className="h-4 w-4 ml-2" />
-              {t("actions.reject")}
+              {isRejecting ? (
+                <Loader2 className="h-4 w-4 animate-spin ml-2" />
+              ) : (
+                <X className="h-4 w-4 ml-2" />
+              )}
+              {isRejecting ? t("actions.rejecting") : t("actions.reject")}
             </Button>
           </>
         )}

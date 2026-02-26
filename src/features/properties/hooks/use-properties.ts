@@ -252,3 +252,20 @@ export function useCategories() {
     staleTime: 30 * 60 * 1000, // 30 minutes
   });
 }
+/**
+ * Hook to start marketing a property (broker only)
+ */
+export function useStartMarketing() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (propertyId: number) =>
+      propertiesService.startMarketing(propertyId),
+    onSuccess: (_, propertyId) => {
+      queryClient.invalidateQueries({ queryKey: ["property", propertyId] });
+      queryClient.invalidateQueries({ queryKey: ["properties", "user"] });
+      // Invalidate broker counts if they exist in cache
+      queryClient.invalidateQueries({ queryKey: ["properties", "broker"] });
+    },
+  });
+}

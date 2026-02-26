@@ -63,4 +63,11 @@ export const authService = {
   async logout() {
     return api.post("/logout", {});
   },
+
+  /**
+   * Update FCM token for notifications
+   */
+  async updateFcmToken(data: { fcm_token: string }) {
+    return api.post("/fcm-token", data);
+  },
 };

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useUserPropertyOffers } from "../hooks/use-property-offers";
 import { PropertyOfferCard } from "./property-offer-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useProfile } from "@/features/profile/hooks/use-profile";
 import {
   Select,
   SelectContent,
@@ -17,8 +18,15 @@ import { PropertyOffer, OfferStatus } from "../types/offer.types";
 
 export function PropertyOffersList() {
   const t = useTranslations("offers");
-  const { data: offers, isLoading, error } = useUserPropertyOffers();
+  const {
+    data: offers,
+    isLoading: isLoadingOffers,
+    error,
+  } = useUserPropertyOffers();
+  const { data: profile, isLoading: isLoadingProfile } = useProfile();
   const [statusFilter, setStatusFilter] = useState<OfferStatus | "all">("all");
+
+  const isLoading = isLoadingOffers || isLoadingProfile;
 
   if (isLoading) {
     return (
@@ -41,10 +49,15 @@ export function PropertyOffersList() {
     ? offers
     : (offers as any)?.data || (offers as any)?.data?.data || [];
 
+  const userId = profile?.id;
+
   const sentOffers =
-    offersData?.filter((offer: PropertyOffer) => offer.sender) || [];
+    offersData?.filter((offer: PropertyOffer) => offer.sender?.id === userId) ||
+    [];
   const receivedOffers =
-    offersData?.filter((offer: PropertyOffer) => offer.receiver) || [];
+    offersData?.filter(
+      (offer: PropertyOffer) => offer.receiver?.id === userId,
+    ) || [];
 
   // Filter by status
   const filterOffers = (offersList: PropertyOffer[]) => {

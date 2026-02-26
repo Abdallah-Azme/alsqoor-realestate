@@ -294,7 +294,13 @@
     "my_properties": "عقاراتي",
     "no_properties": "لا توجد عقارات",
     "save_success": "تم تحديث الملف الشخصي بنجاح",
-    "save_error": "فشل تحديث الملف الشخصي",
+    "save_error": "فشل في تحديث الملف الشخصي",
+    "upgrade_success": "تم ترقية الإعلان بنجاح",
+    "upgrade_error": "فشل في ترقية الإعلان",
+    "marketing_success": "تم بدء التسويق بنجاح",
+    "marketing_error": "فشل في بدء التسويق",
+    "market_now": "قم بالتسويق للعقار",
+    "featured_label": "مميز",
     "validation_name": "الاسم قصير جداً",
     "validation_email": "البريد غير صالح",
     "validation_phone": "رقم الهاتف غير صالح",
@@ -445,6 +451,10 @@
     "actions": {
       "accept": "قبول",
       "reject": "رفض",
+      "accepting": "جاري القبول...",
+      "rejecting": "جاري الرفض...",
+      "confirm_accept": "هل أنت متأكد من قبول هذا العرض؟",
+      "confirm_reject": "هل أنت متأكد من رفض هذا العرض؟",
       "view_property": "عرض العقار"
     },
     "filters": {
@@ -940,6 +950,7 @@
   "marketplace": {
     "title": "عقارات",
     "add_property": "إضافة عقار",
+    "add": "إضافة",
     "tabs": {
       "brokers": "عقارات الوسطاء",
       "owners": "عقارات الملاك",

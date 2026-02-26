@@ -226,7 +226,8 @@ const OwnerPropertiesTab = ({
                       <FiEdit className="w-4 h-4" />
                       {tOwner("edit")}
                     </Button>
-                    <Button
+                    {/* Commented out the delete button temporarily per user request */}
+                    {/* <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDelete(property.id)}
@@ -234,7 +235,7 @@ const OwnerPropertiesTab = ({
                       className="text-red-500 hover:text-red-600 hover:bg-red-50"
                     >
                       <FiTrash2 className="w-4 h-4" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </motion.div>

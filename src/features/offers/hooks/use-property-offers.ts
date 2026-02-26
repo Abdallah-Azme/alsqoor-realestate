@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { propertyOffersService } from "../services/property-offers.service";
 import { SubmitOfferInput } from "../types/offer.types";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // Query keys
 export const propertyOfferKeys = {
@@ -36,11 +38,16 @@ export const useSubmitOffer = () => {
 // Accept offer mutation
 export const useAcceptOffer = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations("offers.messages");
 
   return useMutation({
     mutationFn: propertyOffersService.acceptOffer,
     onSuccess: () => {
+      toast.success(t("accept_success"));
       queryClient.invalidateQueries({ queryKey: propertyOfferKeys.user() });
+    },
+    onError: () => {
+      toast.error(t("accept_error"));
     },
   });
 };
@@ -48,11 +55,16 @@ export const useAcceptOffer = () => {
 // Reject offer mutation
 export const useRejectOffer = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations("offers.messages");
 
   return useMutation({
     mutationFn: propertyOffersService.rejectOffer,
     onSuccess: () => {
+      toast.success(t("reject_success"));
       queryClient.invalidateQueries({ queryKey: propertyOfferKeys.user() });
+    },
+    onError: () => {
+      toast.error(t("reject_error"));
     },
   });
 };

@@ -6,58 +6,10 @@ import { FiPlus, FiSearch } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MyPropertyCard from "./my-property-card";
+import { useUserProperties } from "@/features/properties/hooks/use-properties";
 import SmartPagination, {
   usePagination,
 } from "@/components/shared/smart-pagination";
-
-// Mock data
-const mockProperties = [
-  {
-    id: "1",
-    title: "فيلا جديدة في جدة",
-    price: 788000,
-    formattedPrice: "788,000",
-    area: 224,
-    rooms: 5,
-    bathrooms: 2,
-    garages: 2,
-    location: "جدة، السعودية",
-    city: "جدة",
-    image: "/images/state.png",
-    timePosted: "منذ 4 أيام",
-    isSerious: true,
-  },
-  {
-    id: "2",
-    title: "فيلا جديدة في جدة",
-    price: 788000,
-    formattedPrice: "788,000",
-    area: 224,
-    rooms: 5,
-    bathrooms: 2,
-    garages: 2,
-    location: "جدة، السعودية",
-    city: "جدة",
-    image: "/images/state.png",
-    timePosted: "منذ 4 أيام",
-    isSerious: true,
-  },
-  {
-    id: "3",
-    title: "فيلا جديدة في جدة",
-    price: 788000,
-    formattedPrice: "788,000",
-    area: 224,
-    rooms: 5,
-    bathrooms: 2,
-    garages: 2,
-    location: "جدة، السعودية",
-    city: "جدة",
-    image: "/images/state.png",
-    timePosted: "منذ 4 أيام",
-    isSerious: true,
-  },
-];
 
 const ITEMS_PER_PAGE = 6;
 
@@ -65,12 +17,39 @@ const MyPropertiesTab = () => {
   const t = useTranslations("Profile");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Use the reusable pagination hook
-  const { totalPages, getPageItems } = usePagination(
-    mockProperties,
-    ITEMS_PER_PAGE,
-  );
-  const currentProperties = getPageItems(currentPage);
+  const {
+    data: propertiesData,
+    isLoading,
+    error,
+  } = useUserProperties({
+    page: currentPage,
+    per_page: ITEMS_PER_PAGE,
+  });
+
+  const properties = propertiesData?.data || [];
+  const meta = propertiesData?.meta;
+  const totalPages = meta?.lastPage || 1;
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(3)].map((_, i) => (
+          <div
+            key={i}
+            className="bg-white rounded-xl border border-gray-200 h-80 animate-pulse"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-12 text-center text-red-500 bg-white rounded-xl border border-gray-200">
+        {t("error_loading") || "Failed to load properties"}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -93,19 +72,29 @@ const MyPropertiesTab = () => {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {currentProperties.map((property) => (
-          <MyPropertyCard key={property.id} property={property} />
-        ))}
-      </div>
+      {properties.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {properties.map((property) => (
+              <MyPropertyCard key={property.id} property={property as any} />
+            ))}
+          </div>
 
-      {/* Pagination */}
-      <SmartPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-        className="mt-8"
-      />
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <SmartPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              className="mt-8"
+            />
+          )}
+        </>
+      ) : (
+        <div className="py-12 text-center text-gray-500 bg-white rounded-xl border border-gray-200">
+          {t("no_properties")}
+        </div>
+      )}
     </div>
   );
 };

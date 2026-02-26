@@ -294,8 +294,12 @@ const AddPropertyDialog = ({
           : "",
         obligations: (property.obligations || "no") as any,
         license_number: property.license_number || property.licenseNumber || "",
-        license_expiry_date:
-          property.license_expiry_date || property.licenseExpiryDate || "",
+        license_expiry_date: (() => {
+          const raw =
+            property.license_expiry_date || property.licenseExpiryDate || "";
+          // HTML date input needs "YYYY-MM-DD"; API may return full ISO string
+          return raw ? raw.substring(0, 10) : "";
+        })(),
         plan_number: property.plan_number || property.planNumber || "",
         plot_number: property.plot_number || property.plotNumber || "",
         area_name: property.area_name || property.areaName || "",
