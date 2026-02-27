@@ -32,3 +32,7 @@ keep usin the service and hooks structure as we are doing
 https://api.alsqoor-realestate.sa/admin
 admin@gmail.com
 123456
+
+
+
+1- ابداء التسويق

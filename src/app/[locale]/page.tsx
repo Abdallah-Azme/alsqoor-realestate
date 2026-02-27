@@ -75,7 +75,7 @@ export default async function Home() {
         bannerImage={media?.bannerImage}
       />
       <StateFilterSection />
-      <StatesSection properties={featuredProperties} />
+      {/* <StatesSection properties={featuredProperties} /> */}
       <ClientReviews />
       <BlogSection />
       <PartnerSection />

@@ -4,11 +4,12 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { FiClock, FiHome } from "react-icons/fi";
 import { TbDimensions } from "react-icons/tb";
 import StartMarketingDialog from "./start-marketing-dialog";
+import { useProfile } from "@/features/profile/hooks/use-profile";
 import { toast } from "sonner";
 
 interface BrokerPropertyCardProps {
@@ -36,6 +37,8 @@ const BrokerPropertyCard = ({
 }: BrokerPropertyCardProps) => {
   const t = useTranslations("marketplace.broker");
   const tCommon = useTranslations("marketplace");
+  const router = useRouter();
+  const { data: user } = useProfile();
   const [showMarketingDialog, setShowMarketingDialog] = useState(false);
 
   const statusColors = {
@@ -44,11 +47,21 @@ const BrokerPropertyCard = ({
     under_marketing: "bg-main-green",
     half_deal: "bg-blue-500",
     limited: "bg-red-500",
+    deleted: "bg-gray-500",
   };
 
   const handleMarketingClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const isLogged =
+      typeof window !== "undefined" && !!localStorage.getItem("token");
+
+    if (!isLogged) {
+      router.push("/auth/login");
+      return;
+    }
+
     setShowMarketingDialog(true);
   };
 

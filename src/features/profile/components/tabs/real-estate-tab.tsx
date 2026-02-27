@@ -68,7 +68,7 @@ const RealEstateTab = () => {
         {/* Add New Ad Button */}
         <CreateMarketplacePropertyDialog
           triggerClassName="w-full md:w-auto ms-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
-          buttonText={t("add_new_ad") || "Add New Property"}
+          buttonText={t("add_property") || "Add Property"}
         />
       </div>
 
@@ -77,7 +77,11 @@ const RealEstateTab = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
             {properties.map((property: any) => (
-              <MyPropertyCard key={property.id} property={property} />
+              <MyPropertyCard
+                key={property.id}
+                property={property}
+                showConvertButton={true}
+              />
             ))}
           </div>
 

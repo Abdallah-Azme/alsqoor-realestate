@@ -12,6 +12,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { FiCheck } from "react-icons/fi";
+import { useSubmitOffer } from "@/features/offers/hooks/use-property-offers";
 
 interface StartMarketingDialogProps {
   open: boolean;
@@ -34,23 +35,29 @@ const StartMarketingDialog = ({
   const [step, setStep] = useState(1);
   const [acceptCommission, setAcceptCommission] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleNext = () => {
+  const submitOffer = useSubmitOffer();
+  const isSubmitting = submitOffer.isPending;
+
+  const handleNext = async () => {
     if (step === 1) {
       setStep(2);
     } else if (step === 2 && acceptCommission && acceptTerms) {
-      setIsSubmitting(true);
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
+      try {
+        await submitOffer.mutateAsync({
+          property_new_id: Number(property.id),
+          offer_details: t("default_offer_details"),
+        });
+
         onConfirm();
         onOpenChange(false);
         // Reset state
         setStep(1);
         setAcceptCommission(false);
         setAcceptTerms(false);
-      }, 1000);
+      } catch (error) {
+        console.error("Failed to submit offer:", error);
+      }
     }
   };
 

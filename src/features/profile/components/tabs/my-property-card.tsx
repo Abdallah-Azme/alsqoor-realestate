@@ -8,7 +8,6 @@ import { TbDimensions, TbBath } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
 import { Link } from "@/i18n/navigation";
 import {
-  useConvertToAdvertisement,
   useStartMarketing,
   useDeleteRealEstateProperty,
 } from "@/features/properties/hooks/use-properties";
@@ -16,6 +15,7 @@ import { toast } from "sonner";
 import { Loader2, Trash2 } from "lucide-react";
 import { Property } from "@/features/properties/types/property.types";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import { ConvertPropertyToAdDialog } from "../dialogs/convert-property-to-ad-dialog";
 import { useState } from "react";
 import {
   Dialog,
@@ -29,45 +29,29 @@ import { Button } from "@/components/ui/button";
 
 interface MyPropertyCardProps {
   property: Partial<Property>;
+  showConvertButton?: boolean;
 }
 
-const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
+const MyPropertyCard = ({
+  property,
+  showConvertButton = false,
+}: MyPropertyCardProps) => {
   const t = useTranslations("Profile");
   const tCommon = useTranslations("marketplace");
   const tProps = useTranslations("properties");
 
-  const convertMutation = useConvertToAdvertisement();
   const marketMutation = useStartMarketing();
   const deleteMutation = useDeleteRealEstateProperty();
 
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  const handleUpgrade = async () => {
-    if (!property.id) return;
-    try {
-      // For demo/simple conversion, we passing empty data or basic license if required by API
-      await convertMutation.mutateAsync({
-        propertyId: property.id as number,
-        data: {
-          license_number: property.license_number || "AUTO-UPGRADE",
-          license_expiry_date: new Date().toISOString(),
-        } as any,
-      });
-      toast.success(t("upgrade_success") || "Ad upgraded successfully!");
-    } catch (error) {
-      toast.error(t("upgrade_error") || "Failed to upgrade ad.");
-    }
-  };
-
   const handleStartMarketing = async () => {
     if (!property.id) return;
     try {
       await marketMutation.mutateAsync(property.id as number);
-      toast.success(
-        t("marketing_success") || "Marketing started successfully!",
-      );
+      toast.success(t("marketing_success"));
     } catch (error) {
-      toast.error(t("marketing_error") || "Failed to start marketing.");
+      console.error("Failed to start marketing", error);
     }
   };
 
@@ -75,10 +59,10 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
     if (!property.id) return;
     try {
       await deleteMutation.mutateAsync(property.id as number);
-      toast.success(t("delete_success") || "Property deleted successfully!");
+      toast.success(t("delete_success"));
       setDeleteConfirmOpen(false);
     } catch (error) {
-      toast.error(t("delete_error") || "Failed to delete property.");
+      console.error("Failed to delete property", error);
     }
   };
 
@@ -237,29 +221,28 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
             {t("view_price")}
           </Link>
 
-          <button
-            onClick={handleUpgrade}
-            disabled={convertMutation.isPending}
-            className="col-span-1 bg-main-green text-white hover:bg-main-green/90 disabled:bg-gray-300 font-medium py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm"
-          >
-            {convertMutation.isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <FiTrendingUp size={16} />
-            )}
-            {t("upgrade_ad")}
-          </button>
+          {showConvertButton && (
+            <ConvertPropertyToAdDialog
+              property={property as any}
+              trigger={
+                <button className="col-span-1 bg-main-green text-white hover:bg-main-green/90 disabled:bg-gray-300 font-medium py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm">
+                  {/* <FiTrendingUp size={16} /> */}
+                  {t("make_it_ad")}
+                </button>
+              }
+            />
+          )}
 
           <button
             onClick={handleStartMarketing}
             disabled={marketMutation.isPending}
-            className="col-span-1 bg-main-navy text-white hover:bg-main-navy/90 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm"
+            className={`col-span-${showConvertButton ? "1" : "2"} bg-main-navy text-white hover:bg-main-navy/90 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm`}
           >
-            {marketMutation.isPending ? (
+            {/* {marketMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <FiTrendingUp size={16} />
-            )}
+            )} */}
             {t("market_now") || "قم بالتسويق للعقار"}
           </button>
         </div>

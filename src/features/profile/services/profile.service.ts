@@ -4,6 +4,7 @@ import {
   UpdateProfileRequest,
   TransactionsResponse,
   StatisticsResponse,
+  ChangeRoleRequest,
 } from "../types/profile.types";
 
 const BASE_PATH = "/profile";
@@ -54,5 +55,18 @@ export const profileService = {
    */
   async getStatistics(): Promise<StatisticsResponse> {
     return api.get<StatisticsResponse>("/user/statistics");
+  },
+
+  /**
+   * Change user role
+   */
+  async changeRole(data: ChangeRoleRequest) {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        formData.append(key, String(value));
+      }
+    });
+    return api.post("/users/change-role", formData);
   },
 };

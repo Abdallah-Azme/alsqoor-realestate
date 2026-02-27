@@ -14,6 +14,7 @@ import { TbDimensions } from "react-icons/tb";
 import { IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { toast } from "sonner";
+import PropertyChat from "@/components/estates/property-chat";
 
 // Mock property data - In real implementation, fetch from API
 const mockPropertyData = {
@@ -60,6 +61,7 @@ const mockPropertyData = {
     name: "محمد أحمد",
     phone: "+966500000000",
     image: "/images/logo.jpg",
+    id: 4, // Added ID for chat system
   },
 };
 
@@ -316,6 +318,17 @@ const BrokerPropertyDetailsPage = () => {
                 عند النقر ستبدأ بتسويق هذا العقار
               </p>
             </div>
+
+            {/* Chat Section */}
+            <PropertyChat
+              propertyId={property.id}
+              ownerId={property.advertiser.id}
+              owner={{
+                name: property.advertiser.name,
+                location: `${property.city}، ${property.location}`,
+                image: property.advertiser.image,
+              }}
+            />
 
             {/* Back Link */}
             <Link

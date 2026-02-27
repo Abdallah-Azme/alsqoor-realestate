@@ -2,7 +2,11 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { profileService } from "../services/profile.service";
-import { UpdateProfileRequest } from "../types/profile.types";
+import {
+  UpdateProfileRequest,
+  ChangeRoleRequest,
+} from "../types/profile.types";
+import { toast } from "sonner";
 
 /**
  * Hook to fetch user profile
@@ -63,5 +67,20 @@ export function useStatistics() {
     queryFn: () => profileService.getStatistics(),
     enabled: isAuthenticated,
     staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
+/**
+ * Hook to change user role
+ */
+export function useChangeRole() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: ChangeRoleRequest) => profileService.changeRole(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
   });
 }

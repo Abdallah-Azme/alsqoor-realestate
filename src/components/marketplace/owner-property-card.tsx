@@ -7,6 +7,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { FiClock, FiCheckCircle } from "react-icons/fi";
 import { TbDimensions } from "react-icons/tb";
 import { BsEnvelope } from "react-icons/bs";
+import { useRouter } from "@/i18n/navigation";
 import SubscriptionDialog from "./subscription-dialog";
 
 interface OwnerPropertyCardProps {
@@ -38,6 +39,7 @@ const OwnerPropertyCard = ({
 }: OwnerPropertyCardProps) => {
   const t = useTranslations("marketplace.owner");
   const tCommon = useTranslations("marketplace");
+  const router = useRouter();
   const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
 
   const handleCardClick = () => {
@@ -48,6 +50,15 @@ const OwnerPropertyCard = ({
 
   const handleSubmitOffer = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    const isLogged =
+      typeof window !== "undefined" && !!localStorage.getItem("token");
+
+    if (!isLogged) {
+      router.push("/auth/login");
+      return;
+    }
+
     if (property.isSubscribersOnly && !isSubscribed) {
       setShowSubscriptionDialog(true);
     } else {
@@ -58,6 +69,15 @@ const OwnerPropertyCard = ({
 
   const handleReject = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    const isLogged =
+      typeof window !== "undefined" && !!localStorage.getItem("token");
+
+    if (!isLogged) {
+      router.push("/auth/login");
+      return;
+    }
+
     // Handle reject logic
     console.log("Reject property:", property.id);
   };

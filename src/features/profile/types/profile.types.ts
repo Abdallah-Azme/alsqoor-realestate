@@ -19,6 +19,25 @@ export interface ProfileData {
   joinDate?: string;
 }
 
+export type UserRole = "developer" | "owner" | "agent" | "seeker";
+
+export type AgentType = "individual" | "office";
+
+export interface ChangeRoleRequest {
+  role: UserRole;
+  // Required if role is 'agent' or 'developer'
+  fal_number?: string;
+  fal_expiry_date?: string; // format: DD-MM-YYYY
+  has_ad_license?: "0" | "1";
+  // Required if role is 'agent'
+  agent_type?: AgentType;
+  // Required if role is 'developer'
+  commercial_register?: string;
+  has_fal_license?: "0" | "1";
+  // Optional for all
+  company_name?: string;
+}
+
 export interface UpdateProfileRequest {
   name: string;
   email: string;

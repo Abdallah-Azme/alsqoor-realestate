@@ -5,16 +5,18 @@ import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { FaStar, FaCamera } from "react-icons/fa";
 import { User } from "@/types";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { useUpdateProfile } from "../../hooks/use-profile";
 import { toast } from "sonner";
 import { UserContext } from "@/context/user-context";
+import ChangeRoleDialog from "../dialogs/change-role-dialog";
 
 interface UserInfoCardProps {
   user: User;
 }
 
 const UserInfoCard = ({ user }: UserInfoCardProps) => {
+  const [changeRoleOpen, setChangeRoleOpen] = useState(false);
   const locale = useLocale();
   const t = useTranslations("Profile");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -107,9 +109,18 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
         <h3 className="font-bold text-main-navy text-lg text-center">
           {user.name}
         </h3>
-        <p className="text-sm text-gray-400 mb-3">
-          {user.role || t("featured_client")}
-        </p>
+        <div className="flex flex-col items-center gap-1 mb-3">
+          <p className="text-sm text-gray-400">
+            {user.role || t("featured_client")}
+          </p>
+          <button
+            type="button"
+            onClick={() => setChangeRoleOpen(true)}
+            className="text-xs text-main-green hover:text-main-green/80 font-medium underline underline-offset-2 transition-colors cursor-pointer"
+          >
+            تغيير الدور
+          </button>
+        </div>
 
         {/* Rating */}
         <div className="flex items-center gap-1 mb-3">
@@ -139,6 +150,12 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
           </div>
         </div>
       </CardContent>
+
+      <ChangeRoleDialog
+        open={changeRoleOpen}
+        onOpenChange={setChangeRoleOpen}
+        currentRole={user.role}
+      />
     </Card>
   );
 };

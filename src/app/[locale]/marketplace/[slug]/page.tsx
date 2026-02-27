@@ -19,6 +19,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PropertyChat from "@/components/estates/property-chat";
 
 const MarketplacePropertyDetailPage = () => {
   const params = useParams();
@@ -261,6 +262,17 @@ const MarketplacePropertyDetailPage = () => {
                 </p>
               </div>
             )}
+
+            {/* Chat Section */}
+            <PropertyChat
+              propertyId={property.id}
+              ownerId={property.user?.id}
+              owner={{
+                name: property.user?.name || "Advertiser",
+                location: `${property.city?.name || property.location}، ${property.country?.name}`,
+                image: property.user?.image || "/images/logo.jpg",
+              }}
+            />
           </div>
         </div>
       </div>

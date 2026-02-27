@@ -326,6 +326,16 @@
     "add_new_ad": "إضافة إعلان جديد",
     "search_ad_placeholder": "إبحث عن إعلان",
     "upgrade_ad": "ترقية إعلانك",
+    "make_it_ad": "تحويل إلى إعلان",
+    "convert_success": "تم تحويل العقار إلى إعلان بنجاح",
+    "convert_error": "فشل في تحويل العقار إلى إعلان",
+    "license_number": "رقم الترخيص",
+    "license_expiry": "تاريخ انتهاء الترخيص",
+    "qr_code": "رمز QR",
+    "marketing_option": "خيار التسويق",
+    "marketing_none": "بدون",
+    "marketing_advertising": "إعلان",
+    "marketing_agent": "وسيط",
     "view_price": "عرض سعر",
     "serious_request": "طلب جاد",
     "total_earnings": "إجمالي المكسب",
@@ -717,7 +727,13 @@
     "owner_details": "تفاصيل صاحب الإعلان",
     "view_profile": "عرض البروفايل",
     "open_chat": "فتح شات كامل",
-    "write_message": "كتابة الرسالة..."
+    "write_message": "كتابة الرسالة...",
+    "no_messages": "لا توجد رسائل بعد. ابدأ المحادثة الآن!",
+    "login_to_chat": "يرجى تسجيل الدخول للمحادثة",
+    "no_owner_info": "معلومات المالك غير متوفرة",
+    "own_property_title": "هذا إعلانك",
+    "own_property_desc": "لا يمكنك إجراء محادثة مع نفسك",
+    "chat_unavailable": "المحادثة غير متاحة"
   },
   "add_deal": {
     "start_date": "تاريخ البداية",
@@ -976,7 +992,8 @@
         "marketing": "تحت التسويق",
         "under_marketing": "تحت التسويق",
         "half_deal": "تمت الصفقة",
-        "limited": "محدود"
+        "limited": "محدود",
+        "deleted": "محذوف"
       },
       "types": {
         "individual": "أفراد",
@@ -1055,6 +1072,7 @@
       "no_projects": "لا توجد مشاريع متاحة حالياً"
     },
     "marketing_dialog": {
+      "default_offer_details": "أرغب ببدء تسويق هذا العقار والتعاون معكم لإتمام الصفقة.",
       "title": "كيف تعمل الخدمة؟",
       "confirm_title": "تأكيد بدء التسويق",
       "step_1": "ابدأ بتسويق الإعلان وعرضه على عملائك",
