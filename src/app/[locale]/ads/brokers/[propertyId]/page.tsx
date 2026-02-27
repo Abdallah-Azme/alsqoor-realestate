@@ -73,11 +73,6 @@ const BrokerPropertyDetailsPage = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showMarketingDialog, setShowMarketingDialog] = useState(false);
 
-  // In real implementation, fetch property data based on params.propertyId
-  // useEffect(() => {
-  //   fetchProperty(params.propertyId);
-  // }, [params.propertyId]);
-
   const handleMarketingConfirm = () => {
     toast.success("تم بدء تسويق العقار بنجاح!");
   };
@@ -94,18 +89,6 @@ const BrokerPropertyDetailsPage = () => {
       toast.success("تم نسخ الرابط!");
     }
   };
-
-  if (loading) {
-    return (
-      <div className="container py-12">
-        <div className="animate-pulse space-y-6">
-          <div className="h-96 bg-gray-200 rounded-xl" />
-          <div className="h-8 bg-gray-200 rounded w-1/2" />
-          <div className="h-4 bg-gray-200 rounded w-1/3" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <main className="space-y-8 pb-12">
@@ -170,8 +153,8 @@ const BrokerPropertyDetailsPage = () => {
               <CustomBreadcrumbs
                 items={[
                   {
-                    label: tBreadcrumbs("marketplace"),
-                    href: "/marketplace?tab=brokers",
+                    label: tBreadcrumbs("advertisements"),
+                    href: "/ads?tab=brokers",
                   },
                   { label: property.title },
                 ]}
@@ -336,7 +319,7 @@ const BrokerPropertyDetailsPage = () => {
 
             {/* Back Link */}
             <Link
-              href="/marketplace?tab=brokers"
+              href="/ads?tab=brokers"
               className="flex items-center gap-2 text-main-green hover:underline"
             >
               <HiArrowLeft className="rtl:rotate-180" />

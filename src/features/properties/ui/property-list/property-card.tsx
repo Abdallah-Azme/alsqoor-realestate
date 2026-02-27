@@ -22,7 +22,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
     : property.price?.toLocaleString();
 
   return (
-    <Link href={`/${locale}/ads/${property.slug || property.id}`}>
+    <Link href={`/${locale}/marketplace/${property.slug || property.id}`}>
       <Card className="overflow-hidden transition-all hover:shadow-lg">
         <div className="relative h-48 w-full">
           <Image
@@ -93,7 +93,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
           {property.finishing_type && (
             <div className="mt-2">
-              <Badge variant="outline">
+              <Badge variant="outline" className="">
                 {t(`finishing_type.${property.finishing_type}`)}
               </Badge>
             </div>

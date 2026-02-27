@@ -48,6 +48,7 @@ export default function UserContextProvider({
         ...apiUser,
         phone: apiUser.mobile || apiUser.phone, // Map mobile to phone
         points: apiUser.pointsBalance,
+        avatar: apiUser.avatarUrl || apiUser.avatar,
       };
       setUser(mappedUser);
     } catch (error) {

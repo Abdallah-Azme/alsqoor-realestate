@@ -20,6 +20,13 @@ const PointsCard = ({ points = 0 }: PointsCardProps) => {
   return (
     <Card className="shadow-sm border-gray-100 rounded-xl bg-white overflow-hidden">
       <CardContent className="p-6 flex items-center gap-4">
+        {/* Labels */}
+        <div className="flex-1 ">
+          <h3 className="font-bold text-lg text-main-navy">
+            {t("points_count")}
+          </h3>
+          <p className="text-sm text-gray-500">{t("total_points")}</p>
+        </div>
         {/* Circular Progress with Points */}
         <div className="relative size-16 shrink-0">
           <svg className="size-full -rotate-90" viewBox="0 0 100 100">
@@ -48,14 +55,6 @@ const PointsCard = ({ points = 0 }: PointsCardProps) => {
           <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-main-green">
             {points.toLocaleString()}
           </span>
-        </div>
-
-        {/* Labels */}
-        <div className="flex-1 text-end">
-          <h3 className="font-bold text-lg text-main-navy">
-            {t("points_count")}
-          </h3>
-          <p className="text-sm text-gray-500">{t("total_points")}</p>
         </div>
       </CardContent>
     </Card>

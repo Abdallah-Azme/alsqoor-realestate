@@ -53,3 +53,15 @@ export interface Offer {
   validUntil?: string;
   [key: string]: any;
 }
+
+export interface SiteOffer {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  validityDays: number;
+  isActive: boolean;
+  features: string[];
+  createdAt: string;
+  updatedAt: string;
+}

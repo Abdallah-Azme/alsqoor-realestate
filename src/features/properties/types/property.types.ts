@@ -349,8 +349,13 @@ export interface MarketplaceProperty {
   isApproved: boolean;
   views: number;
   image: string | null;
-  createdAt: string;
   isConverted: boolean;
+  country_id?: number | string;
+  city_id?: number | string;
+  district?: string;
+  latitude?: string | number;
+  longitude?: string | number;
+  createdAt: string;
   // Additional fields that might be useful or present in other contexts
   developerName?: string;
   developerLogo?: string;

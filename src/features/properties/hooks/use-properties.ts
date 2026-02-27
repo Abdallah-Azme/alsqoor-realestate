@@ -125,6 +125,25 @@ export function useUserProperties(params?: {
 }
 
 /**
+ * Hook to fetch user's real estate properties
+ * Only fetches if user is authenticated
+ */
+export function useRealEstateProperties(params?: {
+  page?: number;
+  per_page?: number;
+}) {
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("user");
+
+  return useQuery({
+    queryKey: ["realEstateProperties", "user", params],
+    queryFn: () => propertiesService.getRealEstateProperties(params),
+    enabled: isAuthenticated, // Only fetch if user is logged in
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  });
+}
+
+/**
  * Hook to create a new property
  */
 export function useCreateProperty() {
@@ -158,6 +177,29 @@ export function useUpdateProperty() {
       queryClient.invalidateQueries({ queryKey: ["property", variables.id] });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
       queryClient.invalidateQueries({ queryKey: ["properties", "user"] });
+    },
+  });
+}
+
+/**
+ * Hook to update a real estate property
+ */
+export function useUpdateRealEstateProperty() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: FormData | Partial<PropertyFormInput>;
+    }) => propertiesService.updateRealEstateProperty(id, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["realEstateProperty", variables.id],
+      });
+      queryClient.invalidateQueries({ queryKey: ["realEstateProperties"] });
     },
   });
 }
@@ -215,6 +257,21 @@ export function useDeleteProperty() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["properties"] });
       queryClient.invalidateQueries({ queryKey: ["properties", "user"] });
+    },
+  });
+}
+
+/**
+ * Hook to delete a real estate property
+ */
+export function useDeleteRealEstateProperty() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (propertyId: number) =>
+      propertiesService.deleteRealEstateProperty(propertyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["realEstateProperties"] });
     },
   });
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
-import { AllPropertyOffers } from "@/features/offers/property-offers-index";
+import { SiteOffersList } from "@/features/offers/property-offers-index";
 import { useTranslations } from "next-intl";
 
 const OffersPage = () => {
@@ -14,7 +14,7 @@ const OffersPage = () => {
         <h1 className="text-2xl font-bold text-main-navy">{t("title")}</h1>
       </div>
       <div className="container">
-        <AllPropertyOffers />
+        <SiteOffersList />
       </div>
     </main>
   );

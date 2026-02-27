@@ -21,6 +21,7 @@ export const profileService = {
       ...data,
       phone: data.mobile || data.phone,
       points: data.pointsBalance,
+      avatar: data.avatarUrl || data.avatar,
     };
   },
 

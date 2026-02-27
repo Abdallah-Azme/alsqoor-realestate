@@ -110,6 +110,13 @@ export const propertiesService = {
   },
 
   /**
+   * Get real estate property by slug
+   */
+  async getRealEstateBySlug(slug: string) {
+    return api.get<Property>(`/properties-new/${slug}`);
+  },
+
+  /**
    * Get owner's single property (authenticated)
    */
   async getOwnerProperty() {
@@ -131,6 +138,16 @@ export const propertiesService = {
   },
 
   /**
+   * Get user's real estate properties (authenticated)
+   */
+  async getRealEstateProperties(params?: { page?: number; per_page?: number }) {
+    return api.get<UserPropertiesData | Property[]>(
+      "/properties-new/my-properties",
+      params,
+    );
+  },
+
+  /**
    * Add a new property (requires authentication)
    */
   async addProperty(data: Partial<PropertyFormInput>) {
@@ -144,6 +161,17 @@ export const propertiesService = {
   async updateProperty(id: number, data: Partial<PropertyFormInput>) {
     const formData = propertyToFormData(data);
     return api.post<Property>(`${BASE_PATH}/update/${id}`, formData);
+  },
+
+  /**
+   * Update an existing real estate property (requires authentication)
+   */
+  async updateRealEstateProperty(
+    id: number,
+    data: FormData | Partial<PropertyFormInput>,
+  ) {
+    const formData = data instanceof FormData ? data : propertyToFormData(data);
+    return api.post<Property>(`/properties-new/${id}`, formData);
   },
 
   /**
@@ -169,6 +197,13 @@ export const propertiesService = {
    */
   async deleteProperty(propertyId: number) {
     return api.del(`${BASE_PATH}/${propertyId}`);
+  },
+
+  /**
+   * Delete a real estate property (requires authentication)
+   */
+  async deleteRealEstateProperty(propertyId: number) {
+    return api.del(`/properties-new/${propertyId}`);
   },
 
   // ============= Broker Properties Methods =============

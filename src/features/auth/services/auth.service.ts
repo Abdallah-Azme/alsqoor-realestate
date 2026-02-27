@@ -20,20 +20,28 @@ export const authService = {
    * Login user — returns { token, user }
    */
   async login(credentials: LoginRequest) {
-    return api.post<{ token: string; user: any }>(
-      `${BASE_PATH}/login`,
-      credentials,
-    );
+    return api.post<{
+      accessToken: string;
+      refreshToken: string;
+      tokenType: string;
+      acessExpiresIn: number;
+      refreshExpiresin: number;
+      user: any;
+    }>(`${BASE_PATH}/login`, credentials);
   },
 
   /**
    * Register new user — returns { token, user }
    */
   async register(userData: RegisterRequest) {
-    return api.post<{ token: string; user: any }>(
-      `${BASE_PATH}/register`,
-      userData,
-    );
+    return api.post<{
+      accessToken: string;
+      refreshToken: string;
+      tokenType: string;
+      acessExpiresIn: number;
+      refreshExpiresin: number;
+      user: any;
+    }>(`${BASE_PATH}/register`, userData);
   },
 
   /**
@@ -69,5 +77,17 @@ export const authService = {
    */
   async updateFcmToken(data: { fcm_token: string }) {
     return api.post("/fcm-token", data);
+  },
+
+  /**
+   * Refresh the access token using a refresh token
+   * Returns new { accessToken, refreshToken, user }
+   */
+  async refreshToken(refreshToken: string) {
+    return api.post<{
+      accessToken: string;
+      refreshToken: string;
+      user: any;
+    }>("/refresh-token", { refresh_token: refreshToken });
   },
 };

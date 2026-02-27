@@ -33,7 +33,7 @@ const DeveloperProjectCard = ({
   const t = useTranslations("marketplace.developer");
 
   return (
-    <Link href={`/marketplace/developers/${project.slug || project.id}`}>
+    <Link href={`/ads/developers/${project.slug || project.id}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

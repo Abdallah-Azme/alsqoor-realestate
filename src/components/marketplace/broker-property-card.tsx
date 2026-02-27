@@ -53,13 +53,13 @@ const BrokerPropertyCard = ({
   };
 
   const handleMarketingConfirm = () => {
-    toast.success("تم بدء تسويق العقار بنجاح!");
+    toast.success("تم بدء تسويق الإعلان بنجاح!");
   };
 
   return (
     <>
       <Link
-        href={`/marketplace/brokers/${property.slug || property.id}`}
+        href={`/ads/brokers/${property.slug || property.id}`}
         className="block"
       >
         <motion.div

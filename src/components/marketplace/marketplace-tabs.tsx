@@ -7,19 +7,21 @@ import { cn } from "@/lib/utils";
 
 interface MarketplaceTabsProps {
   activeTab: string;
+  basePath?: string;
 }
 
-const MarketplaceTabs = ({ activeTab }: MarketplaceTabsProps) => {
+const MarketplaceTabs = ({ activeTab, basePath }: MarketplaceTabsProps) => {
   const t = useTranslations("marketplace.tabs");
   const pathname = usePathname();
+  const resolvedPath = basePath ?? pathname;
 
   const tabs = [
-    { id: "brokers", label: t("brokers"), href: "/marketplace?tab=brokers" },
-    { id: "owners", label: t("owners"), href: "/marketplace?tab=owners" },
+    { id: "brokers", label: t("brokers"), href: `${resolvedPath}?tab=brokers` },
+    { id: "owners", label: t("owners"), href: `${resolvedPath}?tab=owners` },
     {
       id: "developers",
       label: t("developers"),
-      href: "/marketplace?tab=developers",
+      href: `${resolvedPath}?tab=developers`,
     },
   ];
 
@@ -39,7 +41,7 @@ const MarketplaceTabs = ({ activeTab }: MarketplaceTabsProps) => {
                 "relative px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors rounded-t-lg",
                 activeTab === tab.id
                   ? "text-main-green bg-main-green/10"
-                  : "text-gray-500 hover:text-main-green hover:bg-gray-50"
+                  : "text-gray-500 hover:text-main-green hover:bg-gray-50",
               )}
             >
               {tab.label}

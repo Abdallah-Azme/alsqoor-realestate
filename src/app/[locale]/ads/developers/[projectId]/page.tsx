@@ -100,23 +100,6 @@ const ProjectDetailsPage = () => {
   const [loading, setLoading] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // In real implementation, fetch project data based on params.projectId
-  // useEffect(() => {
-  //   fetchProject(params.projectId);
-  // }, [params.projectId]);
-
-  if (loading) {
-    return (
-      <div className="container py-12">
-        <div className="animate-pulse space-y-6">
-          <div className="h-96 bg-gray-200 rounded-xl" />
-          <div className="h-8 bg-gray-200 rounded w-1/2" />
-          <div className="h-4 bg-gray-200 rounded w-1/3" />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <main className="space-y-8 pb-12">
       {/* Image Gallery */}
@@ -153,24 +136,6 @@ const ProjectDetailsPage = () => {
           >
             <HiArrowLeft className="text-xl rotate-180 rtl:rotate-0" />
           </button>
-          {/* Share Button */}
-          <button className="absolute top-4 start-4 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-              <polyline points="16 6 12 2 8 6" />
-              <line x1="12" y1="2" x2="12" y2="15" />
-            </svg>
-          </button>
         </div>
 
         {/* Thumbnail Strip */}
@@ -181,8 +146,8 @@ const ProjectDetailsPage = () => {
               <CustomBreadcrumbs
                 items={[
                   {
-                    label: tBreadcrumbs("marketplace"),
-                    href: "/marketplace?tab=developers",
+                    label: tBreadcrumbs("advertisements"),
+                    href: "/ads?tab=developers",
                   },
                   { label: project.title },
                 ]}
@@ -347,7 +312,7 @@ const ProjectDetailsPage = () => {
 
             {/* Back Link */}
             <Link
-              href="/marketplace?tab=developers"
+              href="/ads?tab=developers"
               className="flex items-center gap-2 text-main-green hover:underline"
             >
               <HiArrowLeft className="rtl:rotate-180" />

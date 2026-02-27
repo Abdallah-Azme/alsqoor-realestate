@@ -10,10 +10,22 @@ import { Link } from "@/i18n/navigation";
 import {
   useConvertToAdvertisement,
   useStartMarketing,
+  useDeleteRealEstateProperty,
 } from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { Property } from "@/features/properties/types/property.types";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface MyPropertyCardProps {
   property: Partial<Property>;
@@ -26,6 +38,9 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
 
   const convertMutation = useConvertToAdvertisement();
   const marketMutation = useStartMarketing();
+  const deleteMutation = useDeleteRealEstateProperty();
+
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const handleUpgrade = async () => {
     if (!property.id) return;
@@ -56,6 +71,17 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!property.id) return;
+    try {
+      await deleteMutation.mutateAsync(property.id as number);
+      toast.success(t("delete_success") || "Property deleted successfully!");
+      setDeleteConfirmOpen(false);
+    } catch (error) {
+      toast.error(t("delete_error") || "Failed to delete property.");
+    }
+  };
+
   const formattedPrice = property.price_min
     ? Number(property.price_min).toLocaleString()
     : property.price
@@ -72,11 +98,15 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
     : cityName || property.location || "";
 
   // Calculate relative time or use created_at
-  const timePosted = property.created_at
-    ? new Date(property.created_at).toLocaleDateString("ar-SA")
-    : t("loading");
+  const timePosted =
+    property.created_at || property.createdAt
+      ? new Date(property.created_at || property.createdAt).toLocaleDateString(
+          "ar-SA",
+        )
+      : t("loading");
 
-  const mainImage = property.images?.[0] || "/images/state.png";
+  const mainImage =
+    property.image || property.images?.[0] || "/images/state.png";
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
@@ -99,6 +129,19 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
         <div className="absolute top-3 start-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-main-navy shadow-sm dir-ltr">
           {property.area}م²
         </div>
+
+        {/* Delete Action */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setDeleteConfirmOpen(true);
+          }}
+          className="absolute top-3 end-3 bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition-colors z-10"
+          title={t("delete") || "Delete"}
+        >
+          <Trash2 size={16} />
+        </button>
       </div>
 
       {/* Content Section */}
@@ -179,9 +222,16 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
 
         {/* Actions Grid */}
         <div className="grid grid-cols-2 gap-2 mt-auto">
+          <CreateMarketplacePropertyDialog
+            isEdit
+            property={property as any}
+            triggerClassName="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
+            buttonText={t("edit_data") || "تعديل البيانات"}
+          />
+
           <Link
-            href={`/ads/${property.slug || property.id}`}
-            className="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
+            href={`/marketplace/${property.slug || property.id}`}
+            className="col-span-1 border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
           >
             <FiShare2 size={14} />
             {t("view_price")}
@@ -203,7 +253,7 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
           <button
             onClick={handleStartMarketing}
             disabled={marketMutation.isPending}
-            className="col-span-2 bg-main-navy text-white hover:bg-main-navy/90 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm"
+            className="col-span-1 bg-main-navy text-white hover:bg-main-navy/90 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm"
           >
             {marketMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -214,6 +264,41 @@ const MyPropertyCard = ({ property }: MyPropertyCardProps) => {
           </button>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-right">
+              {t("delete_property") || "حذف العقار"}
+            </DialogTitle>
+            <DialogDescription className="text-right pt-2">
+              {t("delete_confirm") ||
+                "هل أنت متأكد من رغبتك في حذف هذا العقار؟"}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-row gap-3 justify-end sm:justify-end mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteConfirmOpen(false)}
+              className="flex-1 sm:flex-none"
+            >
+              {t("cancel") || "إلغاء"}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={deleteMutation.isPending}
+              className="flex-1 sm:flex-none gap-2"
+            >
+              {deleteMutation.isPending && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {t("delete") || "حذف"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

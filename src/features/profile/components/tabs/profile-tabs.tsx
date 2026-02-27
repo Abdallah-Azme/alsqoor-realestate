@@ -7,6 +7,7 @@ import PackagesTab from "./packages-tab";
 import BrokerPropertiesTab from "./broker-properties-tab";
 import OwnerPropertiesTab from "./owner-properties-tab";
 import OffersTab from "./offers-tab";
+import RealEstateTab from "./real-estate-tab";
 import { User } from "@/types";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
@@ -38,6 +39,7 @@ const ProfileTabs = ({
   const tabs = [
     { value: "financials", label: t("financials") },
     { value: "statistics", label: t("statistics") },
+    { value: "real-estate", label: "عقارات" },
     { value: "my-properties", label: t("my_ads") },
     { value: "my-offers", label: t("my_offers") },
     // { value: "payment-methods", label: t("payment_methods") },
@@ -86,6 +88,10 @@ const ProfileTabs = ({
 
           <TabsContent value="statistics" className="mt-0">
             <StatisticsTab />
+          </TabsContent>
+
+          <TabsContent value="real-estate" className="mt-0">
+            <RealEstateTab />
           </TabsContent>
 
           <TabsContent value="my-properties" className="mt-0">

@@ -205,14 +205,102 @@ function toFormData(data: Record<string, any>): FormData {
 }
 
 /**
- * Handle 401 — clear stored auth data
+ * Clear all auth data — called only when refresh fails or user is truly logged out
  */
-function handle401() {
+function clearAuthData() {
   if (typeof window !== "undefined") {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    // Clear the token cookie on the client side
+    localStorage.removeItem("refresh_token");
+    // Expire the client-readable cookie
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+}
+
+// ─── Refresh Token Queue ───────────────────────────────────────────
+
+/**
+ * Whether a token refresh is currently in progress.
+ * Used to deduplicate simultaneous refresh attempts.
+ */
+let isRefreshing = false;
+
+/**
+ * Queue of requests that failed with 401 while a refresh was in progress.
+ * Each entry holds resolve/reject callbacks to retry the request once the
+ * new token is available.
+ */
+let failedQueue: Array<{
+  resolve: (token: string) => void;
+  reject: (error: any) => void;
+}> = [];
+
+/**
+ * Resolve or reject all queued requests.
+ * Called after a refresh attempt succeeds or fails.
+ */
+function processQueue(error: any, token: string | null = null) {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token!);
+    }
+  });
+  failedQueue = [];
+}
+
+/**
+ * Attempt to get a new access token using the stored refresh token.
+ * Makes a raw fetch call (not through apiClient) to avoid infinite loops.
+ *
+ * @returns new accessToken on success, null on failure
+ */
+async function tryRefreshToken(): Promise<string | null> {
+  if (typeof window === "undefined") return null;
+
+  const refreshToken = localStorage.getItem("refresh_token");
+  if (!refreshToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/refresh-token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+      cache: "no-store",
+    });
+
+    if (!response.ok) return null;
+
+    const json = await response.json();
+    // The API returns { data: { accessToken, refreshToken, user } }
+    const data = json?.data ?? json;
+    const newAccessToken = data?.accessToken;
+    const newRefreshToken = data?.refreshToken;
+
+    if (!newAccessToken) return null;
+
+    // ── Update stored access token ──────────────────────────────
+    localStorage.setItem("token", newAccessToken);
+    // Update the client-readable cookie so subsequent buildHeaders() picks it up
+    document.cookie = `token=${encodeURIComponent(newAccessToken)}; path=/; max-age=7200; samesite=lax`;
+
+    // ── Rotate refresh token (API issues a new one each time) ───
+    if (newRefreshToken) {
+      localStorage.setItem("refresh_token", newRefreshToken);
+    }
+
+    // ── Update user data if returned ────────────────────────────
+    if (data?.user) {
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
+
+    return newAccessToken;
+  } catch {
+    return null;
   }
 }
 
@@ -264,24 +352,26 @@ async function apiClient<T = any>(
 
   // Execute fetch
   let response: Response;
+
+  // Build fetch options (hoisted so the 401 retry logic can reuse them)
+  const fetchOptions: RequestInit = {
+    method,
+    headers,
+    body,
+    signal,
+    cache: "no-store",
+  };
+
+  // Add User-Agent for server-side requests (Node environment)
+  if (typeof window === "undefined") {
+    // @ts-ignore - Headers type allows string keys
+    headers["User-Agent"] = "Next.js/Server";
+    // @ts-ignore
+    headers["Referer"] =
+      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  }
+
   try {
-    const fetchOptions: RequestInit = {
-      method,
-      headers,
-      body,
-      signal,
-      cache: "no-store",
-    };
-
-    // Add User-Agent for server-side requests (Node environment)
-    if (typeof window === "undefined") {
-      // @ts-ignore - Headers type allows string keys
-      headers["User-Agent"] = "Next.js/Server";
-      // @ts-ignore
-      headers["Referer"] =
-        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    }
-
     response = await fetch(fullUrl, fetchOptions);
   } catch (error) {
     // If it's a fetch error, log cause if available
@@ -292,10 +382,86 @@ async function apiClient<T = any>(
     throw error;
   }
 
-  // Handle 401
+  // Handle 401 — attempt token refresh before giving up
   if (response.status === 401) {
-    handle401();
-    throw new ApiError("Unauthorized. Please login again.", 401);
+    // If another refresh is already in progress, queue this request
+    if (isRefreshing) {
+      return new Promise<T>((resolve, reject) => {
+        failedQueue.push({
+          resolve: async (newToken: string) => {
+            try {
+              // Retry the original request with the refreshed token
+              const retryHeaders = {
+                ...headers,
+                Authorization: `Bearer ${newToken}`,
+              };
+              const retryRes = await fetch(fullUrl, {
+                ...fetchOptions,
+                headers: retryHeaders,
+              });
+              const retryJson = await retryRes.json().catch(() => null);
+              const retryData =
+                retryJson?.data !== undefined ? retryJson.data : retryJson;
+              resolve(retryData as T);
+            } catch (e) {
+              reject(e);
+            }
+          },
+          reject,
+        });
+      });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const newToken = await tryRefreshToken();
+
+      if (!newToken) {
+        // Refresh failed — session is genuinely expired, clear everything
+        clearAuthData();
+        const sessionError = new ApiError(
+          "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+          401,
+        );
+        processQueue(sessionError);
+        isRefreshing = false;
+        throw sessionError;
+      }
+
+      // Refresh succeeded — flush the queue with the new token
+      processQueue(null, newToken);
+      isRefreshing = false;
+
+      // Retry the original failed request with the new token
+      const retryHeaders = { ...headers, Authorization: `Bearer ${newToken}` };
+      const retryResponse = await fetch(fullUrl, {
+        ...fetchOptions,
+        headers: retryHeaders,
+      });
+
+      if (!retryResponse.ok) {
+        const retryJson = await retryResponse.json().catch(() => ({}));
+        throw new ApiError(
+          retryJson?.message ||
+            `Request failed with status ${retryResponse.status}`,
+          retryResponse.status,
+          retryJson?.errors,
+        );
+      }
+
+      const retryJson = await retryResponse.json().catch(() => null);
+      if (retryJson?.data !== undefined) return retryJson.data as T;
+      return retryJson as T;
+    } catch (err) {
+      isRefreshing = false;
+      if (err instanceof ApiError) throw err;
+      clearAuthData();
+      throw new ApiError(
+        "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+        401,
+      );
+    }
   }
 
   // Try to parse JSON

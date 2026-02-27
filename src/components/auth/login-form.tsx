@@ -20,7 +20,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { api, ApiError } from "@/lib/api-client";
-import { setToken } from "@/services";
+import { setToken, saveRefreshToken } from "@/services";
 import { UserContext } from "@/context/user-context";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -75,6 +75,14 @@ export function LoginForm() {
       if (token) {
         setToken(token);
         localStorage.setItem("token", token);
+
+        // Store the refresh token (30-day lifetime)
+        const refreshToken = res?.refreshToken;
+        if (refreshToken) {
+          localStorage.setItem("refresh_token", refreshToken);
+          saveRefreshToken(refreshToken); // httpOnly server cookie
+        }
+
         // Store user data
         if (res?.user) {
           setUser(res.user);
