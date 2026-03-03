@@ -189,9 +189,14 @@ export const CreateMarketplacePropertyDialog = ({
             {buttonText || tProfile("edit_data")}
           </button>
         ) : (
-          <Button className={triggerClassName || "gap-2"}>
-            <FiPlus className="h-5 w-5" />
-            {buttonText || tPage("add_property") || "إضافة عقار"}
+          <Button
+            className={
+              triggerClassName ||
+              "bg-main-green hover:bg-main-green/90 text-white gap-2"
+            }
+          >
+            <FiPlus className="text-lg" />
+            <span>{buttonText || tPage("add_ad")}</span>
           </Button>
         )}
       </DialogTrigger>

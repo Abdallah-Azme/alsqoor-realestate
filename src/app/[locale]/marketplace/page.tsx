@@ -94,17 +94,19 @@ const MarketplacePage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 space-y-4">
+          <div className="flex flex-col items-center justify-center py-24 space-y-6">
             <div className="bg-gray-100 p-6 rounded-full">
               <AlertCircle className="h-12 w-12 text-gray-400" />
             </div>
-            <h3 className="text-xl font-bold text-main-navy">
-              {tMarket("no_properties")}
-            </h3>
-            <p className="text-gray-500 text-center max-w-md">
-              {tMarket("no_properties_description") ||
-                "No ads are currently available in the marketplace."}
-            </p>
+            <div className="text-center space-y-2">
+              <h3 className="text-xl font-bold text-main-navy">
+                {tMarket("no_properties")}
+              </h3>
+              <p className="text-gray-500 text-center max-w-md">
+                {tMarket("no_properties_description")}
+              </p>
+            </div>
+            <CreateMarketplacePropertyDialog />
           </div>
         )}
       </div>

@@ -170,8 +170,26 @@ const DevelopersListing = () => {
           )}
         </>
       ) : (
-        <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-          <p className="text-gray-500">{t("no_projects")}</p>
+        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6">
+          <div className="bg-main-green/10 p-6 rounded-full">
+            <FiPlus className="h-10 w-10 text-main-green" />
+          </div>
+          <div className="text-center space-y-2">
+            <h3 className="text-xl font-bold text-main-navy">
+              {t("no_projects")}
+            </h3>
+            <p className="text-gray-500 max-w-sm">
+              {t("no_projects_description") ||
+                "لا توجد مشاريع متاحة حالياً في هذا القسم. بادر بإضافة مشروع جديد الآن."}
+            </p>
+          </div>
+          <Button
+            onClick={handleAddAd}
+            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
+          >
+            <FiPlus className="text-lg" />
+            <span>{tPage("add_ad")}</span>
+          </Button>
         </div>
       )}
     </div>

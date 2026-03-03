@@ -267,6 +267,7 @@
     }
   },
   "Profile": {
+    "no_data": "لا توجد بيانات متاحة",
     "updating": "جاري التحديث...",
     "updated_successfully": "تم التحديث بنجاح",
     "update_failed": "فشل التحديث",
@@ -1072,7 +1073,8 @@
       },
       "results_count": "عدد النتائج",
       "project": "مشروع",
-      "no_projects": "لا توجد مشاريع متاحة حالياً"
+      "no_projects": "لا توجد مشاريع متاحة حالياً",
+      "no_projects_description": "بادر بإضافة أول مشروع عقاري الآن بكل سهولة من خلال الضغط على الزر أدناه."
     },
     "marketing_dialog": {
       "default_offer_details": "أرغب ببدء تسويق هذا العقار والتعاون معكم لإتمام الصفقة.",
@@ -1111,7 +1113,8 @@
     "results_count": "عدد النتائج",
     "opportunity": "فرصة",
     "start_marketing": "ابدأ التسويق",
-    "no_properties": "لا توجد إعلانات متاحة حالياً",
+    "no_properties": "لا توجد عقارات متاحة حالياً",
+    "no_properties_description": "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه.",
     "currency": "ريال",
     "area_unit": "م²"
   },

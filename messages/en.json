@@ -265,6 +265,7 @@
     }
   },
   "Profile": {
+    "no_data": "No data available",
     "updating": "Updating...",
     "updated_successfully": "Updated successfully",
     "update_failed": "Update failed",
@@ -1326,7 +1327,8 @@
     "sort_by": "Sort by",
     "results_count": "Results",
     "opportunity": "opportunity",
-    "no_properties": "No properties available",
+    "no_properties": "No properties available currently",
+    "no_properties_description": "Be the first to add a property in the marketplace now easily by clicking the button below.",
     "currency": "SAR",
     "area_unit": "m²"
   },
