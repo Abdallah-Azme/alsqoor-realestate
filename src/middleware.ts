@@ -13,10 +13,20 @@ export default function middleware(request: NextRequest) {
   if (pathname.includes("/auth/")) {
     // If user has a token (authenticated), redirect to home page
     if (token) {
-      // Extract locale from pathname (e.g., /ar/auth/login -> ar)
       const locale = pathname.split("/")[1] || routing.defaultLocale;
       const homeUrl = new URL(`/${locale}`, request.url);
       return NextResponse.redirect(homeUrl);
+    }
+  }
+
+  // Protect payment pages
+  if (pathname.includes("/payment/")) {
+    if (!token) {
+      const locale = pathname.split("/")[1] || routing.defaultLocale;
+      const loginUrl = new URL(`/${locale}/auth/login`, request.url);
+      // Optional: Add redirect query param to return here after login
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
     }
   }
 

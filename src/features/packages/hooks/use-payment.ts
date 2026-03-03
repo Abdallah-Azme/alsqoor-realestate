@@ -13,3 +13,15 @@ export function usePaymentMethods() {
     staleTime: 60 * 60 * 1000, // 1 hour
   });
 }
+
+/**
+ * Hook to verify payment status
+ */
+export function useVerifyPayment(paymentId: string | null) {
+  return useQuery({
+    queryKey: ["verifyPayment", paymentId],
+    queryFn: () => paymentService.verifyPayment(paymentId!),
+    enabled: !!paymentId,
+    retry: 1,
+  });
+}

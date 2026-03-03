@@ -103,14 +103,6 @@ const HeroSection = ({
   const title =
     heroContent?.title ||
     t("title_fallback", { defaultMessage: "حلول عقارية ميسرة" });
-  // keeping defaultMessage as arabic for now if key doesn't exist, wait I didn't add title_fallback.
-  // I will just use the hardcoded string as default in t? No, t requires key.
-  // I'll stick to the original hardcoded fallback if I didn't add a key, OR I'll add the key now.
-  // Actually, I didn't add "title_fallback" to JSON. I will just leave the title/description fallbacks as is for now or use a generic key.
-  // But wait, the task is to translate. Leaving Arabic fallback in English view is bad.
-  // I'll add "title_default" and "content_default" to JSONs quickly or just inline the English fallback in code?
-  // Inline English strings in `en.json` is better.
-  // I will skip changing title/desc fallbacks for this specific tool call and focus on buttons.
 
   const description =
     heroContent?.content ||

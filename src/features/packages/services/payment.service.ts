@@ -8,4 +8,11 @@ export const paymentService = {
   async getPaymentMethods() {
     return api.get<PaymentMethod[]>("/get-payment-methods");
   },
+
+  /**
+   * Verify payment status
+   */
+  async verifyPayment(paymentId: string) {
+    return api.get<any>(`/confirm-payment`, { paymentId });
+  },
 };

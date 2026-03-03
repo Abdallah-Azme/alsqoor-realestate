@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useContext } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import DeveloperProjectCard from "./developer-project-card";
 import SmartPagination from "@/components/shared/smart-pagination";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/user-context";
 import { propertiesService } from "@/features/properties/services/properties.service";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,10 +16,22 @@ const ITEMS_PER_PAGE = 6;
 
 const DevelopersListing = () => {
   const t = useTranslations("marketplace.developer");
+  const tPage = useTranslations("home.estates_page");
+  const userContext = useContext(UserContext);
+  const user = userContext?.user;
+  const locale = useLocale();
   const router = useRouter();
   const tTypes = useTranslations("advertisements.property_types");
   const [activePropertyType, setActivePropertyType] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const handleAddAd = () => {
+    if (!user) {
+      router.push(`/${locale}/auth/login`);
+      return;
+    }
+    router.push("/advertisements/add");
+  };
 
   const { data: response, isLoading } = useQuery({
     queryKey: ["marketplace-developers", activePropertyType, currentPage],
@@ -107,11 +120,11 @@ const DevelopersListing = () => {
         </p>
 
         <Button
-          onClick={() => router.push("/advertisements/add")}
-          className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm"
+          onClick={handleAddAd}
+          className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
         >
-          <FiPlus />
-          {t("add_property")}
+          <FiPlus className="text-lg" />
+          <span>{tPage("add_ad")}</span>
         </Button>
       </div>
 

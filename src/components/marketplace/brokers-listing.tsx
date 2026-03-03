@@ -1,26 +1,39 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import BrokerPropertyCard from "./broker-property-card";
 import SortDialog, { SortOption } from "./sort-dialog";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { propertiesService } from "@/features/properties/services/properties.service";
-import { AddPropertyDialog } from "@/features/properties/ui";
+import { UserContext } from "@/context/user-context";
 
 const BrokersListing = () => {
   const t = useTranslations("marketplace");
+  const tPage = useTranslations("home.estates_page");
+  const userContext = useContext(UserContext);
+  const user = userContext?.user;
+  const locale = useLocale();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const tSort = useTranslations("marketplace.sort_dialog");
   const [activeFilter, setActiveFilter] = useState("all");
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortOption, setSortOption] = useState<SortOption>("default");
   const [showSortDialog, setShowSortDialog] = useState(false);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+
+  // ── Read filter values from URL (set by FilterForm on homepage) ──
+  const urlOperationType = searchParams.get("operation_type") || undefined;
+  const urlCategoryId = searchParams.get("category_id") || undefined;
+  const urlRooms = searchParams.get("rooms") || undefined;
+  const urlFinishing = searchParams.get("finishing_type") || undefined;
+  const urlMinArea = searchParams.get("min_area") || undefined;
+  const urlDistrict = searchParams.get("district") || undefined;
+  const urlCountryId = searchParams.get("country_id") || undefined;
 
   const filterTabs = [
     { id: "all", label: t("filter.all") },
@@ -36,14 +49,33 @@ const BrokersListing = () => {
     { id: "office", label: t("broker.types.office") },
   ];
 
-  // Fetch brokers properties
+  // Fetch brokers properties — merge URL filters with local tab filters
   const { data: response, isLoading } = useQuery({
-    queryKey: ["marketplace-brokers", activeCategory, activeFilter, sortOption],
+    queryKey: [
+      "marketplace-brokers",
+      activeCategory,
+      activeFilter,
+      sortOption,
+      urlOperationType,
+      urlCategoryId,
+      urlRooms,
+      urlFinishing,
+      urlMinArea,
+      urlDistrict,
+    ],
     queryFn: () =>
-      propertiesService.getMarketplaceProperties({
+      propertiesService.searchProperties({
         type: activeCategory !== "all" ? "agent" : undefined,
         agent_type: activeCategory !== "all" ? activeCategory : undefined,
         status: activeFilter !== "all" ? activeFilter : undefined,
+        // From URL (hero FilterForm)
+        operation_type: urlOperationType,
+        category_id: urlCategoryId,
+        rooms: urlRooms,
+        finishing_type: urlFinishing,
+        min_area: urlMinArea,
+        district: urlDistrict,
+        country_id: urlCountryId,
       }),
   });
 
@@ -116,6 +148,14 @@ const BrokersListing = () => {
     return tSort(sortOption);
   };
 
+  const handleAddAd = () => {
+    if (!user) {
+      router.push(`/${locale}/auth/login`);
+      return;
+    }
+    router.push("/advertisements/add");
+  };
+
   return (
     <div className="space-y-6">
       {/* Sub-filters */}
@@ -186,13 +226,13 @@ const BrokersListing = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          {/* <Button
-            onClick={() => setIsAddDialogOpen(true)}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm"
+          <Button
+            onClick={handleAddAd}
+            className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
           >
-            <FiPlus />
-            {t("add_property")}
-          </Button> */}
+            <FiPlus className="text-lg" />
+            <span>{tPage("add_ad")}</span>
+          </Button>
 
           {/* Sort Button */}
           <button
@@ -262,12 +302,6 @@ const BrokersListing = () => {
         onOpenChange={setShowSortDialog}
         currentSort={sortOption}
         onSortChange={setSortOption}
-      />
-
-      {/* Add Property Dialog */}
-      <AddPropertyDialog
-        open={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
       />
     </div>
   );

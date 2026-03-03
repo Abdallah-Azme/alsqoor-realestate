@@ -971,7 +971,10 @@
     "operations": {
       "sale": "Sale",
       "rent": "Rent"
-    }
+    },
+    "min_area": "Minimum Area",
+    "area_unit": "m²",
+    "district": "District"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -2015,5 +2018,21 @@
     "area_positive": "Area must be positive",
     "rooms_positive": "Number of rooms must be positive",
     "bathrooms_positive": "Number of bathrooms must be positive"
+  },
+  "Payment": {
+    "success_title": "Payment Successful!",
+    "success_description": "Thank you, your payment has been processed successfully. You can now enjoy all the features of your package.",
+    "fail_title": "Payment Failed",
+    "fail_description": "We apologize, an error occurred while processing your payment. Please try again or contact support.",
+    "verifying": "Verifying your payment...",
+    "transaction_id": "Transaction ID",
+    "amount": "Amount",
+    "status": "Status",
+    "date": "Date",
+    "back_home": "Back Home",
+    "try_again": "Try Again",
+    "view_package": "View Package",
+    "congratulations": "Congratulations!",
+    "payment_failed": "Payment Failed"
   }
 }

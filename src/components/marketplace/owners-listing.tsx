@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo, useContext } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import OwnerPropertyCard from "./owner-property-card";
 import OwnerFilterDialog, { OwnerFilterOption } from "./owner-filter-dialog";
@@ -9,6 +9,7 @@ import OwnerSortDialog, { OwnerSortOption } from "./owner-sort-dialog";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/user-context";
 
 import { propertiesService } from "@/features/properties/services/properties.service";
 import { useQuery } from "@tanstack/react-query";
@@ -23,12 +24,24 @@ const parseTabId = (tabId: string) => {
 
 const OwnersListing = () => {
   const t = useTranslations("marketplace");
+  const tPage = useTranslations("home.estates_page");
+  const userContext = useContext(UserContext);
+  const user = userContext?.user;
+  const locale = useLocale();
   const router = useRouter();
   const [activePropertyType, setActivePropertyType] = useState("all");
   const [filterOption, setFilterOption] = useState<OwnerFilterOption>("all");
   const [sortOption, setSortOption] = useState<OwnerSortOption>("default");
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [showSortDialog, setShowSortDialog] = useState(false);
+
+  const handleAddAd = () => {
+    if (!user) {
+      router.push(`/${locale}/auth/login`);
+      return;
+    }
+    router.push("/advertisements/add");
+  };
 
   // Fetch owner properties
   const { data: response, isLoading } = useQuery({
@@ -190,13 +203,11 @@ const OwnersListing = () => {
 
         <div className="flex items-center gap-3">
           <Button
-            onClick={() =>
-              router.push("/profile?tab=my-properties&action=add-property")
-            }
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm"
+            onClick={handleAddAd}
+            className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
           >
-            <FiPlus />
-            {t("add_property")}
+            <FiPlus className="text-lg" />
+            <span>{tPage("add_ad")}</span>
           </Button>
 
           {/* Sort Button */}

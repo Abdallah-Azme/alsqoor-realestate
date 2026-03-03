@@ -24,8 +24,8 @@ const ServicesCard = ({
     <div
       className={`group cursor-pointer relative shadow-md rounded-s-xl transition-all duration-700 ${
         isActive
-          ? "h-[220px] bg-main-green"
-          : "h-[120px] bg-white hover:h-[220px] hover:bg-main-green"
+          ? "h-[220px] bg-[#3fb38b] text-white"
+          : "h-[120px] bg-white hover:h-[220px] hover:bg-[#3fb38b] text-[#054457] hover:text-white"
       }`}
     >
       <svg
@@ -54,8 +54,8 @@ const ServicesCard = ({
             height={60}
             className={`object-contain transition-all duration-700 ${
               isActive
-                ? "size-[60px] brightness-0 invert"
-                : "size-[40px] group-hover:size-[60px] group-hover:brightness-0 group-hover:invert"
+                ? "size-[60px] invert brightness-200"
+                : "size-[40px] group-hover:size-[60px] group-hover:invert group-hover:brightness-200"
             }`}
           />
         ) : (
@@ -82,7 +82,7 @@ const ServicesCard = ({
           className={`font-semibold transition-all duration-700 ${
             isActive
               ? "text-white text-xl"
-              : "group-hover:text-white group-hover:text-xl"
+              : "text-main-navy group-hover:text-white group-hover:text-xl"
           }`}
         >
           {title}
