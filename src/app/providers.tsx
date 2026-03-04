@@ -32,6 +32,9 @@ function makeQueryClient() {
         // Skip showing network error messages
         if (message === "Failed to fetch" || message === "fetch failed") return;
 
+        // Skip annoying partner access message
+        if (message === "الوصول للشركاء غير مسموح به.") return;
+
         toast.error(message);
       },
     }),
@@ -52,6 +55,9 @@ function makeQueryClient() {
 
         // Skip showing network error messages
         if (message === "Failed to fetch" || message === "fetch failed") return;
+
+        // Skip annoying partner access message
+        if (message === "الوصول للشركاء غير مسموح به.") return;
 
         toast.error(message);
       },
