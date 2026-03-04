@@ -366,7 +366,7 @@ export default function AdsPageFilter() {
         </div>
 
         {/* Search Button Area */}
-        <div className="w-full flex justify-end mt-2 p-4 pt-2 border-t border-gray-100 mt-2">
+        <div className="w-full flex justify-end p-4 pt-2 border-t border-gray-100 mt-2">
           <Button
             onClick={handleSearch}
             className="bg-main-green hover:bg-main-green/90 px-12 py-6 text-base font-bold rounded-xl shadow-xl shadow-main-green/20 group transition-all"
