@@ -4,6 +4,7 @@ import PageHeader from "@/components/shared/page-header";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import AdsSearchListing from "@/components/marketplace/ads-search-listing";
+import AdsPageFilter from "@/components/marketplace/ads-page-filter";
 
 /**
  * /ads page — Public property search results.
@@ -28,6 +29,7 @@ const AdsPage = () => {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="container"
       >
+        <AdsPageFilter />
         <AdsSearchListing />
       </motion.section>
     </main>
