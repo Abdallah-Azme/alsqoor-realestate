@@ -8,12 +8,15 @@ import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marke
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAdLimit } from "@/hooks/use-ad-limit";
+import { FiPlus } from "react-icons/fi";
 
 const MarketplacePage = () => {
   const t = useTranslations("breadcrumbs");
   const tPage = useTranslations("home.estates_page");
   const tMarket = useTranslations("marketplace");
   const tCommon = useTranslations("common");
+  const { checkCanAddFeatured } = useAdLimit();
 
   // Fetch properties from /properties-new
   const {
@@ -43,7 +46,12 @@ const MarketplacePage = () => {
               {tMarket("title")}
             </h1>
           </div>
-          <CreateMarketplacePropertyDialog buttonText="إضافة عقار" />
+          {properties.length > 0 && (
+            <CreateMarketplacePropertyDialog
+              buttonText="إضافة عقار"
+              onBeforeOpen={checkCanAddFeatured}
+            />
+          )}
         </div>
       </motion.div>
 
@@ -94,19 +102,23 @@ const MarketplacePage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 space-y-6">
-            <div className="bg-gray-100 p-6 rounded-full">
-              <AlertCircle className="h-12 w-12 text-gray-400" />
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6 mt-6">
+            <div className="bg-main-green/10 p-6 rounded-full">
+              <FiPlus className="h-10 w-10 text-main-green" />
             </div>
             <div className="text-center space-y-2">
               <h3 className="text-xl font-bold text-main-navy">
                 {tMarket("no_properties")}
               </h3>
-              <p className="text-gray-500 text-center max-w-md">
+              <p className="text-gray-500 text-center max-w-sm px-4">
                 {tMarket("no_properties_description")}
               </p>
             </div>
-            <CreateMarketplacePropertyDialog buttonText="إضافة عقار" />
+            <CreateMarketplacePropertyDialog
+              triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+              buttonText="إضافة عقار"
+              onBeforeOpen={checkCanAddFeatured}
+            />
           </div>
         )}
       </div>

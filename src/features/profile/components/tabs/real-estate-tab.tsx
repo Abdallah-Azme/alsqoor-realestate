@@ -9,12 +9,14 @@ import MyPropertyCard from "./my-property-card";
 import { useRealEstateProperties } from "@/features/properties/hooks/use-properties";
 import SmartPagination from "@/components/shared/smart-pagination";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import { useAdLimit } from "@/hooks/use-ad-limit";
 
 const ITEMS_PER_PAGE = 6;
 
 const RealEstateTab = () => {
   const t = useTranslations("Profile");
   const [currentPage, setCurrentPage] = useState(1);
+  const { checkCanAddFeatured } = useAdLimit();
 
   const {
     data: propertiesData,
@@ -70,6 +72,7 @@ const RealEstateTab = () => {
           <CreateMarketplacePropertyDialog
             triggerClassName="w-full md:w-auto ms-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
             buttonText={t("add_property") || "Add Property"}
+            onBeforeOpen={checkCanAddFeatured}
           />
         )}
       </div>
@@ -114,6 +117,7 @@ const RealEstateTab = () => {
           <CreateMarketplacePropertyDialog
             triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
             buttonText={t("add_property") || "إضافة عقار"}
+            onBeforeOpen={checkCanAddFeatured}
           />
         </div>
       )}

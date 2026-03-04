@@ -59,5 +59,32 @@ export function useAdLimit() {
     return true;
   }
 
-  return { checkCanAddAd };
+  /**
+   * Checks if the user can add a featured property (real-estate tab / marketplace).
+   * Uses `permissions.canAddFeatured`.
+   * Shows a toast + redirect to /packages if not allowed.
+   */
+  function checkCanAddFeatured(): boolean {
+    const user = ctx?.user;
+    if (!user) return true;
+
+    const canAddFeatured = user?.permissions?.canAddFeatured ?? false;
+
+    if (!canAddFeatured) {
+      toast.error(t("featured_not_allowed_title"), {
+        description: t("featured_not_allowed_desc"),
+        action: {
+          label: t("view_packages"),
+          onClick: () => router.push("/packages"),
+        },
+        duration: 5000,
+      });
+      setTimeout(() => router.push("/packages"), 1500);
+      return false;
+    }
+
+    return true;
+  }
+
+  return { checkCanAddAd, checkCanAddFeatured };
 }

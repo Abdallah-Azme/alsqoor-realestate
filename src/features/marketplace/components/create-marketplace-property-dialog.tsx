@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,13 +56,10 @@ const MapLocationPicker = dynamic(
 interface CreateMarketplacePropertyDialogProps {
   buttonText?: string;
   triggerClassName?: string;
-}
-
-interface CreateMarketplacePropertyDialogProps {
-  buttonText?: string;
-  triggerClassName?: string;
   property?: Partial<MarketplaceProperty>;
   isEdit?: boolean;
+  /** Called when trigger is clicked. Return false to block opening the dialog. */
+  onBeforeOpen?: () => boolean;
 }
 
 export const CreateMarketplacePropertyDialog = ({
@@ -71,6 +67,7 @@ export const CreateMarketplacePropertyDialog = ({
   triggerClassName,
   property,
   isEdit = false,
+  onBeforeOpen,
 }: CreateMarketplacePropertyDialogProps) => {
   const t = useTranslations("properties");
   const tProfile = useTranslations("Profile");
@@ -180,26 +177,34 @@ export const CreateMarketplacePropertyDialog = ({
     }
   };
 
+  const handleTriggerClick = () => {
+    if (onBeforeOpen) {
+      const canOpen = onBeforeOpen();
+      if (!canOpen) return;
+    }
+    setOpen(true);
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        {isEdit ? (
-          <button className={triggerClassName}>
-            <FiEdit2 size={16} />
-            {buttonText || tProfile("edit_data")}
-          </button>
-        ) : (
-          <Button
-            className={
-              triggerClassName ||
-              "bg-main-green hover:bg-main-green/90 text-white gap-2"
-            }
-          >
-            <FiPlus className="text-lg" />
-            <span>{buttonText || tPage("add_ad")}</span>
-          </Button>
-        )}
-      </DialogTrigger>
+      {/* Trigger rendered outside DialogTrigger so we can intercept and guard the click */}
+      {isEdit ? (
+        <button className={triggerClassName} onClick={handleTriggerClick}>
+          <FiEdit2 size={16} />
+          {buttonText || tProfile("edit_data")}
+        </button>
+      ) : (
+        <Button
+          onClick={handleTriggerClick}
+          className={
+            triggerClassName ||
+            "bg-main-green hover:bg-main-green/90 text-white gap-2"
+          }
+        >
+          <FiPlus className="text-lg" />
+          <span>{buttonText || tPage("add_ad")}</span>
+        </Button>
+      )}
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>

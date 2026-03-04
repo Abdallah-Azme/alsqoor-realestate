@@ -644,7 +644,9 @@
     "view_packages": "View Packages",
     "limit_exceeded_title": "Ad Limit Reached",
     "limit_exceeded_desc": "You have used all {limit} ads. Please upgrade your package to add more",
-    "upgrade_package": "Upgrade Package"
+    "upgrade_package": "Upgrade Package",
+    "featured_not_allowed_title": "Not Allowed to Add Property",
+    "featured_not_allowed_desc": "Your current package does not allow adding properties. Please upgrade to enjoy this feature"
   },
   "packages_page": {
     "no_packages": "No packages available currently",

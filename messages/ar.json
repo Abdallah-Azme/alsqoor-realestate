@@ -506,7 +506,9 @@
     "view_packages": "عرض الباقات",
     "limit_exceeded_title": "لقد تجاوزت حد الإعلانات",
     "limit_exceeded_desc": "لقد استخدمت {limit} إعلانات، يرجى ترقية باقتك لإضافة المزيد",
-    "upgrade_package": "ترقية الباقة"
+    "upgrade_package": "ترقية الباقة",
+    "featured_not_allowed_title": "غير مسموح بإضافة العقار",
+    "featured_not_allowed_desc": "باقتك الحالية لا تتيح إضافة عقارات. يرجى الترقية للاستمتاع بهذه الميزة"
   },
   "packages_page": {
     "no_packages": "لا تتوفر باقات حالياً",
