@@ -1,5 +1,5 @@
 import React from "react";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import BlogCard from "@/components/shared/blog-card";
 import { getTranslations } from "next-intl/server";
 import { getBlogs } from "@/lib/blog-actions";
@@ -29,10 +29,10 @@ const BlogsPage = async ({ searchParams }) => {
   return (
     <main className="space-y-12">
       <AnimatedSection>
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs items={[{ label: t("blogs") }]} />
-          <h1 className="text-main-navy text-2xl font-bold">{t("blogs")}</h1>
-        </div>
+        <PageHeader
+          title={t("blogs")}
+          breadcrumbItems={[{ label: t("blogs") }]}
+        />
       </AnimatedSection>
       <div className="container space-y-8">
         {/* Blog Grid */}

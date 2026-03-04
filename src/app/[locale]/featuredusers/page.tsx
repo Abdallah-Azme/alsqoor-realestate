@@ -1,4 +1,4 @@
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import FeaturedUserCard from "@/components/shared/featured-user-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,12 +52,10 @@ const FeaturedUsersPage = async ({ searchParams }: PageProps) => {
   return (
     <main className="space-y-8">
       <AnimatedSection>
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs
-            items={[{ label: tBreadcrumbs("featured_users") }]}
-          />
-          <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
-        </div>
+        <PageHeader
+          title={t("title")}
+          breadcrumbItems={[{ label: tBreadcrumbs("featured_users") }]}
+        />
       </AnimatedSection>
 
       <div className="container space-y-8">
@@ -83,7 +81,7 @@ const FeaturedUsersPage = async ({ searchParams }: PageProps) => {
             {featuredUsers.length > 0 ? (
               featuredUsers.map((user, index) => (
                 <AnimatedItem key={user.id} index={index}>
-                  <FeaturedUserCard item={user} />
+                  <FeaturedUserCard user={user} />
                 </AnimatedItem>
               ))
             ) : (

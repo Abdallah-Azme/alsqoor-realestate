@@ -101,7 +101,7 @@ const ProjectDetailsPage = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   return (
-    <main className="space-y-8 pb-12">
+    <main className="space-y-8 pb-4">
       {/* Image Gallery */}
       <motion.div
         initial={{ opacity: 0 }}

@@ -50,7 +50,7 @@ const OfferPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="space-y-6 mb-16">
-      <div className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-12">
+      <div className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-4">
         <CustomBreadcrumbs
           items={[
             { label: t("title") || "Offers", href: "/offers" },

@@ -93,7 +93,7 @@ const BrokerPropertyDetailsPage = () => {
   };
 
   return (
-    <main className="space-y-8 pb-12">
+    <main className="space-y-8 pb-4">
       {/* Image Gallery */}
       <motion.div
         initial={{ opacity: 0 }}

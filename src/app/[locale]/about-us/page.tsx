@@ -1,5 +1,5 @@
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
 import FAQSection from "@/components/shared/faq-section";
+import PageHeader from "@/components/shared/page-header";
 import { aboutService, AboutData } from "@/features/about";
 import { getFaqs } from "@/lib/faq-actions";
 import Image from "next/image";
@@ -68,10 +68,10 @@ const AboutUsPage = async ({
   return (
     <main className="space-y-12">
       {/* Header */}
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs items={[{ label: t("about_us") }]} />
-        <h1 className="text-main-navy text-2xl font-bold">{t("about_us")}</h1>
-      </div>
+      <PageHeader
+        title={t("about_us")}
+        breadcrumbItems={[{ label: t("about_us") }]}
+      />
 
       {/* First Section - with top image */}
       {firstSection && (

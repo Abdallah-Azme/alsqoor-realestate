@@ -1,4 +1,4 @@
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import { userGuideService } from "@/features/user-guide";
 import Image from "next/image";
 import React from "react";
@@ -31,10 +31,10 @@ const UserManualPage = async () => {
   return (
     <main className="space-y-12">
       {/* Header */}
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs items={[{ label: t("user_manual") }]} />
-        <h1 className="text-main-navy text-2xl font-bold">دليل المستخدم</h1>
-      </div>
+      <PageHeader
+        title="دليل المستخدم"
+        breadcrumbItems={[{ label: t("user_manual") }]}
+      />
 
       {/* First Section - with top image */}
       {firstSection && (

@@ -1,5 +1,5 @@
 "use client";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import React, { useContext, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -78,10 +78,10 @@ const Page = () => {
 
   return (
     <main className="space-y-6">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs items={[{ label: t("title") }]} />
-        <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
-      </div>
+      <PageHeader
+        title={t("title")}
+        breadcrumbItems={[{ label: t("title") }]}
+      />
       <div className="container border border-gray-300 p-10">
         <Tabs dir={locale === "ar" ? "rtl" : "ltr"} defaultValue="houre">
           <div className="flex justify-between items-center">

@@ -1,5 +1,5 @@
 "use client";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   FaMoneyBillWave,
@@ -54,9 +54,9 @@ const SingleDealPage = () => {
   if (isLoading) {
     return (
       <main className="space-y-6">
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <div className="h-4 bg-gray-200 rounded w-1/3 animate-pulse" />
-          <div className="h-8 bg-gray-200 rounded w-1/2 animate-pulse" />
+        <div className="bg-main-light-gray py-2 px-4 rounded-b-lg container">
+          <div className="h-3 bg-gray-200 rounded w-1/4 animate-pulse mb-2" />
+          <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse" />
         </div>
         <div className="container border border-gray-300 p-10 space-y-8">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -72,12 +72,10 @@ const SingleDealPage = () => {
   if (!offer) {
     return (
       <main className="space-y-6">
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs items={[{ label: t("title"), href: "/deals" }]} />
-          <h1 className="text-main-navy text-2xl font-bold">
-            {t("not_found")}
-          </h1>
-        </div>
+        <PageHeader
+          title={t("not_found")}
+          breadcrumbItems={[{ label: t("title"), href: "/deals" }]}
+        />
         <div className="container border border-gray-300 p-10">
           <p className="text-center text-gray-500">{t("not_found_desc")}</p>
         </div>
@@ -118,13 +116,13 @@ const SingleDealPage = () => {
 
   return (
     <main className="space-y-6">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs
-          items={[{ label: t("title"), href: "/deals" }, { label: offer.name }]}
-        />
-        <h1 className="text-main-navy text-2xl font-bold">{offer.name}</h1>
-        <p className="text-gray-600">{offer.description}</p>
-      </div>
+      <PageHeader
+        title={offer.name}
+        breadcrumbItems={[
+          { label: t("title"), href: "/deals" },
+          { label: offer.name },
+        ]}
+      />
       <div className="container border border-gray-300 p-10 space-y-8">
         {/* Stats Grid */}
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -158,7 +156,7 @@ const SingleDealPage = () => {
                   key={index}
                   className="flex items-center gap-2 text-gray-700"
                 >
-                  <FaCheckCircle className="text-main-green flex-shrink-0" />
+                  <FaCheckCircle className="text-main-green shrink-0" />
                   <span>{feature}</span>
                 </li>
               ))}

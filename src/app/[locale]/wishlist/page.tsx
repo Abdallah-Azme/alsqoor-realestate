@@ -1,6 +1,6 @@
 "use client";
 
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import EstateCard from "@/components/estates/estate-card";
 import React, { useContext } from "react";
 import { useTranslations } from "next-intl";
@@ -18,10 +18,10 @@ const WishListPage = () => {
   if (!userLoading && !user) {
     return (
       <main className="space-y-8">
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs items={[{ label: tBreadcrumbs("favorite") }]} />
-          <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
-        </div>
+        <PageHeader
+          title={t("title")}
+          breadcrumbItems={[{ label: tBreadcrumbs("favorite") }]}
+        />
         <div className="container text-center py-16">
           <p className="text-gray-500 mb-4">{t("login_required")}</p>
           <Link
@@ -37,10 +37,10 @@ const WishListPage = () => {
 
   return (
     <main className="space-y-8">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs items={[{ label: tBreadcrumbs("favorite") }]} />
-        <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
-      </div>
+      <PageHeader
+        title={t("title")}
+        breadcrumbItems={[{ label: tBreadcrumbs("favorite") }]}
+      />
 
       {/* Loading state */}
       {(isLoading || userLoading) && (

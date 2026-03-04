@@ -18,7 +18,7 @@ const NewPasswordPage = async () => {
   const t = await getTranslations("new-password");
   return (
     <main className="space-y-12">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
+      <div className="bg-main-light-gray p-4 pb-4 space-y-4 rounded-b-xl container">
         <CustomBreadcrumbs items={[{ label: t("title") }]} />
         <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
       </div>

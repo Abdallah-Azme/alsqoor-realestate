@@ -47,7 +47,7 @@ export default function BlogsPageClient({
   return (
     <main className="space-y-12">
       <AnimatedSection>
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
+        <div className="bg-main-light-gray p-4 pb-4 space-y-4 rounded-b-xl container">
           <CustomBreadcrumbs items={[{ label: t("blogs") }]} />
           <h1 className="text-main-navy text-2xl font-bold">{t("blogs")}</h1>
         </div>

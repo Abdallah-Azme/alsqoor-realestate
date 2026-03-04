@@ -1,6 +1,6 @@
 "use client";
 
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import type { PropertyRequestFilters } from "@/features/requests/types/request.types";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -70,10 +70,11 @@ const RequestsPage = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container"
       >
-        <CustomBreadcrumbs items={[{ label: tBreadcrumbs("requests") }]} />
-        <h1 className="text-main-navy text-2xl font-bold">{t("page_title")}</h1>
+        <PageHeader
+          title={t("page_title")}
+          breadcrumbItems={[{ label: tBreadcrumbs("requests") }]}
+        />
       </motion.div>
 
       {/* Filter and content section */}

@@ -226,13 +226,15 @@ const BrokersListing = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          <Button
-            onClick={handleAddAd}
-            className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-          >
-            <FiPlus className="text-lg" />
-            <span>{tPage("add_ad")}</span>
-          </Button>
+          {formattedProperties.length > 0 && (
+            <Button
+              onClick={handleAddAd}
+              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+            >
+              <FiPlus className="text-lg" />
+              <span>{tPage("add_ad")}</span>
+            </Button>
+          )}
 
           {/* Sort Button */}
           <button
@@ -301,7 +303,7 @@ const BrokersListing = () => {
             </h3>
             <p className="text-gray-500 max-w-sm">
               {t("no_properties_description") ||
-                "لا توجد عقارات متاحة حالياً في هذا القسم. بادر بإضافة عقار جديد الآن."}
+                "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
           <Button

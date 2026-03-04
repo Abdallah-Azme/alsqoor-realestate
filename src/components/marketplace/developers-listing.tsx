@@ -119,13 +119,15 @@ const DevelopersListing = () => {
           {t("project")}
         </p>
 
-        <Button
-          onClick={handleAddAd}
-          className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-        >
-          <FiPlus className="text-lg" />
-          <span>{tPage("add_ad")}</span>
-        </Button>
+        {currentProjects.length > 0 && (
+          <Button
+            onClick={handleAddAd}
+            className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+          >
+            <FiPlus className="text-lg" />
+            <span>{tPage("add_ad")}</span>
+          </Button>
+        )}
       </div>
 
       {/* Projects Grid */}
@@ -180,7 +182,7 @@ const DevelopersListing = () => {
             </h3>
             <p className="text-gray-500 max-w-sm">
               {t("no_projects_description") ||
-                "لا توجد مشاريع متاحة حالياً في هذا القسم. بادر بإضافة مشروع جديد الآن."}
+                "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
           <Button

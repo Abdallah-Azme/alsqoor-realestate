@@ -9,7 +9,7 @@ const OffersPage = () => {
 
   return (
     <main className="space-y-6">
-      <div className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-12">
+      <div className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-4">
         <CustomBreadcrumbs items={[{ label: t("title") }]} />
         <h1 className="text-2xl font-bold text-main-navy">{t("title")}</h1>
       </div>

@@ -34,7 +34,7 @@ const MarketplacePage = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-12"
+        className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-4"
       >
         <div className="flex items-center justify-between">
           <div>

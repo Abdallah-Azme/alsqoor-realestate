@@ -1,5 +1,5 @@
 import BlogSection from "@/components/home/blog-section";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import Image from "next/image";
 import React from "react";
 import { getBlogById } from "@/lib/blog-actions";
@@ -40,12 +40,13 @@ const SingleBlogPage = async ({ params }) => {
 
   return (
     <main className="space-y-12">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-        <CustomBreadcrumbs
-          items={[{ label: t("blogs"), href: "/blogs" }, { label: blog.title }]}
-        />
-        <h1 className="text-main-navy text-2xl font-bold">{blog.title}</h1>
-      </div>
+      <PageHeader
+        title={blog.title}
+        breadcrumbItems={[
+          { label: t("blogs"), href: "/blogs" },
+          { label: blog.title },
+        ]}
+      />
       <div className="container space-y-4 border border-gray-200 rounded-s-xl overflow-hidden">
         <div className="relative">
           <Image

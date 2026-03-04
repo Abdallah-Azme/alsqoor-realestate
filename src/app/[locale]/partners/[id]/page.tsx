@@ -44,7 +44,7 @@ const SinglePartner = async ({ params }) => {
   };
 
   return (
-    <main className="space-y-12 min-h-screen pb-12 container mx-auto px-4">
+    <main className="space-y-12 min-h-screen pb-4 container mx-auto px-4">
       {/* Header */}
       <div className="bg-white p-4 pb-8 shadow-sm">
         <div className="space-y-4">

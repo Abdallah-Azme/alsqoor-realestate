@@ -1,4 +1,4 @@
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import FeaturedUserCard from "@/components/shared/featured-user-card";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
@@ -44,10 +44,10 @@ const PartnersPage = async (props: {
   return (
     <main className="space-y-8">
       <AnimatedSection>
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs items={[{ label: t("partners") }]} />
-          <h1 className="text-main-navy text-2xl font-bold">{t("partners")}</h1>
-        </div>
+        <PageHeader
+          title={t("partners")}
+          breadcrumbItems={[{ label: t("partners") }]}
+        />
       </AnimatedSection>
 
       <div className="container space-y-8">

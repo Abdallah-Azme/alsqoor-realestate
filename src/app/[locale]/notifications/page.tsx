@@ -19,7 +19,7 @@ const NotificationsPage = async () => {
   const t = await getTranslations("breadcrumbs");
   return (
     <main className="space-y-8">
-      <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
+      <div className="bg-main-light-gray p-4 pb-4 space-y-4 rounded-b-xl container">
         <CustomBreadcrumbs items={[{ label: t("notifications") }]} />
         <h1 className="text-main-navy text-2xl font-bold">الاشعارات</h1>
       </div>
