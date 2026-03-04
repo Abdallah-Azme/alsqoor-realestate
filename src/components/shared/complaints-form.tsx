@@ -23,38 +23,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "../ui/textarea";
-import { complaintsService } from "@/features/complaints";
-import { useState, useEffect } from "react";
+import {
+  useComplaintTypes,
+  useSubmitComplaint,
+} from "@/features/complaints/hooks/use-complaints";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/navigation";
 import { getToken } from "@/services";
+
 const ComplaintsForm = () => {
-  const [types, setTypes] = useState([]);
-  const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const t = useTranslations("Complaints");
   const locale = useLocale();
   const router = useRouter();
-  async function getComplaints() {
-    try {
-      setIsLoadingTypes(true);
-      const data = await complaintsService.getComplaintTypes();
-      setTypes(data);
-    } catch (error) {
-      console.error("Error fetching complaint types:", error);
-    } finally {
-      setIsLoadingTypes(false);
-    }
-  }
-  useEffect(() => {
-    getComplaints();
-  }, []);
+
+  // Using hooks from use-complaints
+  const { data: types, isLoading: isLoadingTypes } = useComplaintTypes();
+  const submitComplaint = useSubmitComplaint();
 
   const formSchema = z.object({
-    complaint_type_id: z.string({
-      required_error: t("validation.complaint_type_required"),
-    }),
+    complaint_type_id: z
+      .string({
+        message: t("validation.complaint_type_required"),
+      })
+      .min(1, { message: t("validation.complaint_type_required") }),
     phone: z.string().min(10, {
       message: t("validation.phone_min"),
     }),
@@ -66,7 +59,7 @@ const ComplaintsForm = () => {
     }),
   });
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       complaint_type_id: "",
@@ -75,9 +68,10 @@ const ComplaintsForm = () => {
       body: "",
     },
   });
+
   const { isSubmitting } = form.formState;
 
-  async function onSubmit(values) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     const token = await getToken();
     if (!token) {
       toast.error(t("validation.unauthorized"));
@@ -85,19 +79,32 @@ const ComplaintsForm = () => {
       return;
     }
 
-    const success = await complaintsService.submitComplaint(values);
-    if (success) {
-      toast.success(t("validation.success"));
-      form.reset();
-    } else {
-      toast.error(t("validation.error"));
-    }
+    submitComplaint.mutate(values as any, {
+      onSuccess: () => {
+        toast.success(t("validation.success") || "تم إرسال الشكوى بنجاح");
+        form.reset();
+      },
+      onError: (error) => {
+        toast.error(t("validation.error") || "حدث خطأ ما");
+        console.error("Complaint Submission Error:", error);
+      },
+    });
   }
 
-  const inputStyle = "!h-14 rounded-none rounded-s-lg";
+  const inputStyle =
+    "!h-14 rounded-xl border-gray-200 bg-gray-50 focus-visible:ring-main-green focus:bg-white transition-all";
 
   return (
-    <div className=" w-full ">
+    <div className="w-full">
+      <div className="text-center mb-8 space-y-2">
+        <h2 className="text-2xl font-bold text-main-navy">
+          {t("complaint_form") || "نموذج الشكاوى"}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {t("description") || "نحن هنا للاستماع إليك وحل مشاكلك في أسرع وقت."}
+        </p>
+      </div>
+
       <Form {...form}>
         <form
           dir={locale === "ar" ? "rtl" : "ltr"}
@@ -109,7 +116,9 @@ const ComplaintsForm = () => {
             name="complaint_type_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("complaint_type")}</FormLabel>
+                <FormLabel className="font-semibold text-main-navy">
+                  {t("complaint_type")}
+                </FormLabel>
                 <Select
                   dir={locale === "ar" ? "rtl" : "ltr"}
                   onValueChange={field.onChange}
@@ -120,21 +129,28 @@ const ComplaintsForm = () => {
                       <SelectValue placeholder={t("select_type")} />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="rounded-xl">
                     {isLoadingTypes ? (
-                      <SelectItem key="loading" disabled>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <SelectItem key="loading" value="loading" disabled>
+                        <span className="flex items-center">
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> جاري
+                          التحميل...
+                        </span>
                       </SelectItem>
                     ) : (
-                      types?.map((type) => (
-                        <SelectItem key={type.id} value={String(type.id)}>
+                      types?.map((type: any) => (
+                        <SelectItem
+                          key={type.id}
+                          value={String(type.id)}
+                          className="focus:bg-main-green/10 cursor-pointer"
+                        >
                           {type.name}
                         </SelectItem>
                       ))
                     )}
                   </SelectContent>
                 </Select>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -143,7 +159,9 @@ const ComplaintsForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("email")}</FormLabel>
+                <FormLabel className="font-semibold text-main-navy">
+                  {t("email")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder={t("enter_email")}
@@ -152,7 +170,7 @@ const ComplaintsForm = () => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -161,19 +179,25 @@ const ComplaintsForm = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("phone_number")}</FormLabel>
+                <FormLabel className="font-semibold text-main-navy">
+                  {t("phone_number")}
+                </FormLabel>
                 <FormControl>
+                  {/* @ts-ignore */}
                   <PhoneInput
                     {...field}
                     defaultCountry="sa"
                     withFlagShown
                     withFullNumber
-                    inputClassName={`${inputStyle} w-full`}
-                    containerClassName={`${inputStyle} w-full`}
+                    inputClassName={`${inputStyle} w-full border-s-0 rounded-s-none focus-visible:ring-0 !border-gray-200`}
+                    countrySelectorStyleProps={{
+                      // @ts-ignore
+                      buttonClassName: `${inputStyle} rounded-e-none !h-[56px] px-3 !border-gray-200 border-e-0 cursor-pointer hover:bg-gray-100`,
+                    }}
                     inputComponent={Input}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -182,29 +206,35 @@ const ComplaintsForm = () => {
             name="body"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("message_label")}</FormLabel>
+                <FormLabel className="font-semibold text-main-navy">
+                  {t("message_label")}
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder={t("message_placeholder")}
-                    className={`${inputStyle} !h-30`}
+                    className={`${inputStyle} h-32! resize-none pt-4`}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
-          <Button
-            disabled={isSubmitting}
-            type="submit"
-            className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:!px-8 p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit  mt-8"
-          >
-            {isSubmitting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              t("submit_complaint")
-            )}
-          </Button>
+          <div className="pt-2">
+            <Button
+              disabled={isSubmitting || submitComplaint.isPending}
+              type="submit"
+              className="w-full rounded-xl h-14 bg-main-green text-white font-bold text-lg hover:bg-main-green/90 shadow-lg shadow-main-green/20 transition-all flex items-center justify-center gap-2"
+            >
+              {isSubmitting || submitComplaint.isPending ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" /> جاري الإرسال
+                </>
+              ) : (
+                t("submit_complaint")
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

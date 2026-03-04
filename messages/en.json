@@ -87,6 +87,7 @@
   "contact": "contact",
   "Complaints": {
     "title": "Complaints",
+    "description": "We are here to listen to you and solve your problems as soon as possible.",
     "complaint_form": "Complaint Form",
     "complaint_type": "Complaint Type",
     "select_type": "Select Type",
@@ -107,7 +108,9 @@
       "phone_min": "Phone number must be at least 10 digits",
       "email_invalid": "Invalid email address",
       "message_min": "Message must be at least 10 characters",
-      "unauthorized": "You must be logged in first"
+      "unauthorized": "You must be logged in first",
+      "success": "Complaint submitted successfully",
+      "error": "Error submitting complaint"
     }
   },
   "Newsletter": {
@@ -622,6 +625,8 @@
       "multiple": "Multiple"
     },
     "status": {
+      "active": "Active",
+      "inactive": "Inactive",
       "new": "New",
       "marketing": "Marketing",
       "sold": "Sold",
