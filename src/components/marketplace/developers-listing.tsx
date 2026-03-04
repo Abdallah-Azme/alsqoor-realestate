@@ -3,15 +3,13 @@
 import { useState, useContext } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import DeveloperProjectCard from "./developer-project-card";
-import SmartPagination from "@/components/shared/smart-pagination";
-import { Button } from "@/components/ui/button";
-import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/user-context";
-import { propertiesService } from "@/features/properties/services/properties.service";
-import { useQuery } from "@tanstack/react-query";
+import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marketplace-properties";
+import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import EmptyState from "@/components/shared/empty-state";
+import SmartPagination from "@/components/shared/smart-pagination";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -24,44 +22,14 @@ const DevelopersListing = () => {
   const router = useRouter();
   const tTypes = useTranslations("advertisements.property_types");
   // Simplification: Removed inner property type tabs to match marketplace design
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const { data: response, isLoading } = useQuery({
-    queryKey: ["marketplace-developers", currentPage],
-    queryFn: () =>
-      propertiesService.getMarketplaceProperties({
-        type: "developer",
-        page: currentPage,
-        per_page: ITEMS_PER_PAGE,
-      }),
+  const { data: response, isLoading } = useMarketplaceProperties({
+    type: "developer",
+    per_page: 6,
   });
 
   const properties = response?.data || [];
   const meta = response?.meta;
   const loading = isLoading;
-  const totalPages = meta?.last_page || 1;
-
-  // Map API data to component props
-  const currentProjects = properties.map((p) => ({
-    id: String(p.id),
-    slug: p.slug,
-    title: p.title,
-    developerName: p.developerName || "Developer", // fallback
-    developerLogo: p.developerLogo,
-    startingPrice: Number(p.startingPrice || 0),
-    formattedStartingPrice: Number(p.startingPrice || 0).toLocaleString(),
-    location: p.location || p.city || "",
-    city: p.city || "",
-    image: p.image || "",
-    brokerCommission: p.brokerCommission || 0,
-    timePosted:
-      p.timePosted ||
-      (p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""),
-    isBrokerOpportunity: p.isBrokerOpportunity || false,
-    propertyType: p.propertyType || "",
-    totalUnits: p.totalUnits || 0,
-    availableUnits: p.availableUnits || 0,
-  }));
 
   return (
     <div className="space-y-6">
@@ -70,7 +38,7 @@ const DevelopersListing = () => {
           to match simplified marketplace design.
       */}
 
-      {/* Results count */}
+      {/* Results count removed as they are handled by main page/unified card if needed */}
       <div className="flex items-center justify-between">
         <p className="text-gray-600 text-sm">
           {t("results_count")}:{" "}
@@ -78,7 +46,7 @@ const DevelopersListing = () => {
           {t("project")}
         </p>
 
-        {currentProjects.length > 0 && (
+        {properties.length > 0 && (
           <CreateMarketplacePropertyDialog
             triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
             buttonText={tPage("add_property")}
@@ -97,7 +65,7 @@ const DevelopersListing = () => {
             />
           ))}
         </div>
-      ) : currentProjects.length > 0 ? (
+      ) : properties.length > 0 ? (
         <>
           <motion.div
             initial="hidden"
@@ -109,45 +77,28 @@ const DevelopersListing = () => {
             }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {currentProjects.map((project, index) => (
-              <DeveloperProjectCard
-                key={project.id}
-                project={project}
+            {properties.map((property: any, index: number) => (
+              <MarketplacePropertyCard
+                key={property.id}
+                property={property}
                 index={index}
               />
             ))}
           </motion.div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <SmartPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-              className="mt-8"
-            />
-          )}
         </>
-      ) : (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6">
-          <div className="bg-main-green/10 p-6 rounded-full">
-            <FiPlus className="h-10 w-10 text-main-green" />
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-bold text-main-navy">
-              {t("no_projects")}
-            </h3>
-            <p className="text-gray-500 max-w-sm">
-              {t("no_projects_description") ||
-                "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
-            </p>
-          </div>
-          <CreateMarketplacePropertyDialog
-            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-            buttonText={tPage("add_property")}
-            defaultRole="developer"
-          />
-        </div>
+      ) : null}
+
+      {properties.length === 0 && !loading && (
+        <EmptyState
+          title={t("no_projects")}
+          description={
+            t("no_projects_description") ||
+            "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
+          }
+          buttonText={tPage("add_property")}
+          actionType="dialog"
+          defaultRole="developer"
+        />
       )}
     </div>
   );
