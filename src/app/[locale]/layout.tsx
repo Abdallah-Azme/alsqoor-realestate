@@ -66,7 +66,6 @@ export default async function RootLayout({ children, params }) {
 
   // Fetch navbar color
   const navbarColor = await settingsService.getTopnavColor();
-
   // Fetch settings
   const settings = await getSettings();
 

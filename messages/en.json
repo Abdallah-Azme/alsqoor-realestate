@@ -135,7 +135,10 @@
     "complaints_policy": "Complaints Policy",
     "contact_info": "Contact Information",
     "all_rights_reserved": "All rights reserved@",
-    "company_short_name": "Falcons"
+    "company_short_name": "Falcons",
+    "platform_cert": "Trade Name",
+    "security_cert": "Security Certificate",
+    "ecommerce_cert": "E-commerce"
   },
   "partner": {
     "title": "Success Partners"
@@ -271,6 +274,7 @@
     "update_failed": "Update failed",
     "current_stats": "Current Stats",
     "subscribe_to_package": "Subscribe to Package",
+    "subscribe_now_button": "Subscribe Now",
     "choose_payment_method": "Choose your preferred payment method and subscription period.",
     "subscription_period": "Subscription Period",
     "monthly": "Monthly",

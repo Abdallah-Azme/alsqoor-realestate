@@ -23,6 +23,7 @@ interface PackageProps {
   features: string[];
   isCurrent?: boolean;
   showRenewButton?: boolean;
+  hasAnyActiveSubscription?: boolean;
   onSelect: (id: string | number) => void;
 }
 
@@ -34,6 +35,7 @@ const PackageCard = ({
   features,
   isCurrent,
   showRenewButton = true,
+  hasAnyActiveSubscription = false,
   onSelect,
 }: PackageProps) => {
   const t = useTranslations("Profile");
@@ -57,7 +59,7 @@ const PackageCard = ({
         <p className="text-sm text-gray-500 font-medium">{duration}</p>
       </CardHeader>
 
-      <CardContent className="flex-grow">
+      <CardContent className="grow">
         <ul className="space-y-3 mt-4">
           {features.map((feature, index) => (
             <li key={index} className="flex items-center gap-2 text-sm">
@@ -79,7 +81,11 @@ const PackageCard = ({
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            {isCurrent ? t("renew_package") : t("change_plan")}
+            {isCurrent
+              ? t("renew_package")
+              : hasAnyActiveSubscription
+                ? t("change_plan")
+                : t("subscribe_now_button")}
           </Button>
         )}
       </CardFooter>
@@ -162,6 +168,7 @@ const PackagesTab = () => {
               })}
               features={getFeaturesList(activeSubData.package.package)}
               isCurrent={true}
+              hasAnyActiveSubscription={true}
               showRenewButton={isEndDateExceeded()}
               onSelect={handleSelectPackage}
             />
@@ -191,6 +198,7 @@ const PackagesTab = () => {
                 unit: t("days"),
               })}
               features={getFeaturesList(pkg)}
+              hasAnyActiveSubscription={!!activeSubData?.package?.package}
               onSelect={handleSelectPackage}
             />
           ))}

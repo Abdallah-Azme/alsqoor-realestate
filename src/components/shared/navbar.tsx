@@ -91,7 +91,6 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
     logout();
     router.push("/");
   };
-
   // Extract settings data with fallbacks
   const contactInfo = settings?.contactInfo || {};
   const siteInfo = settings?.siteInfo || {};

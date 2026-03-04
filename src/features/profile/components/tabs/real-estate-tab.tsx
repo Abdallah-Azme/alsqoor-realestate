@@ -96,8 +96,23 @@ const RealEstateTab = () => {
           )}
         </>
       ) : (
-        <div className="py-12 text-center text-gray-500 bg-white rounded-xl border border-gray-200">
-          {t("no_properties") || "No properties found."}
+        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6 mt-6">
+          <div className="bg-main-green/10 p-6 rounded-full">
+            <FiPlus className="h-10 w-10 text-main-green" />
+          </div>
+          <div className="text-center space-y-2">
+            <h3 className="text-xl font-bold text-main-navy">
+              {t("no_properties")}
+            </h3>
+            <p className="text-gray-500 max-w-sm px-4">
+              {t("no_properties_description") ||
+                "بادر بإضافة عقارك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
+            </p>
+          </div>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+            buttonText={t("add_property") || "إضافة عقار"}
+          />
         </div>
       )}
     </div>

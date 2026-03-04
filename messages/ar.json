@@ -137,7 +137,10 @@
     "complaints_policy": "سياسة الشكاوي",
     "contact_info": "معلومات التواصل",
     "all_rights_reserved": "جميع الحقوق محفوظة@",
-    "company_short_name": "الصقور"
+    "company_short_name": "الصقور",
+    "platform_cert": "الاسم التجاري",
+    "security_cert": "شهادة الآمان",
+    "ecommerce_cert": "التجارة الإلكترونية"
   },
   "partner": {
     "title": "شركاء النجاح"
@@ -273,6 +276,7 @@
     "update_failed": "فشل التحديث",
     "current_stats": "الإحصائيات الحالية",
     "subscribe_to_package": "الاشتراك في الباقة",
+    "subscribe_now_button": "اشترك في الباقة",
     "choose_payment_method": "اختر طريقة الدفع المناسبة لك وفترة الاشتراك.",
     "subscription_period": "فترة الاشتراك",
     "monthly": "شهري",
@@ -298,7 +302,8 @@
     "phone_label": "رقم الهاتف",
     "my_data": "بياناتي",
     "my_properties": "عقاراتي",
-    "no_properties": "لا توجد عقارات",
+    "no_properties": "ليس لديك عقارات مضافة حالياً",
+    "no_properties_description": "بادر بإضافة عقارك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه.",
     "save_success": "تم تحديث الملف الشخصي بنجاح",
     "save_error": "فشل في تحديث الملف الشخصي",
     "delete_property": "حذف العقار",
@@ -373,7 +378,7 @@
     "account_manager": "مدير حساب شخصي",
     "featured_ads": "السماح بالإعلانات المميزة",
     "urgent_requests": "السماح بالطلبات العاجلة",
-    "error_loading": "فشل في تحميل الباقات",
+    "error_loading": "فشل في تحميل العقارات",
     "continuous_technical_support": "دعم فني مستمر",
     "search_ad_button": "بحث",
     "package_2": "الباقة الثانية",
@@ -1418,7 +1423,7 @@
     }
   },
   "owner_properties": {
-    "add_property": "إضافة عقار كمالك",
+    "add_property": "اضافة إلاعلان",
     "edit_property": "تعديل العقار",
     "add_property_desc": "أدخل تفاصيل عقارك أدناه.",
     "no_properties": "لا توجد عقارات",

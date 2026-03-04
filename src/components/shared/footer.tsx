@@ -182,58 +182,123 @@ const Footer = ({ settings = null }) => {
         </div>
       </motion.div>
       {/* lower footer */}
+      <div className="container">
+        <Separator className="bg-gray-200" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="container py-6 flex items-center justify-between max-md:flex-col max-md:gap-4"
+        className="container py-8"
       >
-        {/* terms */}
-        <div className="flex items-center gap-2 flex-wrap justify-center">
-          <Link
-            href={"/terms-and-conditions"}
-            className="hover:text-main-green transition-all duration-300 text-xs"
-          >
-            {t("terms_conditions")}
-          </Link>
-          <div className="w-px h-3 bg-gray-400"></div>
-          <Link
-            href={"/privacy-policy"}
-            className="hover:text-main-green transition-all duration-300 text-xs"
-          >
-            {t("privacy_policy")}
-          </Link>
-          <div className="w-px h-3 bg-gray-400"></div>
-          <Link
-            href={"/ip-policy"}
-            className="hover:text-main-green transition-all duration-300 text-xs"
-          >
-            {t("intellectual_property")}
-          </Link>
-          <div className="w-px h-3 bg-gray-400"></div>
-          <Link
-            href={"/complaints-policy"}
-            className="hover:text-main-green transition-all duration-300 text-xs"
-          >
-            {t("complaints_policy")}
-          </Link>
-          <div className="w-px h-3 bg-gray-400"></div>
-          <Link
-            href={"/contact-info"}
-            className="hover:text-main-green transition-all duration-300 text-xs"
-          >
-            {t("contact_info")}
-          </Link>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* terms */}
+          <div className="flex items-center gap-2 flex-wrap justify-center text-gray-500">
+            <Link
+              href={"/terms-and-conditions"}
+              className="hover:text-main-green transition-all duration-300 text-xs"
+            >
+              {t("terms_conditions")}
+            </Link>
+            <div className="w-px h-3 bg-gray-300"></div>
+            <Link
+              href={"/privacy-policy"}
+              className="hover:text-main-green transition-all duration-300 text-xs"
+            >
+              {t("privacy_policy")}
+            </Link>
+            <div className="w-px h-3 bg-gray-300"></div>
+            <Link
+              href={"/ip-policy"}
+              className="hover:text-main-green transition-all duration-300 text-xs"
+            >
+              {t("intellectual_property")}
+            </Link>
+            <div className="w-px h-3 bg-gray-300"></div>
+            <Link
+              href={"/complaints-policy"}
+              className="hover:text-main-green transition-all duration-300 text-xs"
+            >
+              {t("complaints_policy")}
+            </Link>
+            <div className="w-px h-3 bg-gray-300"></div>
+            <Link
+              href={"/contact-info"}
+              className="hover:text-main-green transition-all duration-300 text-xs"
+            >
+              {t("contact_info")}
+            </Link>
+          </div>
+
+          {/* Certificates Display */}
+          {settings?.certificates && (
+            <div className="flex items-center gap-6 bg-white/50 p-3 px-6 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+              {settings.certificates.ecommerceCertificate && (
+                <div className="relative h-12 w-12 grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer group">
+                  <Image
+                    src="/images/ecommerce-badge.png"
+                    alt="E-commerce Certificate"
+                    fill
+                    className="object-contain"
+                  />
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-main-navy text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                    {t("ecommerce_cert") || "موثق"}
+                  </div>
+                </div>
+              )}
+              <div className="w-px h-8 bg-gray-200 hidden md:block" />
+              <div className="flex gap-6">
+                {settings.certificates.platformNameCertificate && (
+                  <a
+                    href={settings.certificates.platformNameCertificate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative h-12 w-12 grayscale hover:grayscale-0 transition-all duration-500 group"
+                  >
+                    <Image
+                      src="/images/trade-name-badge.png"
+                      alt="Trade Name Certificate"
+                      fill
+                      className="object-contain"
+                    />
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-main-navy text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                      {t("platform_cert")}
+                    </div>
+                  </a>
+                )}
+                {settings.certificates.securityCertificateFile && (
+                  <a
+                    href={settings.certificates.securityCertificateFile}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative h-12 w-12 grayscale hover:grayscale-0 transition-all duration-500 group"
+                  >
+                    <Image
+                      src="/images/security-badge.png"
+                      alt="Security Certificate"
+                      fill
+                      className="object-contain"
+                    />
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-main-navy text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                      {t("security_cert")}
+                    </div>
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* copy */}
+          <p className="text-sm text-gray-500">
+            {t("all_rights_reserved")}
+            <a href="#" className="font-bold text-main-green mx-1">
+              {t("company_short_name")}
+            </a>
+            2025
+          </p>
         </div>
-        {/* copy */}
-        <p className="">
-          {t("all_rights_reserved")}
-          <a href="#" className="font-bold text-main-green ">
-            {t("company_short_name")}
-          </a>
-          2025{" "}
-        </p>
       </motion.div>
     </footer>
   );
