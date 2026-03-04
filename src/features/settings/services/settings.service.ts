@@ -11,17 +11,13 @@ export const settingsService = {
   /**
    * Get all settings (cached for 1 hour)
    */
-  async getSettings(): Promise<Settings | null> {
+  async getSettings(): Promise<any> {
     try {
       const response = await fetch(`${API_URL}${BASE_PATH}`, {
         next: { revalidate: 3600 }, // Cache for 1 hour
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          // Add locale if needed, but settings usually global or contain language specific data within?
-          // The response shows "language": "en".
-          // If the API supports localized content via Accept-Language, we might need to pass it.
-          // For now, let's assume default behavior.
         },
       });
 
@@ -31,10 +27,7 @@ export const settingsService = {
       }
 
       const result = await response.json();
-      if (result?.code === 200) {
-        return result.data as Settings;
-      }
-      return null;
+      return result; // Return the full result so hooks can check success/code
     } catch (error) {
       console.error("Error fetching settings:", error);
       return null;
@@ -45,7 +38,11 @@ export const settingsService = {
    * Get settings for metadata generation (alias for getSettings)
    */
   async getSettingsForMetadata(): Promise<Settings | null> {
-    return this.getSettings();
+    const result = await this.getSettings();
+    if (result?.code === 200 || result?.success) {
+      return (result.data?.data || result.data) as Settings;
+    }
+    return null;
   },
 
   /**
@@ -53,12 +50,10 @@ export const settingsService = {
    */
   async getTopnavColor(): Promise<string> {
     try {
-      // Using api client for consistency if possible, or keeping fetch
-      // Let's use api client as it's the standard being pushed
-      const response = await api.get<any>("/topnav-color");
-      return response?.success && response?.data?.data?.topnavColor
-        ? response.data.data.topnavColor
-        : "#1a1a1a";
+      // Using api client for consistency.
+      // The api.get automatically unwraps the "data" field from the response.
+      const data = await api.get<{ topnavColor: string }>("/topnav-color");
+      return data?.topnavColor || "#1a1a1a";
     } catch (error) {
       console.error("Error fetching topnav color:", error);
       return "#1a1a1a";

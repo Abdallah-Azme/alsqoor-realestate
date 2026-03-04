@@ -66,10 +66,12 @@ const RealEstateTab = () => {
         </div> */}
 
         {/* Add New Ad Button */}
-        <CreateMarketplacePropertyDialog
-          triggerClassName="w-full md:w-auto ms-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
-          buttonText={t("add_property") || "Add Property"}
-        />
+        {properties.length > 0 && (
+          <CreateMarketplacePropertyDialog
+            triggerClassName="w-full md:w-auto ms-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
+            buttonText={t("add_property") || "Add Property"}
+          />
+        )}
       </div>
 
       {/* Grid */}

@@ -1,6 +1,6 @@
 // Settings feature exports
 export { settingsService } from "./services/settings.service";
-export { useSettings } from "./hooks/use-settings";
+export { useSettings, useTopnavColor } from "./hooks/use-settings";
 export {
   contactSettingsSchema,
   socialSettingsSchema,

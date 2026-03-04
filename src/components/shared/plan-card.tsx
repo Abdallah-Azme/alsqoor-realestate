@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { Check, Rocket, Crown, TrendingUp, Sparkles } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -12,57 +12,146 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-export default function PlanCard({ title, price, features, popular }) {
+const getTierStyles = (title: string) => {
+  const normalizedTitle = title.toLowerCase();
+
+  if (
+    normalizedTitle.includes("نخبة") ||
+    normalizedTitle.includes("elite") ||
+    normalizedTitle.includes("احتراف") ||
+    normalizedTitle.includes("pro")
+  ) {
+    return {
+      icon: <Sparkles className="w-8 h-8 text-purple-500" />,
+      accentColor: "bg-purple-50/50",
+      borderColor: "border-purple-200",
+      buttonColor: "bg-purple-600 hover:bg-purple-700",
+      iconContainer: "bg-purple-100",
+    };
+  }
+
+  if (
+    normalizedTitle.includes("ذهبي") ||
+    normalizedTitle.includes("gold") ||
+    normalizedTitle.includes("3")
+  ) {
+    return {
+      icon: <Crown className="w-8 h-8 text-amber-500" />,
+      accentColor: "bg-amber-50/50",
+      borderColor: "border-amber-200",
+      buttonColor: "bg-amber-600 hover:bg-amber-700",
+      iconContainer: "bg-amber-100",
+    };
+  }
+
+  if (
+    normalizedTitle.includes("مميز") ||
+    normalizedTitle.includes("premium") ||
+    normalizedTitle.includes("2")
+  ) {
+    return {
+      icon: <TrendingUp className="w-8 h-8 text-blue-500" />,
+      accentColor: "bg-blue-50/50",
+      borderColor: "border-blue-200",
+      buttonColor: "bg-blue-600 hover:bg-blue-700",
+      iconContainer: "bg-blue-100",
+    };
+  }
+
+  return {
+    icon: <Rocket className="w-8 h-8 text-main-green" />,
+    accentColor: "bg-green-50/30",
+    borderColor: "border-main-green/30",
+    buttonColor: "bg-main-navy hover:bg-main-navy/90",
+    iconContainer: "bg-main-green/10",
+  };
+};
+
+export default function PlanCard({
+  id,
+  title,
+  price,
+  features = [],
+  popular,
+  onSelect,
+}) {
   const t = useTranslations("packages_page");
+  const styles = getTierStyles(title);
+
   return (
     <Card
       className={cn(
-        "relative flex flex-col justify-between rounded-none rounded-tr-xl rounded-bl-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
-        popular ? "border-main-green bg-main-green/5" : "border-gray-200"
+        "relative flex flex-col pt-8 pb-6 px-2 border-2 transition-all duration-300 overflow-hidden",
+        popular
+          ? "border-main-green bg-green-50/30 shadow-lg -translate-y-1 scale-[1.02] z-10"
+          : "border-gray-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1",
       )}
     >
       {/* شارة الباقة المميزة */}
       {popular && (
-        <span className="absolute -top-3 right-3 bg-main-green text-white text-xs font-semibold py-1 px-3 rounded-full">
+        <div className="absolute top-0 right-0 left-0 bg-main-green text-white text-[10px] font-bold py-1 text-center uppercase tracking-wider">
           {t("popular_badge") || "الأكثر شهرة"}
-        </span>
+        </div>
       )}
 
       {/* العنوان والسعر */}
-      <CardHeader className="text-center space-y-3 pt-6">
-        <CardTitle className="text-lg font-bold text-main-navy">
-          {title}
-        </CardTitle>
-        <p className="text-3xl font-bold text-main-green">
-          {price} {t("currency")}
-          <span className="text-sm text-gray-500 font-normal">
-            {" "}
-            / {t("monthly") || "شهريًا"}
-          </span>
-        </p>
+      <CardHeader className="text-center pt-2 space-y-4">
+        <div
+          className={cn(
+            "mx-auto w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 hover:rotate-6",
+            styles.iconContainer,
+          )}
+        >
+          {styles.icon}
+        </div>
+
+        <div className="space-y-1">
+          <CardTitle className="text-xl font-black text-main-navy tracking-tight">
+            {title}
+          </CardTitle>
+          <div className="flex items-baseline justify-center gap-1">
+            <span className="text-sm font-medium text-gray-400">
+              {t("currency")}
+            </span>
+            <span className="text-4xl font-extrabold text-main-navy">
+              {price}
+            </span>
+          </div>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
+            {t("monthly") || "شهريًا"}
+          </p>
+        </div>
       </CardHeader>
 
       {/* المميزات */}
-      <CardContent className="space-y-3">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-2 text-sm text-gray-700"
-          >
-            <CheckCircle2 className="text-main-green w-4 h-4" />
-            <span>{feature}</span>
-          </div>
-        ))}
+      <CardContent className="grow px-6">
+        <div className="h-px bg-gray-100 w-full my-4" />
+        <ul className="space-y-4">
+          {features.map((feature, index) => (
+            <li
+              key={index}
+              className="flex items-start gap-3 group transition-all duration-300"
+            >
+              <div className="mt-1 rounded-full bg-main-green/10 p-1 group-hover:bg-main-green/20 transition-colors">
+                <Check className="w-3 h-3 text-main-green" />
+              </div>
+              <span className="text-sm text-main-navy font-semibold leading-relaxed group-hover:text-black transition-colors">
+                {feature}
+              </span>
+            </li>
+          ))}
+        </ul>
       </CardContent>
 
       {/* زر الاشتراك */}
-      <CardFooter className="p-6 pt-0">
+      <CardFooter className="px-6 pt-6">
         <Button
+          onClick={() => onSelect?.(id)}
           className={cn(
-            "w-full rounded-lg font-medium transition-all duration-300",
+            "w-full h-12 rounded-xl font-black transition-all duration-300 shadow-lg active:scale-95",
             popular
-              ? "bg-main-green text-white hover:bg-main-green/80"
-              : "bg-main-navy text-white hover:bg-main-navy/80"
+              ? "bg-main-green text-white hover:bg-main-green/90 shadow-main-green/20"
+              : "bg-main-navy text-white hover:bg-main-navy/90 shadow-main-navy/20",
           )}
         >
           {t("subscribe_now") || "اشترك الآن"}

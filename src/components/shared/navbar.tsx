@@ -7,13 +7,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { UserContext } from "@/context/user-context";
 import { Link, useRouter } from "@/i18n/navigation";
 import { LogInIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FiInbox, FiPhoneCall } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiOutlineHome } from "react-icons/hi2";
@@ -21,6 +30,7 @@ import { TbBookmark, TbMessage2, TbUserPentagon } from "react-icons/tb";
 import LocaleSwitcher from "./locale-switcher";
 import CountrySelector from "./country-selector";
 import CurrencySelector from "./currency-selector";
+import { useTopnavColor } from "@/features/settings";
 
 const LocationIcon = () => {
   return (
@@ -82,13 +92,18 @@ const LocationIcon = () => {
   );
 };
 
-const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
+const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
+  const { data: fetchedColor } = useTopnavColor();
+  const topnavColor = fetchedColor || initialColor;
   const { user, logout } = useContext(UserContext);
   const t = useTranslations("Navbar");
   const router = useRouter();
 
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   const handleLogout = () => {
     logout();
+    setShowLogoutDialog(false);
     router.push("/");
   };
   // Extract settings data with fallbacks
@@ -210,15 +225,14 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
         </motion.ul>
 
         {/* Country Selector */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.7 }}
           className="max-md:hidden flex items-center gap-2"
         >
-          {/* <CountrySelector /> */}
-          <CurrencySelector />
-        </motion.div>
+          <CountrySelector />
+        </motion.div> */}
 
         {/* auth fav and cart */}
         <motion.div
@@ -227,6 +241,8 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="flex items-center gap-2 max-md:hidden"
         >
+          <CurrencySelector />
+
           {user && (
             <>
               <Link href="/wishlist">
@@ -245,7 +261,7 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
               >
                 {user.name}
               </Link>
-              <button onClick={handleLogout} title="Logout">
+              <button onClick={() => setShowLogoutDialog(true)} title="Logout">
                 <LogInIcon className="text-white text-2xl hover:text-main-green" />
               </button>
             </>
@@ -332,7 +348,10 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
                         <span className="text-white text-sm font-medium">
                           {user.name}
                         </span>
-                        <button onClick={handleLogout} title="Logout">
+                        <button
+                          onClick={() => setShowLogoutDialog(true)}
+                          title="Logout"
+                        >
                           <LogInIcon className="text-white text-2xl hover:text-main-green" />
                         </button>
                       </div>
@@ -348,6 +367,32 @@ const Navbar = ({ topnavColor = "#1a1a1a", settings = null }) => {
           </SheetContent>
         </Sheet>
       </motion.div>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{t("logout_confirm_title")}</DialogTitle>
+            <DialogDescription>{t("logout_confirm_message")}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-row gap-3 sm:justify-end mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowLogoutDialog(false)}
+              className="flex-1 sm:flex-none"
+            >
+              {t("logout_no")}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleLogout}
+              className="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white"
+            >
+              {t("logout_yes")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

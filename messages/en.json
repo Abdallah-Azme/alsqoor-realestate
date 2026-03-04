@@ -382,7 +382,8 @@
     "saudi_arabia": "Saudi Arabia",
     "k_suffix": "k",
     "currency": "SAR",
-    "my_offers": "My Offers"
+    "my_offers": "My Offers",
+    "popular_badge": "Most Popular"
   },
   "Navbar": {
     "address": "Main Address - Riyadh",
@@ -399,7 +400,11 @@
     "ads": "Ads",
     "aboutus": "About Us",
     "marketplace": "Marketplace",
-    "properties": "Properties"
+    "properties": "Properties",
+    "logout_confirm_title": "Logout Confirmation",
+    "logout_confirm_message": "Are you sure you want to logout?",
+    "logout_yes": "Yes",
+    "logout_no": "Cancel"
   },
   "breadcrumbs": {
     "home": "Home",

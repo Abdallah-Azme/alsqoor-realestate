@@ -385,7 +385,8 @@
     "package_3": "الباقة الثالثة",
     "saudi_arabia": "المملكة العربية السعودية",
     "k_suffix": "ألف",
-    "currency": "ر.س"
+    "currency": "ر.س",
+    "popular_badge": "الأكثر طلباً"
   },
   "Navbar": {
     "address": "العنوان الرئيسي - الرياض",
@@ -402,7 +403,11 @@
     "ads": "الإعلانات",
     "aboutus": "من نحن",
     "marketplace": "السوق",
-    "properties": "عقارات"
+    "properties": "عقارات",
+    "logout_confirm_title": "تأكيد تسجيل الخروج",
+    "logout_confirm_message": "هل أنت متأكد من رغبتك في تسجيل الخروج؟",
+    "logout_yes": "نعم",
+    "logout_no": "إلغاء"
   },
   "breadcrumbs": {
     "home": "الرئيسية",

@@ -8,6 +8,8 @@ import {
 } from "@/components/motion/animated-section";
 import { packagesService } from "@/features/packages";
 
+import PackagesListClient from "./components/packages-list-client";
+
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
@@ -23,31 +25,51 @@ const PackagesPage = async () => {
   // Fetch packages from API
   const packages = await packagesService.getAll();
 
+  const tProfile = await getTranslations("Profile");
+
   // Map API data to plan card format
-  const plansData = packages.map((pkg, index) => ({
-    title: pkg.name,
-    price: pkg.price.replace(".00", ""), // Remove .00 from price
-    popular: index === 1, // Mark second package as popular (middle one)
-    features: pkg.features,
-  }));
+  const plansData = packages.map((pkg, index) => {
+    // Generate features list dynamically
+    const features: string[] = [];
+
+    if (pkg.hasUnlimitedAds) {
+      features.push(tProfile("unlimited_ads"));
+    } else {
+      features.push(`${pkg.adCount} ${tProfile("ads_suffix")}`);
+    }
+
+    if (pkg.accessToPropertyRequests)
+      features.push(tProfile("access_to_requests"));
+    if (pkg.accessToPartners) features.push(tProfile("access_to_partners"));
+    if (pkg.participateInPropertyMarketing)
+      features.push(tProfile("marketing_participation"));
+    if (pkg.specialSearchSupport) features.push(tProfile("search_support"));
+    if (pkg.hasPersonalAccountManager)
+      features.push(tProfile("account_manager"));
+    if (pkg.allowFeaturedAd) features.push(tProfile("featured_ads"));
+    if (pkg.allowUrgentRequest) features.push(tProfile("urgent_requests"));
+
+    // Check if package is premium/middle one for "popular" tag
+    const normalizedTitle = pkg.name.toLowerCase();
+    const isPremiumTier =
+      normalizedTitle.includes("مميز") ||
+      normalizedTitle.includes("premium") ||
+      index === 1;
+
+    return {
+      id: pkg.id,
+      title: pkg.name,
+      price: pkg.price?.replace(".00", "") || "0",
+      popular: isPremiumTier,
+      features,
+    };
+  });
 
   return (
-    <main className="space-y-8">
-      <AnimatedSection>
-        <div className="bg-main-light-gray p-4 pb-12 space-y-4 rounded-b-xl container">
-          <CustomBreadcrumbs items={[{ label: t("title") }]} />
-          <h1 className="text-main-navy text-2xl font-bold">{t("title")}</h1>
-        </div>
-      </AnimatedSection>
-      <div className="container">
+    <main className="min-h-screen bg-gray-50/30">
+      <div className="container my-10">
         <AnimatedSection delay={0.2}>
-          <div className="grid md:grid-cols-3 gap-6">
-            {plansData.map((plan, index) => (
-              <AnimatedItem key={index} index={index}>
-                <PlanCard {...plan} />
-              </AnimatedItem>
-            ))}
-          </div>
+          <PackagesListClient plansData={plansData} />
         </AnimatedSection>
       </div>
     </main>

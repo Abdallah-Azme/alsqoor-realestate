@@ -2,64 +2,91 @@
 import React, { useState, useEffect } from "react";
 import ServicesCard from "../shared/services-card";
 import { motion } from "motion/react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { useLocale } from "next-intl";
 
 const ServicesSection = ({ coreValues = [] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isInView, setIsInView] = useState(false);
+  const [api, setApi] = useState<any>(null);
+  const locale = useLocale();
 
-  // Determine the number of cards
-  const cardCount = coreValues.length > 0 ? coreValues.length : 4;
+  // Determine the cards to display
+  const cards = coreValues.length > 0 ? coreValues : Array.from({ length: 4 });
+  const cardCount = cards.length;
 
-  // Auto-cycle through cards when in view
+  // Handle active index from carousel
   useEffect(() => {
-    if (!isInView) return;
+    if (!api) return;
+
+    const onSelect = () => {
+      setActiveIndex(api.selectedScrollSnap());
+    };
+
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+
+    // Initial sync
+    onSelect();
+
+    return () => {
+      if (api) {
+        api.off("select", onSelect);
+        api.off("reInit", onSelect);
+      }
+    };
+  }, [api]);
+
+  // Auto-cycle through items
+  useEffect(() => {
+    if (!api || cardCount <= 1) return;
 
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % cardCount);
-    }, 3000); // Change every 3 seconds
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    }, 3000); // Cycle every 3 seconds
 
     return () => clearInterval(interval);
-  }, [isInView, cardCount]);
+  }, [api, cardCount]);
 
   return (
-    <section className="container py-12 overflow-hidden">
-      <motion.div
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, margin: "0px 0px -20% 0px" }}
-        variants={{
-          animate: { transition: { staggerChildren: 0.15 } },
+    <section className="container py-12 ">
+      <Carousel
+        setApi={setApi}
+        opts={{
+          loop: true,
+          direction: locale === "ar" ? "rtl" : "ltr",
+          align: "start",
         }}
-        onViewportEnter={() => setIsInView(true)}
-        className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 min-h-[260px]"
+        className="w-full"
       >
-        {coreValues.length > 0
-          ? coreValues.map((value, index) => (
+        <CarouselContent className="-ms-4 py-4 min-h-[260px] cursor-grab active:cursor-grabbing">
+          {cards.map((value, index) => (
+            <CarouselItem
+              key={index}
+              className="pl-4 lg:basis-1/4 md:basis-1/2 basis-full"
+            >
               <motion.div
-                key={index}
-                variants={{
-                  initial: { opacity: 0, y: 30, rotate: -1 },
-                  animate: { opacity: 1, y: 0, rotate: 0 },
-                }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
               >
-                <ServicesCard value={value} isActive={activeIndex === index} />
+                <ServicesCard
+                  value={coreValues.length > 0 ? value : null}
+                  isActive={activeIndex === index}
+                />
               </motion.div>
-            ))
-          : // Fallback to 4 placeholder cards if no data
-            Array.from({ length: 4 }).map((_, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  initial: { opacity: 0, y: 30, rotate: -1 },
-                  animate: { opacity: 1, y: 0, rotate: 0 },
-                }}
-                transition={{ duration: 0.5 }}
-              >
-                <ServicesCard isActive={activeIndex === index} />
-              </motion.div>
-            ))}
-      </motion.div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
     </section>
   );
 };
