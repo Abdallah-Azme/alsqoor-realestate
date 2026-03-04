@@ -29,7 +29,7 @@ const OwnersListing = () => {
   // Fetch owner properties using the unified marketplace hook
   const { data: response, isLoading } = useMarketplaceProperties({
     type: "owner",
-    per_page: 6,
+    per_page: 8,
   });
 
   const properties = response?.data || [];
@@ -63,8 +63,8 @@ const OwnersListing = () => {
 
       {/* Properties List */}
       {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
               className="bg-gray-100/80 rounded-xl h-80 animate-pulse border border-gray-100"
@@ -80,7 +80,7 @@ const OwnersListing = () => {
               transition: { staggerChildren: 0.1 },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {properties.map((property: any, index: number) => (
             <MarketplacePropertyCard

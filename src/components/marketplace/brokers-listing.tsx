@@ -33,7 +33,7 @@ const BrokersListing = () => {
   // FETCH BROKERS PROPERTIES using the unified marketplace hook
   const { data: response, isLoading } = useMarketplaceProperties({
     type: "agent",
-    per_page: 6,
+    per_page: 8,
     // From URL (hero FilterForm)
     operation_type: urlOperationType,
     category_id: urlCategoryId,
@@ -79,8 +79,8 @@ const BrokersListing = () => {
 
       {/* Properties List */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
               className="bg-gray-100/80 rounded-xl h-80 animate-pulse border border-gray-100"
@@ -96,7 +96,7 @@ const BrokersListing = () => {
               transition: { staggerChildren: 0.1 },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {properties.map((property: any, index: number) => (
             <MarketplacePropertyCard

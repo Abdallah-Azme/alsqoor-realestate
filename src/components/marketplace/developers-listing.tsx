@@ -9,7 +9,6 @@ import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marke
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import EmptyState from "@/components/shared/empty-state";
-import SmartPagination from "@/components/shared/smart-pagination";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -24,7 +23,7 @@ const DevelopersListing = () => {
   // Simplification: Removed inner property type tabs to match marketplace design
   const { data: response, isLoading } = useMarketplaceProperties({
     type: "developer",
-    per_page: 6,
+    per_page: 8,
   });
 
   const properties = response?.data || [];
@@ -57,11 +56,11 @@ const DevelopersListing = () => {
 
       {/* Projects Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="bg-gray-100 rounded-xl h-80 animate-pulse"
+              className="bg-gray-100 rounded-xl h-80 animate-pulse border border-gray-100"
             />
           ))}
         </div>
@@ -75,7 +74,7 @@ const DevelopersListing = () => {
                 transition: { staggerChildren: 0.1 },
               },
             }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {properties.map((property: any, index: number) => (
               <MarketplacePropertyCard
