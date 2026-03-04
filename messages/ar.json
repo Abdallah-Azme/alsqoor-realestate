@@ -500,6 +500,14 @@
       "reject_error": "فشل في رفض العرض"
     }
   },
+  "ad_limit": {
+    "no_package_title": "لا توجد باقة نشطة",
+    "no_package_desc": "يرجى الاشتراك في إحدى الباقات لتتمكن من إضافة إعلانات",
+    "view_packages": "عرض الباقات",
+    "limit_exceeded_title": "لقد تجاوزت حد الإعلانات",
+    "limit_exceeded_desc": "لقد استخدمت {limit} إعلانات، يرجى ترقية باقتك لإضافة المزيد",
+    "upgrade_package": "ترقية الباقة"
+  },
   "packages_page": {
     "no_packages": "لا تتوفر باقات حالياً",
     "title": "الباقات",

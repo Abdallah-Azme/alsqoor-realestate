@@ -1,5 +1,20 @@
 // Type definitions for the application
 
+export interface UserPermissions {
+  isActive: boolean;
+  subscriptionType: string | null;
+  subscriptionPeriod: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  package: any | null;
+  adLimit: number;
+  totalUsedAds: number;
+  canAddFeatured: boolean;
+  canAddUrgent: boolean;
+  falLicenseValid: boolean;
+  canAddAdBasedOnLicense: boolean;
+}
+
 export interface User {
   id: number;
   name: string;
@@ -18,6 +33,7 @@ export interface User {
   // Computed/Mapped fields for UI
   rating?: number;
   reviews_count?: number;
+  permissions?: UserPermissions;
   [key: string]: any;
 }
 

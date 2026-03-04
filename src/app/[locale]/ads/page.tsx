@@ -10,6 +10,7 @@ import OwnerPropertiesTab from "@/features/profile/components/tabs/owner-propert
 import MyPropertiesTab from "@/features/profile/components/tabs/my-properties-tab";
 import AddPropertyDialog from "@/features/profile/components/dialogs/add-property-dialog";
 import { useRouter } from "@/i18n/navigation";
+import { useAdLimit } from "@/hooks/use-ad-limit";
 
 const AdsPage = () => {
   const tBreadcrumbs = useTranslations("breadcrumbs");
@@ -26,12 +27,22 @@ const AdsPage = () => {
 
   const isOwner = user?.role === "owner" || user?.role === "user";
 
+  const { checkCanAddAd } = useAdLimit();
+
   const handleAddAdvertisement = () => {
+    if (!checkCanAddAd()) return;
     router.push("/advertisements/add");
   };
 
   const handleAddProperty = (property?: any) => {
-    setEditingProperty(property || null);
+    // Editing existing ad — skip limit check
+    if (property) {
+      setEditingProperty(property);
+      setAddPropertyOpen(true);
+      return;
+    }
+    if (!checkCanAddAd()) return;
+    setEditingProperty(null);
     setAddPropertyOpen(true);
   };
 

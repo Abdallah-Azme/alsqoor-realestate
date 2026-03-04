@@ -638,6 +638,14 @@
     "update_real_estate": "Update Property",
     "commission_percentage": "Commission Percentage (%)"
   },
+  "ad_limit": {
+    "no_package_title": "No Active Package",
+    "no_package_desc": "Please subscribe to a package to be able to add ads",
+    "view_packages": "View Packages",
+    "limit_exceeded_title": "Ad Limit Reached",
+    "limit_exceeded_desc": "You have used all {limit} ads. Please upgrade your package to add more",
+    "upgrade_package": "Upgrade Package"
+  },
   "packages_page": {
     "no_packages": "No packages available currently",
     "title": "Packages",

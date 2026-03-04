@@ -14,6 +14,7 @@ import { useState } from "react";
 import AddPropertyDialog from "../dialogs/add-property-dialog";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useAdLimit } from "@/hooks/use-ad-limit";
 
 const ProfileTabs = ({
   isEditing,
@@ -46,12 +47,22 @@ const ProfileTabs = ({
     { value: "packages", label: t("packages") },
   ];
 
+  const { checkCanAddAd } = useAdLimit();
+
   const handleAddAdvertisement = () => {
+    if (!checkCanAddAd()) return;
     router.push("/advertisements/add");
   };
 
   const handleAddProperty = (property?: any) => {
-    setEditingProperty(property || null);
+    // Editing existing — skip limit check
+    if (property) {
+      setEditingProperty(property);
+      setAddPropertyOpen(true);
+      return;
+    }
+    if (!checkCanAddAd()) return;
+    setEditingProperty(null);
     setAddPropertyOpen(true);
   };
 

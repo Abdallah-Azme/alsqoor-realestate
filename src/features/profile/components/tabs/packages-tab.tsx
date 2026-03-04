@@ -271,7 +271,7 @@ const PackagesTab = () => {
         </div>
 
         {activeSubData?.package?.package ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-6">
             <PackageCard
               id={activeSubData.package.package.id}
               title={activeSubData.package.package.name}
@@ -306,7 +306,7 @@ const PackagesTab = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-8">
           {packages?.map((pkg, index) => {
             const isPremium =
               pkg.name.toLowerCase().includes("مميز") ||
