@@ -6,8 +6,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import BrokerPropertyCard from "./broker-property-card";
 import SortDialog, { SortOption } from "./sort-dialog";
-import { Button } from "@/components/ui/button";
-import { FiPlus } from "react-icons/fi";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import EmptyState from "@/components/shared/empty-state";
 import { useRouter, useSearchParams } from "next/navigation";
 import { propertiesService } from "@/features/properties/services/properties.service";
 import { UserContext } from "@/context/user-context";
@@ -227,13 +227,10 @@ const BrokersListing = () => {
 
         <div className="flex items-center gap-3">
           {formattedProperties.length > 0 && (
-            <Button
-              onClick={handleAddAd}
-              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-            >
-              <FiPlus className="text-lg" />
-              <span>{tPage("add_ad")}</span>
-            </Button>
+            <CreateMarketplacePropertyDialog
+              triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+              buttonText={tPage("add_ad")}
+            />
           )}
 
           {/* Sort Button */}
@@ -293,27 +290,15 @@ const BrokersListing = () => {
       )}
 
       {formattedProperties.length === 0 && !loading && (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6">
-          <div className="bg-main-green/10 p-6 rounded-full">
-            <FiPlus className="h-10 w-10 text-main-green" />
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-bold text-main-navy">
-              {t("no_properties")}
-            </h3>
-            <p className="text-gray-500 max-w-sm">
-              {t("no_properties_description") ||
-                "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
-            </p>
-          </div>
-          <Button
-            onClick={handleAddAd}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-          >
-            <FiPlus className="text-lg" />
-            <span>{tPage("add_ad")}</span>
-          </Button>
-        </div>
+        <EmptyState
+          title={t("no_properties")}
+          description={
+            t("no_properties_description") ||
+            "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
+          }
+          buttonText={tPage("add_ad")}
+          actionType="dialog"
+        />
       )}
 
       {/* Sort Dialog */}

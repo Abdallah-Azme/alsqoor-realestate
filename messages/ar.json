@@ -1136,7 +1136,7 @@
       "deleted": "محذوف"
     },
     "start_marketing": "قم بالتسويق للإعلان",
-    "no_properties": "لا توجد إعلانات في هذا التصنيف",
+    "no_properties": "لا يوجد اعلانات",
     "marketing_dialog": {
       "title": "التسويق للإعلان",
       "step": "الخطوة {current} من {total}",
@@ -1431,7 +1431,7 @@
     "add_property": "اضافة إلاعلان",
     "edit_property": "تعديل العقار",
     "add_property_desc": "أدخل تفاصيل عقارك أدناه.",
-    "no_properties": "لا توجد عقارات",
+    "no_properties": "لا توجد إعلانات",
     "status": {
       "published": "منشور",
       "pending": "قيد المراجعة",

@@ -3,52 +3,59 @@
 import PageHeader from "@/components/shared/page-header";
 import { UserContext } from "@/context/user-context";
 import { motion } from "motion/react";
-import { useLocale, useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useContext } from "react";
-import BrokersListing from "@/components/marketplace/brokers-listing";
-import OwnersListing from "@/components/marketplace/owners-listing";
-import DevelopersListing from "@/components/marketplace/developers-listing";
-import MarketplaceTabs from "@/components/marketplace/marketplace-tabs";
+import { useTranslations } from "next-intl";
+import { useContext, useState } from "react";
+import BrokerPropertiesTab from "@/features/profile/components/tabs/broker-properties-tab";
+import OwnerPropertiesTab from "@/features/profile/components/tabs/owner-properties-tab";
+import MyPropertiesTab from "@/features/profile/components/tabs/my-properties-tab";
+import AddPropertyDialog from "@/features/profile/components/dialogs/add-property-dialog";
+import { useRouter } from "@/i18n/navigation";
 
 const AdsPage = () => {
   const tBreadcrumbs = useTranslations("breadcrumbs");
   const { user } = useContext(UserContext);
   const router = useRouter();
-  const locale = useLocale();
-  const searchParams = useSearchParams();
+  const [addPropertyOpen, setAddPropertyOpen] = useState(false);
+  const [editingProperty, setEditingProperty] = useState<any>(null);
 
-  const activeTab = searchParams.get("tab") || "brokers";
+  const isBroker =
+    user?.role === "agent" ||
+    user?.role === "broker" ||
+    user?.role === "office" ||
+    user?.role === "company";
+
+  const isOwner = user?.role === "owner" || user?.role === "user";
+
+  const handleAddAdvertisement = () => {
+    router.push("/advertisements/add");
+  };
+
+  const handleAddProperty = (property?: any) => {
+    setEditingProperty(property || null);
+    setAddPropertyOpen(true);
+  };
 
   const renderContent = () => {
-    switch (activeTab) {
-      case "brokers":
-        return <BrokersListing />;
-      case "owners":
-        return <OwnersListing />;
-      case "developers":
-        return <DevelopersListing />;
-      default:
-        return <BrokersListing />;
+    if (isBroker) {
+      return <BrokerPropertiesTab onAddProperty={handleAddAdvertisement} />;
     }
+    if (isOwner) {
+      return (
+        <OwnerPropertiesTab
+          onAddProperty={() => handleAddProperty()}
+          onEditProperty={(prop) => handleAddProperty(prop)}
+        />
+      );
+    }
+    return <MyPropertiesTab />;
   };
 
   return (
-    <main className="space-y-8">
+    <main className="space-y-8 pb-16">
       <PageHeader
         title={tBreadcrumbs("advertisements")}
         breadcrumbItems={[{ label: tBreadcrumbs("advertisements") }]}
       />
-
-      {/* Tabs Navigation */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="container"
-      >
-        <MarketplaceTabs activeTab={activeTab} />
-      </motion.div>
 
       {/* Content */}
       <motion.section
@@ -59,6 +66,15 @@ const AdsPage = () => {
       >
         {renderContent()}
       </motion.section>
+
+      <AddPropertyDialog
+        open={addPropertyOpen}
+        onOpenChange={(open) => {
+          setAddPropertyOpen(open);
+          if (!open) setEditingProperty(null);
+        }}
+        property={editingProperty}
+      />
     </main>
   );
 };

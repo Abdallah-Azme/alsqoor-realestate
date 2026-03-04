@@ -43,7 +43,7 @@ const MarketplacePage = () => {
               {tMarket("title")}
             </h1>
           </div>
-          <CreateMarketplacePropertyDialog />
+          <CreateMarketplacePropertyDialog buttonText="إضافة عقار" />
         </div>
       </motion.div>
 
@@ -106,7 +106,7 @@ const MarketplacePage = () => {
                 {tMarket("no_properties_description")}
               </p>
             </div>
-            <CreateMarketplacePropertyDialog />
+            <CreateMarketplacePropertyDialog buttonText="إضافة عقار" />
           </div>
         )}
       </div>
