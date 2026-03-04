@@ -525,6 +525,7 @@
       "other": "Other"
     },
     "category": "Property Category",
+    "optional": "Optional",
     "location": "Location",
     "country": "Country",
     "select_country": "Select Country",
@@ -557,6 +558,7 @@
     "images_selected": "{count} images selected",
     "cancel": "Cancel",
     "add_property": "Add Property",
+    "submit_property": "Submit Property",
     "add_success": "Property added successfully",
     "add_error": "Failed to add property",
     "search_result": "Search Result",
@@ -636,7 +638,8 @@
     "buy": "Buy",
     "rent": "Rent",
     "update_real_estate": "Update Property",
-    "commission_percentage": "Commission Percentage (%)"
+    "commission_percentage": "Commission Percentage (%)",
+    "select_property_type": "Select Property Type"
   },
   "ad_limit": {
     "no_package_title": "No Active Package",
@@ -913,6 +916,8 @@
     "identity_number": "Identity Number",
     "select_property_type": "Select Property Type",
     "select_transaction_type": "Select Transaction Type",
+    "select_country": "Select Country",
+    "select_city": "Select City",
     "cancel": "Cancel",
     "add_deal": "Add Deal",
     "update_deal": "Update Deal",
@@ -1218,9 +1223,9 @@
     "add_property": "Add Property",
     "add": "Add",
     "tabs": {
-      "brokers": "Broker Properties",
-      "owners": "Owner Properties",
-      "developers": "Developer Properties"
+      "agent": "Broker Properties",
+      "owner": "Owner Properties",
+      "developer": "Developer Properties"
     },
     "broker": {
       "commission_info": "You will receive {percentage}% commission upon deal completion",
@@ -1228,6 +1233,7 @@
       "rooms": "rooms",
       "status": {
         "new": "New",
+        "active": "Active",
         "marketing": "Under Marketing",
         "under_marketing": "Under Marketing",
         "half_deal": "Deal Completed",

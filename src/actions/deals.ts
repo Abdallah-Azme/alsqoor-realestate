@@ -28,11 +28,19 @@ export async function createDirectDeal(
     // Get locale
     const locale = await getLocale();
 
-    // Prepare form data
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    });
+    // Prepare JSON data
+    const payload = {
+      ...formData,
+      country_id: Number(formData.country_id),
+      city_id: Number(formData.city_id),
+      min_area: Number(formData.min_area),
+      max_area: Number(formData.max_area),
+      min_total_price: Number(formData.min_total_price),
+      max_total_price: Number(formData.max_total_price),
+      min_price_per_meter: Number(formData.min_price_per_meter),
+      max_price_per_meter: Number(formData.max_price_per_meter),
+      property_type_id: Number(formData.property_type_id),
+    };
 
     // Make API request
     const response = await fetch(`${API_URL}/direct-deals/add`, {
@@ -41,8 +49,9 @@ export async function createDirectDeal(
         Authorization: `Bearer ${token}`,
         "Accept-Language": locale,
         Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(payload),
     });
 
     // Check if response is JSON
@@ -158,11 +167,19 @@ export async function updateDirectDeal(
     // Get locale
     const locale = await getLocale();
 
-    // Prepare form data
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    });
+    // Prepare JSON data
+    const payload = {
+      ...formData,
+      country_id: Number(formData.country_id),
+      city_id: Number(formData.city_id),
+      min_area: Number(formData.min_area),
+      max_area: Number(formData.max_area),
+      min_total_price: Number(formData.min_total_price),
+      max_total_price: Number(formData.max_total_price),
+      min_price_per_meter: Number(formData.min_price_per_meter),
+      max_price_per_meter: Number(formData.max_price_per_meter),
+      property_type_id: Number(formData.property_type_id),
+    };
 
     // Make API request
     const response = await fetch(`${API_URL}/direct-deals/${dealId}`, {
@@ -171,8 +188,9 @@ export async function updateDirectDeal(
         Authorization: `Bearer ${token}`,
         "Accept-Language": locale,
         Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(payload),
     });
 
     // Check if response is JSON

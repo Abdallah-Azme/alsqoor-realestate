@@ -15,6 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createDirectDeal, updateDirectDeal } from "@/actions/deals";
+import {
+  useCountries,
+  useCities,
+} from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
@@ -28,9 +32,9 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
   const schema = z.object({
     start_date: z.string().min(1, tVal("required")),
     end_date: z.string().min(1, tVal("required")),
-    city: z.string().min(1, tVal("required")),
+    city_id: z.string().min(1, tVal("required")),
     district: z.string().min(1, tVal("required")),
-    country: z.string().min(1, tVal("required")),
+    country_id: z.string().min(1, tVal("required")),
     plan_number: z.string().min(1, tVal("required")),
     plot_number: z.string().min(1, tVal("required")),
     min_area: z.string().min(1, tVal("required")),
@@ -48,6 +52,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
     register,
     handleSubmit,
     setValue,
+    watch,
     reset,
     formState: { errors },
   } = useForm({
@@ -55,9 +60,9 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
     defaultValues: {
       start_date: "",
       end_date: "",
-      city: "",
+      city_id: "",
       district: "",
-      country: "",
+      country_id: "",
       plan_number: "",
       plot_number: "",
       min_area: "",
@@ -72,15 +77,26 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
     },
   });
 
+  const countryId = watch("country_id");
+  const { data: countries } = useCountries();
+  const { data: cities } = useCities(countryId);
+
+  const countriesList = Array.isArray(countries)
+    ? countries
+    : (countries as any)?.data || [];
+  const citiesList = Array.isArray(cities)
+    ? cities
+    : (cities as any)?.data || [];
+
   // Pre-populate form when editing
   useEffect(() => {
     if (deal) {
       reset({
         start_date: deal.startDate || "",
         end_date: deal.endDate || "",
-        city: deal.city || "",
+        city_id: deal.cityId?.toString() || "",
         district: deal.district || "",
-        country: deal.country || "",
+        country_id: deal.countryId?.toString() || "",
         plan_number: deal.planNumber?.toString() || "",
         plot_number: deal.plotNumber?.toString() || "",
         min_area: deal.minArea?.toString() || "",
@@ -113,7 +129,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
       if (result.success) {
         toast.success(
           result.message ||
-            (isEditMode ? t("success_update") : t("success_add"))
+            (isEditMode ? t("success_update") : t("success_add")),
         );
         setOpen(false);
         // Refetch deals list
@@ -123,7 +139,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
       } else {
         // Show detailed error message
         toast.error(
-          result.message || (isEditMode ? t("error_update") : t("error_add"))
+          result.message || (isEditMode ? t("error_update") : t("error_add")),
         );
         console.error("API Error:", result);
       }
@@ -165,39 +181,61 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
           )}
         </div>
 
-        {/* المدينة */}
-        <div>
-          <Label className={labelStyle}>
-            {t("city")}
-            <span className="text-red-500">*</span>
-          </Label>
-          <Input placeholder={t("city")} {...register("city")} />
-          {errors.city && (
-            <p className="text-red-500 text-sm">{errors.city.message}</p>
-          )}
-        </div>
-
-        {/* الحي */}
-        <div>
-          <Label className={labelStyle}>
-            {t("district")}
-            <span className="text-red-500">*</span>
-          </Label>
-          <Input placeholder={t("district")} {...register("district")} />
-          {errors.district && (
-            <p className="text-red-500 text-sm">{errors.district.message}</p>
-          )}
-        </div>
-
         {/* الدولة */}
         <div>
           <Label className={labelStyle}>
             {t("country")}
             <span className="text-red-500">*</span>
           </Label>
-          <Input placeholder={t("country")} {...register("country")} />
-          {errors.country && (
-            <p className="text-red-500 text-sm">{errors.country.message}</p>
+          <Select
+            onValueChange={(v) => {
+              setValue("country_id", v);
+              setValue("city_id", ""); // Clear city when country changes
+            }}
+            value={watch("country_id")}
+            dir="rtl"
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={t("select_country") || "اختر الدولة"} />
+            </SelectTrigger>
+            <SelectContent>
+              {countriesList?.map((c: any) => (
+                <SelectItem key={c.id} value={c.id.toString()}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.country_id && (
+            <p className="text-red-500 text-sm">{errors.country_id.message}</p>
+          )}
+        </div>
+
+        {/* المدينة */}
+        <div>
+          <Label className={labelStyle}>
+            {t("city")}
+            <span className="text-red-500">*</span>
+          </Label>
+          <Select
+            onValueChange={(v) => setValue("city_id", v)}
+            value={watch("city_id")}
+            disabled={!countryId}
+            dir="rtl"
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={t("select_city") || "اختر المدينة"} />
+            </SelectTrigger>
+            <SelectContent>
+              {citiesList?.map((c: any) => (
+                <SelectItem key={c.id} value={c.id.toString()}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.city_id && (
+            <p className="text-red-500 text-sm">{errors.city_id.message}</p>
           )}
         </div>
 
@@ -343,10 +381,18 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
               <SelectValue placeholder={t("select_property_type")} />
             </SelectTrigger>
             <SelectContent className="">
-              <SelectItem className="" value="1">{t("types.residential")}</SelectItem>
-              <SelectItem className="" value="2">{t("types.commercial")}</SelectItem>
-              <SelectItem className="" value="3">{t("types.industrial")}</SelectItem>
-              <SelectItem className="" value="4">{t("types.agricultural")}</SelectItem>
+              <SelectItem className="" value="1">
+                {t("types.residential")}
+              </SelectItem>
+              <SelectItem className="" value="2">
+                {t("types.commercial")}
+              </SelectItem>
+              <SelectItem className="" value="3">
+                {t("types.industrial")}
+              </SelectItem>
+              <SelectItem className="" value="4">
+                {t("types.agricultural")}
+              </SelectItem>
             </SelectContent>
           </Select>
           {errors.property_type_id && (
@@ -391,6 +437,18 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
           )}
         </div>
 
+        {/* الحي */}
+        <div>
+          <Label className={labelStyle}>
+            {t("district")}
+            <span className="text-red-500">*</span>
+          </Label>
+          <Input placeholder={t("district")} {...register("district")} />
+          {errors.district && (
+            <p className="text-red-500 text-sm">{errors.district.message}</p>
+          )}
+        </div>
+
         {/* رقم الهوية */}
         <div>
           <Label className={labelStyle}>
@@ -424,12 +482,10 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
               ? t("updating")
               : t("adding")
             : isEditMode
-            ? t("update_deal")
-            : t("add_deal")}
+              ? t("update_deal")
+              : t("add_deal")}
         </Button>
       </div>
     </form>
   );
 }
-
-

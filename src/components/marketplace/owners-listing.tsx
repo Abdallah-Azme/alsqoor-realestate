@@ -13,6 +13,7 @@ import { UserContext } from "@/context/user-context";
 
 import { propertiesService } from "@/features/properties/services/properties.service";
 import { useQuery } from "@tanstack/react-query";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 
 // Helper to parse tab ID to property type and operation
 const parseTabId = (tabId: string) => {
@@ -29,59 +30,23 @@ const OwnersListing = () => {
   const user = userContext?.user;
   const locale = useLocale();
   const router = useRouter();
-  const [activePropertyType, setActivePropertyType] = useState("all");
-  const [filterOption, setFilterOption] = useState<OwnerFilterOption>("all");
+  // Simplification: Removed inner filters and sub-tabs to match marketplace design
   const [sortOption, setSortOption] = useState<OwnerSortOption>("default");
-  const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [showSortDialog, setShowSortDialog] = useState(false);
-
-  const handleAddAd = () => {
-    if (!user) {
-      router.push(`/${locale}/auth/login`);
-      return;
-    }
-    router.push("/advertisements/add");
-  };
 
   // Fetch owner properties
   const { data: response, isLoading } = useQuery({
-    queryKey: [
-      "marketplace-owners",
-      activePropertyType,
-      filterOption,
-      sortOption,
-    ],
+    queryKey: ["marketplace-owners", sortOption],
     queryFn: () => {
-      const { propertyType, operationType } = parseTabId(activePropertyType);
-
       const params: any = {
         type: "owner",
-        property_type: propertyType,
       };
-
-      if (operationType === "sale") params.transaction_type = "buy";
-      else if (operationType === "rent") params.transaction_type = "rent";
-
       return propertiesService.getMarketplaceProperties(params);
     },
   });
 
   const properties = response?.data || [];
   const loading = isLoading;
-
-  const propertyTypeTabs = [
-    { id: "all", label: t("filter.all") },
-    { id: "villa_sale", label: t("owner.property_types.villa_sale") },
-    { id: "land_sale", label: t("owner.property_types.land_sale") },
-    { id: "apartment_sale", label: t("owner.property_types.apartment_sale") },
-    { id: "apartment_rent", label: t("owner.property_types.apartment_rent") },
-    { id: "floor_sale", label: t("owner.property_types.floor_sale") },
-    { id: "floor_rent", label: t("owner.property_types.floor_rent") },
-    { id: "building_sale", label: t("owner.property_types.building_sale") },
-    { id: "building_rent", label: t("owner.property_types.building_rent") },
-    { id: "shop_sale", label: t("owner.property_types.shop_sale") },
-    { id: "shop_rent", label: t("owner.property_types.shop_rent") },
-  ];
 
   // Filter and sort properties
   const filteredAndSortedProperties = useMemo(() => {
@@ -104,34 +69,12 @@ const OwnersListing = () => {
         (p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""),
       offersCount: p.offersCount || 0,
       isVerified: p.isVerified,
-      isSubscribersOnly: false, // Not available in API yet
-      isUnread: false, // Not available in API yet
+      isSubscribersOnly: false,
+      isUnread: false,
     }));
-
-    // Apply client-side filter for things API might miss or if we rely on it
-    switch (filterOption) {
-      case "unread":
-        result = result.filter((p) => p.isUnread);
-        break;
-      case "read":
-        result = result.filter((p) => !p.isUnread);
-        break;
-      case "active":
-        result = result.filter((p) => p.offersCount > 0);
-        break;
-      // Add more filter logic as needed
-      default:
-        break;
-    }
 
     // Apply sorting
     switch (sortOption) {
-      case "newest":
-        // In real implementation, sort by date
-        break;
-      case "oldest":
-        // In real implementation, sort by date descending
-        break;
       case "largest_area":
         result.sort((a, b) => b.area - a.area);
         break;
@@ -149,47 +92,14 @@ const OwnersListing = () => {
     }
 
     return result;
-  }, [properties, filterOption, sortOption]);
+  }, [properties, sortOption]);
 
   return (
     <div className="space-y-6">
-      {/* Property Type Filter Tabs */}
-      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-        <div className="flex items-center gap-2 pb-2">
-          {/* Search Button */}
-          <button className="shrink-0 px-4 py-2 bg-main-green text-white rounded-lg text-sm flex items-center gap-2 hover:bg-main-green/90 transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            {t("search")}
-          </button>
-
-          {propertyTypeTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActivePropertyType(tab.id)}
-              className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
-                activePropertyType === tab.id
-                  ? "bg-main-navy text-white border-main-navy"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-main-green"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* 
+          Inner filters (Property Types tabs) removed 
+          to match simplified marketplace design.
+      */}
 
       {/* Results count and sort/filter */}
       <div className="flex items-center justify-between">
@@ -203,13 +113,11 @@ const OwnersListing = () => {
 
         <div className="flex items-center gap-3">
           {filteredAndSortedProperties.length > 0 && (
-            <Button
-              onClick={handleAddAd}
-              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-            >
-              <FiPlus className="text-lg" />
-              <span>{tPage("add_ad")}</span>
-            </Button>
+            <CreateMarketplacePropertyDialog
+              triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+              buttonText={tPage("add_property")}
+              defaultRole="owner"
+            />
           )}
 
           {/* Sort Button */}
@@ -218,27 +126,6 @@ const OwnersListing = () => {
             className="flex items-center gap-2 text-sm text-main-green hover:text-main-green/80 transition-colors bg-main-green/10 px-3 py-1.5 rounded-lg"
           >
             {t("owner.sort_label")}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-
-          {/* Filter Button */}
-          <button
-            onClick={() => setShowFilterDialog(true)}
-            className="flex items-center gap-2 text-sm text-main-green hover:text-main-green/80 transition-colors bg-main-green/10 px-3 py-1.5 rounded-lg"
-          >
-            {t("owner.filter_label")}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14"
@@ -301,23 +188,13 @@ const OwnersListing = () => {
                 "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
-          <Button
-            onClick={handleAddAd}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-          >
-            <FiPlus className="text-lg" />
-            <span>{tPage("add_ad")}</span>
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+            buttonText={tPage("add_property")}
+            defaultRole="owner"
+          />
         </div>
       )}
-
-      {/* Filter Dialog */}
-      <OwnerFilterDialog
-        open={showFilterDialog}
-        onOpenChange={setShowFilterDialog}
-        currentFilter={filterOption}
-        onFilterChange={setFilterOption}
-      />
 
       {/* Sort Dialog */}
       <OwnerSortDialog

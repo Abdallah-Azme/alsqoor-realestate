@@ -21,8 +21,6 @@ const BrokersListing = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tSort = useTranslations("marketplace.sort_dialog");
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [activeCategory, setActiveCategory] = useState("all");
   const [sortOption, setSortOption] = useState<SortOption>("default");
   const [showSortDialog, setShowSortDialog] = useState(false);
 
@@ -35,26 +33,11 @@ const BrokersListing = () => {
   const urlDistrict = searchParams.get("district") || undefined;
   const urlCountryId = searchParams.get("country_id") || undefined;
 
-  const filterTabs = [
-    { id: "all", label: t("filter.all") },
-    { id: "new", label: t("broker.status.new") },
-    { id: "marketing", label: t("broker.status.marketing") },
-    { id: "half_deal", label: t("broker.status.half_deal") },
-    { id: "limited", label: t("broker.status.limited") },
-  ];
-
-  const categoryTabs = [
-    { id: "all", label: t("broker.types.all") },
-    { id: "individual", label: t("broker.types.individual") },
-    { id: "office", label: t("broker.types.office") },
-  ];
-
-  // Fetch brokers properties — merge URL filters with local tab filters
+  // Simplification: Removed inner status and category filters to match marketplace design
+  // FETCH BROKERS PROPERTIES
   const { data: response, isLoading } = useQuery({
     queryKey: [
       "marketplace-brokers",
-      activeCategory,
-      activeFilter,
       sortOption,
       urlOperationType,
       urlCategoryId,
@@ -65,9 +48,7 @@ const BrokersListing = () => {
     ],
     queryFn: () =>
       propertiesService.searchProperties({
-        type: activeCategory !== "all" ? "agent" : undefined,
-        agent_type: activeCategory !== "all" ? activeCategory : undefined,
-        status: activeFilter !== "all" ? activeFilter : undefined,
+        type: "agent",
         // From URL (hero FilterForm)
         operation_type: urlOperationType,
         category_id: urlCategoryId,
@@ -148,72 +129,12 @@ const BrokersListing = () => {
     return tSort(sortOption);
   };
 
-  const handleAddAd = () => {
-    if (!user) {
-      router.push(`/${locale}/auth/login`);
-      return;
-    }
-    router.push("/advertisements/add");
-  };
-
   return (
     <div className="space-y-6">
-      {/* Sub-filters */}
-      <div className="space-y-4 mb-6">
-        {/* Category Filter (Individual/Office) */}
-        <div className="flex items-center gap-2 bg-gray-100/50 p-1 rounded-lg w-fit">
-          {categoryTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveCategory(tab.id)}
-              className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeCategory === tab.id
-                  ? "bg-white text-main-green shadow-sm border border-gray-100"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 overflow-x-auto">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveFilter(tab.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeFilter === tab.id
-                    ? "bg-main-green text-white"
-                    : "text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Search Button */}
-          <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm flex items-center gap-2 hover:bg-gray-50 transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            {t("search")}
-          </button>
-        </div>
-      </div>
+      {/* 
+          Inner filters (Individual/Office, Status) removed 
+          to match simplified marketplace design.
+      */}
 
       {/* Results count and sort */}
       <div className="flex items-center justify-between">
@@ -229,7 +150,8 @@ const BrokersListing = () => {
           {formattedProperties.length > 0 && (
             <CreateMarketplacePropertyDialog
               triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-              buttonText={tPage("add_ad")}
+              buttonText={tPage("add_property")}
+              defaultRole="agent"
             />
           )}
 
@@ -296,8 +218,9 @@ const BrokersListing = () => {
             t("no_properties_description") ||
             "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
           }
-          buttonText={tPage("add_ad")}
+          buttonText={tPage("add_property")}
           actionType="dialog"
+          defaultRole="agent"
         />
       )}
 

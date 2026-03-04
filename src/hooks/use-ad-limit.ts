@@ -22,8 +22,11 @@ export function useAdLimit() {
   function checkCanAddAd(): boolean {
     const user = ctx?.user;
 
-    // Not logged in → let caller handle (auth guard elsewhere)
-    if (!user) return true;
+    // Not logged in → redirect to login
+    if (!user) {
+      router.push("/auth/login");
+      return false;
+    }
 
     const adLimit = user?.permissions?.adLimit ?? 0;
     const totalUsedAds = user?.permissions?.totalUsedAds ?? 0;
@@ -66,7 +69,10 @@ export function useAdLimit() {
    */
   function checkCanAddFeatured(): boolean {
     const user = ctx?.user;
-    if (!user) return true;
+    if (!user) {
+      router.push("/auth/login");
+      return false;
+    }
 
     const canAddFeatured = user?.permissions?.canAddFeatured ?? false;
 

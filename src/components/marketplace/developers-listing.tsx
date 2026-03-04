@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/user-context";
 import { propertiesService } from "@/features/properties/services/properties.service";
 import { useQuery } from "@tanstack/react-query";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -22,26 +23,16 @@ const DevelopersListing = () => {
   const locale = useLocale();
   const router = useRouter();
   const tTypes = useTranslations("advertisements.property_types");
-  const [activePropertyType, setActivePropertyType] = useState("all");
+  // Simplification: Removed inner property type tabs to match marketplace design
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleAddAd = () => {
-    if (!user) {
-      router.push(`/${locale}/auth/login`);
-      return;
-    }
-    router.push("/advertisements/add");
-  };
-
   const { data: response, isLoading } = useQuery({
-    queryKey: ["marketplace-developers", activePropertyType, currentPage],
+    queryKey: ["marketplace-developers", currentPage],
     queryFn: () =>
       propertiesService.getMarketplaceProperties({
         type: "developer",
         page: currentPage,
         per_page: ITEMS_PER_PAGE,
-        property_type:
-          activePropertyType !== "all" ? activePropertyType : undefined,
       }),
   });
 
@@ -72,44 +63,12 @@ const DevelopersListing = () => {
     availableUnits: p.availableUnits || 0,
   }));
 
-  const propertyTypeTabs = [
-    { id: "all", label: t("filter.all") },
-    { id: "villa", label: tTypes("villa") },
-    { id: "land", label: tTypes("residential_land") },
-    { id: "apartment", label: tTypes("apartment") },
-    { id: "floor", label: tTypes("floor") },
-    { id: "building", label: tTypes("building") },
-    { id: "shop", label: tTypes("shop") },
-    { id: "rest_house", label: tTypes("rest_house") },
-    { id: "farm", label: tTypes("farm") },
-  ];
-
   return (
     <div className="space-y-6">
-      {/* Search and Property Type Filter */}
-      <div className="space-y-4">
-        {/* Property Type Tabs */}
-        <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-          <div className="flex items-center gap-2 pb-2">
-            {propertyTypeTabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActivePropertyType(tab.id);
-                  setCurrentPage(1);
-                }}
-                className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
-                  activePropertyType === tab.id
-                    ? "bg-main-navy text-white border-main-navy"
-                    : "bg-white text-gray-600 border-gray-300 hover:border-main-green"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* 
+          Inner filters (Property Type tabs) removed 
+          to match simplified marketplace design.
+      */}
 
       {/* Results count */}
       <div className="flex items-center justify-between">
@@ -120,13 +79,11 @@ const DevelopersListing = () => {
         </p>
 
         {currentProjects.length > 0 && (
-          <Button
-            onClick={handleAddAd}
-            className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-          >
-            <FiPlus className="text-lg" />
-            <span>{tPage("add_ad")}</span>
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+            buttonText={tPage("add_property")}
+            defaultRole="developer"
+          />
         )}
       </div>
 
@@ -185,13 +142,11 @@ const DevelopersListing = () => {
                 "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
-          <Button
-            onClick={handleAddAd}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-          >
-            <FiPlus className="text-lg" />
-            <span>{tPage("add_ad")}</span>
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+            buttonText={tPage("add_property")}
+            defaultRole="developer"
+          />
         </div>
       )}
     </div>

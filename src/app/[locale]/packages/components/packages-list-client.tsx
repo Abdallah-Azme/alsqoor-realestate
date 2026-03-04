@@ -24,7 +24,7 @@ export default function PackagesListClient({
   const handleSelectPackage = (id: string | number) => {
     if (!user) {
       // Redirect to login if not logged in
-      router.push("/login"); // Localized push
+      router.push("/auth/login"); // Localized push
       return;
     }
 

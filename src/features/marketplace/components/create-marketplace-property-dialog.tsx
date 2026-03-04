@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
+import { useAdLimit } from "@/hooks/use-ad-limit";
 import {
   useAddMarketplacePropertyMutation,
   useAddDeveloperPropertyMutation,
@@ -58,6 +59,8 @@ interface CreateMarketplacePropertyDialogProps {
   triggerClassName?: string;
   property?: Partial<MarketplaceProperty>;
   isEdit?: boolean;
+  /** Initial role to show when adding a new property */
+  defaultRole?: string;
   /** Called when trigger is clicked. Return false to block opening the dialog. */
   onBeforeOpen?: () => boolean;
 }
@@ -67,6 +70,7 @@ export const CreateMarketplacePropertyDialog = ({
   triggerClassName,
   property,
   isEdit = false,
+  defaultRole = "owner",
   onBeforeOpen,
 }: CreateMarketplacePropertyDialogProps) => {
   const t = useTranslations("properties");
@@ -76,7 +80,8 @@ export const CreateMarketplacePropertyDialog = ({
 
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-  const [role, setRole] = useState<string>("owner");
+  const [role, setRole] = useState<string>(defaultRole);
+  const { checkCanAddAd, checkCanAddFeatured } = useAdLimit();
 
   // Address State
   const [countryId, setCountryId] = useState<number>(1);
@@ -173,11 +178,18 @@ export const CreateMarketplacePropertyDialog = ({
         setStep(1);
         setLatitude(DEFAULT_LAT);
         setLongitude(DEFAULT_LNG);
+        setRole(defaultRole); // Reset to defaultRole on close
       }, 300);
     }
   };
 
   const handleTriggerClick = () => {
+    // Only check limits for new properties, not when editing
+    if (!isEdit) {
+      if (!checkCanAddAd()) return;
+      if (!checkCanAddFeatured()) return;
+    }
+
     if (onBeforeOpen) {
       const canOpen = onBeforeOpen();
       if (!canOpen) return;

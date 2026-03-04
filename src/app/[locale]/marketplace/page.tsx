@@ -9,6 +9,8 @@ import { MarketplacePropertyCard } from "@/features/marketplace/components/marke
 import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAdLimit } from "@/hooks/use-ad-limit";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiPlus } from "react-icons/fi";
 
 const MarketplacePage = () => {
@@ -17,6 +19,10 @@ const MarketplacePage = () => {
   const tMarket = useTranslations("marketplace");
   const tCommon = useTranslations("common");
   const { checkCanAddFeatured } = useAdLimit();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const activeTab = searchParams.get("type") || "agent";
 
   // Fetch properties from /properties-new
   const {
@@ -26,7 +32,14 @@ const MarketplacePage = () => {
     refetch,
   } = useMarketplaceProperties({
     per_page: 30,
+    type: activeTab,
   });
+
+  const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("type", value);
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   const properties = response?.data || [];
 
@@ -46,12 +59,71 @@ const MarketplacePage = () => {
               {tMarket("title")}
             </h1>
           </div>
-          {properties.length > 0 && (
+
+          <Tabs
+            value={activeTab}
+            onValueChange={handleTabChange}
+            className="hidden md:block"
+          >
+            <TabsList className="bg-white border text-main-navy">
+              <TabsTrigger
+                value="developer"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white"
+              >
+                {tMarket("tabs.developer")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="owner"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white"
+              >
+                {tMarket("tabs.owner")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="agent"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white"
+              >
+                {tMarket("tabs.agent")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <div className="flex items-center gap-4">
             <CreateMarketplacePropertyDialog
-              buttonText="إضافة عقار"
+              buttonText={tMarket("add_property")}
               onBeforeOpen={checkCanAddFeatured}
+              defaultRole={activeTab}
             />
-          )}
+          </div>
+        </div>
+
+        {/* Mobile Tabs */}
+        <div className="block md:hidden pt-2">
+          <Tabs
+            value={activeTab}
+            onValueChange={handleTabChange}
+            className="w-full"
+          >
+            <TabsList className="bg-white border text-main-navy w-full grid grid-cols-3">
+              <TabsTrigger
+                value="developer"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white text-xs"
+              >
+                {tMarket("tabs.developer")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="owner"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white text-xs"
+              >
+                {tMarket("tabs.owner")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="agent"
+                className="data-[state=active]:bg-main-green data-[state=active]:text-white text-xs"
+              >
+                {tMarket("tabs.agent")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </motion.div>
 
@@ -116,8 +188,9 @@ const MarketplacePage = () => {
             </div>
             <CreateMarketplacePropertyDialog
               triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-              buttonText="إضافة عقار"
+              buttonText={tMarket("add_property")}
               onBeforeOpen={checkCanAddFeatured}
+              defaultRole={activeTab}
             />
           </div>
         )}

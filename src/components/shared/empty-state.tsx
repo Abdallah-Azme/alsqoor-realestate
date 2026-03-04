@@ -11,6 +11,7 @@ interface EmptyStateProps {
   onAction?: () => void;
   actionType?: "button" | "dialog";
   className?: string;
+  defaultRole?: "agent" | "owner" | "developer";
 }
 
 const EmptyState = ({
@@ -20,6 +21,7 @@ const EmptyState = ({
   onAction,
   actionType = "button",
   className,
+  defaultRole,
 }: EmptyStateProps) => {
   return (
     <div
@@ -40,6 +42,7 @@ const EmptyState = ({
         <CreateMarketplacePropertyDialog
           triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
           buttonText={buttonText}
+          defaultRole={defaultRole}
         />
       ) : (
         <Button

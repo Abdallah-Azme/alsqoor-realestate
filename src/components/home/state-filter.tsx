@@ -46,13 +46,13 @@ const StateFilterSection = () => {
           <div className="flex items-center justify-center mb-8">
             <TabsList className="h-full flex flex-wrap gap-2 lg:gap-4 bg-transparent">
               <TabsTrigger value="brokers" className={tapStyle}>
-                {tMarketplace("brokers")}
+                {tMarketplace("agent")}
               </TabsTrigger>
               <TabsTrigger value="owners" className={tapStyle}>
-                {tMarketplace("owners")}
+                {tMarketplace("owner")}
               </TabsTrigger>
               <TabsTrigger value="developers" className={tapStyle}>
-                {tMarketplace("developers")}
+                {tMarketplace("developer")}
               </TabsTrigger>
             </TabsList>
           </div>

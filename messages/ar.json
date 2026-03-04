@@ -40,7 +40,7 @@
       "title": "العقارات",
       "add_property": "إضافة عقار",
       "add_new_property": "إضافة عقار جديد",
-      "add_ad": "إضافة إعلان",
+      "add_ad": "إضافة عقار",
       "search_result": "نتيجة بحث",
       "no_properties": "لا توجد عقارات متاحة حالياً",
       "loading": "جاري التحميل...",
@@ -502,10 +502,10 @@
   },
   "ad_limit": {
     "no_package_title": "لا توجد باقة نشطة",
-    "no_package_desc": "يرجى الاشتراك في إحدى الباقات لتتمكن من إضافة إعلانات",
+    "no_package_desc": "يرجى الاشتراك في إحدى الباقات لتتمكن من إضافة عقارات",
     "view_packages": "عرض الباقات",
-    "limit_exceeded_title": "لقد تجاوزت حد الإعلانات",
-    "limit_exceeded_desc": "لقد استخدمت {limit} إعلانات، يرجى ترقية باقتك لإضافة المزيد",
+    "limit_exceeded_title": "لقد تجاوزت حد العقارات",
+    "limit_exceeded_desc": "لقد استخدمت {limit} عقارات، يرجى ترقية باقتك لإضافة المزيد",
     "upgrade_package": "ترقية الباقة",
     "featured_not_allowed_title": "غير مسموح بإضافة العقار",
     "featured_not_allowed_desc": "باقتك الحالية لا تتيح إضافة عقارات. يرجى الترقية للاستمتاع بهذه الميزة"
@@ -775,6 +775,8 @@
     "identity_number": "رقم الهوية",
     "select_property_type": "اختر نوع العقار",
     "select_transaction_type": "اختر نوع المعاملة",
+    "select_country": "اختر الدولة",
+    "select_city": "اختر المدينة",
     "cancel": "إلغاء",
     "add_deal": "إضافة الصفقة",
     "update_deal": "تحديث الصفقة",
@@ -1003,9 +1005,9 @@
     "add_property": "إضافة عقار",
     "add": "إضافة",
     "tabs": {
-      "brokers": "عقارات الوسطاء",
-      "owners": "عقارات الملاك",
-      "developers": "عقارات المطورين"
+      "agent": "عقارات الوسطاء",
+      "owner": "عقارات الملاك",
+      "developer": "عقارات المطورين"
     },
     "broker": {
       "commission_info": "ستحصل على {percentage}% من السعي عند إتمام الصفقة",
@@ -1013,6 +1015,7 @@
       "rooms": "غرف",
       "status": {
         "new": "جديد",
+        "active": "نشط",
         "marketing": "تحت التسويق",
         "under_marketing": "تحت التسويق",
         "half_deal": "تمت الصفقة",
