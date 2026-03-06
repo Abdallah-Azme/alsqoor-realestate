@@ -35,7 +35,7 @@ export function MarketplacePropertyCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
     >
-      <Link href={`/marketplace/${property.slug || property.id}`}>
+      <Link href={`/ads/${property.slug}`}>
         <Card className="overflow-hidden transition-all hover:shadow-lg border-2 border-gray-100 h-full flex flex-col">
           <div className="relative h-48 w-full shrink-0">
             <Image

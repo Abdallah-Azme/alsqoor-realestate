@@ -69,7 +69,7 @@ const StatesCard = ({ withBorder = true, property = null }) => {
   } = property;
 
   return (
-    <Link href={`/ads/${slug || id}`} className="block">
+    <Link href={`/ads/${slug}`} className="block">
       <div
         className={`${
           withBorder && "border-2 border-gray-200"
@@ -135,7 +135,7 @@ const StatesCard = ({ withBorder = true, property = null }) => {
           </div>
         </div>
         {/* link */}
-        <div className="text-sm font-medium block text-center w-3/4 mx-auto  rounded-md  py-2 px-3 border-1 border-main-green text-main-green hover:bg-main-green hover:text-white transition-all duration-300">
+        <div className="text-sm font-medium block text-center w-3/4 mx-auto  rounded-md  py-2 px-3 border border-main-green text-main-green hover:bg-main-green hover:text-white transition-all duration-300">
           {t("show_details")}
         </div>
       </div>

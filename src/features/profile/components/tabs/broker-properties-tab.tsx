@@ -41,6 +41,7 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
       timePosted: "منذ 4 أيام",
       isSerious: false,
       status: "new",
+      slug: "villa-new-jeddah",
     },
     {
       id: "2",
@@ -57,6 +58,7 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
       timePosted: "منذ يومين",
       isSerious: false,
       status: "new",
+      slug: "modern-apartment-riyadh",
     },
   ],
   marketing: [
@@ -75,6 +77,7 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
       timePosted: "منذ أسبوع",
       isSerious: true,
       status: "marketing",
+      slug: "luxury-villa-dammam",
     },
   ],
   sold: [
@@ -93,6 +96,7 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
       timePosted: "منذ شهر",
       isSerious: false,
       status: "sold",
+      slug: "sold-apartment-jeddah",
     },
   ],
   deleted: [],
@@ -213,7 +217,7 @@ const BrokerPropertiesTab = ({
                       <MyPropertyCard
                         property={property}
                         onEdit={() => onEditProperty?.(property)}
-                        viewHref={`/ads/${property.slug || property.id}`}
+                        viewHref={`/ads/${property.slug}`}
                       />
                     </div>
                   ))}

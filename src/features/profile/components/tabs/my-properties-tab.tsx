@@ -94,7 +94,7 @@ const MyPropertiesTab = ({
                 key={property.id}
                 property={property as any}
                 onEdit={() => onEditProperty?.(property)}
-                viewHref={`/ads/${(property as any).slug || property.id}`}
+                viewHref={`/ads/${(property as any).slug}`}
               />
             ))}
           </div>
