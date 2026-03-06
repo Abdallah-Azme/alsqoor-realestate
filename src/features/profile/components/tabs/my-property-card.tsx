@@ -116,7 +116,10 @@ const MyPropertyCard = ({
   const mainImage =
     property.image || property.images?.[0] || "/images/state.png";
 
-  const isUnverified = property.isVerified === false;
+  const isUnverified =
+    property.isVerified === false ||
+    property.isApproved === false ||
+    property.status === "pending";
 
   return (
     <div

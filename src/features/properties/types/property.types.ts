@@ -114,19 +114,19 @@ export interface Property {
   price_per_meter?: number;
 
   // Dimensions
-  area?: number;
-  usable_area?: number;
-  rooms?: number;
-  bedrooms?: number; // Alias for rooms
-  bathrooms?: number;
-  balconies?: number;
-  garages?: number;
+  area?: number | string;
+  usable_area?: number | string;
+  rooms?: number | string;
+  bedrooms?: number | string; // Alias for rooms
+  bathrooms?: number | string;
+  balconies?: number | string;
+  garages?: number | string;
 
   // Property details
-  finishing_type?: FinishingType;
-  property_use?: PropertyUse;
-  facade?: Facade;
-  property_age?: number;
+  finishing_type?: FinishingType | string;
+  property_use?: PropertyUse | string;
+  facade?: Facade | string;
+  property_age?: number | string;
 
   // Services & amenities
   services?: string[];
@@ -156,15 +156,46 @@ export interface Property {
   marketing_option?: MarketingOption;
 
   // Broker properties
-  status?: PropertyStatus;
+  status?: string | PropertyStatus;
   owner_id?: number;
   broker_id?: number;
   is_marketing_enabled?: boolean;
 
+  // CamelCase aliases from new API
+  operationType?: OperationType;
+  priceMin?: number | string;
+  priceMax?: number | string;
+  pricePerMeter?: number | string;
+  priceHidden?: boolean;
+  usableArea?: number | string;
+  finishingType?: string;
+  propertyUse?: string;
+  propertyAge?: number;
+  viewsCount?: string | number;
+  postedAt?: string;
+  soldAt?: string | null;
+  isDeal?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  adNumber?: string;
+  licenseNumber?: string;
+  licenseExpiryDate?: string;
+  qrCode?: string;
+  planNumber?: string;
+  plotNumber?: string;
+  areaName?: string;
+  hasMortgage?: boolean;
+  hasRestriction?: boolean;
+  marketingOption?: string;
+  isApproved?: boolean;
+  isFeatured?: boolean;
+  views?: number | string;
+  image?: string;
+
   // Relations
-  country?: Country;
-  city?: City;
-  category?: PropertyCategory;
+  country?: Country | string;
+  city?: City | string;
+  category?: PropertyCategory | string;
   owner?: any; // User type
   broker?: any; // User type
 

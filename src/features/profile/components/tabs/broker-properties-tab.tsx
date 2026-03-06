@@ -8,10 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import MyPropertyCard from "./my-property-card";
-import SmartPagination, {
-  usePagination,
-} from "@/components/shared/smart-pagination";
+import SmartPagination from "@/components/shared/smart-pagination";
 import { PropertyStatus } from "@/features/properties/types/property.types";
+import { useUserProperties } from "@/features/properties/hooks/use-properties";
 import StartMarketingDialog from "../dialogs/start-marketing-dialog";
 import EmptyState from "@/components/shared/empty-state";
 
@@ -117,33 +116,27 @@ const BrokerPropertiesTab = ({
   const tBroker = useTranslations("broker_properties");
   const [activeStatus, setActiveStatus] = useState<PropertyStatus>("new");
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
   const [marketingDialogOpen, setMarketingDialogOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
     null,
   );
 
-  // Get properties for active status
-  const properties = mockPropertiesByStatus[activeStatus] || [];
+  const { data: propertiesData, isLoading } = useUserProperties({
+    page: currentPage,
+    per_page: ITEMS_PER_PAGE,
+  });
 
-  // Filter by search query
-  const filteredProperties = properties.filter((p) =>
-    p.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const properties =
+    propertiesData?.data ||
+    (Array.isArray(propertiesData) ? propertiesData : []);
+  const meta = (propertiesData as any)?.meta;
+  const totalPages = meta?.lastPage || 1;
 
-  // Pagination
-  const { totalPages, getPageItems } = usePagination(
-    filteredProperties,
-    ITEMS_PER_PAGE,
-  );
-  const currentProperties = getPageItems(currentPage);
-
-  // Get counts for each status
   const statusCounts = {
-    new: mockPropertiesByStatus.new.length,
-    marketing: mockPropertiesByStatus.marketing.length,
-    sold: mockPropertiesByStatus.sold.length,
-    deleted: mockPropertiesByStatus.deleted.length,
+    new: properties.length,
+    marketing: properties.filter((p) => p.status === "marketing").length,
+    sold: properties.filter((p) => p.status === "sold").length,
+    deleted: properties.filter((p) => p.status === "deleted").length,
   };
 
   // Handle status tab change
@@ -160,29 +153,15 @@ const BrokerPropertiesTab = ({
 
   return (
     <div className="space-y-6">
-      {/* Search and Add Action */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-        {/* Search */}
-        <div className="relative w-full md:w-96">
-          <Input
-            placeholder={t("search_ad_placeholder")}
-            className="ps-10 h-11 bg-white border-gray-200"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <FiSearch className="absolute start-3 top-3.5 text-gray-400" />
-        </div>
-
-        {/* Add New Property Button — only shown when there is data */}
-        {currentProperties.length > 0 && (
-          <Button
-            onClick={onAddProperty}
-            className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-6 rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-sm shadow-main-green/20"
-          >
-            <FiPlus className="w-5 h-5" />
-            <span>{t("add_new_ad")}</span>
-          </Button>
-        )}
+      {/* Add New Property Button */}
+      <div className="flex justify-end items-center">
+        <Button
+          onClick={onAddProperty}
+          className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-6 rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-sm shadow-main-green/20"
+        >
+          <FiPlus className="w-5 h-5" />
+          <span>{t("add_new_ad")}</span>
+        </Button>
       </div>
 
       {/* Status Tabs */}
@@ -209,10 +188,19 @@ const BrokerPropertiesTab = ({
         {/* Properties Grid for each status */}
         {STATUS_TABS.map((tab) => (
           <TabsContent key={tab.value} value={tab.value} className="mt-6">
-            {currentProperties.length > 0 ? (
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-xl border border-gray-200 h-80 animate-pulse"
+                  />
+                ))}
+              </div>
+            ) : properties.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {currentProperties.map((property) => (
+                  {properties.map((property) => (
                     <div key={property.id} className="h-full">
                       <MyPropertyCard
                         property={property}
