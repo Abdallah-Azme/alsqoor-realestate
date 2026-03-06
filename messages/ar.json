@@ -1566,6 +1566,8 @@
       "license_expiry": "تاريخ انتهاء الترخيص",
       "plan_number": "رقم المخطط",
       "plot_number": "رقم القطعة",
+      "qr_code_label": "رمز QR",
+      "qr_code_placeholder": "اضغط لرفع صورة رمز QR",
       "guarantees": "الضمانات",
       "cancel": "إلغاء",
       "submit": "إرسال",

@@ -1,1 +1,19 @@
 1- this endpoint alwasy return active state {{url}}/user/direct-deals
+2- https://api.alsqoor-realestate.sa/api/properties/add
+{code: 422, message: "فشل التحقق من البيانات.", data: {,…}}
+code
+: 
+422
+data
+: 
+{,…}
+license_expiry_date
+: 
+["تاريخ انتهاء الترخيص لا يمكن أن يتجاوز تاريخ انتهاء اشتراكك النشط (2026-04-05)."]
+0
+: 
+"تاريخ انتهاء الترخيص لا يمكن أن يتجاوز تاريخ انتهاء اشتراكك النشط (2026-04-05)."
+message
+: 
+"فشل التحقق من البيانات."
+

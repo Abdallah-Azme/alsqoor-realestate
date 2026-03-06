@@ -114,6 +114,7 @@ const formSchema = z.object({
   marketing_option: z.enum(["none", "advertising", "agent"]).optional(),
   images: z.array(z.any()).optional(),
   videos: z.array(z.any()).optional(),
+  qr_code: z.array(z.any()).min(1, { message: "QR code is required" }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -169,6 +170,7 @@ const TAB_FIELDS: Record<string, string[]> = {
     "has_mortgage",
     "has_restriction",
     "guarantees",
+    "qr_code",
   ],
 };
 
@@ -229,6 +231,7 @@ const AddAdvertisementDialog = ({
       marketing_option: "agent",
       images: [],
       videos: [],
+      qr_code: [],
     },
   });
 
@@ -317,6 +320,7 @@ const AddAdvertisementDialog = ({
           "agent") as any,
         images: property.images || [],
         videos: property.videos || [],
+        qr_code: property.qr_code ? [property.qr_code] : [],
       });
     } else if (!open) {
       form.reset();
@@ -438,6 +442,7 @@ const AddAdvertisementDialog = ({
           : [],
         images: values.images?.filter((img: any) => img instanceof File) || [],
         videos: values.videos?.filter((vid: any) => vid instanceof File) || [],
+        qr_code: values.qr_code?.filter((img: any) => img instanceof File)[0],
       };
 
       if (isEditing && property) {
@@ -1429,6 +1434,29 @@ const AddAdvertisementDialog = ({
                       <FormLabel>{t("add_dialog.guarantees")}</FormLabel>
                       <FormControl>
                         <Textarea {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="qr_code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUploader
+                          value={field.value || []}
+                          onChange={field.onChange}
+                          accept="image/*"
+                          maxFiles={1}
+                          label={t("add_dialog.qr_code_label") || "QR Code"}
+                          helperText={
+                            t("add_dialog.qr_code_placeholder") ||
+                            "Upload QR code image"
+                          }
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

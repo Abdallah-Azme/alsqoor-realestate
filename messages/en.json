@@ -1699,6 +1699,8 @@
       "license_expiry": "License Expiry Date",
       "plan_number": "Plan Number",
       "plot_number": "Plot Number",
+      "qr_code_label": "QR Code",
+      "qr_code_placeholder": "Click to upload QR code image",
       "guarantees": "Guarantees",
       "cancel": "Cancel",
       "submit": "Submit",
