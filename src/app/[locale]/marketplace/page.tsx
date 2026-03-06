@@ -8,7 +8,6 @@ import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marke
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAdLimit } from "@/hooks/use-ad-limit";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiPlus } from "react-icons/fi";
@@ -18,7 +17,6 @@ const MarketplacePage = () => {
   const tPage = useTranslations("home.estates_page");
   const tMarket = useTranslations("marketplace");
   const tCommon = useTranslations("common");
-  const { checkCanAddFeatured } = useAdLimit();
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -90,7 +88,7 @@ const MarketplacePage = () => {
           <div className="flex items-center gap-4">
             <CreateMarketplacePropertyDialog
               buttonText={tMarket("add_property")}
-              onBeforeOpen={checkCanAddFeatured}
+              bypassLimitCheck={true}
               defaultRole={activeTab}
             />
           </div>
@@ -189,7 +187,7 @@ const MarketplacePage = () => {
             <CreateMarketplacePropertyDialog
               triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
               buttonText={tMarket("add_property")}
-              onBeforeOpen={checkCanAddFeatured}
+              bypassLimitCheck={true}
               defaultRole={activeTab}
             />
           </div>

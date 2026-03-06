@@ -23,18 +23,15 @@ import {
   useDeleteProperty,
 } from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 
 const ITEMS_PER_PAGE = 10;
 
 interface OwnerPropertiesTabProps {
-  onAddProperty?: () => void;
   onEditProperty?: (property: any) => void;
 }
 
-const OwnerPropertiesTab = ({
-  onAddProperty,
-  onEditProperty,
-}: OwnerPropertiesTabProps) => {
+const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
   const t = useTranslations("Profile");
   const tOwner = useTranslations("owner_properties");
   const tCommon = useTranslations("common");
@@ -117,13 +114,10 @@ const OwnerPropertiesTab = ({
 
         {/* Add New Property Button — only shown when there is data */}
         {filteredProperties.length > 0 && (
-          <Button
-            onClick={onAddProperty}
-            className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 gap-2"
-          >
-            <FiPlus />
-            {tOwner("add_property")}
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-4 rounded-md transition-all font-medium flex items-center justify-center gap-2"
+            buttonText={tOwner("add_property")}
+          />
         )}
       </div>
 
@@ -268,13 +262,10 @@ const OwnerPropertiesTab = ({
                 "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
-          <Button
-            onClick={onAddProperty}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-          >
-            <FiPlus />
-            {t("add_new_ad")}
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
+            buttonText={t("add_new_ad")}
+          />
         </div>
       )}
     </div>

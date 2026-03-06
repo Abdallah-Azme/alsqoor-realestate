@@ -10,6 +10,8 @@ import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marke
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import EmptyState from "@/components/shared/empty-state";
+import { Button } from "@/components/ui/button";
+import { FiPlus } from "react-icons/fi";
 
 const BrokersListing = () => {
   const t = useTranslations("marketplace");
@@ -19,6 +21,7 @@ const BrokersListing = () => {
   const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   // ── Read filter values from URL (set by FilterForm on homepage) ──
   const urlOperationType = searchParams.get("operation_type") || undefined;
@@ -68,11 +71,13 @@ const BrokersListing = () => {
 
         <div className="flex items-center gap-3">
           {properties.length > 0 && (
-            <CreateMarketplacePropertyDialog
-              triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-              buttonText={tPage("add_property")}
-              defaultRole="agent"
-            />
+            <Button
+              onClick={() => setIsAddDialogOpen(true)}
+              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+            >
+              <FiPlus className="text-lg" />
+              <span>{tPage("add_property")}</span>
+            </Button>
           )}
         </div>
       </div>
@@ -116,10 +121,15 @@ const BrokersListing = () => {
             "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
           }
           buttonText={tPage("add_property")}
-          actionType="dialog"
-          defaultRole="agent"
+          onAction={() => setIsAddDialogOpen(true)}
         />
       )}
+
+      <CreateMarketplacePropertyDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+        defaultRole="agent"
+      />
     </div>
   );
 };

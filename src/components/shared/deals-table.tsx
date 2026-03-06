@@ -4,7 +4,15 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { useSettings } from "@/features/settings/hooks/use-settings";
 
-const DealsTable = ({ deals = [], isLoading = false, onEdit }) => {
+const DealsTable = ({
+  deals = [],
+  isLoading = false,
+  onEdit,
+}: {
+  deals?: any[];
+  isLoading?: boolean;
+  onEdit?: (deal: any) => void;
+}) => {
   const t = useTranslations("deals_page");
   const { data: settings } = useSettings();
 
@@ -122,18 +130,20 @@ const DealsTable = ({ deals = [], isLoading = false, onEdit }) => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-center">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                onEdit && onEdit(deal);
-              }}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              title={t("edit") || "تعديل الصفقة"}
-            >
-              <Pencil size={18} className="text-main-green" />
-            </button>
-          </div>
+          {onEdit && (
+            <div className="flex items-center justify-center">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onEdit(deal);
+                }}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                title={t("edit") || "تعديل الصفقة"}
+              >
+                <Pencil size={18} className="text-main-green" />
+              </button>
+            </div>
+          )}
         </div>
       ))}
     </div>

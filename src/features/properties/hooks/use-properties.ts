@@ -241,6 +241,7 @@ export function useReactivateProperty() {
       queryClient.invalidateQueries({ queryKey: ["property", propertyId] });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
       queryClient.invalidateQueries({ queryKey: ["properties", "user"] });
+      queryClient.invalidateQueries({ queryKey: ["realEstateProperties"] });
     },
   });
 }

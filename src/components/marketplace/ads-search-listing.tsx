@@ -4,19 +4,23 @@ import { useTranslations } from "next-intl";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSearchProperties } from "@/features/properties/hooks/use-properties";
 import StatesCard from "@/components/shared/state-card";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Plus } from "lucide-react";
+import { FiPlus } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/shared/empty-state";
 import { motion } from "motion/react";
 import SmartPagination from "@/components/shared/smart-pagination";
 import { useState, useEffect, useMemo } from "react";
+import AddAdvertisementDialog from "@/features/profile/components/dialogs/add-advertisement-dialog";
 
 const AdsSearchListing = () => {
   const t = useTranslations("marketplace");
   const tPage = useTranslations("home.estates_page");
+  const tProfile = useTranslations("Profile");
   const searchParams = useSearchParams();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   // Sync page from URL if present
   useEffect(() => {
@@ -112,8 +116,8 @@ const AdsSearchListing = () => {
 
   return (
     <div className="space-y-8">
-      {/* Results count */}
-      <div className="flex items-center justify-between">
+      {/* Results count & Add Action */}
+      <div className="flex items-center justify-between gap-4">
         <p className="text-gray-600 text-sm">
           {t("results_count")}:{" "}
           <span className="font-bold text-main-navy">
@@ -121,6 +125,14 @@ const AdsSearchListing = () => {
           </span>{" "}
           {t("opportunity")}
         </p>
+
+        <Button
+          onClick={() => setIsAddDialogOpen(true)}
+          className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
+        >
+          <FiPlus className="w-5 h-5" />
+          {tProfile("add_new_ad")}
+        </Button>
       </div>
 
       {/* Cards grid or empty state */}
@@ -155,11 +167,16 @@ const AdsSearchListing = () => {
         <EmptyState
           title={t("no_properties")}
           description={t("no_properties_description")}
-          buttonText={tPage("add_property")}
-          actionType="button"
-          onAction={() => router.push("/advertisements/add")}
+          buttonText={tProfile("add_new_ad")}
+          onAction={() => setIsAddDialogOpen(true)}
         />
       )}
+
+      {/* Add Advertisement Dialog */}
+      <AddAdvertisementDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+      />
     </div>
   );
 };

@@ -14,7 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddDealForm from "@/components/deals/add-deal-form";
+import { useRouter } from "@/i18n/navigation";
+import { DirectDealDialog } from "@/features/direct-deals";
 import DealsTable from "@/components/shared/deals-table";
 import { getDirectDeals } from "@/actions/deals";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ import { UserContext } from "@/context/user-context";
 
 const Page = () => {
   const { user } = useContext(UserContext);
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("deals_page");
   const tNav = useTranslations("Navbar"); // or breadcrumbs
@@ -61,12 +63,11 @@ const Page = () => {
     }
   }
 
-  const handleEdit = (deal) => {
-    setSelectedDeal(deal);
-    setOpen(true);
-  };
-
   const handleAddNew = () => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
     setSelectedDeal(null);
     setOpen(true);
   };
@@ -114,42 +115,23 @@ const Page = () => {
               </TabsTrigger>
             </TabsList> */}
             {/* add */}
-            {user && (
-              <>
-                <button
-                  onClick={handleAddNew}
-                  className="text-main-green px-4 ms-auto py-2 rounded flex items-center gap-2 border border-main-green text-sm hover:bg-main-green hover:text-white transition-all duration-300"
-                >
-                  <FaPlus />
-                  {t("add_deal")}
-                </button>
+            <button
+              onClick={handleAddNew}
+              className="text-main-green px-4 ms-auto py-2 rounded flex items-center gap-2 border border-main-green text-sm hover:bg-main-green hover:text-white transition-all duration-300"
+            >
+              <FaPlus />
+              {t("add_deal")}
+            </button>
 
-                <Dialog open={open} onOpenChange={handleCloseDialog}>
-                  <DialogContent className="lg:w-[80%]">
-                    <DialogHeader className="">
-                      <DialogTitle className="text-center text-xl font-bold">
-                        {selectedDeal ? t("edit_deal") : t("new_deal")}
-                      </DialogTitle>
-                      <DialogDescription asChild className="">
-                        <AddDealForm
-                          setOpen={handleCloseDialog}
-                          onSuccess={fetchDeals}
-                          deal={selectedDeal}
-                        />
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </>
-            )}
+            <DirectDealDialog
+              open={open}
+              onOpenChange={handleCloseDialog}
+              deal={selectedDeal}
+            />
           </div>
           {["houre", "day", "week", "month", "year"].map((tab) => (
             <TabsContent key={tab} value={tab}>
-              <DealsTable
-                deals={deals}
-                isLoading={isLoading}
-                onEdit={handleEdit}
-              />
+              <DealsTable deals={deals} isLoading={isLoading} />
 
               {/* Pagination */}
               {!isLoading && deals.length > 0 && meta && (

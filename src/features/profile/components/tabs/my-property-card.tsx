@@ -3,13 +3,20 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { FiClock, FiHome, FiTrendingUp, FiShare2 } from "react-icons/fi";
+import {
+  FiClock,
+  FiHome,
+  FiTrendingUp,
+  FiShare2,
+  FiRefreshCw,
+} from "react-icons/fi";
 import { TbDimensions, TbBath } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
 import { Link } from "@/i18n/navigation";
 import {
   useStartMarketing,
   useDeleteRealEstateProperty,
+  useReactivateProperty,
 } from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
 import { Loader2, Trash2 } from "lucide-react";
@@ -42,6 +49,7 @@ const MyPropertyCard = ({
 
   const marketMutation = useStartMarketing();
   const deleteMutation = useDeleteRealEstateProperty();
+  const reactivateMutation = useReactivateProperty();
 
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
@@ -63,6 +71,16 @@ const MyPropertyCard = ({
       setDeleteConfirmOpen(false);
     } catch (error) {
       console.error("Failed to delete property", error);
+    }
+  };
+
+  const handleReactivate = async () => {
+    if (!property.id) return;
+    try {
+      await reactivateMutation.mutateAsync(property.id as number);
+      toast.success(t("reactivate_success"));
+    } catch (error) {
+      console.error("Failed to reactivate property", error);
     }
   };
 
@@ -92,8 +110,25 @@ const MyPropertyCard = ({
   const mainImage =
     property.image || property.images?.[0] || "/images/state.png";
 
+  const isUnverified = property.isVerified === false;
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+    <div
+      className={`bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative ${
+        isUnverified
+          ? "grayscale opacity-75 pointer-events-none select-none"
+          : ""
+      }`}
+    >
+      {/* Pending Verification Overlay Label */}
+      {isUnverified && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-500/10 backdrop-blur-[1px]">
+          <div className="bg-main-navy/90 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white/20">
+            {t("under_review") || "قيد المراجعة"}
+          </div>
+        </div>
+      )}
+
       {/* Image Section */}
       <div className="relative h-48 w-full group">
         <Image
@@ -245,6 +280,22 @@ const MyPropertyCard = ({
             )} */}
             {t("market_now") || "قم بالتسويق للعقار"}
           </button>
+
+          {((property.status as string) === "expired" ||
+            (property.status as string) === "inactive") && (
+            <button
+              onClick={handleReactivate}
+              disabled={reactivateMutation.isPending}
+              className="col-span-2 bg-amber-500 text-white hover:bg-amber-600 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm mt-1"
+            >
+              {reactivateMutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <FiRefreshCw size={14} />
+              )}
+              {t("reactivate") || "إعادة تفعيل"}
+            </button>
+          )}
         </div>
       </div>
 

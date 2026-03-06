@@ -1,0 +1,1 @@
+1- this endpoint alwasy return active state {{url}}/user/direct-deals

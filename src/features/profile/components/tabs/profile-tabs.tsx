@@ -8,10 +8,11 @@ import BrokerPropertiesTab from "./broker-properties-tab";
 import OwnerPropertiesTab from "./owner-properties-tab";
 import OffersTab from "./offers-tab";
 import RealEstateTab from "./real-estate-tab";
+import { DirectDealsList } from "@/features/direct-deals";
 import { User } from "@/types";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
-import AddPropertyDialog from "../dialogs/add-property-dialog";
+import AddAdvertisementDialog from "../dialogs/add-advertisement-dialog";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAdLimit } from "@/hooks/use-ad-limit";
@@ -43,16 +44,12 @@ const ProfileTabs = ({
     { value: "real-estate", label: "عقارات" },
     { value: "my-properties", label: t("my_ads") },
     { value: "my-offers", label: t("my_offers") },
+    { value: "direct-deals", label: t("direct_deals") },
     // { value: "payment-methods", label: t("payment_methods") },
     { value: "packages", label: t("packages") },
   ];
 
   const { checkCanAddAd } = useAdLimit();
-
-  const handleAddAdvertisement = () => {
-    if (!checkCanAddAd()) return;
-    router.push("/advertisements/add");
-  };
 
   const handleAddProperty = (property?: any) => {
     // Editing existing — skip limit check
@@ -107,10 +104,9 @@ const ProfileTabs = ({
 
           <TabsContent value="my-properties" className="mt-0">
             {isBroker ? (
-              <BrokerPropertiesTab onAddProperty={handleAddAdvertisement} />
+              <BrokerPropertiesTab />
             ) : isOwner ? (
               <OwnerPropertiesTab
-                onAddProperty={() => handleAddProperty()}
                 onEditProperty={(prop) => handleAddProperty(prop)}
               />
             ) : (
@@ -122,11 +118,11 @@ const ProfileTabs = ({
             <OffersTab />
           </TabsContent>
 
-          {/* <TabsContent value="payment-methods" className="mt-0">
-            <div className="py-12 text-center text-gray-500 bg-white rounded-xl border border-gray-200">
-              {t("payment_methods")} - {t("no_properties")}
+          <TabsContent value="direct-deals" className="mt-0">
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <DirectDealsList />
             </div>
-          </TabsContent> */}
+          </TabsContent>
 
           <TabsContent value="packages" className="mt-0">
             <PackagesTab />
@@ -134,7 +130,7 @@ const ProfileTabs = ({
         </div>
       </Tabs>
 
-      <AddPropertyDialog
+      <AddAdvertisementDialog
         open={addPropertyOpen}
         onOpenChange={(open) => {
           setAddPropertyOpen(open);

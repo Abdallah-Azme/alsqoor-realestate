@@ -118,7 +118,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-interface AddPropertyDialogProps {
+interface AddAdvertisementDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   property?: Property | null;
@@ -172,11 +172,11 @@ const TAB_FIELDS: Record<string, string[]> = {
   ],
 };
 
-const AddPropertyDialog = ({
+const AddAdvertisementDialog = ({
   open,
   onOpenChange,
   property,
-}: AddPropertyDialogProps) => {
+}: AddAdvertisementDialogProps) => {
   const t = useTranslations("owner_properties");
   const tAgent = useTranslations("agent_profile.show_dialog");
 
@@ -1484,4 +1484,4 @@ const AddPropertyDialog = ({
   );
 };
 
-export default AddPropertyDialog;
+export default AddAdvertisementDialog;

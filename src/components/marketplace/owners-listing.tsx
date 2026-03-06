@@ -9,6 +9,8 @@ import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marke
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import EmptyState from "@/components/shared/empty-state";
+import { Button } from "@/components/ui/button";
+import { FiPlus } from "react-icons/fi";
 
 // Helper to parse tab ID to property type and operation
 const parseTabId = (tabId: string) => {
@@ -25,6 +27,7 @@ const OwnersListing = () => {
   const user = userContext?.user;
   const locale = useLocale();
   const router = useRouter();
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   // Simplification: Removed inner filters and sub-tabs to match marketplace design
   // Fetch owner properties using the unified marketplace hook
   const { data: response, isLoading } = useMarketplaceProperties({
@@ -52,11 +55,13 @@ const OwnersListing = () => {
 
         <div className="flex items-center gap-3">
           {properties.length > 0 && (
-            <CreateMarketplacePropertyDialog
-              triggerClassName="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
-              buttonText={tPage("add_property")}
-              defaultRole="owner"
-            />
+            <Button
+              onClick={() => setIsAddDialogOpen(true)}
+              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+            >
+              <FiPlus className="text-lg" />
+              <span>{tPage("add_property")}</span>
+            </Button>
           )}
         </div>
       </div>
@@ -100,10 +105,15 @@ const OwnersListing = () => {
             "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
           }
           buttonText={tPage("add_property")}
-          actionType="dialog"
-          defaultRole="owner"
+          onAction={() => setIsAddDialogOpen(true)}
         />
       )}
+
+      <CreateMarketplacePropertyDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+        defaultRole="owner"
+      />
     </div>
   );
 };

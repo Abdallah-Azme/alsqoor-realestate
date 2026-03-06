@@ -10,6 +10,7 @@ import { useUserProperties } from "@/features/properties/hooks/use-properties";
 import SmartPagination, {
   usePagination,
 } from "@/components/shared/smart-pagination";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -66,10 +67,10 @@ const MyPropertiesTab = () => {
 
         {/* Add New Ad Button — only shown when there is data */}
         {properties.length > 0 && (
-          <Button className="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2">
-            <FiPlus />
-            {t("add_new_ad")}
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2 flex items-center justify-center px-4 rounded-md transition-all font-medium"
+            buttonText={t("add_new_ad")}
+          />
         )}
       </div>
 
@@ -106,10 +107,10 @@ const MyPropertiesTab = () => {
                 "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
             </p>
           </div>
-          <Button className="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8">
-            <FiPlus />
-            {t("add_new_ad")}
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
+            buttonText={t("add_new_ad")}
+          />
         </div>
       )}
     </div>

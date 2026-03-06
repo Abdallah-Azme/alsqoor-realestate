@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import {
@@ -35,7 +35,7 @@ import {
 } from "@/features/properties/hooks/use-properties";
 import { FileUploader } from "@/components/shared/file-uploader";
 import { MarketplaceProperty } from "@/features/properties/types/property.types";
-import { useEffect } from "react";
+import { UserContext } from "@/context/user-context";
 
 // Riyadh, Saudi Arabia defaults
 const DEFAULT_LAT = 24.7136;
@@ -63,6 +63,10 @@ interface CreateMarketplacePropertyDialogProps {
   defaultRole?: string;
   /** Called when trigger is clicked. Return false to block opening the dialog. */
   onBeforeOpen?: () => boolean;
+  /** Whether to skip ad limit and featured property checks. Useful for bypassing redirects to packages. */
+  bypassLimitCheck?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export const CreateMarketplacePropertyDialog = ({
@@ -72,15 +76,25 @@ export const CreateMarketplacePropertyDialog = ({
   isEdit = false,
   defaultRole = "owner",
   onBeforeOpen,
+  bypassLimitCheck = false,
+  open: externalOpen,
+  onOpenChange: setExternalOpen,
 }: CreateMarketplacePropertyDialogProps) => {
   const t = useTranslations("properties");
   const tProfile = useTranslations("Profile");
   const tPage = useTranslations("home.estates_page");
   const tCommon = useTranslations("common");
 
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = externalOpen !== undefined ? externalOpen : internalOpen;
+  const setOpen = (val: boolean) => {
+    if (setExternalOpen) setExternalOpen(val);
+    else setInternalOpen(val);
+  };
+
   const [step, setStep] = useState(1);
-  const [role, setRole] = useState<string>(defaultRole);
+  const { user } = useContext(UserContext) || {};
+  const [role, setRole] = useState<string>(user?.role || defaultRole);
   const { checkCanAddAd, checkCanAddFeatured } = useAdLimit();
 
   // Address State
@@ -111,14 +125,14 @@ export const CreateMarketplacePropertyDialog = ({
 
   const isPending = isAddingMarketplace || isAddingDeveloper || isUpdating;
 
-  // Initialize data if editing
+  // Initialize data if editing or user role changes
   useEffect(() => {
     if (isEdit && property && open) {
       if (property.country_id) setCountryId(Number(property.country_id));
       if (property.latitude) setLatitude(Number(property.latitude));
       if (property.longitude) setLongitude(Number(property.longitude));
 
-      // Determine role logically
+      // Determine role logically for edit mode
       if (property.totalUnits || property.startingPrice) {
         setRole("developer");
       } else if (property.commissionPercentage && !property.startingPrice) {
@@ -126,8 +140,10 @@ export const CreateMarketplacePropertyDialog = ({
       } else {
         setRole("owner");
       }
+    } else if (!isEdit && user?.role) {
+      setRole(user.role);
     }
-  }, [isEdit, property, open]);
+  }, [isEdit, property, open, user?.role]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -178,14 +194,14 @@ export const CreateMarketplacePropertyDialog = ({
         setStep(1);
         setLatitude(DEFAULT_LAT);
         setLongitude(DEFAULT_LNG);
-        setRole(defaultRole); // Reset to defaultRole on close
+        setRole(user?.role || defaultRole); // Reset to user role on close
       }, 300);
     }
   };
 
   const handleTriggerClick = () => {
     // Only check limits for new properties, not when editing
-    if (!isEdit) {
+    if (!isEdit && !bypassLimitCheck) {
       if (!checkCanAddAd()) return;
       if (!checkCanAddFeatured()) return;
     }
@@ -229,22 +245,8 @@ export const CreateMarketplacePropertyDialog = ({
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           {/* ── Step 1: Basic Information ───────────────────────── */}
           <div className={step === 1 ? "block space-y-4" : "hidden"}>
-            <div className="space-y-2">
-              <Label>{t("account_type") || "نوع الحساب"}</Label>
-              <Tabs value={role} onValueChange={setRole} className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="owner">
-                    {t("owner") || "مالك"}
-                  </TabsTrigger>
-                  <TabsTrigger value="agent">
-                    {t("agent") || "وسيط"}
-                  </TabsTrigger>
-                  <TabsTrigger value="developer">
-                    {t("developer") || "مطور عقاري"}
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
+            {/* Account type hidden as requested, role is determined by profile */}
+            <input type="hidden" name="role" value={role} />
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -328,7 +330,7 @@ export const CreateMarketplacePropertyDialog = ({
                   onChange={setImages}
                   accept="image/*"
                   maxFiles={1}
-                  label={`${t("image") || "صورة العقار"}`}
+                  label=""
                   helperText="اسحب الصور هنا أو انقر للتصفح. (حد أقصى صورة واحدة)"
                 />
               </div>

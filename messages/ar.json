@@ -314,6 +314,8 @@
     "delete_success": "تم حذف العقار بنجاح",
     "delete_error": "فشل في حذف العقار",
     "delete": "حذف",
+    "reactivate": "إعادة تفعيل",
+    "reactivate_success": "تمت إعادة تفعيل العقار بنجاح",
     "upgrade_success": "تم ترقية الإعلان بنجاح",
     "upgrade_error": "فشل في ترقية الإعلان",
     "marketing_success": "تم بدء التسويق بنجاح",
@@ -389,7 +391,9 @@
     "saudi_arabia": "المملكة العربية السعودية",
     "k_suffix": "ألف",
     "currency": "ر.س",
-    "popular_badge": "الأكثر طلباً"
+    "popular_badge": "الأكثر طلباً",
+    "under_review": "قيد المراجعة",
+    "direct_deals": "الصفقات المباشرة"
   },
   "Navbar": {
     "address": "العنوان الرئيسي - الرياض",
@@ -799,7 +803,9 @@
       "ownership_transfer": "نقل ملكية",
       "mortgage": "رهن",
       "mortgage_release": "فك رهن",
-      "division_merge": "تقسيم/دمج"
+      "division_merge": "تقسيم/دمج",
+      "update_modification": "تحديث/تعديل",
+      "all": "الكل"
     }
   },
   "validations": {
@@ -1444,6 +1450,7 @@
     }
   },
   "owner_properties": {
+    "back": "رجوع",
     "add_property": "اضافة إلاعلان",
     "edit_property": "تعديل العقار",
     "add_property_desc": "أدخل تفاصيل عقارك أدناه.",
@@ -1977,7 +1984,8 @@
     "load_more": "تحميل المزيد",
     "error_server": "خطأ في الخادم",
     "error_fetch": "خطأ في الجلب",
-    "error_general": "خطأ عام"
+    "error_general": "خطأ عام",
+    "back": "رجوع"
   },
 
   "validation": {

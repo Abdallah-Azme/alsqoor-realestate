@@ -13,6 +13,7 @@ import SmartPagination, {
 } from "@/components/shared/smart-pagination";
 import { PropertyStatus } from "@/features/properties/types/property.types";
 import StartMarketingDialog from "../dialogs/start-marketing-dialog";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 
 // Status tab configuration
 const STATUS_TABS: { value: PropertyStatus; colorClass: string }[] = [
@@ -99,11 +100,7 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
 
 const ITEMS_PER_PAGE = 6;
 
-interface BrokerPropertiesTabProps {
-  onAddProperty?: () => void;
-}
-
-const BrokerPropertiesTab = ({ onAddProperty }: BrokerPropertiesTabProps) => {
+const BrokerPropertiesTab = () => {
   const t = useTranslations("Profile");
   const tBroker = useTranslations("broker_properties");
   const [activeStatus, setActiveStatus] = useState<PropertyStatus>("new");
@@ -166,13 +163,10 @@ const BrokerPropertiesTab = ({ onAddProperty }: BrokerPropertiesTabProps) => {
 
         {/* Add New Property Button — only shown when there is data */}
         {currentProperties.length > 0 && (
-          <Button
-            onClick={onAddProperty}
-            className="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
-          >
-            <FiPlus />
-            {t("add_new_ad")}
-          </Button>
+          <CreateMarketplacePropertyDialog
+            triggerClassName="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2 flex items-center justify-center px-4 rounded-md transition-all font-medium"
+            buttonText={t("add_new_ad")}
+          />
         )}
       </div>
 
@@ -234,13 +228,10 @@ const BrokerPropertiesTab = ({ onAddProperty }: BrokerPropertiesTabProps) => {
                       "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
                   </p>
                 </div>
-                <Button
-                  onClick={onAddProperty}
-                  className="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-                >
-                  <FiPlus />
-                  {t("add_new_ad")}
-                </Button>
+                <CreateMarketplacePropertyDialog
+                  triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
+                  buttonText={t("add_new_ad")}
+                />
               </div>
             )}
           </TabsContent>

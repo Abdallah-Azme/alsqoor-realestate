@@ -176,6 +176,7 @@ export const ConvertPropertyToAdDialog = ({
                       onChange={field.onChange}
                       accept="image/*"
                       maxFiles={1}
+                      label=""
                     />
                   </FormControl>
                   <FormMessage />
