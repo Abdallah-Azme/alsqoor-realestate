@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import MyPropertyCard from "./my-property-card";
 import Image from "next/image";
 import SmartPagination, {
   usePagination,
@@ -23,15 +23,19 @@ import {
   useDeleteProperty,
 } from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
-import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import EmptyState from "@/components/shared/empty-state";
 
 const ITEMS_PER_PAGE = 10;
 
 interface OwnerPropertiesTabProps {
   onEditProperty?: (property: any) => void;
+  onAddProperty?: () => void;
 }
 
-const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
+const OwnerPropertiesTab = ({
+  onEditProperty,
+  onAddProperty,
+}: OwnerPropertiesTabProps) => {
   const t = useTranslations("Profile");
   const tOwner = useTranslations("owner_properties");
   const tCommon = useTranslations("common");
@@ -72,31 +76,6 @@ const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "published":
-        return (
-          <Badge className="bg-green-100 text-green-700">
-            {tOwner("status.published")}
-          </Badge>
-        );
-      case "pending":
-        return (
-          <Badge className="bg-amber-100 text-amber-700">
-            {tOwner("status.pending")}
-          </Badge>
-        );
-      case "rejected":
-        return (
-          <Badge className="bg-red-100 text-red-700">
-            {tOwner("status.rejected")}
-          </Badge>
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="space-y-6">
       {/* Search and Add Action */}
@@ -114,10 +93,13 @@ const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
 
         {/* Add New Property Button — only shown when there is data */}
         {filteredProperties.length > 0 && (
-          <CreateMarketplacePropertyDialog
-            triggerClassName="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-4 rounded-md transition-all font-medium flex items-center justify-center gap-2"
-            buttonText={tOwner("add_property")}
-          />
+          <Button
+            onClick={onAddProperty}
+            className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-6 rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-sm shadow-main-green/20"
+          >
+            <FiPlus className="w-5 h-5" />
+            <span>{t("add_new_ad")}</span>
+          </Button>
         )}
       </div>
 
@@ -142,99 +124,12 @@ const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProperties.map((property, index) => (
-              <motion.div
+              <MyPropertyCard
                 key={property.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                {/* Image */}
-                <div className="relative h-48">
-                  <Image
-                    src={property.images?.[0] || "/images/state.png"}
-                    alt={property.title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-3 start-3">
-                    {getStatusBadge(property.status || "pending")}
-                  </div>
-                  <div className="absolute top-3 end-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-main-navy">
-                    {property.area}
-                    {tCommon("sqm")}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-4">
-                  {/* Price */}
-                  <div className="flex items-center gap-1 text-main-green font-bold text-lg mb-2">
-                    <span>
-                      {Number(
-                        property.price_min || property.priceMin || 0,
-                      ).toLocaleString()}
-                    </span>
-                    <Image
-                      src="/images/ryal.svg"
-                      alt={tCommon("sar")}
-                      width={14}
-                      height={14}
-                    />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-1">
-                    {property.title}
-                  </h3>
-
-                  {/* Location */}
-                  <p className="text-sm text-gray-500 mb-4 truncate">
-                    {property.district},{" "}
-                    {typeof property.city === "string"
-                      ? property.city
-                      : property.city?.name}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="flex items-center gap-4 text-sm text-gray-600 mb-4 pb-4 border-b">
-                    <div className="flex items-center gap-1">
-                      <FiEye className="text-main-green" />
-                      <span>{property.viewsCount || 0}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <FiHome className="text-main-green" />
-                      <span>
-                        {typeof property.category === "string"
-                          ? property.category
-                          : property.category?.name || tOwner("property")}
-                      </span>
-                    </div>
-                  </div>
-                  {/* Actions */}
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 gap-1"
-                      onClick={() => onEditProperty?.(property)}
-                    >
-                      <FiEdit className="w-4 h-4" />
-                      {tOwner("edit")}
-                    </Button>
-                    {/* Commented out the delete button temporarily per user request */}
-                    {/* <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(property.id)}
-                      disabled={deleteMutation.isPending}
-                      className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                    >
-                      <FiTrash2 className="w-4 h-4" />
-                    </Button> */}
-                  </div>
-                </div>
-              </motion.div>
+                property={property as any}
+                onEdit={() => onEditProperty?.(property)}
+                viewHref={`/ads/${(property as any).slug || property.id}`}
+              />
             ))}
           </div>
 
@@ -249,24 +144,15 @@ const OwnerPropertiesTab = ({ onEditProperty }: OwnerPropertiesTabProps) => {
           )}
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6 mt-6">
-          <div className="bg-main-green/10 p-6 rounded-full">
-            <FiPlus className="h-10 w-10 text-main-green" />
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-bold text-main-navy">
-              {tOwner("no_properties")}
-            </h3>
-            <p className="text-gray-500 max-w-sm px-4">
-              {t("no_properties_description") ||
-                "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
-            </p>
-          </div>
-          <CreateMarketplacePropertyDialog
-            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
-            buttonText={t("add_new_ad")}
-          />
-        </div>
+        <EmptyState
+          title={tOwner("no_properties")}
+          description={
+            t("no_properties_description") ||
+            "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."
+          }
+          buttonText={t("add_new_ad")}
+          onAction={onAddProperty}
+        />
       )}
     </div>
   );

@@ -115,7 +115,7 @@ const RealEstateTab = () => {
             </p>
           </div>
           <CreateMarketplacePropertyDialog
-            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
             buttonText={t("add_property") || "إضافة عقار"}
             onBeforeOpen={checkCanAddFeatured}
           />

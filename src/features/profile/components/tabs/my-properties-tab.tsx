@@ -10,11 +10,19 @@ import { useUserProperties } from "@/features/properties/hooks/use-properties";
 import SmartPagination, {
   usePagination,
 } from "@/components/shared/smart-pagination";
-import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import EmptyState from "@/components/shared/empty-state";
 
 const ITEMS_PER_PAGE = 6;
 
-const MyPropertiesTab = () => {
+interface MyPropertiesTabProps {
+  onEditProperty?: (property: any) => void;
+  onAddProperty?: () => void;
+}
+
+const MyPropertiesTab = ({
+  onEditProperty,
+  onAddProperty,
+}: MyPropertiesTabProps) => {
   const t = useTranslations("Profile");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -67,10 +75,13 @@ const MyPropertiesTab = () => {
 
         {/* Add New Ad Button — only shown when there is data */}
         {properties.length > 0 && (
-          <CreateMarketplacePropertyDialog
-            triggerClassName="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2 flex items-center justify-center px-4 rounded-md transition-all font-medium"
-            buttonText={t("add_new_ad")}
-          />
+          <Button
+            onClick={onAddProperty}
+            className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-6 rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-sm shadow-main-green/20"
+          >
+            <FiPlus className="w-5 h-5" />
+            <span>{t("add_new_ad")}</span>
+          </Button>
         )}
       </div>
 
@@ -79,7 +90,12 @@ const MyPropertiesTab = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property) => (
-              <MyPropertyCard key={property.id} property={property as any} />
+              <MyPropertyCard
+                key={property.id}
+                property={property as any}
+                onEdit={() => onEditProperty?.(property)}
+                viewHref={`/ads/${(property as any).slug || property.id}`}
+              />
             ))}
           </div>
 
@@ -94,24 +110,15 @@ const MyPropertiesTab = () => {
           )}
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6 mt-6">
-          <div className="bg-main-green/10 p-6 rounded-full">
-            <FiPlus className="h-10 w-10 text-main-green" />
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-bold text-main-navy">
-              {t("no_properties")}
-            </h3>
-            <p className="text-gray-500 max-w-sm px-4">
-              {t("no_properties_description") ||
-                "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
-            </p>
-          </div>
-          <CreateMarketplacePropertyDialog
-            triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
-            buttonText={t("add_new_ad")}
-          />
-        </div>
+        <EmptyState
+          title={t("no_properties")}
+          description={
+            t("no_properties_description") ||
+            "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."
+          }
+          buttonText={t("add_new_ad")}
+          onAction={onAddProperty}
+        />
       )}
     </div>
   );

@@ -52,7 +52,7 @@ const DevelopersListing = () => {
           {properties.length > 0 && (
             <Button
               onClick={() => setIsAddDialogOpen(true)}
-              className="bg-[#3fb38b] hover:bg-[#3fb38b]/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
+              className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
             >
               <FiPlus className="text-lg" />
               <span>{tPage("add_property")}</span>

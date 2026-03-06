@@ -104,13 +104,20 @@ const ProfileTabs = ({
 
           <TabsContent value="my-properties" className="mt-0">
             {isBroker ? (
-              <BrokerPropertiesTab />
+              <BrokerPropertiesTab
+                onAddProperty={() => handleAddProperty()}
+                onEditProperty={(prop) => handleAddProperty(prop)}
+              />
             ) : isOwner ? (
               <OwnerPropertiesTab
+                onAddProperty={() => handleAddProperty()}
                 onEditProperty={(prop) => handleAddProperty(prop)}
               />
             ) : (
-              <MyPropertiesTab />
+              <MyPropertiesTab
+                onAddProperty={() => handleAddProperty()}
+                onEditProperty={(prop) => handleAddProperty(prop)}
+              />
             )}
           </TabsContent>
 

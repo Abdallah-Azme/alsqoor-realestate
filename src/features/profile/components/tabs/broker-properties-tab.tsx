@@ -13,7 +13,7 @@ import SmartPagination, {
 } from "@/components/shared/smart-pagination";
 import { PropertyStatus } from "@/features/properties/types/property.types";
 import StartMarketingDialog from "../dialogs/start-marketing-dialog";
-import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import EmptyState from "@/components/shared/empty-state";
 
 // Status tab configuration
 const STATUS_TABS: { value: PropertyStatus; colorClass: string }[] = [
@@ -100,7 +100,15 @@ const mockPropertiesByStatus: Record<PropertyStatus, any[]> = {
 
 const ITEMS_PER_PAGE = 6;
 
-const BrokerPropertiesTab = () => {
+interface BrokerPropertiesTabProps {
+  onEditProperty?: (property: any) => void;
+  onAddProperty?: () => void;
+}
+
+const BrokerPropertiesTab = ({
+  onEditProperty,
+  onAddProperty,
+}: BrokerPropertiesTabProps) => {
   const t = useTranslations("Profile");
   const tBroker = useTranslations("broker_properties");
   const [activeStatus, setActiveStatus] = useState<PropertyStatus>("new");
@@ -163,10 +171,13 @@ const BrokerPropertiesTab = () => {
 
         {/* Add New Property Button — only shown when there is data */}
         {currentProperties.length > 0 && (
-          <CreateMarketplacePropertyDialog
-            triggerClassName="w-full md:w-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2 flex items-center justify-center px-4 rounded-md transition-all font-medium"
-            buttonText={t("add_new_ad")}
-          />
+          <Button
+            onClick={onAddProperty}
+            className="w-full md:w-auto bg-main-green hover:bg-main-green/90 text-white h-11 px-6 rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-sm shadow-main-green/20"
+          >
+            <FiPlus className="w-5 h-5" />
+            <span>{t("add_new_ad")}</span>
+          </Button>
         )}
       </div>
 
@@ -199,7 +210,11 @@ const BrokerPropertiesTab = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {currentProperties.map((property) => (
                     <div key={property.id} className="h-full">
-                      <MyPropertyCard property={property} />
+                      <MyPropertyCard
+                        property={property}
+                        onEdit={() => onEditProperty?.(property)}
+                        viewHref={`/ads/${property.slug || property.id}`}
+                      />
                     </div>
                   ))}
                 </div>
@@ -215,24 +230,15 @@ const BrokerPropertiesTab = () => {
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-6 mt-6">
-                <div className="bg-main-green/10 p-6 rounded-full">
-                  <FiPlus className="h-10 w-10 text-main-green" />
-                </div>
-                <div className="text-center space-y-2">
-                  <h3 className="text-xl font-bold text-main-navy">
-                    {tBroker("no_properties")}
-                  </h3>
-                  <p className="text-gray-500 max-w-sm px-4">
-                    {t("no_properties_description") ||
-                      "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
-                  </p>
-                </div>
-                <CreateMarketplacePropertyDialog
-                  triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
-                  buttonText={t("add_new_ad")}
-                />
-              </div>
+              <EmptyState
+                title={tBroker("no_properties")}
+                description={
+                  t("no_properties_description") ||
+                  "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."
+                }
+                buttonText={t("add_new_ad")}
+                onAction={onAddProperty}
+              />
             )}
           </TabsContent>
         ))}

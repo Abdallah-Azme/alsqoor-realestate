@@ -9,6 +9,7 @@ import {
   FiTrendingUp,
   FiShare2,
   FiRefreshCw,
+  FiEye,
 } from "react-icons/fi";
 import { TbDimensions, TbBath } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
@@ -21,8 +22,8 @@ import {
 import { toast } from "sonner";
 import { Loader2, Trash2 } from "lucide-react";
 import { Property } from "@/features/properties/types/property.types";
-import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import { ConvertPropertyToAdDialog } from "../dialogs/convert-property-to-ad-dialog";
+import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import { useState } from "react";
 import {
   Dialog,
@@ -37,11 +38,15 @@ import { Button } from "@/components/ui/button";
 interface MyPropertyCardProps {
   property: Partial<Property>;
   showConvertButton?: boolean;
+  onEdit?: () => void;
+  viewHref?: string;
 }
 
 const MyPropertyCard = ({
   property,
   showConvertButton = false,
+  onEdit,
+  viewHref,
 }: MyPropertyCardProps) => {
   const t = useTranslations("Profile");
   const tCommon = useTranslations("marketplace");
@@ -84,11 +89,12 @@ const MyPropertyCard = ({
     }
   };
 
-  const formattedPrice = property.price_min
-    ? Number(property.price_min).toLocaleString()
-    : property.price
-      ? Number(property.price).toLocaleString()
-      : "0";
+  const formattedPrice =
+    property.price_min || property.priceMin
+      ? Number(property.price_min || property.priceMin).toLocaleString()
+      : property.price
+        ? Number(property.price).toLocaleString()
+        : "0";
 
   const cityName =
     typeof property.city === "string"
@@ -177,9 +183,17 @@ const MyPropertyCard = ({
               className="w-3.5 h-3.5"
             />
           </div>
-          <div className="flex items-center gap-1 text-gray-400 text-xs">
-            <FiClock size={12} />
-            <span>{timePosted}</span>
+          <div className="flex items-center gap-3 text-gray-400 text-xs">
+            <div className="flex items-center gap-1">
+              <FiClock size={12} />
+              <span>{timePosted}</span>
+            </div>
+            {(property.views || property.viewsCount) && (
+              <div className="flex items-center gap-1">
+                <FiEye size={12} className="opacity-40" />
+                <span>{property.views || property.viewsCount}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -241,15 +255,24 @@ const MyPropertyCard = ({
 
         {/* Actions Grid */}
         <div className="grid grid-cols-2 gap-2 mt-auto">
-          <CreateMarketplacePropertyDialog
-            isEdit
-            property={property as any}
-            triggerClassName="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
-            buttonText={t("edit_data") || "تعديل البيانات"}
-          />
+          {onEdit ? (
+            <Button
+              onClick={onEdit}
+              className="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 h-auto rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
+            >
+              {t("edit_data") || "تعديل البيانات"}
+            </Button>
+          ) : (
+            <CreateMarketplacePropertyDialog
+              isEdit
+              property={property as any}
+              triggerClassName="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
+              buttonText={t("edit_data") || "تعديل البيانات"}
+            />
+          )}
 
           <Link
-            href={`/marketplace/${property.slug || property.id}`}
+            href={viewHref || `/marketplace/${property.slug || property.id}`}
             className="col-span-1 border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
           >
             <FiShare2 size={14} />
