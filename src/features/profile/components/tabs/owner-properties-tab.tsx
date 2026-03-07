@@ -87,7 +87,7 @@ const OwnerPropertiesTab = ({
 
       {/* Properties Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
@@ -104,7 +104,7 @@ const OwnerPropertiesTab = ({
         </div>
       ) : properties.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
             {properties.map((property, index) => (
               <MyPropertyCard
                 key={property.id}
