@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PropertyChat from "@/components/estates/property-chat";
+import PropertyLocationMap from "@/components/estates/property-location-map";
 
 const MarketplacePropertyDetailPage = () => {
   const params = useParams();
@@ -53,6 +54,12 @@ const MarketplacePropertyDetailPage = () => {
   const getTypeLabel = (value?: string | null) => {
     if (!value) return "—";
     return typeLabels[value] ?? value;
+  };
+
+  const getName = (obj: any): string => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj;
+    return obj.name || "";
   };
 
   const { data: property, isLoading, error } = useRealEstateBySlug(slug);
@@ -138,8 +145,9 @@ const MarketplacePropertyDetailPage = () => {
               <div className="flex items-center gap-1 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
                 <MapPin className="w-4 h-4 text-main-green" />
                 <span>
-                  {property.city?.name || property.location},{" "}
-                  {property.country?.name}
+                  {getName(property.city) || property.location}
+                  {getName(property.country) &&
+                    `, ${getName(property.country)}`}
                 </span>
               </div>
               <div className="flex items-center gap-1 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
@@ -209,6 +217,28 @@ const MarketplacePropertyDetailPage = () => {
                 dangerouslySetInnerHTML={{ __html: property.description }}
               />
             </div>
+
+            {(property.latitude || property.longitude) && (
+              <div className="space-y-4 pt-6 border-t border-gray-100">
+                <h2 className="text-xl font-bold text-main-navy">
+                  {t("location") || "الموقع"}
+                </h2>
+                <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                  <PropertyLocationMap
+                    latitude={property.latitude}
+                    longitude={property.longitude}
+                    title={property.title}
+                    address={
+                      getName(property.city) || property.location
+                        ? `${getName(property.city) || property.location}، ${
+                            getName(property.country) || ""
+                          }`
+                        : undefined
+                    }
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -269,7 +299,9 @@ const MarketplacePropertyDetailPage = () => {
               ownerId={property.user?.id}
               owner={{
                 name: property.user?.name || "Advertiser",
-                location: `${property.city?.name || property.location}، ${property.country?.name}`,
+                location: `${getName(property.city) || property.location}، ${
+                  getName(property.country) || ""
+                }`,
                 image: property.user?.image || "/images/logo.jpg",
               }}
             />

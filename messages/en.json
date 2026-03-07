@@ -535,6 +535,7 @@
     "category": "Property Category",
     "optional": "Optional",
     "location": "Location",
+    "location_title": "Location",
     "country": "Country",
     "select_country": "Select Country",
     "city": "City",

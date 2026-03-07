@@ -50,7 +50,7 @@ const LeafletMap = ({
     mapInstanceRef.current = map;
 
     // Add tile layer (OpenStreetMap)
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
@@ -73,13 +73,14 @@ const LeafletMap = ({
       });
     }
 
-    // Fix for Leaflet initialization in modals/tabs
-    setTimeout(() => {
+    // Fix for Leaflet initialization in modals/tabs/delayed layouts
+    const timer = setTimeout(() => {
       map.invalidateSize();
-    }, 100);
+    }, 500);
 
     // Cleanup
     return () => {
+      clearTimeout(timer);
       map.remove();
       mapInstanceRef.current = null;
     };
@@ -97,7 +98,7 @@ const LeafletMap = ({
   }, [latitude, longitude, zoom]);
 
   return (
-    <div className="relative w-full h-full">
+    <div className={cn("relative overflow-hidden", className)}>
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -105,6 +106,7 @@ const LeafletMap = ({
           width: 100%;
           height: 100%;
           z-index: 1 !important;
+          background-color: #f8fafc; /* Fallback color to see the map area */
         }
         .leaflet-pane {
           z-index: 1 !important;
@@ -119,7 +121,7 @@ const LeafletMap = ({
       `,
         }}
       />
-      <div ref={mapRef} className={cn("relative", className)} />
+      <div ref={mapRef} className="w-full h-full" />
     </div>
   );
 };
