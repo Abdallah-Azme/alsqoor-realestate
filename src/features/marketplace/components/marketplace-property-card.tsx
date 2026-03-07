@@ -36,7 +36,7 @@ export function MarketplacePropertyCard({
       transition={{ duration: 0.4, delay: index * 0.1 }}
     >
       <Link href={`/marketplace/${property.slug}`}>
-        <Card className="overflow-hidden transition-all hover:shadow-lg border-2 border-gray-100 h-full flex flex-col">
+        <Card className="overflow-hidden transition-all hover:shadow-lg border-2 py-0 border-gray-100 h-full flex flex-col">
           <div className="relative h-48 w-full shrink-0">
             <Image
               src={mainImage}
