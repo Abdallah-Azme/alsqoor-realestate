@@ -63,7 +63,6 @@ const MarketplacePropertyDetailPage = () => {
   };
 
   const { data: property, isLoading, error } = useRealEstateBySlug(slug);
-  console.log({ property });
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">

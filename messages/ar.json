@@ -1869,6 +1869,7 @@
       "rent": "إيجار"
     },
     "property_type": "نوع العقار",
+    "property_use_label": "نوع العقار",
     "property_use": {
       "apartment": "شقة",
       "villa": "فيلا",

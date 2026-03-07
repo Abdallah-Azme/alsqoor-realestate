@@ -519,6 +519,7 @@
       "rent": "Rent"
     },
     "property_type": "Property Type",
+    "property_use_label": "Property Type",
     "property_use": {
       "apartment": "Apartment",
       "villa": "Villa",

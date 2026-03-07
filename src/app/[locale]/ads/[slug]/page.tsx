@@ -12,7 +12,7 @@ export async function generateMetadata({
   const propertyResponse = await getPropertyBySlug(slug);
   const property = propertyResponse?.data;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
+  console.log({ propertyResponse });
   return {
     title: property?.title || t("estates.title"),
     description:
