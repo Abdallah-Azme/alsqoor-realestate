@@ -5,6 +5,7 @@ import {
   TransactionsResponse,
   StatisticsResponse,
   ChangeRoleRequest,
+  RenewFalRequest,
 } from "../types/profile.types";
 
 const BASE_PATH = "/profile";
@@ -64,9 +65,22 @@ export const profileService = {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {
-        formData.append(key, String(value));
+        formData.append(key, value instanceof File ? value : String(value));
       }
     });
     return api.post("/users/change-role", formData);
+  },
+
+  /**
+   * Renew FAL license
+   */
+  async renewFal(data: RenewFalRequest) {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        formData.append(key, value instanceof File ? value : String(value));
+      }
+    });
+    return api.post("/fal/renew", formData);
   },
 };

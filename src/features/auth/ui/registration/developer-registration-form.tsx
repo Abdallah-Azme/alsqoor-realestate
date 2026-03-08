@@ -233,7 +233,7 @@ export function DeveloperRegistrationForm() {
 
                 <FormField
                   control={form.control}
-                  name="fal_license_image"
+                  name="fal_license_document"
                   render={({ field: { value, onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel>{t("fal_license_image")}</FormLabel>

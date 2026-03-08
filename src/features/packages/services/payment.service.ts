@@ -13,6 +13,6 @@ export const paymentService = {
    * Verify payment status
    */
   async verifyPayment(paymentId: string) {
-    return api.get<any>(`/confirm-payment`, { paymentId });
+    return api.get<any>(`/payment/status/${paymentId}`);
   },
 };

@@ -5,6 +5,7 @@ import { profileService } from "../services/profile.service";
 import {
   UpdateProfileRequest,
   ChangeRoleRequest,
+  RenewFalRequest,
 } from "../types/profile.types";
 import { toast } from "sonner";
 
@@ -78,6 +79,21 @@ export function useChangeRole() {
 
   return useMutation({
     mutationFn: (data: ChangeRoleRequest) => profileService.changeRole(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+  });
+}
+
+/**
+ * Hook to renew FAL license
+ */
+export function useRenewFal() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: RenewFalRequest) => profileService.renewFal(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["user"] });

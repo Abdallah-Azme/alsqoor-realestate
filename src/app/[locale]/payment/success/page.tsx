@@ -30,11 +30,29 @@ function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get("paymentId");
 
+  // The backend /payment/status/:id expects the internal transactionId,
+  // not the payment gateway's paymentId. We stored the transactionId in
+  // localStorage right before redirecting to the payment gateway.
+  const internalTransactionId =
+    typeof window !== "undefined"
+      ? localStorage.getItem("pending_transaction_id")
+      : null;
+
   const {
     data: verificationData,
     isLoading,
     isError,
-  } = useVerifyPayment(paymentId);
+  } = useVerifyPayment(internalTransactionId);
+
+  // Clean up localStorage after the query runs
+  useEffect(() => {
+    if (internalTransactionId) {
+      const timer = setTimeout(() => {
+        localStorage.removeItem("pending_transaction_id");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [internalTransactionId]);
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center p-4">

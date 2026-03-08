@@ -2,9 +2,10 @@ import { api } from "@/lib/api-client";
 
 interface SubscriptionResponse {
   success: boolean;
-  paymentUrl: string;
-  transactionId: number;
-  subscriptionId: number;
+  paymentUrl?: string;
+  transactionId?: number;
+  subscriptionId?: number;
+  message?: string;
 }
 
 /**

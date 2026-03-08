@@ -40,6 +40,11 @@ export interface OwnerRegistrationRequest extends BaseRegistrationRequest {
   role: "owner";
   whatsapp?: string;
   backup_mobile?: string;
+  fal_number?: string;
+  fal_expiry_date?: string;
+  has_fal_license?: "0" | "1";
+  fal_license_document?: File;
+  has_ad_license?: "0" | "1";
 }
 
 // Agent registration
@@ -51,6 +56,9 @@ export interface AgentRegistrationRequest extends BaseRegistrationRequest {
   company_logo?: File;
   whatsapp?: string;
   backup_mobile?: string;
+  fal_expiry_date: string;
+  has_ad_license: "0" | "1";
+  fal_license_document: File;
 }
 
 // Developer registration
@@ -62,6 +70,11 @@ export interface DeveloperRegistrationRequest extends BaseRegistrationRequest {
   commercial_register: string;
   whatsapp?: string;
   backup_mobile?: string;
+  fal_number: string;
+  fal_expiry_date: string;
+  has_fal_license: "0" | "1";
+  fal_license_document?: File;
+  has_ad_license: "0" | "1";
 }
 
 // Seeker registration

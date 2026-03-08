@@ -36,6 +36,13 @@ export interface ChangeRoleRequest {
   has_fal_license?: "0" | "1";
   // Optional for all
   company_name?: string;
+  fal_license_document?: File;
+}
+
+export interface RenewFalRequest {
+  fal_number: string;
+  fal_expiry_date: string; // format: DD-MM-YYYY
+  fal_license_document: File;
 }
 
 export interface UpdateProfileRequest {

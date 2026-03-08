@@ -10,6 +10,7 @@ import { useUpdateProfile } from "../../hooks/use-profile";
 import { toast } from "sonner";
 import { UserContext } from "@/context/user-context";
 import ChangeRoleDialog from "../dialogs/change-role-dialog";
+import { RenewFalDialog } from "../dialogs/renew-fal-dialog";
 
 interface UserInfoCardProps {
   user: User;
@@ -17,6 +18,7 @@ interface UserInfoCardProps {
 
 const UserInfoCard = ({ user }: UserInfoCardProps) => {
   const [changeRoleOpen, setChangeRoleOpen] = useState(false);
+  const [renewFalOpen, setRenewFalOpen] = useState(false);
   const locale = useLocale();
   const t = useTranslations("Profile");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -120,6 +122,16 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
           >
             تغيير الدور
           </button>
+
+          {(user.role === "agent" || user.role === "developer") && (
+            <button
+              type="button"
+              onClick={() => setRenewFalOpen(true)}
+              className="text-xs text-amber-600 hover:text-amber-700 font-medium underline underline-offset-2 transition-colors cursor-pointer mt-1"
+            >
+              تجديد ترخيص الفال
+            </button>
+          )}
         </div>
 
         {/* Rating */}
@@ -156,6 +168,8 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
         onOpenChange={setChangeRoleOpen}
         currentRole={user.role}
       />
+
+      <RenewFalDialog open={renewFalOpen} onOpenChange={setRenewFalOpen} />
     </Card>
   );
 };

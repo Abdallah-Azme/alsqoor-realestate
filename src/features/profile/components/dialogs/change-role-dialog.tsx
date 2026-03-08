@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload, X, FileText } from "lucide-react";
 import { UserContext } from "@/context/user-context";
 import { useChangeRole } from "../../hooks/use-profile";
 import { UserRole, AgentType } from "../../types/profile.types";
@@ -83,6 +83,7 @@ const formSchema = z
     commercial_register: z.string().optional(),
     has_fal_license: z.enum(["0", "1"] as const).optional(),
     company_name: z.string().optional(),
+    fal_license_document: z.any().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.role === "agent" || data.role === "developer") {
@@ -114,6 +115,13 @@ const formSchema = z
           code: z.ZodIssueCode.custom,
           message: "نوع الوسيط مطلوب",
           path: ["agent_type"],
+        });
+      }
+      if (!data.fal_license_document) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "وثيقة ترخيص الفال مطلوبة",
+          path: ["fal_license_document"],
         });
       }
     }
@@ -164,6 +172,7 @@ export const ChangeRoleDialog = ({
       commercial_register: "",
       has_fal_license: undefined,
       company_name: "",
+      fal_license_document: undefined,
     },
   });
 
@@ -239,6 +248,7 @@ export const ChangeRoleDialog = ({
                             form.setValue("has_ad_license", undefined);
                             form.setValue("commercial_register", "");
                             form.setValue("has_fal_license", undefined);
+                            form.setValue("fal_license_document", undefined);
                           }}
                           className={`p-4 rounded-xl border-2 text-right transition-all duration-200 cursor-pointer hover:border-main-green/50 hover:bg-main-green/5 ${
                             isSelected
@@ -365,34 +375,107 @@ export const ChangeRoleDialog = ({
 
             {/* ── Agent-specific Fields ────────────────────────────────── */}
             {needsAgentType && (
-              <FormField
-                control={form.control}
-                name="agent_type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-semibold text-gray-700">
-                      نوع الوسيط <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <div className="flex gap-3">
-                      {AGENT_TYPES.map((t) => (
-                        <button
-                          key={t.value}
-                          type="button"
-                          onClick={() => field.onChange(t.value)}
-                          className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
-                            field.value === t.value
-                              ? "border-main-green bg-main-green/10 text-main-green"
-                              : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
-                          }`}
-                        >
-                          {t.labelAr}
-                        </button>
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="agent_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-semibold text-gray-700">
+                        نوع الوسيط <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <div className="flex gap-3">
+                        {AGENT_TYPES.map((t) => (
+                          <button
+                            key={t.value}
+                            type="button"
+                            onClick={() => field.onChange(t.value)}
+                            className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
+                              field.value === t.value
+                                ? "border-main-green bg-main-green/10 text-main-green"
+                                : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
+                            }`}
+                          >
+                            {t.labelAr}
+                          </button>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="fal_license_document"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-semibold text-gray-700">
+                        وثيقة ترخيص الفال{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          {!field.value ? (
+                            <div
+                              onClick={() => {
+                                const input = document.createElement("input");
+                                input.type = "file";
+                                input.accept = ".pdf,.jpg,.jpeg,.png";
+                                input.onchange = (e) => {
+                                  const file = (e.target as HTMLInputElement)
+                                    .files?.[0];
+                                  if (file) field.onChange(file);
+                                };
+                                input.click();
+                              }}
+                              className="border-2 border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-main-green/50 hover:bg-main-green/5 transition-all text-center"
+                            >
+                              <Upload className="text-gray-400 size-6" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-700">
+                                  انقر لرفع وثيقة ترخيص الفال
+                                </p>
+                                <p className="text-xs text-gray-500 mt-1">
+                                  PDF أو صور (JPG, PNG)
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-between p-3 bg-main-green/5 border border-main-green/20 rounded-lg animate-in fade-in zoom-in-95 duration-200">
+                              <div className="flex items-center gap-3 overflow-hidden">
+                                <div className="bg-main-green/10 p-2 rounded-lg">
+                                  <FileText className="text-main-green size-5" />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-sm font-medium text-main-navy truncate">
+                                    {(field.value as File).name}
+                                  </span>
+                                  <span className="text-[10px] text-gray-400">
+                                    {(
+                                      (field.value as File).size /
+                                      (1024 * 1024)
+                                    ).toFixed(2)}{" "}
+                                    MB
+                                  </span>
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => field.onChange(undefined)}
+                                className="p-2 hover:bg-red-50 hover:text-red-500 rounded-full transition-colors text-gray-400"
+                              >
+                                <X size={16} />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             )}
 
             {/* ── Developer-specific Fields ────────────────────────────── */}
