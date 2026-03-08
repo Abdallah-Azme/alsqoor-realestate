@@ -23,3 +23,25 @@ export const submitOfferSchema = z.object({
 });
 
 export type SubmitOfferFormData = z.infer<typeof submitOfferSchema>;
+
+// Site Offer Creation Schema
+export const createSiteOfferSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  price: z.coerce.number().positive("Price must be a positive number"),
+  validity_days: z.coerce
+    .number()
+    .int()
+    .positive("Validity days must be a positive integer"),
+  whatsapp_number: z.string().optional(),
+  is_active: z.boolean().default(true),
+  features: z
+    .array(
+      z.object({
+        feature: z.string().min(1, "Feature description is required"),
+      }),
+    )
+    .default([]),
+});
+
+export type CreateSiteOfferFormData = z.infer<typeof createSiteOfferSchema>;

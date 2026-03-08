@@ -176,29 +176,35 @@ function buildUrl(path: string, params?: Record<string, any>): string {
 
 /**
  * Convert a plain object to FormData (handles nested arrays and files)
+ * Supportive of PHP/Laravel array syntax: key[index][subkey]
  */
 function toFormData(data: Record<string, any>): FormData {
   const formData = new FormData();
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value === undefined || value === null) return;
-
-    if (Array.isArray(value)) {
-      value.forEach((item, index) => {
-        if (item instanceof File || item instanceof Blob) {
-          formData.append(`${key}[${index}]`, item);
-        } else {
-          formData.append(`${key}[${index}]`, String(item));
-        }
+  const appendRecursive = (obj: any, prefix: string) => {
+    if (obj instanceof File || obj instanceof Blob) {
+      formData.append(prefix, obj);
+    } else if (Array.isArray(obj)) {
+      obj.forEach((item, index) => {
+        appendRecursive(item, `${prefix}[${index}]`);
       });
-    } else if (value instanceof File || value instanceof Blob) {
-      formData.append(key, value);
-    } else if (typeof value === "object" && !(value instanceof Date)) {
-      // Nested object → serialize as JSON string
-      formData.append(key, JSON.stringify(value));
+    } else if (
+      typeof obj === "object" &&
+      obj !== null &&
+      !(obj instanceof Date)
+    ) {
+      Object.entries(obj).forEach(([key, value]) => {
+        appendRecursive(value, prefix ? `${prefix}[${key}]` : key);
+      });
     } else {
-      formData.append(key, String(value));
+      if (obj !== undefined && obj !== null) {
+        formData.append(prefix, String(obj));
+      }
     }
+  };
+
+  Object.entries(data).forEach(([key, value]) => {
+    appendRecursive(value, key);
   });
 
   return formData;

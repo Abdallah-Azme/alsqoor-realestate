@@ -19,7 +19,7 @@ interface SiteOfferCardProps {
 }
 
 export function SiteOfferCard({ offer, index }: SiteOfferCardProps) {
-  const t = useTranslations("packages_page");
+  const t = useTranslations("offers_page");
 
   return (
     <motion.div
@@ -28,36 +28,45 @@ export function SiteOfferCard({ offer, index }: SiteOfferCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Card
-        className={`relative h-full overflow-hidden border-2 transition-all duration-300 flex flex-col hover:shadow-xl ${
+        className={`relative h-full overflow-hidden border-2 transition-all duration-500 flex flex-col hover:shadow-2xl hover:-translate-y-2 group ${
           offer.is_active
-            ? "border-main-green/20 hover:border-main-green"
-            : "border-gray-100 hover:border-gray-200"
+            ? "border-main-green/30 bg-white"
+            : "border-gray-100 bg-white"
         }`}
       >
         {offer.is_active && (
-          <div className="absolute -end-12 top-6 rotate-45 bg-main-green px-12 py-1 text-xs font-bold text-white shadow-sm">
-            {t("popular_badge") || "Active Plan"}
+          <div className="absolute top-3 end-3 z-10">
+            <div className="bg-main-green text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1.5 border border-white/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              </span>
+              {t("popular_badge")}
+            </div>
           </div>
         )}
 
-        <CardHeader className="space-y-2 pb-4 pt-8 text-center bg-gray-50">
+        <CardHeader className="space-y-2 pb-4 pt-8 text-center bg-gray-50/50 border-b border-gray-100/50">
           <h3 className="text-xl font-bold text-main-navy">{offer.name}</h3>
           <p className="text-sm text-gray-500 line-clamp-2">
             {offer.description}
           </p>
         </CardHeader>
 
-        <CardContent className="space-y-6 pt-6 grow">
-          <div className="text-center">
-            <span className="text-4xl font-bold text-main-green">
-              {offer.price}
-            </span>
-            <span className="text-sm text-gray-400 ms-1 space-x-1">
-              <span>{t("currency") || "SAR"} /</span>
-              <span>
-                {offer.validity_days} {t("days") || "Days"}
+        <CardContent className="space-y-6 pt-8 grow">
+          <div className="flex flex-col items-center">
+            <div className="flex items-baseline gap-1">
+              <span className="text-5xl font-extrabold text-main-green tracking-tight">
+                {offer.price}
               </span>
-            </span>
+              <span className="text-lg font-semibold text-main-green/80 uppercase">
+                {t("currency") || "ر.س"}
+              </span>
+            </div>
+
+            <div className="mt-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+              {offer.validity_days} {t("days") || "يوم"}
+            </div>
           </div>
 
           <ul className="space-y-4 pt-4">

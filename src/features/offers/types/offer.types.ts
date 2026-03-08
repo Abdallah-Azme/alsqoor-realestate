@@ -76,3 +76,13 @@ export interface SiteOffer {
   created_at: string;
   updated_at: string;
 }
+
+export interface CreateSiteOfferInput {
+  name: string;
+  description: string;
+  price: number | string;
+  validity_days: number | string;
+  is_active?: boolean | number;
+  whatsapp_number?: string;
+  features?: { feature: string }[];
+}

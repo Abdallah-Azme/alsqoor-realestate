@@ -9,6 +9,7 @@ import OwnerPropertiesTab from "./owner-properties-tab";
 import OffersTab from "./offers-tab";
 import RealEstateTab from "./real-estate-tab";
 import MyRequestsTab from "./my-requests-tab";
+import { MySiteOffersList } from "@/features/offers/property-offers-index";
 import { DirectDealsList } from "@/features/direct-deals";
 import { User } from "@/types";
 import { useRouter } from "@/i18n/navigation";
@@ -45,8 +46,12 @@ const ProfileTabs = ({
     { value: "real-estate", label: "عقارات" },
     { value: "my-properties", label: t("my_ads") },
     { value: "my-requests", label: t("my_requests") || "طلباتي" },
-    { value: "my-offers", label: t("my_offers") },
-    { value: "direct-deals", label: t("direct_deals") },
+    { value: "site-offers", label: t("my_offers") || "عروضي" },
+    {
+      value: "my-offers",
+      label: t("my_offers_legacy") || "عروض العقارات",
+    },
+    { value: "direct-deals", label: t("direct_deals") || "الصفقات المباشرة" },
     // { value: "payment-methods", label: t("payment_methods") },
     { value: "packages", label: t("packages") },
   ];
@@ -125,6 +130,10 @@ const ProfileTabs = ({
 
           <TabsContent value="my-requests" className="mt-0">
             <MyRequestsTab />
+          </TabsContent>
+
+          <TabsContent value="site-offers" className="mt-0">
+            <MySiteOffersList />
           </TabsContent>
 
           <TabsContent value="my-offers" className="mt-0">

@@ -7,13 +7,16 @@ import { SiteOfferCard } from "./site-offer-card";
 import { SiteOffer } from "../types/offer.types";
 
 import { useState, useEffect } from "react";
-import { FiSearch, FiX, FiAlertCircle } from "react-icons/fi";
+import { FiSearch, FiX, FiAlertCircle, FiPlus } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { CreateSiteOfferDialog } from "./create-site-offer-dialog";
 
 export function SiteOffersList() {
   const t = useTranslations("offers_page");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,9 +29,12 @@ export function SiteOffersList() {
     search: debouncedSearch || undefined,
   });
 
-  // Handle the response which wraps data inside { data: SiteOffer[] }
-  const responseData: any = data;
-  const offersList: SiteOffer[] = responseData?.data || [];
+  // Handle the response which is already unwrapped by api-client if it's in { data: [...] }
+  // or if the backend returns { data: { data: [...] } } handled by the list component.
+  // Based on the api-client.ts logic: if responseData.data exists, it returns it.
+  const offersList: SiteOffer[] = Array.isArray(data)
+    ? data
+    : (data as any)?.data || [];
 
   if (isLoading && !debouncedSearch) {
     return (
@@ -83,6 +89,13 @@ export function SiteOffersList() {
               </button>
             )}
           </div>
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="flex items-center gap-2 bg-main-green hover:bg-main-green/90 text-white"
+          >
+            <FiPlus />
+            {t("add_offer") || "إضافة عرض"}
+          </Button>
         </div>
       </div>
 
@@ -105,6 +118,11 @@ export function SiteOffersList() {
           ))}
         </div>
       )}
+
+      <CreateSiteOfferDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+      />
     </div>
   );
 }
