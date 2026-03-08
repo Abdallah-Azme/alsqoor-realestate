@@ -47,10 +47,10 @@ const ProfileTabs = ({
     { value: "my-properties", label: t("my_ads") },
     { value: "my-requests", label: t("my_requests") || "طلباتي" },
     { value: "site-offers", label: t("my_offers") || "عروضي" },
-    {
-      value: "my-offers",
-      label: t("my_offers_legacy") || "عروض العقارات",
-    },
+    // {
+    //   value: "my-offers",
+    //   label: t("my_offers_legacy") || "عروض العقارات",
+    // },
     { value: "direct-deals", label: t("direct_deals") || "الصفقات المباشرة" },
     // { value: "payment-methods", label: t("payment_methods") },
     { value: "packages", label: t("packages") },
@@ -136,9 +136,9 @@ const ProfileTabs = ({
             <MySiteOffersList />
           </TabsContent>
 
-          <TabsContent value="my-offers" className="mt-0">
+          {/* <TabsContent value="my-offers" className="mt-0">
             <OffersTab />
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="direct-deals" className="mt-0">
             <div className="bg-white rounded-xl border border-gray-200 p-6">

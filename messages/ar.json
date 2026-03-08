@@ -15,7 +15,9 @@
     },
     "logout_success": "تم تسجيل الخروج بنجاح",
     "success_add_property": "تم إضافة العقار بنجاح",
-    "error_add_property": "فشل في إضافة العقار"
+    "error_add_property": "فشل في إضافة العقار",
+    "more_filters": "فلاتر أكثر",
+    "less_filters": "فلاتر أقل"
   },
   "currencies": {
     "sar": "ريال سعودي",
@@ -752,7 +754,8 @@
       "finishing_type": "نوع التشطيب",
       "none": "لا يوجد",
       "usable_area": "المساحة الصافية",
-      "operation_type": "نوع العملية"
+      "operation_type": "نوع العملية",
+      "id": "رقم الإعلان"
     },
     "finishing_types": {
       "none": "بدون تشطيب",
@@ -1962,7 +1965,8 @@
         "oldest": "الأقدم",
         "price_low": "السعر: من الأقل للأعلى",
         "price_high": "السعر: من الأعلى للأقل"
-      }
+      },
+      "any": "الكل"
     },
     "types": {
       "all": "الكل",

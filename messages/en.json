@@ -13,7 +13,9 @@
       "description": "Sorry, an unexpected error occurred. Please try again later.",
       "retry": "Try again"
     },
-    "logout_success": "Logged out successfully"
+    "logout_success": "Logged out successfully",
+    "more_filters": "More Filters",
+    "less_filters": "Less Filters"
   },
   "currencies": {
     "sar": "Saudi Riyal",
@@ -404,7 +406,7 @@
     "packages": "Packages",
     "blogs": "Blogs",
     "deals": "Deals",
-    "requests": "الطلبات",
+    "requests": "Requests",
     "offers": "Offers",
     "ads": "Ads",
     "aboutus": "About Us",
@@ -440,7 +442,7 @@
     "details": "Property Details",
     "properties": "Properties",
     "advertisements": "Advertisements",
-    "requests": "الطلبات",
+    "requests": "Requests",
     "no_properties": "No properties found for this partner.",
     "featured_users": "Trusted Customers",
     "no_featured_users": "No featured users found",
@@ -759,8 +761,8 @@
       "description": "Manage your account, properties, and settings"
     },
     "requests": {
-      "title": "الطلبات | Real Estate Falcons",
-      "description": "الطلبات"
+      "title": "Requests | Real Estate Falcons",
+      "description": "Requests"
     },
     "userManual": {
       "title": "User Manual | Real Estate Falcons",
@@ -828,7 +830,8 @@
       "finishing_type": "Finishing Type",
       "none": "None",
       "usable_area": "Usable Area",
-      "operation_type": "Operation Type"
+      "operation_type": "Operation Type",
+      "id": "Property ID"
     },
     "finishing_types": {
       "none": "No Finishing",
@@ -1982,7 +1985,8 @@
         "oldest": "Oldest",
         "price_low": "Price: Low to High",
         "price_high": "Price: High to Low"
-      }
+      },
+      "any": "Any"
     },
     "types": {
       "all": "All",
