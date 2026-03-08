@@ -79,14 +79,16 @@ export const RequestCard = ({
           </CardTitle>
         </div>
         <div className="flex gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setDeleteConfirmOpen(true)}
-            className="text-red-500 hover:text-red-700 hover:bg-red-50"
-          >
-            <FiTrash2 className="h-4 w-4" />
-          </Button>
+          {request.status !== "pending" && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setDeleteConfirmOpen(true)}
+              className="text-red-500 hover:text-red-700 hover:bg-red-50"
+            >
+              <FiTrash2 className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </CardHeader>
 
@@ -134,7 +136,7 @@ export const RequestCard = ({
           {t("actions.view") || "التفاصيل"}
         </Button>
 
-        {request.status !== "closed" && (
+        {request.status !== "closed" && request.status !== "pending" && (
           <>
             <Button
               variant="outline"
@@ -152,11 +154,21 @@ export const RequestCard = ({
             </Button>
           </>
         )}
+
+        {request.status === "pending" && (
+          <div className="flex-1 flex items-center justify-center gap-2 p-2 bg-blue-50/50 rounded-lg text-xs text-blue-600 border border-blue-100 italic">
+            <FiInfo className="h-3 w-3" />
+            <span>
+              {t("messages.pending_no_actions") ||
+                "لا يمكن تعديل الطلب بانتظار الموافقة"}
+            </span>
+          </div>
+        )}
       </CardFooter>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
               {t("messages.delete_confirm_title") || "حذف الطلب"}

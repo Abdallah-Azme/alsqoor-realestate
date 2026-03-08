@@ -36,7 +36,7 @@ export const RequestList = () => {
   const [isActionDialogOpen, setActionDialogOpen] = useState(false);
   const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
 
-  const requests = data?.data?.data || [];
+  const requests = data?.data || [];
 
   if (isLoading && !debouncedSearch) {
     return (
@@ -120,7 +120,7 @@ export const RequestList = () => {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
           {requests.map((request) => (
             <RequestCard
               key={request.id}

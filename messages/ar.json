@@ -1919,6 +1919,9 @@
     "loading": "جاري التحميل...",
     "load_more": "تحميل المزيد",
     "dialog_desc": "أدخل تفاصيل طلبك العقاري لنصلك بأفضل الوسطاء",
+    "add_dialog": {
+      "location": "الموقع"
+    },
     "request_details": "تفاصيل الطلب",
     "edit_request": "تعديل الطلب",
     "contact_info": "معلومات التواصل",
@@ -2021,6 +2024,7 @@
       "update_success": "تم تحديث الطلب بنجاح",
       "delete_success": "تم حذف الطلب بنجاح",
       "action_success": "تم تنفيذ الإجراء بنجاح",
+      "pending_no_actions": "لا يمكن تعديل الطلب بانتظار الموافقة",
       "delete_confirm_title": "حذف الطلب",
       "delete_confirm_desc": "هل أنت متأكد من رغبتك في حذف هذا الطلب؟",
       "close_confirm_desc": "هل تريد إغلاق هذا الطلب حقاً؟",
@@ -2032,7 +2036,8 @@
     "time": {
       "minutes_ago": "منذ {count} دقيقة",
       "hours_ago": "منذ {count} ساعة",
-      "days_ago": "منذ {count} يوم"
+      "days_ago": "منذ {count} يوم",
+      "years": "سنة"
     },
     "welcome": {
       "title": "طلب جديد",
