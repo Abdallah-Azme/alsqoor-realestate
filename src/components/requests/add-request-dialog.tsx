@@ -129,143 +129,52 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
     },
   };
 
-  // Welcome Screen (Step 1)
-  if (step === 1) {
-    return (
-      <AnimatePresence mode="wait">
-        <motion.div
-          key="welcome"
-          initial="hidden"
-          animate="visible"
-          exit={{ opacity: 0, x: -50 }}
-          variants={containerVariants}
-          className="flex flex-col items-center text-center py-10 px-8"
-          dir="rtl"
-        >
-          {/* Illustration - Phone mockup */}
-          <motion.div
-            variants={itemVariants}
-            className="w-36 h-36 bg-gray-100 rounded-full flex items-center justify-center mb-8"
-          >
-            <motion.div
-              initial={{ scale: 0.8, rotate: -5 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.5, delay: 0.3, type: "spring" }}
-              className="relative"
-            >
-              <div className="w-16 h-24 bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center p-2 relative overflow-hidden">
-                <div className="absolute top-1 w-6 h-1 bg-gray-200 rounded-full"></div>
-                <div className="text-amber-500 text-[10px] font-bold mt-2">
-                  Deal
-                </div>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-                  className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center my-1"
-                >
-                  <svg
-                    className="w-4 h-4 text-amber-500"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </motion.div>
-                <div className="text-[6px] text-gray-400 text-center leading-tight">
-                  {t("welcome.received")}
-                </div>
-                <div className="w-10 h-1.5 bg-amber-400 rounded-full mt-2"></div>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Title */}
-          <motion.h2
-            variants={itemVariants}
-            className="text-2xl font-bold text-gray-900 mb-3"
-          >
-            {t("welcome.title")}
-          </motion.h2>
-
-          {/* Description */}
-          <motion.p
-            variants={itemVariants}
-            className="text-gray-500 mb-10 text-sm leading-relaxed max-w-sm"
-          >
-            {t("welcome.description")}
-          </motion.p>
-
-          {/* Features - RTL aligned with stagger */}
-          <motion.div
-            variants={containerVariants}
-            className="w-full space-y-5 mb-10"
-          >
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ x: -5, transition: { duration: 0.2 } }}
-                className="flex items-center gap-4 cursor-pointer"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0 border border-amber-100"
-                >
-                  {feature.icon}
-                </motion.div>
-                <div className="flex-1 text-start">
-                  <h4 className="font-bold text-gray-900 text-sm">
-                    {feature.title}
-                  </h4>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    {feature.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTA Button */}
-          <motion.div variants={itemVariants} className="w-full">
-            <Button
-              onClick={() => setStep(2)}
-              className="w-full bg-amber-400 hover:bg-amber-500 text-black font-bold py-6 text-base rounded-xl shadow-sm"
-            >
-              {t("welcome.cta_button")}
-            </Button>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-    );
-  }
-
-  // Form Screen (Step 2)
+  // No separate welcome screen - always show the form
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key="form"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 50 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="py-6 px-6"
+        className="py-10 px-8"
         dir="rtl"
       >
-        {/* Step indicator / Title */}
+        {/* Header - Combined Welcome Title and Form title */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-start mb-8"
+          className="text-center mb-10"
         >
-          <h3 className="text-lg font-bold text-gray-900">
+          {/* Illustration - Compact Deal badge */}
+          <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-100">
+            <div className="w-10 h-14 bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col items-center justify-center p-1 relative overflow-hidden">
+              <div className="text-amber-500 text-[6px] font-bold">Deal</div>
+              <div className="w-4 h-4 bg-amber-100 rounded-full flex items-center justify-center my-1">
+                <svg
+                  className="w-2.5 h-2.5 text-amber-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div className="w-6 h-1 bg-amber-400 rounded-full"></div>
+            </div>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            {t("welcome.title")}
+          </h2>
+          <p className="text-gray-500 text-sm max-w-xs mx-auto">
             {t("form.step_title")}
-          </h3>
+          </p>
         </motion.div>
 
         <Form {...form}>

@@ -107,9 +107,16 @@ export function SiteOffersList() {
           <h3 className="text-xl font-bold text-gray-900 mb-2">
             {t("no_offers") || "لا توجد عروض بعد"}
           </h3>
-          <p className="text-gray-500 max-w-sm mx-auto">
+          <p className="text-gray-500 max-w-sm mx-auto mb-6">
             {t("no_offers_desc") || "قريبا سيتم إضافة عروض جديدة مميزة."}
           </p>
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
+          >
+            <FiPlus />
+            {t("add_offer") || "إضافة عرض"}
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">

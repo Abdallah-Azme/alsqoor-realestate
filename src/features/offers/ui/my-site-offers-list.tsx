@@ -5,11 +5,15 @@ import { Loader2 } from "lucide-react";
 import { useUserOffers } from "../hooks/use-site-offers";
 import { SiteOfferCard } from "./site-offer-card";
 import { SiteOffer } from "../types/offer.types";
-import { FiAlertCircle } from "react-icons/fi";
+import { useState } from "react";
+import { FiAlertCircle, FiPlus } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
+import { CreateSiteOfferDialog } from "./create-site-offer-dialog";
 
 export function MySiteOffersList() {
   const t = useTranslations("offers_page");
   const { data, isLoading, error } = useUserOffers();
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   // Handle the response which is already unwrapped by api-client
   const offersList: SiteOffer[] = Array.isArray(data)
@@ -46,9 +50,21 @@ export function MySiteOffersList() {
         <h3 className="text-xl font-bold text-gray-900 mb-2">
           {t("no_offers") || "لا توجد عروض بعد"}
         </h3>
-        <p className="text-gray-500 max-w-sm mx-auto">
+        <p className="text-gray-500 max-w-sm mx-auto mb-6">
           {t("no_my_offers_desc") || "لم تقم بإضافة أي عروض بعد."}
         </p>
+        <Button
+          onClick={() => setIsAddDialogOpen(true)}
+          className="bg-main-green hover:bg-main-green/90 text-white gap-2"
+        >
+          <FiPlus />
+          {t("add_offer") || "إضافة عرض"}
+        </Button>
+
+        <CreateSiteOfferDialog
+          open={isAddDialogOpen}
+          onOpenChange={setIsAddDialogOpen}
+        />
       </div>
     );
   }
@@ -56,12 +72,21 @@ export function MySiteOffersList() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-main-navy">
-          {t("my_offers_title") || "عروضي الخاصة"}
-        </h2>
-        <span className="bg-main-green/10 text-main-green px-4 py-1 rounded-full text-sm font-bold">
-          {offersList.length} {t("offers_count") || "عروض"}
-        </span>
+        <div>
+          <h2 className="text-2xl font-bold text-main-navy">
+            {t("my_offers_title") || "عروضي الخاصة"}
+          </h2>
+          <span className="text-gray-500 text-sm">
+            {offersList.length} {t("offers_count") || "عروض"}
+          </span>
+        </div>
+        <Button
+          onClick={() => setIsAddDialogOpen(true)}
+          className="flex items-center gap-2 bg-main-green hover:bg-main-green/90 text-white"
+        >
+          <FiPlus />
+          {t("add_offer") || "إضافة عرض"}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
@@ -69,6 +94,11 @@ export function MySiteOffersList() {
           <SiteOfferCard key={offer.id} offer={offer} index={idx} />
         ))}
       </div>
+
+      <CreateSiteOfferDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+      />
     </div>
   );
 }
