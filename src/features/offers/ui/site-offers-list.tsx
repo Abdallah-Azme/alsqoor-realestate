@@ -11,12 +11,24 @@ import { FiSearch, FiX, FiAlertCircle, FiPlus } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CreateSiteOfferDialog } from "./create-site-offer-dialog";
+import { useRouter } from "@/i18n/navigation";
+import { getToken } from "@/services";
 
 export function SiteOffersList() {
   const t = useTranslations("offers_page");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const router = useRouter();
+
+  const handleOpenAddDialog = async () => {
+    const token = await getToken();
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
+    setIsAddDialogOpen(true);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -90,7 +102,7 @@ export function SiteOffersList() {
             )}
           </div>
           <Button
-            onClick={() => setIsAddDialogOpen(true)}
+            onClick={handleOpenAddDialog}
             className="flex items-center gap-2 bg-main-green hover:bg-main-green/90 text-white"
           >
             <FiPlus />
@@ -111,7 +123,7 @@ export function SiteOffersList() {
             {t("no_offers_desc") || "قريبا سيتم إضافة عروض جديدة مميزة."}
           </p>
           <Button
-            onClick={() => setIsAddDialogOpen(true)}
+            onClick={handleOpenAddDialog}
             className="bg-main-green hover:bg-main-green/90 text-white gap-2"
           >
             <FiPlus />

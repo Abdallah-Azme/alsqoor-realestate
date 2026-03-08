@@ -8,12 +8,13 @@ import {
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { FaPlus } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import AddRequestDialog from "./add-request-dialog";
 import { PropertyRequest } from "@/features/requests/types/request.types";
+import { useRouter } from "@/i18n/navigation";
+import { getToken } from "@/services";
 
 interface RequestsGridProps {
   requests?: PropertyRequest[];
@@ -37,6 +38,16 @@ const RequestsGrid = ({
 }: RequestsGridProps) => {
   const t = useTranslations("propertyRequestsPage");
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const handleOpenAddDialog = async () => {
+    const token = await getToken();
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
+    setOpen(true);
+  };
 
   const { currentPage = 1, lastPage = 1 } = pagination;
   const hasMore = currentPage < lastPage;
@@ -50,11 +61,14 @@ const RequestsGrid = ({
           <span className="text-main-green font-bold">{totalResults}</span>{" "}
           {t("result")}
         </h3>
+        <button
+          onClick={handleOpenAddDialog}
+          className="bg-main-green text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-main-navy transition-colors"
+        >
+          <FaPlus />
+          {t("add_request")}
+        </button>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger className="bg-main-green text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-main-navy transition-colors">
-            <FaPlus />
-            {t("add_request")}
-          </DialogTrigger>
           <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto p-0">
             <div className="sr-only">
               <DialogTitle>{t("add_request")}</DialogTitle>

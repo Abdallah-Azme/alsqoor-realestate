@@ -81,18 +81,18 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
 
   const features = [
     {
-      icon: <HiOutlineUsers className="text-2xl text-amber-500" />,
+      icon: <HiOutlineUsers className="text-2xl text-main-green" />,
       title: t("welcome.feature1_title"),
       description: t("welcome.feature1_desc"),
     },
     {
-      icon: <MdOutlineRealEstateAgent className="text-2xl text-amber-500" />,
+      icon: <MdOutlineRealEstateAgent className="text-2xl text-main-green" />,
       title: t("welcome.feature2_title"),
       description: t("welcome.feature2_desc"),
     },
     {
       icon: (
-        <HiOutlineChatBubbleLeftRight className="text-2xl text-amber-500" />
+        <HiOutlineChatBubbleLeftRight className="text-2xl text-main-green" />
       ),
       title: t("welcome.feature3_title"),
       description: t("welcome.feature3_desc"),
@@ -148,13 +148,12 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
           transition={{ delay: 0.1 }}
           className="text-center mb-10"
         >
-          {/* Illustration - Compact Deal badge */}
-          <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-100">
+          <div className="w-20 h-20 bg-main-green/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-main-green/20">
             <div className="w-10 h-14 bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col items-center justify-center p-1 relative overflow-hidden">
-              <div className="text-amber-500 text-[6px] font-bold">Deal</div>
-              <div className="w-4 h-4 bg-amber-100 rounded-full flex items-center justify-center my-1">
+              <div className="text-main-green text-[6px] font-bold">Deal</div>
+              <div className="w-4 h-4 bg-main-green/20 rounded-full flex items-center justify-center my-1">
                 <svg
-                  className="w-2.5 h-2.5 text-amber-500"
+                  className="w-2.5 h-2.5 text-main-green"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -165,7 +164,7 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
                   />
                 </svg>
               </div>
-              <div className="w-6 h-1 bg-amber-400 rounded-full"></div>
+              <div className="w-6 h-1 bg-main-green rounded-full"></div>
             </div>
           </div>
 
@@ -425,7 +424,7 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
             <motion.div variants={itemVariants}>
               <Button
                 type="submit"
-                className="w-full bg-amber-400 hover:bg-amber-500 text-black font-bold py-6 text-base rounded-xl shadow-sm mt-4"
+                className="w-full bg-main-green hover:bg-main-green/90 text-white font-bold py-6 text-base rounded-xl shadow-sm mt-4"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? t("form.submitting") : t("form.next")}

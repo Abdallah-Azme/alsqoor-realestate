@@ -9,11 +9,23 @@ import { useState } from "react";
 import { FiAlertCircle, FiPlus } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { CreateSiteOfferDialog } from "./create-site-offer-dialog";
+import { useRouter } from "@/i18n/navigation";
+import { getToken } from "@/services";
 
 export function MySiteOffersList() {
   const t = useTranslations("offers_page");
   const { data, isLoading, error } = useUserOffers();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const router = useRouter();
+
+  const handleOpenAddDialog = async () => {
+    const token = await getToken();
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
+    setIsAddDialogOpen(true);
+  };
 
   // Handle the response which is already unwrapped by api-client
   const offersList: SiteOffer[] = Array.isArray(data)
@@ -54,7 +66,7 @@ export function MySiteOffersList() {
           {t("no_my_offers_desc") || "لم تقم بإضافة أي عروض بعد."}
         </p>
         <Button
-          onClick={() => setIsAddDialogOpen(true)}
+          onClick={handleOpenAddDialog}
           className="bg-main-green hover:bg-main-green/90 text-white gap-2"
         >
           <FiPlus />
@@ -81,7 +93,7 @@ export function MySiteOffersList() {
           </span>
         </div>
         <Button
-          onClick={() => setIsAddDialogOpen(true)}
+          onClick={handleOpenAddDialog}
           className="flex items-center gap-2 bg-main-green hover:bg-main-green/90 text-white"
         >
           <FiPlus />
