@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useCreateOffer } from "../hooks/use-site-offers";
 import {
-  createSiteOfferSchema,
+  getCreateSiteOfferSchema,
   CreateSiteOfferFormData,
 } from "../schemas/offer.schema";
 import {
@@ -42,7 +42,7 @@ export function CreateSiteOfferDialog({
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(createSiteOfferSchema),
+    resolver: zodResolver(getCreateSiteOfferSchema(t)),
     defaultValues: {
       name: "",
       description: "",

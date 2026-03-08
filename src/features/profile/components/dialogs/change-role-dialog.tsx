@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useContext } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -73,77 +74,86 @@ const AGENT_TYPES: { value: AgentType; labelAr: string }[] = [
 
 // ─── schema ──────────────────────────────────────────────────────────────────
 
-const formSchema = z
-  .object({
-    role: z.enum(["developer", "owner", "agent", "seeker"] as const),
-    fal_number: z.string().optional(),
-    fal_expiry_date: z.string().optional(),
-    agent_type: z.enum(["individual", "office"] as const).optional(),
-    has_ad_license: z.enum(["0", "1"] as const).optional(),
-    commercial_register: z.string().optional(),
-    has_fal_license: z.enum(["0", "1"] as const).optional(),
-    company_name: z.string().optional(),
-    fal_license_document: z.any().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.role === "agent" || data.role === "developer") {
-      if (!data.fal_number) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "رقم الفال مطلوب",
-          path: ["fal_number"],
-        });
+const getFormSchema = (t: any) =>
+  z
+    .object({
+      role: z.enum(["developer", "owner", "agent", "seeker"] as const),
+      fal_number: z.string().optional(),
+      fal_expiry_date: z.string().optional(),
+      agent_type: z.enum(["individual", "office"] as const).optional(),
+      has_ad_license: z.enum(["0", "1"] as const).optional(),
+      commercial_register: z.string().optional(),
+      has_fal_license: z.enum(["0", "1"] as const).optional(),
+      company_name: z.string().optional(),
+      fal_license_document: z.any().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.role === "agent" || data.role === "developer") {
+        if (!data.fal_number) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.fal_number_required") || "FAL number is required",
+            path: ["fal_number"],
+          });
+        }
+        if (!data.fal_expiry_date) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.fal_expiry_required") ||
+              "FAL expiry date is required",
+            path: ["fal_expiry_date"],
+          });
+        }
+        if (data.has_ad_license === undefined) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("validation.field_required") || "This field is required",
+            path: ["has_ad_license"],
+          });
+        }
       }
-      if (!data.fal_expiry_date) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "تاريخ انتهاء الفال مطلوب",
-          path: ["fal_expiry_date"],
-        });
+      if (data.role === "agent") {
+        if (!data.agent_type) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.agent_type_required") || "Agent type is required",
+            path: ["agent_type"],
+          });
+        }
+        if (!data.fal_license_document) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.fal_license_doc_required") ||
+              "FAL license document is required",
+            path: ["fal_license_document"],
+          });
+        }
       }
-      if (data.has_ad_license === undefined) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "هذا الحقل مطلوب",
-          path: ["has_ad_license"],
-        });
+      if (data.role === "developer") {
+        if (!data.commercial_register) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.commercial_register_required") ||
+              "Commercial register is required",
+            path: ["commercial_register"],
+          });
+        }
+        if (data.has_fal_license === undefined) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("validation.field_required") || "This field is required",
+            path: ["has_fal_license"],
+          });
+        }
       }
-    }
-    if (data.role === "agent") {
-      if (!data.agent_type) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "نوع الوسيط مطلوب",
-          path: ["agent_type"],
-        });
-      }
-      if (!data.fal_license_document) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "وثيقة ترخيص الفال مطلوبة",
-          path: ["fal_license_document"],
-        });
-      }
-    }
-    if (data.role === "developer") {
-      if (!data.commercial_register) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "السجل التجاري مطلوب",
-          path: ["commercial_register"],
-        });
-      }
-      if (data.has_fal_license === undefined) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "هذا الحقل مطلوب",
-          path: ["has_fal_license"],
-        });
-      }
-    }
-  });
+    });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 // ─── component ───────────────────────────────────────────────────────────────
 
@@ -158,11 +168,12 @@ export const ChangeRoleDialog = ({
   onOpenChange,
   currentRole,
 }: ChangeRoleDialogProps) => {
+  const t = useTranslations("Profile");
   const { fetchUserProfile } = useContext(UserContext);
   const { mutate: changeRole, isPending } = useChangeRole();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(getFormSchema(t)),
     defaultValues: {
       role: (currentRole as UserRole) || "seeker",
       fal_number: "",

@@ -490,12 +490,30 @@ async function apiClient<T = any>(
 
   // Handle API-level errors (non-2xx or success === false in body)
   if (!response.ok || responseData?.success === false) {
-    const message =
+    let message =
       responseData?.message ||
       responseData?.error ||
       `Request failed with status ${response.status}`;
 
-    const details = responseData?.errors || responseData?.details;
+    const details =
+      responseData?.errors ||
+      responseData?.details ||
+      (response.status === 422 ? responseData?.data : undefined);
+
+    // Append validation errors to the main message so UI toasts show the clear reason
+    if (details && typeof details === "object") {
+      const errorStrings = Object.values(details)
+        .flat()
+        .filter((item) => typeof item === "string");
+      if (errorStrings.length > 0) {
+        // Just use the specific error(s) if the main message is a generic validation failure
+        if (message === "فشل التحقق من البيانات.") {
+          message = errorStrings.join("\n");
+        } else {
+          message = `${message}\n${errorStrings.join("\n")}`;
+        }
+      }
+    }
 
     throw new ApiError(message, response.status, details);
   }

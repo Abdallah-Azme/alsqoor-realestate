@@ -50,74 +50,97 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FileUploader } from "@/components/shared/file-uploader";
 import Map from "@/components/shared/Map";
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.string().optional(),
-  country_id: z.coerce.number().min(1, { message: "Country is required" }),
-  city_id: z.coerce.number().min(1, { message: "City is required" }),
-  district: z.string().min(1, { message: "District is required" }),
-  category_id: z.coerce.number().min(1, { message: "Category is required" }),
-  operation_type: z.enum(["sale", "rent"]),
-  price_min: z.coerce.number().min(0, { message: "Price min is required" }),
-  price_max: z.coerce.number().min(0, { message: "Price max is required" }),
-  price_hidden: z.boolean().optional(),
-  area: z.coerce.number().min(0, { message: "Area is required" }),
-  usable_area: z.coerce.number().min(0).optional(),
-  rooms: z.coerce.number().min(0, { message: "Rooms is required" }),
-  bathrooms: z.coerce.number().min(0, { message: "Bathrooms is required" }),
-  balconies: z.coerce.number().min(0).optional(),
-  garages: z.coerce.number().min(0).optional(),
-  finishing_type: z.enum(["none", "basic", "good", "luxury", "super_luxury"]),
-  latitude: z.coerce.number().optional(),
-  longitude: z.coerce.number().optional(),
-  amenity_ids: z.array(z.number()).optional(),
-  property_use: z.enum([
-    "apartment",
-    "villa",
-    "land_residential",
-    "land_commercial",
-    "commercial_shop",
-    "office",
-    "warehouse",
-    "building",
-    "farm",
-    "factory",
-    "other",
-  ]),
-  facade: z
-    .enum([
-      "north",
-      "south",
-      "east",
-      "west",
-      "north_east",
-      "north_west",
-      "south_east",
-      "south_west",
-      "multiple",
-      "unknown",
-    ])
-    .optional(),
-  property_age: z.coerce.number().min(0).optional(),
-  services: z.string().optional(),
-  obligations: z.enum(["yes", "no"]).optional(),
-  license_number: z.string().optional(),
-  license_expiry_date: z.string().optional(),
-  plan_number: z.string().optional(),
-  plot_number: z.string().optional(),
-  area_name: z.string().optional(),
-  has_mortgage: z.boolean().optional(),
-  has_restriction: z.boolean().optional(),
-  guarantees: z.string().optional(),
-  price_per_meter: z.coerce.number().min(0).optional(),
-  is_featured: z.boolean().optional(),
-  marketing_option: z.enum(["none", "advertising", "agent"]).optional(),
-  images: z.array(z.any()).optional(),
-  videos: z.array(z.any()).optional(),
-  qr_code: z.array(z.any()).min(1, { message: "QR code is required" }),
-});
+const getFormSchema = (t: any) =>
+  z.object({
+    title: z
+      .string()
+      .min(1, { message: t("title_required") || "Title is required" }),
+    description: z.string().optional(),
+    country_id: z.coerce
+      .number()
+      .min(1, { message: t("country_required") || "Country is required" }),
+    city_id: z.coerce
+      .number()
+      .min(1, { message: t("city_required") || "City is required" }),
+    district: z
+      .string()
+      .min(1, { message: t("district_required") || "District is required" }),
+    category_id: z.coerce
+      .number()
+      .min(1, { message: t("category_required") || "Category is required" }),
+    operation_type: z.enum(["sale", "rent"]),
+    price_min: z.coerce
+      .number()
+      .min(0, { message: t("price_min_required") || "Price min is required" }),
+    price_max: z.coerce
+      .number()
+      .min(0, { message: t("price_max_required") || "Price max is required" }),
+    price_hidden: z.boolean().optional(),
+    area: z.coerce
+      .number()
+      .min(0, { message: t("area_required") || "Area is required" }),
+    usable_area: z.coerce.number().min(0).optional(),
+    rooms: z.coerce
+      .number()
+      .min(0, { message: t("rooms_required") || "Rooms is required" }),
+    bathrooms: z.coerce
+      .number()
+      .min(0, { message: t("bathrooms_required") || "Bathrooms is required" }),
+    balconies: z.coerce.number().min(0).optional(),
+    garages: z.coerce.number().min(0).optional(),
+    finishing_type: z.enum(["none", "basic", "good", "luxury", "super_luxury"]),
+    latitude: z.coerce.number().optional(),
+    longitude: z.coerce.number().optional(),
+    amenity_ids: z.array(z.number()).optional(),
+    property_use: z.enum([
+      "apartment",
+      "villa",
+      "land_residential",
+      "land_commercial",
+      "commercial_shop",
+      "office",
+      "warehouse",
+      "building",
+      "farm",
+      "factory",
+      "other",
+    ]),
+    facade: z
+      .enum([
+        "north",
+        "south",
+        "east",
+        "west",
+        "north_east",
+        "north_west",
+        "south_east",
+        "south_west",
+        "multiple",
+        "unknown",
+      ])
+      .optional(),
+    property_age: z.coerce.number().min(0).optional(),
+    services: z.string().optional(),
+    obligations: z.enum(["yes", "no"]).optional(),
+    license_number: z.string().optional(),
+    license_expiry_date: z.string().optional(),
+    plan_number: z.string().optional(),
+    plot_number: z.string().optional(),
+    area_name: z.string().optional(),
+    has_mortgage: z.boolean().optional(),
+    has_restriction: z.boolean().optional(),
+    guarantees: z.string().optional(),
+    price_per_meter: z.coerce.number().min(0).optional(),
+    is_featured: z.boolean().optional(),
+    marketing_option: z.enum(["none", "advertising", "agent"]).optional(),
+    images: z.array(z.any()).optional(),
+    videos: z.array(z.any()).optional(),
+    qr_code: z
+      .array(z.any())
+      .min(1, { message: t("qr_code_required") || "QR code is required" }),
+  });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 interface AddAdvertisementDialogProps {
   open: boolean;
@@ -191,7 +214,7 @@ const AddAdvertisementDialog = ({
   const isLastTab = currentTabIndex === TABS.length - 1;
 
   const form = useForm<any>({
-    resolver: zodResolver(formSchema) as any,
+    resolver: zodResolver(getFormSchema(t)) as any,
     defaultValues: {
       title: "",
       description: "",

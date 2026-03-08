@@ -35,19 +35,28 @@ import { FileUploader } from "@/components/shared/file-uploader";
 import { useConvertToAdvertisement } from "@/features/properties/hooks/use-properties";
 import { Property } from "@/features/properties/types/property.types";
 
-const formSchema = z.object({
-  license_number: z.string().min(1, { message: "License number is required" }),
-  license_expiry_date: z
-    .string()
-    .min(1, { message: "License expiry date is required" }),
-  qr_code: z
-    .any()
-    .refine((files) => files && files.length > 0, "QR code is required"),
-  marketing_option: z.enum(["none", "advertising", "agent"]),
-  is_featured: z.boolean().optional(),
-});
+const getFormSchema = (t: any) =>
+  z.object({
+    license_number: z.string().min(1, {
+      message:
+        t("validation.license_number_required") || "License number is required",
+    }),
+    license_expiry_date: z.string().min(1, {
+      message:
+        t("validation.license_expiry_required") ||
+        "License expiry date is required",
+    }),
+    qr_code: z
+      .any()
+      .refine(
+        (files) => files && files.length > 0,
+        t("validation.qr_code_required") || "QR code is required",
+      ),
+    marketing_option: z.enum(["none", "advertising", "agent"]),
+    is_featured: z.boolean().optional(),
+  });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 interface ConvertPropertyToAdDialogProps {
   property: Property;
@@ -63,7 +72,7 @@ export const ConvertPropertyToAdDialog = ({
   const convertMutation = useConvertToAdvertisement();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(getFormSchema(t)),
     defaultValues: {
       license_number: property.license_number || "",
       license_expiry_date: property.license_expiry_date
@@ -79,7 +88,8 @@ export const ConvertPropertyToAdDialog = ({
       const submitData = {
         ...values,
         qr_code: values.qr_code?.[0],
-        category_id: property.category?.id || 1,
+        category_id:
+          typeof property.category === "object" ? property.category?.id : 1,
         operation_type: property.operation_type || "sale",
         // Pass existing property fields to satisfy API if needed
         usable_area: property.usable_area,

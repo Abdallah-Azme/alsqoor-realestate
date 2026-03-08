@@ -10,7 +10,10 @@ export {
   useRequestAction,
 } from "./hooks/use-requests";
 
-export { requestSchema, requestFilterSchema } from "./schemas/request.schema";
+export {
+  getRequestSchema,
+  requestFilterSchema,
+} from "./schemas/request.schema";
 export type {
   RequestFormData,
   RequestFilterData,

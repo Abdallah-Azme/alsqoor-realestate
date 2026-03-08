@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { requestSchema, RequestFormData } from "../schemas/request.schema";
+import { getRequestSchema, RequestFormData } from "../schemas/request.schema";
 import { useCreateRequest, useUpdateRequest } from "../hooks/use-requests";
 import { PropertyRequest } from "../types/request.types";
 import { useEffect } from "react";
@@ -58,7 +58,7 @@ export const RequestDialog = ({
   const updateMutation = useUpdateRequest();
 
   const form = useForm<RequestFormData>({
-    resolver: zodResolver(requestSchema as any) as any,
+    resolver: zodResolver(getRequestSchema(t) as any) as any,
     defaultValues: {
       request_type: "buy",
       area: "",

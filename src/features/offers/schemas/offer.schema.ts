@@ -25,23 +25,23 @@ export const submitOfferSchema = z.object({
 export type SubmitOfferFormData = z.infer<typeof submitOfferSchema>;
 
 // Site Offer Creation Schema
-export const createSiteOfferSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z.coerce.number().positive("Price must be a positive number"),
-  validity_days: z.coerce
-    .number()
-    .int()
-    .positive("Validity days must be a positive integer"),
-  whatsapp_number: z.string().optional(),
-  is_active: z.boolean().default(true),
-  features: z
-    .array(
-      z.object({
-        feature: z.string().min(1, "Feature description is required"),
-      }),
-    )
-    .default([]),
-});
+export const getCreateSiteOfferSchema = (t: any) =>
+  z.object({
+    name: z.string().min(3, t("name_min_3")),
+    description: z.string().min(10, t("description_min_10")),
+    price: z.coerce.number().positive(t("price_positive")),
+    validity_days: z.coerce.number().int().positive(t("validity_positive")),
+    whatsapp_number: z.string().optional(),
+    is_active: z.boolean().default(true),
+    features: z
+      .array(
+        z.object({
+          feature: z.string().min(1, t("feature_required")),
+        }),
+      )
+      .default([]),
+  });
 
-export type CreateSiteOfferFormData = z.infer<typeof createSiteOfferSchema>;
+export type CreateSiteOfferFormData = z.infer<
+  ReturnType<typeof getCreateSiteOfferSchema>
+>;

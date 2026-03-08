@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Upload, MapPin } from "lucide-react";
 import { addProperty } from "@/lib/property-actions";
 import Map from "@/components/shared/Map";
+import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -283,6 +284,7 @@ export default function AddForm({ setOpen }) {
 
       if (result.success && (result.code === 200 || result.code === 201)) {
         setSuccess(true);
+        toast.success("تم إضافة العقار بنجاح!");
         setTimeout(() => {
           setOpen(false);
           // Refresh the page to show the new property
@@ -293,14 +295,19 @@ export default function AddForm({ setOpen }) {
         if (result.code === 422 && result.data?.data) {
           const errors = result.data.data;
           const errorMessages = Object.values(errors).flat();
-          setError(errorMessages.join("\n"));
+          const errorMessage = errorMessages.join("\n");
+          setError(errorMessage);
+          toast.error(errorMessage);
         } else {
-          setError(result.message || "فشل في إضافة العقار");
+          const message = result.message || "فشل في إضافة العقار";
+          setError(message);
+          toast.error(message);
         }
       }
     } catch (err) {
       console.error("Error adding property:", err);
       setError("حدث خطأ أثناء إضافة العقار");
+      toast.error("حدث خطأ أثناء إضافة العقار");
     } finally {
       setLoading(false);
     }
