@@ -248,8 +248,11 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
               <Link href="/wishlist">
                 <TbBookmark className="text-white text-2xl hover:text-main-green" />
               </Link>
-              <Link href="/notifications">
+              <Link href="/notifications" className="relative block">
                 <TbMessage2 className="text-white text-2xl hover:text-main-green" />
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                  5
+                </span>
               </Link>
             </>
           )}
@@ -338,8 +341,11 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
                         <Link href="/wishlist">
                           <TbBookmark className="text-white text-2xl hover:text-main-green" />
                         </Link>
-                        <Link href="/notifications">
+                        <Link href="/notifications" className="relative block">
                           <TbMessage2 className="text-white text-2xl hover:text-main-green" />
+                          <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                            5
+                          </span>
                         </Link>
                       </>
                     )}

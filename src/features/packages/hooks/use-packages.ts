@@ -5,6 +5,8 @@ import { packagesService } from "../services/packages.service";
 import { subscriptionsService } from "../services/subscriptions.service";
 import { Package, UserActiveSubscriptionData } from "../types/packages.types";
 import { toast } from "sonner";
+import { useContext } from "react";
+import { UserContext } from "@/context/user-context";
 
 /**
  * Hook to fetch all packages
@@ -35,6 +37,7 @@ export function usePackage(id: number) {
  */
 export function useSubscribeToPackage() {
   const queryClient = useQueryClient();
+  const userContext = useContext(UserContext);
 
   return useMutation({
     mutationFn: (args: {
@@ -46,7 +49,7 @@ export function useSubscribeToPackage() {
         payment_method_id: args.paymentMethodId,
         subscription_period: args.period,
       }),
-    onSuccess: (data) => {
+    onSuccess: async (data: any) => {
       if (data.paymentUrl) {
         // Save the internal transactionId so the success page can use it
         // to call /payment/status/:transactionId (not the gateway's paymentId)
@@ -65,6 +68,10 @@ export function useSubscribeToPackage() {
         queryClient.invalidateQueries({ queryKey: ["activeSubscription"] });
         queryClient.invalidateQueries({ queryKey: ["user"] });
         queryClient.invalidateQueries({ queryKey: ["profile"] });
+
+        if (userContext?.fetchUserProfile) {
+          await userContext.fetchUserProfile();
+        }
       }
     },
   });

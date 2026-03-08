@@ -113,6 +113,15 @@ const getFormSchema = (t: any) =>
             path: ["has_ad_license"],
           });
         }
+        if (!data.fal_license_document) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              t("validation.fal_license_doc_required") ||
+              "FAL license document is required",
+            path: ["fal_license_document"],
+          });
+        }
       }
       if (data.role === "agent") {
         if (!data.agent_type) {
@@ -121,15 +130,6 @@ const getFormSchema = (t: any) =>
             message:
               t("validation.agent_type_required") || "Agent type is required",
             path: ["agent_type"],
-          });
-        }
-        if (!data.fal_license_document) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message:
-              t("validation.fal_license_doc_required") ||
-              "FAL license document is required",
-            path: ["fal_license_document"],
           });
         }
       }
@@ -294,6 +294,42 @@ export const ChangeRoleDialog = ({
                   بيانات الفال المطلوبة
                 </p>
 
+                {/* Has FAL License */}
+                <FormField
+                  control={form.control}
+                  name="has_fal_license"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm text-gray-700">
+                        هل يوجد ترخيص فال؟{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <div className="flex gap-3">
+                        {[
+                          { value: "1", label: "نعم" },
+                          { value: "0", label: "لا" },
+                        ].map((opt) => (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() =>
+                              field.onChange(opt.value as "0" | "1")
+                            }
+                            className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
+                              field.value === opt.value
+                                ? "border-main-green bg-main-green/10 text-main-green"
+                                : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {/* FAL Number */}
                 <FormField
                   control={form.control}
@@ -381,40 +417,6 @@ export const ChangeRoleDialog = ({
                     </FormItem>
                   )}
                 />
-              </div>
-            )}
-
-            {/* ── Agent-specific Fields ────────────────────────────────── */}
-            {needsAgentType && (
-              <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="agent_type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-semibold text-gray-700">
-                        نوع الوسيط <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <div className="flex gap-3">
-                        {AGENT_TYPES.map((t) => (
-                          <button
-                            key={t.value}
-                            type="button"
-                            onClick={() => field.onChange(t.value)}
-                            className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
-                              field.value === t.value
-                                ? "border-main-green bg-main-green/10 text-main-green"
-                                : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
-                            }`}
-                          >
-                            {t.labelAr}
-                          </button>
-                        ))}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
                 <FormField
                   control={form.control}
@@ -489,6 +491,40 @@ export const ChangeRoleDialog = ({
               </div>
             )}
 
+            {/* ── Agent-specific Fields ────────────────────────────────── */}
+            {needsAgentType && (
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="agent_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-semibold text-gray-700">
+                        نوع الوسيط <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <div className="flex gap-3">
+                        {AGENT_TYPES.map((t) => (
+                          <button
+                            key={t.value}
+                            type="button"
+                            onClick={() => field.onChange(t.value)}
+                            className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
+                              field.value === t.value
+                                ? "border-main-green bg-main-green/10 text-main-green"
+                                : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
+                            }`}
+                          >
+                            {t.labelAr}
+                          </button>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
             {/* ── Developer-specific Fields ────────────────────────────── */}
             {needsDeveloperFields && (
               <div className="space-y-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
@@ -512,42 +548,6 @@ export const ChangeRoleDialog = ({
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Has FAL License */}
-                <FormField
-                  control={form.control}
-                  name="has_fal_license"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm text-gray-700">
-                        هل يوجد ترخيص فال؟{" "}
-                        <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <div className="flex gap-3">
-                        {[
-                          { value: "1", label: "نعم" },
-                          { value: "0", label: "لا" },
-                        ].map((opt) => (
-                          <button
-                            key={opt.value}
-                            type="button"
-                            onClick={() =>
-                              field.onChange(opt.value as "0" | "1")
-                            }
-                            className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
-                              field.value === opt.value
-                                ? "border-blue-500 bg-blue-50 text-blue-600"
-                                : "border-gray-200 bg-white text-gray-600 hover:border-blue-300"
-                            }`}
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
