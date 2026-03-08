@@ -1,24 +1,32 @@
 "use client";
 
 import PageHeader from "@/components/shared/page-header";
+import { RequestsFilterPanel, RequestsGrid } from "@/components/requests";
+import { useRequests } from "@/features/requests/hooks/use-requests";
 import type { PropertyRequestFilters } from "@/features/requests/types/request.types";
 import { motion } from "motion/react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const RequestsPage = () => {
   const t = useTranslations("propertyRequestsPage");
   const tBreadcrumbs = useTranslations("breadcrumbs");
-  const locale = useLocale();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   // Build filters from search params
   const filters: PropertyRequestFilters = {
-    details: searchParams.get("details") || undefined,
+    /** search: keyword/details search */
+    search: searchParams.get("search") || undefined,
+    /** request_type: filter by buy/rent */
+    request_type: (searchParams.get("request_type") as any) || undefined,
+    /** sort_by: ordering of results */
+    sort_by: searchParams.get("sort_by") || undefined,
+    /** country_id: geographical filter by country */
     country_id: searchParams.get("country_id")
       ? Number(searchParams.get("country_id"))
       : undefined,
+    /** city_id: geographical filter by city */
     city_id: searchParams.get("city_id")
       ? Number(searchParams.get("city_id"))
       : undefined,
@@ -26,10 +34,7 @@ const RequestsPage = () => {
   };
 
   // Fetch requests using the hook
-  // const { data, isLoading, error } = useRequests(filters);
-  const data = null;
-  const isLoading = false;
-  const error = null;
+  const { data: response, isLoading, error } = useRequests(filters);
 
   // Handle filter submission
   const handleFilterSubmit = (newFilters: Record<string, any>) => {
@@ -58,10 +63,10 @@ const RequestsPage = () => {
   };
 
   // Extract data from the response
-  const requests = []; // data?.data?.data || [];
-  const totalResults = 0; // data?.data?.meta?.total || 0;
-  const currentPage = 1; // data?.data?.meta?.current_page || 1;
-  const lastPage = 1; // data?.data?.meta?.total_pages || 1;
+  const requests = response?.data || [];
+  const totalResults = response?.meta?.total || 0;
+  const currentPage = response?.meta?.current_page || 1;
+  const lastPage = response?.meta?.total_pages || 1;
 
   return (
     <main className="space-y-12">
@@ -84,12 +89,9 @@ const RequestsPage = () => {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="container space-y-8"
       >
-        {/* <RequestsFilterPanel onSubmit={handleFilterSubmit} /> */}
-        <div className="text-center py-12 text-muted-foreground">
-          {tBreadcrumbs("no_properties")}
-        </div>
+        <RequestsFilterPanel onSubmit={handleFilterSubmit} />
 
-        {/* {error && (
+        {error && (
           <div className="text-center py-4 text-red-500">
             {t("messages.error_fetch")}
           </div>
@@ -104,8 +106,8 @@ const RequestsPage = () => {
             lastPage,
           }}
           onLoadMore={handleLoadMore}
-          loadingMore={false}
-        /> */}
+          loadingMore={isLoading && requests.length > 0}
+        />
       </motion.section>
     </main>
   );

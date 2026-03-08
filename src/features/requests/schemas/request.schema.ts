@@ -14,6 +14,7 @@ export const requestSchema = z.object({
   country_id: z.number().min(1, "Country is required"),
   city_id: z.number().min(1, "City is required"),
   district: z.string().min(2, "District is required"),
+  is_urgent: z.enum(["0", "1"]),
 });
 
 export const requestFilterSchema = z.object({

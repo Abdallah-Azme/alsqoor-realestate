@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { siteOffersService } from "../services/site-offers.service";
 
 export const siteOfferKeys = {
-  all: ["site-offers"] as const,
+  all: (params?: { search?: string }) => ["site-offers", params] as const,
   single: (id: string | number) => ["site-offers", id] as const,
 };
 
-export const useSiteOffers = () => {
+export const useSiteOffers = (params?: { search?: string }) => {
   return useQuery({
-    queryKey: siteOfferKeys.all,
-    queryFn: siteOffersService.getOffers,
+    queryKey: siteOfferKeys.all(params),
+    queryFn: () => siteOffersService.getOffers(params),
   });
 };
 

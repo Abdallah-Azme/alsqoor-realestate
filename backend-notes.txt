@@ -17,3 +17,7 @@ message
 : 
 "فشل التحقق من البيانات."
 
+3- Need an endpoint to return filter like the ui in this page http://localhost:3000/ar/ads
+
+4- I need endpoints for this data http://localhost:3000/ar/profile عروضي tab
+

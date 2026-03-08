@@ -5,6 +5,7 @@ import { requestsService } from "../services/requests.service";
 import type {
   CreatePropertyRequestData,
   PropertyRequestFilters,
+  RequestActionData,
 } from "../types/request.types";
 
 // Query keys
@@ -16,6 +17,8 @@ const QUERY_KEYS = {
   details: () => [...QUERY_KEYS.all, "detail"] as const,
   detail: (id: number) => [...QUERY_KEYS.details(), id] as const,
   myRequests: () => [...QUERY_KEYS.all, "my-requests"] as const,
+  myRequestsList: (filters?: PropertyRequestFilters) =>
+    [...QUERY_KEYS.myRequests(), filters] as const,
 };
 
 /**
@@ -44,13 +47,13 @@ export function useRequest(id: number) {
  * Hook to fetch current user's requests
  * Only fetches if user is authenticated
  */
-export function useMyRequests() {
+export function useMyRequests(filters?: PropertyRequestFilters) {
   const isAuthenticated =
     typeof window !== "undefined" && !!localStorage.getItem("user");
 
   return useQuery({
-    queryKey: QUERY_KEYS.myRequests(),
-    queryFn: () => requestsService.getMyRequests(),
+    queryKey: QUERY_KEYS.myRequestsList(filters),
+    queryFn: () => requestsService.getMyRequests(filters),
     enabled: isAuthenticated, // Only fetch if user is logged in
   });
 }
@@ -69,6 +72,9 @@ export function useCreateRequest() {
       toast.success(t("messages.create_success"));
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || t("messages.create_error"));
     },
   });
 }
@@ -96,6 +102,9 @@ export function useUpdateRequest() {
       });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
     },
+    onError: (error: any) => {
+      toast.error(error.message || t("messages.update_error"));
+    },
   });
 }
 
@@ -112,6 +121,33 @@ export function useDeleteRequest() {
       toast.success(t("messages.delete_success"));
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || t("messages.delete_error"));
+    },
+  });
+}
+
+/**
+ * Hook to perform action on a property request
+ */
+export function useRequestAction() {
+  const queryClient = useQueryClient();
+  const t = useTranslations("propertyRequestsPage");
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: RequestActionData }) =>
+      requestsService.performAction(id, data),
+    onSuccess: (_, variables) => {
+      toast.success(t("messages.action_success"));
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.detail(variables.id),
+      });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || t("messages.action_error"));
     },
   });
 }

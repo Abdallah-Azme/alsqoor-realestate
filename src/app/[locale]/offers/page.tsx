@@ -1,21 +1,37 @@
 "use client";
 
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
+import PageHeader from "@/components/shared/page-header";
 import { SiteOffersList } from "@/features/offers/property-offers-index";
 import { useTranslations } from "next-intl";
+import { motion } from "motion/react";
 
 const OffersPage = () => {
-  const t = useTranslations("offers");
+  const t = useTranslations("offers_page");
+  const tBreadcrumbs = useTranslations("breadcrumbs");
 
   return (
-    <main className="space-y-6">
-      <div className="container space-y-4 rounded-b-xl bg-main-light-gray p-4 pb-4">
-        <CustomBreadcrumbs items={[{ label: t("title") }]} />
-        <h1 className="text-2xl font-bold text-main-navy">{t("title")}</h1>
-      </div>
-      <div className="container">
+    <main className="space-y-12 pb-20">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <PageHeader
+          title={t("title")}
+          breadcrumbItems={[{ label: tBreadcrumbs("offers") }]}
+        />
+      </motion.div>
+
+      {/* Content section */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="container"
+      >
         <SiteOffersList />
-      </div>
+      </motion.section>
     </main>
   );
 };

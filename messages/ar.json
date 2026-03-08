@@ -393,8 +393,10 @@
     "currency": "ر.س",
     "popular_badge": "الأكثر طلباً",
     "under_review": "قيد المراجعة",
-    "direct_deals": "الصفقات المباشرة"
+    "direct_deals": "الصفقات المباشرة",
+    "my_requests": "طلباتي"
   },
+
   "Navbar": {
     "address": "العنوان الرئيسي - الرياض",
     "phone_default": "+966-4552-58",
@@ -455,11 +457,20 @@
   },
   "offers_page": {
     "title": "العروض",
+    "subtitle": "يوجد لدينا {count} عرض متاح",
+    "search_placeholder": "بحث في العروض...",
+    "loading": "جاري تحميل العروض...",
+    "error_title": "حدث خطأ ما",
+    "error_fetch": "حدث خطأ أثناء تحميل العروض",
     "no_offers": "لا توجد عروض متاحة حالياً",
+    "no_offers_desc": "قريبا سيتم إضافة عروض جديدة مميزة.",
     "currency": "ر.س",
+    "days": "يوم",
     "valid_for": "صالح لمدة {days} يوم",
     "features": "المميزات:",
-    "other_features": "+{count} مميزات أخرى"
+    "other_features": "+{count} مميزات أخرى",
+    "view_details": "عرض التفاصيل",
+    "subscribe_now": "اشترك الآن"
   },
   "offers": {
     "title": "عروض العقارات",
@@ -648,7 +659,7 @@
     },
     "requests": {
       "title": "الطلبات | الصقور العقارية",
-      "description": "تصفح طلبات العقارات أو قدم طلبك - اعثر على العقار الذي يناسب احتياجاتك"
+      "description": "الطلبات"
     },
     "userManual": {
       "title": "دليل المستخدم | الصقور العقارية",
@@ -1693,138 +1704,7 @@
       "alawali": "العوالي"
     }
   },
-  "propertyRequestsPage": {
-    "page_title": "طلبات العقارات",
-    "results_count": "عدد النتائج",
-    "result": "طلب",
-    "no_requests": "لا توجد طلبات",
-    "add_request": "إضافة طلب",
-    "create_request": "إنشاء طلب",
-    "filter": {
-      "location_placeholder": "الموقع / المدينة",
-      "sort_by": "ترتيب حسب",
-      "search": "بحث",
-      "clear": "مسح",
-      "interests": "اهتماماتك",
-      "add_interest": "+أضف لاهتماماتك",
-      "customize_request": "خصص طلبك",
-      "customize_description": "ابحث عن الطلب الذي تريده",
-      "sort": {
-        "newest": "الأحدث",
-        "oldest": "الأقدم",
-        "price_low": "السعر: من الأقل للأعلى",
-        "price_high": "السعر: من الأعلى للأقل"
-      }
-    },
-    "types": {
-      "all": "الكل",
-      "villa_sale": "فلل للبيع",
-      "villa_rent": "فلل للإيجار",
-      "land_sale": "أراضي للبيع",
-      "apartment_sale": "شقق للبيع",
-      "apartment_rent": "شقق للإيجار",
-      "floor_sale": "دور للبيع",
-      "floor_rent": "دور للإيجار",
-      "shop_sale": "محلات للبيع",
-      "shop_rent": "محلات للإيجار",
-      "warehouse_sale": "عمائر للبيع",
-      "warehouse_rent": "عمائر للإيجار"
-    },
-    "my_requests": "طلباتي",
-    "all_requests": "جميع الطلبات",
-    "request_details": "تفاصيل الطلب",
-    "edit_request": "تعديل الطلب",
-    "request_type": {
-      "buy": "شراء",
-      "rent": "إيجار"
-    },
-    "payment_method": {
-      "cash": "نقدي",
-      "finance": "تمويل"
-    },
-    "budget_type": {
-      "market_price": "سعر السوق",
-      "specific_budget": "ميزانية محددة"
-    },
-    "status": {
-      "pending": "قيد الانتظار",
-      "accepted": "مقبول",
-      "rejected": "مرفوض"
-    },
-    "fields": {
-      "request_number": "رقم الطلب",
-      "request_type": "نوع الطلب",
-      "area": "المساحة (م²)",
-      "property_age": "عمر العقار (سنوات)",
-      "payment_method": "طريقة الدفع",
-      "details": "التفاصيل",
-      "offer": "عرضك",
-      "budget_type": "نوع الميزانية",
-      "budget_amount": "قيمة الميزانية",
-      "whatsapp": "واتساب",
-      "telegram": "تيليجرام",
-      "country": "الدولة",
-      "city": "المدينة",
-      "district": "الحي",
-      "status": "الحالة",
-      "created_at": "تاريخ الإنشاء",
-      "updated_at": "تاريخ التحديث"
-    },
-    "placeholders": {
-      "area": "أدخل المساحة بالمتر المربع",
-      "property_age": "أدخل عمر العقار بالسنوات",
-      "details": "صف متطلبات العقار بالتفصيل",
-      "offer": "صف ما يمكنك تقديمه",
-      "budget_amount": "أدخل قيمة الميزانية",
-      "whatsapp": "أدخل رقم الواتساب",
-      "telegram": "أدخل اسم المستخدم في تيليجرام",
-      "district": "أدخل اسم الحي"
-    },
-    "messages": {
-      "create_success": "تم إنشاء الطلب بنجاح",
-      "update_success": "تم تحديث الطلب بنجاح",
-      "delete_success": "تم حذف الطلب بنجاح",
-      "delete_confirm": "هل أنت متأكد من حذف هذا الطلب؟",
-      "no_requests": "لا توجد طلبات",
-      "loading": "جاري تحميل الطلبات...",
-      "error_fetch": "فشل في تحميل الطلبات",
-      "error_create": "فشل في إنشاء الطلب",
-      "error_update": "فشل في تحديث الطلب",
-      "error_delete": "فشل في حذف الطلب"
-    },
-    "validation": {
-      "request_type_required": "نوع الطلب مطلوب",
-      "area_required": "المساحة مطلوبة",
-      "property_age_required": "عمر العقار مطلوب",
-      "payment_method_required": "طريقة الدفع مطلوبة",
-      "details_min": "التفاصيل يجب أن تكون 10 أحرف على الأقل",
-      "offer_min": "العرض يجب أن يكون 10 أحرف على الأقل",
-      "budget_type_required": "نوع الميزانية مطلوب",
-      "whatsapp_required": "رقم الواتساب مطلوب",
-      "telegram_required": "اسم المستخدم في تيليجرام مطلوب",
-      "country_required": "الدولة مطلوبة",
-      "city_required": "المدينة مطلوبة",
-      "district_required": "الحي مطلوب"
-    },
-    "time": {
-      "minutes_ago": "منذ {count} دقيقة",
-      "hours_ago": "منذ {count} ساعة",
-      "days_ago": "منذ {count} يوم"
-    },
-    "units": {
-      "sar": "ر.س",
-      "sqm": "م²"
-    },
-    "price": {
-      "market_price": "سعر السوق"
-    },
-    "tags": {
-      "serious_request": "طلب جاد",
-      "subscribers_only": "للمشتركين فقط"
-    },
-    "login_required": "يرجى تسجيل الدخول أولاً",
-    "bookmarked": "تم حفظ الطلب في المفضلة"
-  },
+
   "properties": {
     "account_type": "نوع الحساب",
     "owner": "مالك",
@@ -2024,5 +1904,179 @@
     "view_package": "عرض الباقة",
     "congratulations": "تهانينا!",
     "payment_failed": "فشل الدفع"
+  },
+  "propertyRequestsPage": {
+    "page_title": "الطلبات",
+    "title": "طلباتي العقارية",
+    "subtitle": "لديك {count} طلبات",
+    "results_count": "عدد النتائج",
+    "result": "طلب",
+    "no_requests": "لا توجد طلبات",
+    "no_requests_title": "لا توجد طلبات بعد",
+    "no_requests_desc": "بادر بإضافة طلبك العقاري الأول الآن وسيسعى شركاؤنا لتوفير أفضل العروض لك.",
+    "add_request": "إضافة طلب",
+    "create_request": "إنشاء طلب",
+    "loading": "جاري التحميل...",
+    "load_more": "تحميل المزيد",
+    "dialog_desc": "أدخل تفاصيل طلبك العقاري لنصلك بأفضل الوسطاء",
+    "request_details": "تفاصيل الطلب",
+    "edit_request": "تعديل الطلب",
+    "contact_info": "معلومات التواصل",
+    "login_required": "يرجى تسجيل الدخول أولاً",
+    "bookmarked": "تم حفظ الطلب في المفضلة",
+    "filter": {
+      "location_placeholder": "الموقع / المدينة",
+      "sort_by": "ترتيب حسب",
+      "search": "بحث",
+      "clear": "مسح",
+      "interests": "اهتماماتك",
+      "add_interest": "+أضف لاهتماماتك",
+      "customize_request": "خصص طلبك",
+      "customize_description": "ابحث عن الطلب الذي تريده",
+      "sort": {
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "price_low": "السعر: من الأقل للأعلى",
+        "price_high": "السعر: من الأعلى للأقل"
+      }
+    },
+    "types": {
+      "all": "الكل",
+      "villa_sale": "فلل للبيع",
+      "villa_rent": "فلل للإيجار",
+      "land_sale": "أراضي للبيع",
+      "apartment_sale": "شقق للبيع",
+      "apartment_rent": "شقق للإيجار",
+      "floor_sale": "دور للبيع",
+      "floor_rent": "دور للإيجار",
+      "shop_sale": "محلات للبيع",
+      "shop_rent": "محلات للإيجار",
+      "warehouse_sale": "عمائر للبيع",
+      "warehouse_rent": "عمائر للإيجار",
+      "buy": "شراء",
+      "rent": "إيجار"
+    },
+    "details": {
+      "area": "المساحة",
+      "price": "السعر",
+      "type": "نوع العقار",
+      "operation": "نوع العملية",
+      "description": "الوصف",
+      "requirements": "المتطلبات",
+      "requester_info": "معلومات صاحب الطلب",
+      "call": "اتصال",
+      "whatsapp": "واتساب",
+      "email": "بريد إلكتروني",
+      "member_since": "عضو منذ"
+    },
+    "fields": {
+      "request_type": "نوع الطلب",
+      "payment_method": "طريقة الدفع",
+      "area": "المساحة (م²)",
+      "property_age": "عمر العقار (سنوات)",
+      "country": "الدولة",
+      "city": "المدينة",
+      "district": "الحي",
+      "district_placeholder": "اسم الحي",
+      "budget_type": "نوع الميزانية",
+      "budget_amount": "المبلغ",
+      "whatsapp": "رقم الواتساب",
+      "telegram": "تيليجرام",
+      "details": "تفاصيل إضافية",
+      "details_placeholder": "اكتب التفاصيل هنا...",
+      "offer": "العرض المقدم",
+      "offer_placeholder": "اكتب العرض هنا...",
+      "select_type": "اختر نوع الطلب",
+      "select_payment": "اختر طريقة الدفع",
+      "select_country": "اختر الدولة",
+      "select_city": "اختر المدينة",
+      "select_budget_type": "اختر نوع الميزانية",
+      "is_urgent": "طلب عاجل",
+      "cancel_reason_placeholder": "اذكر سبب إغلاق الطلب...",
+      "search": "بحث في الطلبات..."
+    },
+    "payment": {
+      "cash": "كاش",
+      "finance": "تمويل"
+    },
+    "budget": {
+      "market_price": "سعر السوق",
+      "specific": "ميزانية محددة"
+    },
+    "actions": {
+      "create": "إضافة الطلب",
+      "create_first": "إضافة طلبك الأول",
+      "edit": "تعديل",
+      "view": "التفاصيل",
+      "close": "إغلاق",
+      "close_request": "إغلاق الطلب",
+      "confirm_close": "تأكيد الإغلاق",
+      "clear_search": "مسح البحث"
+    },
+    "messages": {
+      "loading": "جاري التحميل...",
+      "load_more": "تحميل المزيد",
+      "error_fetch": "فشل في جلب الطلبات",
+      "create_success": "تم إضافة الطلب بنجاح",
+      "update_success": "تم تحديث الطلب بنجاح",
+      "delete_success": "تم حذف الطلب بنجاح",
+      "action_success": "تم تنفيذ الإجراء بنجاح",
+      "delete_confirm_title": "حذف الطلب",
+      "delete_confirm_desc": "هل أنت متأكد من رغبتك في حذف هذا الطلب؟",
+      "close_confirm_desc": "هل تريد إغلاق هذا الطلب حقاً؟",
+      "create_error": "فشل في إضافة الطلب",
+      "update_error": "فشل في تحديث الطلب",
+      "delete_error": "فشل في حذف الطلب",
+      "action_error": "فشل في تنفيذ الإجراء"
+    },
+    "time": {
+      "minutes_ago": "منذ {count} دقيقة",
+      "hours_ago": "منذ {count} ساعة",
+      "days_ago": "منذ {count} يوم"
+    },
+    "welcome": {
+      "title": "طلب جديد",
+      "description": "نحن نساعدك في الوصول للعقار الذي تبحث عنه بسهولة وسرعة",
+      "received": "طلبك مسموع",
+      "feature1_title": "أخبرنا بطلبك",
+      "feature1_desc": "حدد المواصفات التي ترغب بها بالتفصيل",
+      "feature2_title": "تصل طلباتك للوسطاء",
+      "feature2_desc": "سيعرض الوسطاء والملاك عقاراتهم المطابقة لطلبك",
+      "feature3_title": "تواصل وتفاوض",
+      "feature3_desc": "يمكنك التواصل مباشرة مع أصحاب العقارات",
+      "cta_button": "إضافة الطلب الآن"
+    },
+    "form": {
+      "step_title": "معلومات الطلب",
+      "request_type": "نوع الطلب",
+      "property_type": "نوع العقار",
+      "city": "المدينة",
+      "budget": "الميزانية",
+      "area": "المساحة (م²)",
+      "details": "التفاصيل",
+      "details_placeholder": "تحدث أكثر عن العقار الذي تبحث عنه...",
+      "contact_channels": "قنوات التواصل",
+      "contact_channels_desc": "اختر كيف ترغب في استقبال العروض",
+      "contact_in_app": "عبر التطبيق (موصى به)",
+      "submitting": "جاري الإرسال...",
+      "next": "إرسال الطلب",
+      "success": "تم إضافة طلبك بنجاح",
+      "error": "حدث خطأ أثناء إضافة الطلب"
+    },
+    "operations": {
+      "sale": "شراء",
+      "rent": "إيجار"
+    },
+    "units": {
+      "sar": "ر.س",
+      "sqm": "م²"
+    },
+    "price": {
+      "market_price": "سعر السوق"
+    },
+    "tags": {
+      "serious_request": "طلب جاد",
+      "subscribers_only": "للمشتركين فقط"
+    }
   }
 }

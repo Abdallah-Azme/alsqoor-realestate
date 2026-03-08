@@ -1,3 +1,9 @@
+export type PropertyRequestStatus =
+  | "pending"
+  | "accepted"
+  | "rejected"
+  | "closed";
+
 export interface PropertyRequest {
   id: number;
   requestNumber: string;
@@ -14,7 +20,7 @@ export interface PropertyRequest {
   budgetAmount: string | null;
   whatsapp: string;
   telegram: string;
-  status: "pending" | "accepted" | "rejected";
+  status: PropertyRequestStatus;
   statusLabel: string;
   isUrgent: "0" | "1";
   urgentExpiresAt: string | null;
@@ -37,27 +43,28 @@ export interface RequestLocation {
   name: string;
 }
 
-// API Response types
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    count: number;
+    per_page: number;
+    current_page: number;
+    total_pages: number;
+  };
+  links: {
+    self: string;
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+}
+
 export interface PropertyRequestsResponse {
   success: boolean;
   message: string;
-  data: {
-    data: PropertyRequest[];
-    meta: {
-      total: number;
-      count: number;
-      per_page: number;
-      current_page: number;
-      total_pages: number;
-    };
-    links: {
-      self: string;
-      first: string;
-      last: string;
-      prev: string | null;
-      next: string | null;
-    };
-  };
+  data: PaginatedResponse<PropertyRequest>;
 }
 
 export interface SinglePropertyRequestResponse {
@@ -81,13 +88,23 @@ export interface CreatePropertyRequestData {
   country_id: number;
   city_id: number;
   district: string;
+  is_urgent?: "0" | "1";
+}
+
+export interface RequestActionData {
+  action: "update" | "close";
+  cancel_reason_id?: string;
+  cancel_reason_text?: string;
 }
 
 // Filter parameters
 export interface PropertyRequestFilters {
+  search?: string;
   details?: string;
+  request_type?: "buy" | "rent" | "all";
   country_id?: number;
   city_id?: number;
+  sort_by?: string;
   page?: number;
   per_page?: number;
 }

@@ -34,7 +34,7 @@ interface AddRequestDialogProps {
 
 const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
   const t = useTranslations("propertyRequestsPage");
-  const tVal = useTranslations("validations");
+  const tVal = useTranslations("validation");
   const [step, setStep] = useState<1 | 2>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -214,7 +214,7 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
               >
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0 border border-amber-100"
+                  className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0 border border-amber-100"
                 >
                   {feature.icon}
                 </motion.div>

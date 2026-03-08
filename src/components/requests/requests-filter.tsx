@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoLocationOutline } from "react-icons/io5";
+import { propertiesService } from "@/features/properties/services/properties.service";
 import {
   Sheet,
   SheetContent,
@@ -28,35 +29,55 @@ interface RequestsFilterProps {
 
 const propertyTypes = [
   { key: "all", icon: "🔍" },
-  { key: "villa_sale", icon: "🏠" },
-  { key: "land_sale", icon: "🏞️" },
-  { key: "apartment_sale", icon: "🏢" },
-  { key: "apartment_rent", icon: "🏠" },
-  { key: "floor_sale", icon: "🏗️" },
-  { key: "floor_rent", icon: "🏗️" },
-  { key: "villa_rent", icon: "🏠" },
-  { key: "shop_sale", icon: "🏪" },
-  { key: "shop_rent", icon: "🏪" },
-  { key: "warehouse_sale", icon: "🏭" },
-  { key: "warehouse_rent", icon: "🏭" },
+  { key: "buy", icon: "💰" },
+  { key: "rent", icon: "🔑" },
 ];
 
 const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
   const t = useTranslations("propertyRequestsPage");
   const [activeType, setActiveType] = useState("all");
-  const [location, setLocation] = useState("");
+  const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  const [countries, setCountries] = useState<any[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [selectedCity, setSelectedCity] = useState<string>("");
+
+  // Fetch countries on mount
+  useEffect(() => {
+    propertiesService.getCountries().then((data) => setCountries(data));
+  }, []);
+
+  // Fetch cities when country changes
+  useEffect(() => {
+    if (selectedCountry) {
+      propertiesService
+        .getCities(selectedCountry)
+        .then((data) => setCities(data));
+      setSelectedCity(""); // Reset city when country changes
+    } else {
+      setCities([]);
+    }
+  }, [selectedCountry]);
 
   const handleTypeClick = (typeKey: string) => {
     setActiveType(typeKey);
-    handleSubmit({ type: typeKey });
+    handleSubmit({ request_type: typeKey === "all" ? undefined : typeKey });
   };
 
+  /**
+   * Filter the property requests based on user selection
+   * search: maps to the keyword/details search
+   * country_id: filters by country
+   * city_id: filters by city
+   */
   const handleSubmit = (additionalFilters: Record<string, any> = {}) => {
     const filters = {
-      type: activeType,
-      location,
-      sortBy,
+      request_type: activeType === "all" ? undefined : activeType,
+      search: search,
+      country_id: selectedCountry ? Number(selectedCountry) : undefined,
+      city_id: selectedCity ? Number(selectedCity) : undefined,
+      sort_by: sortBy,
       ...additionalFilters,
     };
     onSubmit?.(filters);
@@ -68,8 +89,10 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
 
   const handleClear = () => {
     setActiveType("all");
-    setLocation("");
+    setSearch("");
     setSortBy("newest");
+    setSelectedCountry("");
+    setSelectedCity("");
     onSubmit?.({});
   };
 
@@ -95,22 +118,54 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
         </div>
       </div>
 
-      {/* Search and sort row */}
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Location search */}
-        <div className="flex-1 relative">
+      {/* Search and location selection row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Keyword search */}
+        <div className="relative">
           <Input
-            placeholder={t("filter.location_placeholder")}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            placeholder={t("filter.search")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="border-gray-300 rounded-lg h-12 pe-10"
           />
-          <IoLocationOutline className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
+          <FiSearch className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
         </div>
+
+        {/* Country filter */}
+        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+          <SelectTrigger className="h-12 border-gray-300 rounded-lg">
+            <SelectValue placeholder={t("fields.country")} />
+          </SelectTrigger>
+          <SelectContent>
+            {countries.map((country) => (
+              <SelectItem key={country.id} value={String(country.id)}>
+                {country.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* City filter */}
+        <Select
+          value={selectedCity}
+          onValueChange={setSelectedCity}
+          disabled={!selectedCountry}
+        >
+          <SelectTrigger className="h-12 border-gray-300 rounded-lg">
+            <SelectValue placeholder={t("fields.city")} />
+          </SelectTrigger>
+          <SelectContent>
+            {cities.map((city) => (
+              <SelectItem key={city.id} value={String(city.id)}>
+                {city.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         {/* Sort dropdown */}
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-full md:w-48 h-12 border-gray-300 rounded-lg">
+          <SelectTrigger className="h-12 border-gray-300 rounded-lg">
             <SelectValue placeholder={t("filter.sort_by")} />
           </SelectTrigger>
           <SelectContent>
@@ -124,24 +179,24 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
             </SelectItem>
           </SelectContent>
         </Select>
+      </div>
 
-        {/* Search and Clear buttons */}
-        <div className="flex gap-2">
-          <Button
-            onClick={handleSearch}
-            className="bg-main-green hover:bg-main-green/90 text-white h-12 px-6 gap-2"
-          >
-            <FiSearch />
-            {t("filter.search")}
-          </Button>
-          <Button
-            onClick={handleClear}
-            variant="outline"
-            className="h-12 px-4 border-red-500 text-red-500 hover:bg-red-50"
-          >
-            {t("filter.clear")}
-          </Button>
-        </div>
+      {/* Action buttons row */}
+      <div className="flex justify-end gap-2 text-end">
+        <Button
+          onClick={handleClear}
+          variant="outline"
+          className="h-12 px-8 border-red-500 text-red-500 hover:bg-red-50"
+        >
+          {t("filter.clear")}
+        </Button>
+        <Button
+          onClick={handleSearch}
+          className="bg-main-green hover:bg-main-green/90 text-white h-12 px-12 gap-2"
+        >
+          <FiSearch />
+          {t("filter.search")}
+        </Button>
       </div>
 
       {/* Interest tags */}

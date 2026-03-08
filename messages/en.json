@@ -390,8 +390,10 @@
     "currency": "SAR",
     "my_offers": "My Offers",
     "popular_badge": "Most Popular",
-    "direct_deals": "Direct Deals"
+    "direct_deals": "Direct Deals",
+    "my_requests": "My Requests"
   },
+
   "Navbar": {
     "address": "Main Address - Riyadh",
     "phone_default": "+966-4552-58",
@@ -402,7 +404,7 @@
     "packages": "Packages",
     "blogs": "Blogs",
     "deals": "Deals",
-    "requests": "Requests",
+    "requests": "الطلبات",
     "offers": "Offers",
     "ads": "Ads",
     "aboutus": "About Us",
@@ -438,7 +440,7 @@
     "details": "Property Details",
     "properties": "Properties",
     "advertisements": "Advertisements",
-    "requests": "Requests",
+    "requests": "الطلبات",
     "no_properties": "No properties found for this partner.",
     "featured_users": "Trusted Customers",
     "no_featured_users": "No featured users found",
@@ -757,8 +759,8 @@
       "description": "Manage your account, properties, and settings"
     },
     "requests": {
-      "title": "Requests | Real Estate Falcons",
-      "description": "Browse property requests or submit your own - find the property that matches your needs"
+      "title": "الطلبات | Real Estate Falcons",
+      "description": "الطلبات"
     },
     "userManual": {
       "title": "User Manual | Real Estate Falcons",
@@ -1828,138 +1830,7 @@
       "alawali": "Al Awali"
     }
   },
-  "propertyRequestsPage": {
-    "page_title": "Property Requests",
-    "results_count": "Results Count",
-    "result": "Result",
-    "no_requests": "No requests found",
-    "add_request": "Add Request",
-    "create_request": "Create Request",
-    "filter": {
-      "location_placeholder": "Select location",
-      "sort_by": "Sort by",
-      "search": "Search",
-      "clear": "Clear",
-      "interests": "Interests",
-      "add_interest": "Add Interest",
-      "customize_request": "Customize Request",
-      "customize_description": "Customize Description",
-      "sort": {
-        "newest": "Newest",
-        "oldest": "Oldest",
-        "price_low": "Price: Low to High",
-        "price_high": "Price: High to Low"
-      }
-    },
-    "types": {
-      "all": "All",
-      "villa_sale": "Villa for Sale",
-      "villa_rent": "Villa for Rent",
-      "land_sale": "Land for Sale",
-      "apartment_sale": "Apartment for Sale",
-      "apartment_rent": "Apartment for Rent",
-      "floor_sale": "Floor for Sale",
-      "floor_rent": "Floor for Rent",
-      "shop_sale": "Shop for Sale",
-      "shop_rent": "Shop for Rent",
-      "warehouse_sale": "Warehouse for Sale",
-      "warehouse_rent": "Warehouse for Rent"
-    },
-    "my_requests": "My Requests",
-    "all_requests": "All Requests",
-    "request_details": "Request Details",
-    "edit_request": "Edit Request",
-    "request_type": {
-      "buy": "Buy",
-      "rent": "Rent"
-    },
-    "payment_method": {
-      "cash": "Cash",
-      "finance": "Finance"
-    },
-    "budget_type": {
-      "market_price": "Market Price",
-      "specific_budget": "Specific Budget"
-    },
-    "status": {
-      "pending": "Pending",
-      "accepted": "Accepted",
-      "rejected": "Rejected"
-    },
-    "fields": {
-      "request_number": "Request Number",
-      "request_type": "Request Type",
-      "area": "Area",
-      "property_age": "Property Age",
-      "payment_method": "Payment Method",
-      "details": "Details",
-      "offer": "Offer",
-      "budget_type": "Budget Type",
-      "budget_amount": "Budget Amount",
-      "whatsapp": "WhatsApp",
-      "telegram": "Telegram",
-      "country": "Country",
-      "city": "City",
-      "district": "District",
-      "status": "Status",
-      "created_at": "Created At",
-      "updated_at": "Updated At"
-    },
-    "placeholders": {
-      "area": "Area",
-      "property_age": "Property Age",
-      "details": "Details",
-      "offer": "Offer",
-      "budget_amount": "Budget Amount",
-      "whatsapp": "WhatsApp",
-      "telegram": "Telegram",
-      "district": "District"
-    },
-    "messages": {
-      "create_success": "Create Success",
-      "update_success": "Update Success",
-      "delete_success": "Delete Success",
-      "delete_confirm": "Delete Confirm",
-      "no_requests": "No requests found",
-      "loading": "Loading...",
-      "error_fetch": "Error Fetch",
-      "error_create": "Error Create",
-      "error_update": "Error Update",
-      "error_delete": "Error Delete"
-    },
-    "validation": {
-      "request_type_required": "Request Type Required",
-      "area_required": "Area Required",
-      "property_age_required": "Property Age Required",
-      "payment_method_required": "Payment Method Required",
-      "details_min": "Details Min",
-      "offer_min": "Offer Min",
-      "budget_type_required": "Budget Type Required",
-      "whatsapp_required": "Whatsapp Required",
-      "telegram_required": "Telegram Required",
-      "country_required": "Country Required",
-      "city_required": "City Required",
-      "district_required": "District Required"
-    },
-    "time": {
-      "minutes_ago": "minutes ago",
-      "hours_ago": "hours ago",
-      "days_ago": "days ago"
-    },
-    "units": {
-      "sar": "SAR",
-      "sqm": "m²"
-    },
-    "price": {
-      "market_price": "Market Price"
-    },
-    "tags": {
-      "serious_request": "Serious Request",
-      "subscribers_only": "Subscribers Only"
-    },
-    "login_required": "Login Required",
-    "bookmarked": "Bookmarked"
-  },
+
   "validation": {
     "required": "This field is required",
     "string_min": "Must be at least {min} characters",
@@ -2076,6 +1947,180 @@
       "division_merge": "Division/Merge",
       "update_modification": "Update/Modification",
       "all": "All"
+    }
+  },
+  "propertyRequestsPage": {
+    "page_title": "Requests",
+    "title": "My Property Requests",
+    "subtitle": "You have {count} requests",
+    "results_count": "Results Count",
+    "result": "Result",
+    "no_requests": "No requests found",
+    "no_requests_title": "No requests yet",
+    "no_requests_desc": "Start by adding your first property request and our partners will strive to provide the best offers for you.",
+    "add_request": "Add Request",
+    "create_request": "Create Request",
+    "loading": "Loading requests...",
+    "load_more": "Load More",
+    "dialog_desc": "Enter your property request details to connect with the best brokers",
+    "request_details": "Request Details",
+    "edit_request": "Edit Request",
+    "contact_info": "Contact Information",
+    "login_required": "Login Required",
+    "bookmarked": "Bookmarked",
+    "filter": {
+      "location_placeholder": "Select location",
+      "sort_by": "Sort by",
+      "search": "Search",
+      "clear": "Clear",
+      "interests": "Interests",
+      "add_interest": "Add Interest",
+      "customize_request": "Customize Request",
+      "customize_description": "Customize Description",
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "price_low": "Price: Low to High",
+        "price_high": "Price: High to Low"
+      }
+    },
+    "types": {
+      "all": "All",
+      "villa_sale": "Villa for Sale",
+      "villa_rent": "Villa for Rent",
+      "land_sale": "Land for Sale",
+      "apartment_sale": "Apartment for Sale",
+      "apartment_rent": "Apartment for Rent",
+      "floor_sale": "Floor for Sale",
+      "floor_rent": "Floor for Rent",
+      "shop_sale": "Shop for Sale",
+      "shop_rent": "Shop for Rent",
+      "warehouse_sale": "Warehouse for Sale",
+      "warehouse_rent": "Warehouse for Rent",
+      "buy": "Buy",
+      "rent": "Rent"
+    },
+    "details": {
+      "area": "Area",
+      "price": "Price",
+      "type": "Property Type",
+      "operation": "Operation",
+      "description": "Description",
+      "requirements": "Requirements",
+      "requester_info": "Requester Information",
+      "call": "Call",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "member_since": "Member since"
+    },
+    "fields": {
+      "request_type": "Request Type",
+      "payment_method": "Payment Method",
+      "area": "Area (m²)",
+      "property_age": "Property Age (years)",
+      "country": "Country",
+      "city": "City",
+      "district": "District",
+      "district_placeholder": "District name",
+      "budget_type": "Budget Type",
+      "budget_amount": "Amount",
+      "whatsapp": "WhatsApp Number",
+      "telegram": "Telegram",
+      "details": "Additional Details",
+      "details_placeholder": "Write details here...",
+      "offer": "Offer Details",
+      "offer_placeholder": "Write offer here...",
+      "select_type": "Select request type",
+      "select_payment": "Select payment method",
+      "select_country": "Select country",
+      "select_city": "Select city",
+      "select_budget_type": "Select budget type",
+      "is_urgent": "Urgent Request",
+      "cancel_reason_placeholder": "Mention reason for closing...",
+      "search": "Search requests..."
+    },
+    "payment": {
+      "cash": "Cash",
+      "finance": "Finance"
+    },
+    "budget": {
+      "market_price": "Market Price",
+      "specific": "Specific Budget"
+    },
+    "actions": {
+      "create": "Add Request",
+      "create_first": "Add Your First Request",
+      "edit": "Edit",
+      "view": "Details",
+      "close": "Close",
+      "close_request": "Close Request",
+      "confirm_close": "Confirm Close",
+      "clear_search": "Clear Search"
+    },
+    "messages": {
+      "loading": "Loading requests...",
+      "load_more": "Load More",
+      "error_fetch": "Failed to fetch requests",
+      "create_success": "Request added successfully",
+      "update_success": "Request updated successfully",
+      "delete_success": "Request deleted successfully",
+      "action_success": "Action performed successfully",
+      "delete_confirm_title": "Delete Request",
+      "delete_confirm_desc": "Are you sure you want to delete this request?",
+      "close_confirm_desc": "Do you really want to close this request?",
+      "create_error": "Failed to add request",
+      "update_error": "Failed to update request",
+      "delete_error": "Failed to delete request",
+      "action_error": "Failed to perform action"
+    },
+    "time": {
+      "minutes_ago": "{count} minutes ago",
+      "hours_ago": "{count} hours ago",
+      "days_ago": "{count} days ago"
+    },
+    "welcome": {
+      "title": "New Request",
+      "description": "We help you reach the property you are looking for easily and quickly",
+      "received": "Your request is heard",
+      "feature1_title": "Tell us your request",
+      "feature1_desc": "Specify the specifications you want in detail",
+      "feature2_title": "Your requests reach brokers",
+      "feature2_desc": "Brokers and owners will display their properties matching your request",
+      "feature3_title": "Communication and Negotiation",
+      "feature3_desc": "You can communicate directly with property owners",
+      "cta_button": "Add Request Now"
+    },
+    "form": {
+      "step_title": "Request Information",
+      "request_type": "Request Type",
+      "property_type": "Property Type",
+      "city": "City",
+      "budget": "Budget",
+      "area": "Area (m²)",
+      "details": "Details",
+      "details_placeholder": "Tell us more about the property you are looking for...",
+      "contact_channels": "Communication Channels",
+      "contact_channels_desc": "Choose how you want to receive offers",
+      "contact_in_app": "Via App (Recommended)",
+      "submitting": "Submitting...",
+      "next": "Send Request",
+      "success": "Your request has been added successfully",
+      "error": "An error occurred while adding the request"
+    },
+    "operations": {
+      "sale": "Buy",
+      "rent": "Rent"
+    },
+    "units": {
+      "sar": "SAR",
+      "sqm": "m²"
+    },
+    "price": {
+      "market_price": "Market Price"
+    },
+    "tags": {
+      "serious_request": "Serious Request",
+      "subscribers_only": "Subscribers Only"
     }
   }
 }

@@ -58,10 +58,21 @@ export interface SiteOffer {
   id: number;
   name: string;
   description: string;
-  price: string;
-  validityDays: number;
-  isActive: boolean;
-  features: string[];
-  createdAt: string;
-  updatedAt: string;
+  price: number;
+  validity_days: number;
+  is_active: boolean;
+  is_approved: boolean;
+  whatsapp_number?: string;
+  sort_order?: number;
+  features: {
+    id: number;
+    feature: string;
+  }[];
+  user?: {
+    id: number;
+    name: string;
+    email: string;
+  };
+  created_at: string;
+  updated_at: string;
 }

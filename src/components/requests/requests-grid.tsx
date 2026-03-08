@@ -3,7 +3,13 @@
 import React, { useState } from "react";
 import RequestCard from "./request-card";
 import { HiArrowPath } from "react-icons/hi2";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { FaPlus } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import AddRequestDialog from "./add-request-dialog";
@@ -50,6 +56,10 @@ const RequestsGrid = ({
             {t("add_request")}
           </DialogTrigger>
           <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto p-0">
+            <div className="sr-only">
+              <DialogTitle>{t("add_request")}</DialogTitle>
+              <DialogDescription>{t("create_request")}</DialogDescription>
+            </div>
             <AddRequestDialog setOpen={setOpen} />
           </DialogContent>
         </Dialog>
