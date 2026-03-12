@@ -43,6 +43,22 @@ https://api.alsqoor-realestate.sa/admin
 admin@gmail.com
 123456
 
+1- check after acepting a real state does it truly active or not
+2- change the look for offers 
+3- check the terms and condtions, privacy and other pages in the footer 
+
+- realstate notes
+
+1- otp functionality
+2- i need a flag to know if this package has a free trail or not, and can this user get this free trial or not
+3- which payments method is active {{url}}/get-payment-methods
+4- creating realstate عقارات i need two areas, total and one for the actual building area {{url}}/properties-new/add
+5- creating realstate can upload multible images, and multible videos {{url}}/properties-new/add
+6- can add a new ad with period more than his package time, when the package end it just be inactve {{url}}/properties/add
+7- home page من نحن section, second section, need endpoint to returen these values موثوق من عملائنا 500+ تقييمات and other statistics عقار مدرج 500+ مبيع يومي 50+
+8- functionality for start advertising https://alsqoor-realestate.sa/ar/marketplace/tyest ابدأ التسويق
+9- https://alsqoor-realestate.sa/ar/partners/21 new three tabs, اعرض عقار اعرض عقار و عقارات مسوقه من خلاله 
+10- new endpoints descriptions for each serivce https://alsqoor-realestate.sa/ar/offers https://alsqoor-realestate.sa/ar/requests https://alsqoor-realestate.sa/ar/deals https://alsqoor-realestate.sa/ar/ads https://alsqoor-realestate.sa/ar/marketplace 
 
 
-1- ابداء التسويق
+7- new banners with the new design 
