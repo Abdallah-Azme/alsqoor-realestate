@@ -7,6 +7,7 @@ import type { PropertyRequestFilters } from "@/features/requests/types/request.t
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ServiceDescription } from "@/features/service-descriptions";
 
 const RequestsPage = () => {
   const t = useTranslations("propertyRequestsPage");
@@ -79,7 +80,9 @@ const RequestsPage = () => {
         <PageHeader
           title={t("page_title")}
           breadcrumbItems={[{ label: tBreadcrumbs("requests") }]}
-        />
+        >
+          <ServiceDescription type="requests" />
+        </PageHeader>
       </motion.div>
 
       {/* Filter and content section */}

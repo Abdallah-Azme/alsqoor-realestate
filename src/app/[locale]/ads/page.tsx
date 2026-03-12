@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import AdsSearchListing from "@/components/marketplace/ads-search-listing";
 import AdsPageFilter from "@/components/marketplace/ads-page-filter";
+import { ServiceDescription } from "@/features/service-descriptions";
 
 /**
  * /ads page — Public property search results.
@@ -20,7 +21,9 @@ const AdsPage = () => {
       <PageHeader
         title={tBreadcrumbs("advertisements")}
         breadcrumbItems={[{ label: tBreadcrumbs("advertisements") }]}
-      />
+      >
+        <ServiceDescription type="ads" />
+      </PageHeader>
 
       {/* Search Results */}
       <motion.section

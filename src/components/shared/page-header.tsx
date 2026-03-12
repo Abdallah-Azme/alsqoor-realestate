@@ -23,8 +23,10 @@ const PageHeader = ({
       )}
     >
       <CustomBreadcrumbs items={breadcrumbItems} />
-      <h1 className="text-main-navy text-lg font-bold">{title}</h1>
-      {children}
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-main-navy text-lg font-bold">{title}</h1>
+        {children}
+      </div>
     </div>
   );
 };

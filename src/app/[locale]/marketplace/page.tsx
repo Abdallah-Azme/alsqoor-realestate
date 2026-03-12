@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiPlus } from "react-icons/fi";
+import { ServiceDescription } from "@/features/service-descriptions";
 
 const MarketplacePage = () => {
   const t = useTranslations("breadcrumbs");
@@ -91,6 +92,7 @@ const MarketplacePage = () => {
               bypassLimitCheck={true}
               defaultRole={activeTab}
             />
+            <ServiceDescription type="marketplace" />
           </div>
         </div>
 

@@ -4,6 +4,7 @@ import PageHeader from "@/components/shared/page-header";
 import { SiteOffersList } from "@/features/offers/property-offers-index";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
+import { ServiceDescription } from "@/features/service-descriptions";
 
 const OffersPage = () => {
   const t = useTranslations("offers_page");
@@ -20,7 +21,9 @@ const OffersPage = () => {
         <PageHeader
           title={t("title")}
           breadcrumbItems={[{ label: tBreadcrumbs("offers") }]}
-        />
+        >
+          <ServiceDescription type="offers" />
+        </PageHeader>
       </motion.div>
 
       {/* Content section */}

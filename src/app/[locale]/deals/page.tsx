@@ -20,6 +20,7 @@ import DealsTable from "@/components/shared/deals-table";
 import { getDirectDeals } from "@/actions/deals";
 import { toast } from "sonner";
 import { UserContext } from "@/context/user-context";
+import { ServiceDescription } from "@/features/service-descriptions";
 
 const Page = () => {
   const { user } = useContext(UserContext);
@@ -82,7 +83,9 @@ const Page = () => {
       <PageHeader
         title={t("title")}
         breadcrumbItems={[{ label: t("title") }]}
-      />
+      >
+        <ServiceDescription type="deals" />
+      </PageHeader>
       <div className="container border border-gray-300 p-10">
         <Tabs dir={locale === "ar" ? "rtl" : "ltr"} defaultValue="houre">
           <div className="flex justify-between items-center">
