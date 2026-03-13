@@ -36,15 +36,12 @@ mtwar123A@.g.com
 12 212 2122
 abdallahazme199794AQZ@gmail.com
 
-who can advertise 2 
-licnes and packages 
-message for licnese 
+  
 
+i have an issue with accepting offers 
+{{url}}/property-offers/:offer/accept
 
-
-
-keep usin the service and hooks structure as we are doing
-
+ 
 
 https://api.alsqoor-realestate.sa/admin
 admin@gmail.com
@@ -63,9 +60,13 @@ admin@gmail.com
 5- creating realstate can upload multible images, and multible videos {{url}}/properties-new/add  (done)
 6- can add a new ad with period more than his package time, when the package end it just be inactve {{url}}/properties/add (done) 
 7- home page من نحن section, second section, need endpoint to returen these values موثوق من عملائنا 500+ تقييمات and other statistics عقار مدرج 500+ مبيع يومي 50+ (done) 
-8- functionality for start advertising https://alsqoor-realestate.sa/ar/marketplace/tyest ابدأ التسويق
-9- https://alsqoor-realestate.sa/ar/partners/21 new three tabs, اعرض عقار اعرض عقار و عقارات مسوقه من خلاله 
-10- new endpoints descriptions for each serivce https://alsqoor-realestate.sa/ar/offers https://alsqoor-realestate.sa/ar/requests https://alsqoor-realestate.sa/ar/deals https://alsqoor-realestate.sa/ar/ads https://alsqoor-realestate.sa/ar/marketplace 
+8- functionality for start advertising https://alsqoor-realestate.sa/ar/marketplace/tyest ابدأ التسويق (done)
+
+
+9- https://alsqoor-realestate.sa/ar/partners/21 new three tabs, اعرض عقار اعرض عقار و عقارات مسوقه من خلاله  
+
+
+10- new endpoints descriptions for each serivce https://alsqoor-realestate.sa/ar/offers https://alsqoor-realestate.sa/ar/requests https://alsqoor-realestate.sa/ar/deals https://alsqoor-realestate.sa/ar/ads https://alsqoor-realestate.sa/ar/marketplace (done)
 
 
  

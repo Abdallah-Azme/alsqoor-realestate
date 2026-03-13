@@ -7,28 +7,15 @@ import { SiteOfferCard } from "./site-offer-card";
 import { SiteOffer } from "../types/offer.types";
 
 import { useState, useEffect } from "react";
-import { FiSearch, FiX, FiAlertCircle, FiPlus } from "react-icons/fi";
+import { FiSearch, FiX, FiAlertCircle } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { CreateSiteOfferDialog } from "./create-site-offer-dialog";
 import { useRouter } from "@/i18n/navigation";
-import { getToken } from "@/services";
 
 export function SiteOffersList() {
   const t = useTranslations("offers_page");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const router = useRouter();
-
-  const handleOpenAddDialog = async () => {
-    const token = await getToken();
-    if (!token) {
-      router.push("/auth/login");
-      return;
-    }
-    setIsAddDialogOpen(true);
-  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,6 +34,8 @@ export function SiteOffersList() {
   const offersList: SiteOffer[] = Array.isArray(data)
     ? data
     : (data as any)?.data || [];
+
+  console.log({ offersList });
 
   if (isLoading && !debouncedSearch) {
     return (
@@ -72,63 +61,48 @@ export function SiteOffersList() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-main-navy">
-            {t("title") || "العروض"}
-          </h2>
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="space-y-1">
+          <h3 className="text-xl font-bold text-main-navy">
+            {t("all_offers") || "جميع العروض"}
+          </h3>
           <p className="text-sm text-gray-500">
             {t("subtitle", { count: offersList.length }) ||
-              `يوجد لدينا ${offersList.length} عرض متاح`}
+              `يوجد لدينا ${offersList.length} عرض متاح حالياً`}
           </p>
         </div>
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <div className="relative flex-1 md:w-64">
-            <FiSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder={t("search_placeholder") || "بحث في العروض..."}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pr-10 pl-10"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                <FiX />
-              </button>
-            )}
-          </div>
-          <Button
-            onClick={handleOpenAddDialog}
-            className="flex items-center gap-2 bg-main-green hover:bg-main-green/90 text-white"
-          >
-            <FiPlus />
-            {t("add_offer") || "إضافة عرض"}
-          </Button>
+        
+        <div className="relative w-full md:w-80 group">
+          <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-main-green transition-colors duration-300" />
+          <Input
+            placeholder={t("search_placeholder") || "بحث في العروض..."}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="h-12 pr-12 pl-12 bg-gray-50 border-transparent focus:bg-white focus:border-main-green/20 rounded-xl transition-all duration-300"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-main-navy transition-colors duration-300"
+            >
+              <FiX />
+            </button>
+          )}
         </div>
       </div>
 
       {offersList.length === 0 ? (
-        <div className="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center">
-          <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FiAlertCircle className="h-10 w-10 text-gray-400" />
+        <div className="bg-white border text-center border-gray-100 rounded-3xl p-16 shadow-sm">
+          <div className="bg-gray-50 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <FiAlertCircle className="h-10 w-10 text-gray-300" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <h3 className="text-2xl font-black text-main-navy mb-2">
             {t("no_offers") || "لا توجد عروض بعد"}
           </h3>
-          <p className="text-gray-500 max-w-sm mx-auto mb-6">
-            {t("no_offers_desc") || "قريبا سيتم إضافة عروض جديدة مميزة."}
+          <p className="text-gray-500 max-w-sm mx-auto">
+            {t("no_offers_desc") || "سيتم إضافة عروض جديدة ومميزة قريباً في هذه الصفحة."}
           </p>
-          <Button
-            onClick={handleOpenAddDialog}
-            className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-          >
-            <FiPlus />
-            {t("add_offer") || "إضافة عرض"}
-          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
@@ -137,11 +111,6 @@ export function SiteOffersList() {
           ))}
         </div>
       )}
-
-      <CreateSiteOfferDialog
-        open={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
-      />
     </div>
   );
 }

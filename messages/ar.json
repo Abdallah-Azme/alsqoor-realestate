@@ -472,6 +472,8 @@
   },
   "offers_page": {
     "title": "العروض",
+    "all_offers": "جميع العروض",
+    "hero_title": "اكتشف أفضل العروض والخصومات المتاحة",
     "subtitle": "يوجد لدينا {count} عرض متاح",
     "search_placeholder": "بحث في العروض...",
     "loading": "جاري تحميل العروض...",
@@ -485,8 +487,8 @@
     "features": "المميزات:",
     "other_features": "+{count} مميزات أخرى",
     "view_details": "عرض التفاصيل",
-    "subscribe_now": "اشترك الآن",
-    "popular_badge": "الباقة النشطة",
+    "subscribe_now": "تواصل مع صاحب العرض",
+    "popular_badge": "عرض نشط",
     "add_offer": "إضافة عرض",
     "create_offer_title": "إضافة عرض جديد",
     "create_offer_desc": "أدخل تفاصيل العرض الجديد أدناه",
@@ -515,6 +517,7 @@
   "offers": {
     "title": "عروض العقارات",
     "subtitle": "يوجد لدينا {count} عرض متاح",
+    "loading": "جاري التحميل...",
     "my_offers": "عروضي",
     "sent_offers": "العروض المرسلة",
     "received_offers": "العروض المستلمة",
