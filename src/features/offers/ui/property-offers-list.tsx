@@ -45,19 +45,14 @@ export function PropertyOffersList() {
   }
 
   // Separate sent and received offers
-  const offersData = Array.isArray(offers)
-    ? offers
-    : (offers as any)?.data || (offers as any)?.data?.data || [];
+  const offersList: PropertyOffer[] = Array.isArray((offers as any)?.data)
+    ? (offers as any).data
+    : Array.isArray(offers)
+      ? offers
+      : [];
 
-  const userId = profile?.id;
-
-  const sentOffers =
-    offersData?.filter((offer: PropertyOffer) => offer.sender?.id === userId) ||
-    [];
-  const receivedOffers =
-    offersData?.filter(
-      (offer: PropertyOffer) => offer.receiver?.id === userId,
-    ) || [];
+  const sentOffers = offersList.filter((offer) => offer.isMyOffer);
+  const receivedOffers = offersList.filter((offer) => !offer.isMyOffer);
 
   // Filter by status
   const filterOffers = (offersList: PropertyOffer[]) => {
@@ -108,7 +103,7 @@ export function PropertyOffersList() {
               <p className="text-gray-500">{t("no_sent_offers")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
               {filteredSentOffers.map((offer) => (
                 <PropertyOfferCard key={offer.id} offer={offer} type="sent" />
               ))}
@@ -122,7 +117,7 @@ export function PropertyOffersList() {
               <p className="text-gray-500">{t("no_received_offers")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
               {filteredReceivedOffers.map((offer) => (
                 <PropertyOfferCard
                   key={offer.id}

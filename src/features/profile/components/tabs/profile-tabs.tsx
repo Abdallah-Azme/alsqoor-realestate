@@ -9,6 +9,7 @@ import OwnerPropertiesTab from "./owner-properties-tab";
 import OffersTab from "./offers-tab";
 import RealEstateTab from "./real-estate-tab";
 import MyRequestsTab from "./my-requests-tab";
+import MarketingOffersTab from "./marketing-offers-tab";
 import { MySiteOffersList } from "@/features/offers/property-offers-index";
 import { DirectDealsList } from "@/features/direct-deals";
 import { User } from "@/types";
@@ -47,6 +48,7 @@ const ProfileTabs = ({
     { value: "my-properties", label: t("my_ads") },
     { value: "my-requests", label: t("my_requests") || "طلباتي" },
     { value: "site-offers", label: t("my_offers") || "عروضي" },
+    { value: "marketing-offers", label: t("marketing_offers") || "عروض التسويق" },
     // {
     //   value: "my-offers",
     //   label: t("my_offers_legacy") || "عروض العقارات",
@@ -134,6 +136,10 @@ const ProfileTabs = ({
 
           <TabsContent value="site-offers" className="mt-0">
             <MySiteOffersList />
+          </TabsContent>
+
+          <TabsContent value="marketing-offers" className="mt-0">
+            <MarketingOffersTab />
           </TabsContent>
 
           {/* <TabsContent value="my-offers" className="mt-0">

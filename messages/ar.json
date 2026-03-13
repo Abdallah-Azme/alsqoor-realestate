@@ -347,6 +347,7 @@
     "payment_methods": "طرق الدفع",
     "my_ads": "إعلاناتي",
     "my_offers": "عروضي",
+    "marketing_offers": "عروض التسويق",
     "my_offers_legacy": "عروض العقارات",
     "add_new_ad": "إضافة إعلان جديد",
     "search_ad_placeholder": "إبحث عن إعلان",
@@ -513,6 +514,7 @@
   },
   "offers": {
     "title": "عروض العقارات",
+    "subtitle": "يوجد لدينا {count} عرض متاح",
     "my_offers": "عروضي",
     "sent_offers": "العروض المرسلة",
     "received_offers": "العروض المستلمة",
@@ -554,7 +556,8 @@
       "reject_success": "تم رفض العرض بنجاح",
       "submit_error": "فشل في إرسال العرض",
       "accept_error": "فشل في قبول العرض",
-      "reject_error": "فشل في رفض العرض"
+      "reject_error": "فشل في رفض العرض",
+      "error_general": "حدث خطأ غير متوقع"
     }
   },
   "ad_limit": {
@@ -1162,6 +1165,9 @@
       "no_projects_description": "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
     },
     "marketing_dialog": {
+      "offer_details": "تفاصيل العرض",
+      "offer_details_placeholder": "اكتب تفاصيل عرضك هنا...",
+      "offer_details_min": "يجب أن تكون تفاصيل العرض 10 أحرف على الأقل",
       "default_offer_details": "أرغب ببدء تسويق هذا العقار والتعاون معكم لإتمام الصفقة.",
       "title": "كيف تعمل الخدمة؟",
       "confirm_title": "تأكيد بدء التسويق",

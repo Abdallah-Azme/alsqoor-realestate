@@ -75,8 +75,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
               {offer.property.title}
             </h3>
             <p className="text-sm text-gray-600">
-              {offer.property.price_min?.toLocaleString()} -{" "}
-              {offer.property.price_max?.toLocaleString()} ريال
+              {offer.property.price} {offer.property.currency || "ريال"}
             </p>
           </div>
         )}
@@ -84,15 +83,15 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
         {/* Offer Details */}
         <div className="space-y-2">
           <p className="text-sm text-gray-700 line-clamp-3">
-            {offer.offer_details}
+            {offer.offerDetails}
           </p>
 
           {/* Other Party Info */}
-          {otherParty && (
+          {offer.agent && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <User className="h-4 w-4" />
               <span>
-                {type === "sent" ? t("to") : t("from")}: {otherParty.name}
+                {type === "sent" ? t("to") : t("from")}: {offer.agent.name}
               </span>
             </div>
           )}
@@ -101,11 +100,11 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Calendar className="h-4 w-4" />
             <span>
-              {new Date(offer.created_at).toLocaleDateString("ar-SA", {
+              {offer.humanTime || (offer.createdAt ? new Date(offer.createdAt).toLocaleDateString("ar-SA", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-              })}
+              }) : "-")}
             </span>
           </div>
         </div>

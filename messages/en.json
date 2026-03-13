@@ -402,6 +402,7 @@
     "k_suffix": "k",
     "currency": "SAR",
     "my_offers": "My Offers",
+    "marketing_offers": "Marketing Offers",
     "popular_badge": "Most Popular",
     "direct_deals": "Direct Deals",
     "my_requests": "My Requests"
@@ -480,6 +481,7 @@
   },
   "offers": {
     "title": "Property Offers",
+    "subtitle": "You have {count} offers available",
     "my_offers": "My Offers",
     "sent_offers": "Sent Offers",
     "received_offers": "Received Offers",
@@ -521,7 +523,8 @@
       "reject_success": "Offer rejected successfully",
       "submit_error": "Failed to submit offer",
       "accept_error": "Failed to accept offer",
-      "reject_error": "Failed to reject offer"
+      "reject_error": "Failed to reject offer",
+      "error_general": "An unexpected error occurred"
     }
   },
   "properties": {
@@ -1269,6 +1272,9 @@
       "no_projects": "No projects available"
     },
     "marketing_dialog": {
+      "offer_details": "Offer Details",
+      "offer_details_placeholder": "Write your offer details here...",
+      "offer_details_min": "Offer details must be at least 10 characters",
       "default_offer_details": "I would like to start marketing this property and cooperate with you to close the deal.",
       "title": "How does the service work?",
       "confirm_title": "Confirm Marketing Start",

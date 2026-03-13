@@ -451,3 +451,21 @@ export interface UserPropertiesResponse {
   message: string;
   data: UserPropertiesData;
 }
+
+// ============= Property Offer Types =============
+
+export interface PropertyOffer {
+  id: number;
+  property_new_id: number;
+  user_id: number;
+  offer_details: string;
+  status: "pending" | "accepted" | "rejected";
+  created_at: string;
+  updated_at: string;
+  property?: MarketplaceProperty;
+}
+
+export interface SubmitOfferInput {
+  property_new_id: number | string;
+  offer_details: string;
+}

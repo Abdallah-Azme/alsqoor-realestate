@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import PropertyChat from "@/components/estates/property-chat";
 import PropertyLocationMap from "@/components/estates/property-location-map";
 import PropertyGallery from "@/components/estates/property-gallery";
+import { StartMarketingDialog } from "@/features/marketplace/components/start-marketing-dialog";
+import { useState } from "react";
 
 const MarketplacePropertyDetailPage = () => {
   const params = useParams();
@@ -29,6 +31,7 @@ const MarketplacePropertyDetailPage = () => {
   const t = useTranslations("properties");
   const tBreadcrumbs = useTranslations("breadcrumbs");
   const tMarket = useTranslations("marketplace");
+  const [isMarketingDialogOpen, setIsMarketingDialogOpen] = useState(false);
 
   // Safe label lookup for transaction/property types that come from the API
   const typeLabels: Record<string, string> = {
@@ -271,7 +274,10 @@ const MarketplacePropertyDetailPage = () => {
             </div>
 
             <div className="space-y-3 pt-4">
-              <Button className="w-full bg-main-green hover:bg-main-green/90 h-12 text-md font-bold">
+              <Button
+                className="w-full bg-main-green hover:bg-main-green/90 h-12 text-md font-bold"
+                onClick={() => setIsMarketingDialogOpen(true)}
+              >
                 {tMarket("start_marketing") || "ابدأ التسويق"}
               </Button>
               <Button
@@ -311,6 +317,13 @@ const MarketplacePropertyDetailPage = () => {
           </div>
         </div>
       </div>
+
+      <StartMarketingDialog
+        propertyId={property.id}
+        commissionPercentage={property.commissionPercentage}
+        open={isMarketingDialogOpen}
+        onOpenChange={setIsMarketingDialogOpen}
+      />
     </main>
   );
 };

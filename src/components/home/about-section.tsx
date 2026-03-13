@@ -59,7 +59,7 @@ const CountingNumber = ({ value, duration = 2000 }) => {
   }, [isVisible, numericValue, duration]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} className="tabular-nums">
       {count}
       {suffix}
     </span>
@@ -109,8 +109,9 @@ const AboutSection = ({
   const reviewsValue = reviewsStat ? reviewsStat.number : "500+";
   const reviewsLabel = reviewsStat ? reviewsStat.label : t("reviews");
 
-  // Duplicate stats for seamless marquee
-  const duplicatedStats = [...statsToShow, ...statsToShow];
+  // Duplicate stats more times to ensure no gaps on wide screens
+  // and a perfectly seamless marquee loop.
+  const duplicatedStats = [...statsToShow, ...statsToShow, ...statsToShow, ...statsToShow];
 
   // Start marquee after counting animation completes (2 seconds + buffer)
   useEffect(() => {
@@ -174,10 +175,28 @@ const AboutSection = ({
           </div>
         </div>
 
-        {/* Statistics Marquee */}
-        <div className="absolute bottom-0 start-0 end-0 bg-white rounded-tl-4xl lg:p-4 p-3 overflow-hidden">
-          <div className={`flex ${marqueeReady ? "animate-marquee" : ""}`}>
-            {duplicatedStats.map((stat, index) => (
+        {/* Statistics Marquee - Re-engineered for perfect seamlessness */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 bg-white rounded-tl-4xl lg:p-4 p-3 overflow-hidden"
+          dir="ltr"
+          style={{ 
+            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
+          }}
+        >
+          <div 
+            className={`flex w-max items-center ${marqueeReady ? "animate-marquee" : ""}`}
+            style={{ display: 'flex' }}
+          >
+            {/* 6 sets ensures that even moving 1/6th leaves 5 sets, covering any screen width */}
+            {[
+              ...statsToShow, 
+              ...statsToShow, 
+              ...statsToShow, 
+              ...statsToShow, 
+              ...statsToShow, 
+              ...statsToShow
+            ].map((stat, index) => (
               <StatItem key={index} stat={stat} />
             ))}
           </div>
@@ -188,14 +207,14 @@ const AboutSection = ({
       <style jsx global>{`
         @keyframes marquee {
           0% {
-            transform: translateX(0%);
+            transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-16.6666%);
           }
         }
         .animate-marquee {
-          animation: marquee 20s linear infinite;
+          animation: marquee 30s linear infinite;
         }
         .animate-marquee:hover {
           animation-play-state: paused;

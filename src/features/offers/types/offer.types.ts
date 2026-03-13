@@ -1,24 +1,36 @@
 // Property Offer Types
 export interface PropertyOffer {
   id: number;
-  property_new_id: number;
-  offer_details: string;
+  offerDetails: string;
   status: "pending" | "accepted" | "rejected";
-  created_at: string;
-  updated_at: string;
+  statusLabel?: string;
+  isMyOffer: boolean;
+  createdAt: string;
+  humanTime?: string;
 
   // Relations
   property?: {
     id: number;
     title: string;
     slug: string;
-    price_min: number;
-    price_max: number;
+    price?: string;
+    currency?: string;
     images?: string[];
-    operation_type?: string;
-    property_use?: string;
+    transactionType?: string;
+    propertyType?: string | null;
+    area?: string;
+    rooms?: string;
   };
 
+  agent?: {
+    id: number;
+    name: string;
+    phone: string;
+    avatarUrl: string | null;
+    role: string;
+  };
+
+  // Legacy fields (keeping for compatibility if needed elsewhere, but transitioning to what user provided)
   sender?: {
     id: number;
     name: string;
