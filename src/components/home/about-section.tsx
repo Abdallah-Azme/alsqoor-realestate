@@ -102,6 +102,13 @@ const AboutSection = ({
 
   const statsToShow = statistics.length > 0 ? statistics : defaultStats;
 
+  // Find reviews count from statistics if available (look for "تقييم" or "Review")
+  const reviewsStat = statsToShow.find(
+    (s) => s.label.includes("تقييم") || s.label.includes("Review"),
+  );
+  const reviewsValue = reviewsStat ? reviewsStat.number : "500+";
+  const reviewsLabel = reviewsStat ? reviewsStat.label : t("reviews");
+
   // Duplicate stats for seamless marquee
   const duplicatedStats = [...statsToShow, ...statsToShow];
 
@@ -160,7 +167,9 @@ const AboutSection = ({
               <p className="whitespace-nowrap text-xs font-semibold text-gray-400">
                 {t("trusted_by")}
               </p>
-              <p className=" text-xs ">500+ {t("reviews")}</p>
+              <p className=" text-xs ">
+                {reviewsValue} {reviewsLabel}
+              </p>
             </div>
           </div>
         </div>
