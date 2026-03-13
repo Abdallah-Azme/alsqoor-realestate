@@ -4,4 +4,5 @@ export interface PaymentMethod {
   paymentMethodAr: string;
   paymentMethodEn: string;
   imageUrl: string;
+  isActive: boolean;
 }

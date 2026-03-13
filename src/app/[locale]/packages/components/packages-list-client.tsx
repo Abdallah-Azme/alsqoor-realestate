@@ -36,7 +36,7 @@ export default function PackagesListClient({
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plansData.map((plan, index) => (
-          <AnimatedItem key={index} index={index}>
+          <AnimatedItem key={index} index={index} className="h-full">
             <PlanCard {...plan} onSelect={handleSelectPackage} />
           </AnimatedItem>
         ))}

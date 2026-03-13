@@ -24,7 +24,6 @@ const PackagesPage = async () => {
 
   // Fetch packages from API
   const packages = await packagesService.getAll();
-
   const tProfile = await getTranslations("Profile");
 
   // Map API data to plan card format
@@ -61,6 +60,7 @@ const PackagesPage = async () => {
       title: pkg.name,
       price: pkg.price?.replace(".00", "") || "0",
       popular: isPremiumTier,
+      isTrial: pkg.isTrial,
       features,
     };
   });

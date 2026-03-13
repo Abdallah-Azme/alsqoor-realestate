@@ -9,7 +9,10 @@ import { paymentService } from "../services/payment.service";
 export function usePaymentMethods() {
   return useQuery({
     queryKey: ["paymentMethods"],
-    queryFn: () => paymentService.getPaymentMethods(),
+    queryFn: async () => {
+      const methods = await paymentService.getPaymentMethods();
+      return methods.filter((method) => method.isActive);
+    },
     staleTime: 60 * 60 * 1000, // 1 hour
   });
 }

@@ -116,21 +116,18 @@ const MyPropertyCard = ({
   const mainImage =
     property.image || property.images?.[0] || "/images/state.png";
 
-  const isUnverified =
-    property.isVerified === false ||
-    property.isApproved === false ||
-    property.status === "pending";
+  const isUnderReview = property.isApproved === false;
 
   return (
     <div
       className={`bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative ${
-        isUnverified
+        isUnderReview
           ? "grayscale opacity-75 pointer-events-none select-none"
           : ""
       }`}
     >
       {/* Pending Verification Overlay Label */}
-      {isUnverified && (
+      {isUnderReview && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-500/10 backdrop-blur-[1px]">
           <div className="bg-main-navy/90 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white/20">
             {t("under_review") || "قيد المراجعة"}

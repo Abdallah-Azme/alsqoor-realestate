@@ -3,6 +3,7 @@ export interface Package {
   name: string;
   description: string;
   price: string;
+  isTrial: boolean;
   durationDays: number;
   adCount: number;
   hasUnlimitedAds: boolean;

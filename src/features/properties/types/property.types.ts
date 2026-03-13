@@ -288,6 +288,7 @@ export interface PropertyFormInput {
 
   // Dimensions
   area: number;
+  building_area: number;
   usable_area?: number;
   rooms: number;
   bathrooms: number;
@@ -366,6 +367,7 @@ export interface MarketplaceProperty {
   description: string;
   propertyType: string | null;
   area: string;
+  buildingArea: string | null;
   rooms: number | null;
   price: number | null;
   currency: string;
@@ -379,7 +381,9 @@ export interface MarketplaceProperty {
   totalUnits: number | null;
   isApproved: boolean;
   views: number;
-  image: string | null;
+  image?: string | null;
+  images?: string[];
+  videos?: string[];
   isConverted: boolean;
   country_id?: number | string;
   city_id?: number | string;

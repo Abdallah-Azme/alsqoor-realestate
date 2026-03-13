@@ -101,6 +101,8 @@ export const CreateMarketplacePropertyDialog = ({
   const [countryId, setCountryId] = useState<number>(1);
   // Images State
   const [images, setImages] = useState<File[]>([]);
+  // Videos State
+  const [videos, setVideos] = useState<File[]>([]);
 
   // Location State — defaults to Riyadh
   const [latitude, setLatitude] = useState(DEFAULT_LAT);
@@ -159,10 +161,19 @@ export const CreateMarketplacePropertyDialog = ({
     formData.set("latitude", String(latitude));
     formData.set("longitude", String(longitude));
 
-    // Replace image with file uploaded via FileUploader
+    // Replace image with files uploaded via FileUploader
     if (images.length > 0) {
       formData.delete("image");
-      formData.append("image", images[0]);
+      images.forEach((file) => {
+        formData.append("images[]", file);
+      });
+    }
+
+    // Add videos uploaded via FileUploader
+    if (videos.length > 0) {
+      videos.forEach((file) => {
+        formData.append("videos[]", file);
+      });
     }
 
     const handleSuccess = () => {
@@ -172,6 +183,7 @@ export const CreateMarketplacePropertyDialog = ({
         setLatitude(DEFAULT_LAT);
         setLongitude(DEFAULT_LNG);
         setImages([]);
+        setVideos([]);
       }, 300);
     };
 
@@ -261,7 +273,7 @@ export const CreateMarketplacePropertyDialog = ({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="area">{t("area") || "المساحة"} *</Label>
+                <Label htmlFor="area">{t("area") || "مساحة الأرض (م²)"} *</Label>
                 <Input
                   id="area"
                   name="area"
@@ -269,6 +281,18 @@ export const CreateMarketplacePropertyDialog = ({
                   required={step === 1}
                   defaultValue={property?.area || ""}
                   placeholder={t("area_placeholder") || "مثال: 200"}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="building_area">{t("building_area") || "مساحة البناء (م²)"} *</Label>
+                <Input
+                  id="building_area"
+                  name="building_area"
+                  type="number"
+                  required={step === 1}
+                  defaultValue={(property as any)?.buildingArea || ""}
+                  placeholder={t("building_area_placeholder") || "مثال: 180"}
                 />
               </div>
 
@@ -323,15 +347,33 @@ export const CreateMarketplacePropertyDialog = ({
                 />
               </div>
 
-              <div className="space-y-2 col-span-2">
-                <Label>{t("image") || "صورة العقار"}</Label>
+              <div className="space-y-4 col-span-2">
+                <Label>{t("images") || "صور العقار"}</Label>
                 <FileUploader
                   value={images}
                   onChange={setImages}
                   accept="image/*"
-                  maxFiles={1}
+                  maxFiles={10}
                   label=""
-                  helperText="اسحب الصور هنا أو انقر للتصفح. (حد أقصى صورة واحدة)"
+                  helperText={
+                    t("images_helper") ||
+                    "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 10 صور)"
+                  }
+                />
+              </div>
+
+              <div className="space-y-4 col-span-2">
+                <Label>{t("videos") || "فيديوهات العقار"}</Label>
+                <FileUploader
+                  value={videos}
+                  onChange={setVideos}
+                  accept="video/*"
+                  maxFiles={3}
+                  label=""
+                  helperText={
+                    t("videos_helper") ||
+                    "اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 3 فيديوهات)"
+                  }
                 />
               </div>
             </div>

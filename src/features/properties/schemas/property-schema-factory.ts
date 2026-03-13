@@ -83,6 +83,7 @@ export const createPropertySchema = (
 
     // Dimensions
     area: z.number().positive(t("area_positive")),
+    building_area: z.number().positive(t("building_area_positive")),
     usable_area: z.number().positive().optional(),
     rooms: z.number().int().positive(t("rooms_positive")),
     bathrooms: z.number().int().positive(t("bathrooms_positive")),

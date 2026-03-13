@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import PropertyChat from "@/components/estates/property-chat";
 import PropertyLocationMap from "@/components/estates/property-location-map";
+import PropertyGallery from "@/components/estates/property-gallery";
 
 const MarketplacePropertyDetailPage = () => {
   const params = useParams();
@@ -63,6 +64,9 @@ const MarketplacePropertyDetailPage = () => {
   };
 
   const { data: property, isLoading, error } = useRealEstateBySlug(slug);
+
+  console.log({ property });
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
@@ -104,25 +108,25 @@ const MarketplacePropertyDetailPage = () => {
         {/* Left Column: Image and Details */}
         <div className="lg:col-span-2 space-y-8">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative aspect-video rounded-2xl overflow-hidden shadow-xl border border-gray-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative space-y-4"
           >
-            <Image
-              src={property.image || "/images/state.png"}
-              alt={property.title}
-              fill
-              className="object-cover"
-              priority
-            />
-            {property.isVerified && (
-              <Badge className="absolute top-4 left-4 bg-main-green px-3 py-1 text-sm">
-                <CheckCircle2 className="w-4 h-4 mr-1 inline" /> {t("verified")}
+            <div className="relative group">
+              <PropertyGallery
+                images={property.images}
+                videos={property.videos}
+              />
+
+              {property.isVerified && (
+                <Badge className="absolute top-6 left-6 z-10 bg-main-green px-3 py-1 text-sm shadow-md">
+                  <CheckCircle2 className="w-4 h-4 mr-1 inline" /> {t("verified")}
+                </Badge>
+              )}
+              <Badge className="absolute top-6 right-6 z-10 bg-main-navy px-3 py-1 text-sm shadow-md">
+                {tMarket(`broker.status.${property.status || "new"}`)}
               </Badge>
-            )}
-            <Badge className="absolute top-4 right-4 bg-main-navy px-3 py-1 text-sm">
-              {tMarket(`broker.status.${property.status || "new"}`)}
-            </Badge>
+            </div>
           </motion.div>
 
           <div className="space-y-6">

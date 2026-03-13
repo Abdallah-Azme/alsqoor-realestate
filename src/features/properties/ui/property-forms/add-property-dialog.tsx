@@ -10,6 +10,7 @@ import {
   useCities,
 } from "../../hooks/use-properties";
 import { createPropertySchema } from "../../schemas/property-schema-factory";
+import { FileUploader } from "@/components/shared/file-uploader";
 import {
   Dialog,
   DialogContent,
@@ -52,6 +53,7 @@ export function AddPropertyDialog({
   const tValidation = useTranslations("validation");
   const { mutate: createProperty, isPending } = useCreateProperty();
   const [images, setImages] = useState<File[]>([]);
+  const [videos, setVideos] = useState<File[]>([]);
 
   const { propertySchema } = createPropertySchema(tValidation);
 
@@ -67,12 +69,13 @@ export function AddPropertyDialog({
 
   const onSubmit = (data: any) => {
     createProperty(
-      { ...data, images },
+      { ...data, images, videos },
       {
         onSuccess: () => {
           toast.success(t("add_success") || "تم إضافة العقار بنجاح");
           form.reset();
           setImages([]);
+          setVideos([]);
           onOpenChange(false);
         },
         onError: (error: any) => {
@@ -401,11 +404,34 @@ export function AddPropertyDialog({
                   name="area"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("area") || "المساحة (م²)"} *</FormLabel>
+                      <FormLabel>{t("area") || "مساحة الأرض (م²)"} *</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="180"
+                          placeholder="200"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(
+                              parseFloat(e.target.value) || undefined,
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="building_area"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("building_area") || "مساحة البناء (م²)"} *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder={t("building_area_placeholder") || "180"}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -580,28 +606,49 @@ export function AddPropertyDialog({
               />
             </div>
 
-            {/* Images */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">
-                {t("images") || "الصور"}
-              </h3>
-              <FormItem>
-                <FormLabel>{t("property_images") || "صور العقار"}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </FormControl>
-                {images.length > 0 && (
-                  <p className="text-sm text-gray-600">
-                    {t("images_selected", { count: images.length }) ||
-                      `تم اختيار ${images.length} صورة`}
-                  </p>
-                )}
-              </FormItem>
+            {/* Media */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">
+                  {t("images") || "الصور"}
+                </h3>
+                <FormItem>
+                  <FormControl>
+                    <FileUploader
+                      value={images}
+                      onChange={setImages}
+                      accept="image/*"
+                      maxFiles={10}
+                      label={t("property_images") || "صور العقار"}
+                      helperText={
+                        t("images_helper") ||
+                        "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 10 صور)"
+                      }
+                    />
+                  </FormControl>
+                </FormItem>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">
+                  {t("videos") || "الفيديوهات"}
+                </h3>
+                <FormItem>
+                  <FormControl>
+                    <FileUploader
+                      value={videos}
+                      onChange={setVideos}
+                      accept="video/*"
+                      maxFiles={3}
+                      label={t("property_videos") || "فيديوهات العقار"}
+                      helperText={
+                        t("videos_helper") ||
+                        "اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 3 فيديوهات)"
+                      }
+                    />
+                  </FormControl>
+                </FormItem>
+              </div>
             </div>
 
             {/* Submit */}

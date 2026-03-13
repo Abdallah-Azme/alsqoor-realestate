@@ -73,6 +73,7 @@ export default function PlanCard({
   price,
   features = [],
   popular,
+  isTrial,
   onSelect,
 }) {
   const t = useTranslations("packages_page");
@@ -81,7 +82,7 @@ export default function PlanCard({
   return (
     <Card
       className={cn(
-        "relative flex flex-col pt-8 pb-6 px-2 border-2 transition-all duration-300 overflow-hidden",
+        "relative flex flex-col h-full pt-8 pb-6 px-2 border-2 transition-all duration-300 overflow-hidden",
         popular
           ? "border-main-green bg-green-50/30 shadow-lg -translate-y-1 scale-[1.02] z-10"
           : "border-gray-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1",
@@ -91,6 +92,16 @@ export default function PlanCard({
       {popular && (
         <div className="absolute top-0 right-0 left-0 bg-main-green text-white text-[10px] font-bold py-1 text-center uppercase tracking-wider">
           {t("popular_badge") || "الأكثر شهرة"}
+        </div>
+      )}
+
+      {/* شارة التجربة المجانية */}
+      {isTrial && (
+        <div className={cn(
+          "absolute top-12 -left-12 -rotate-45 bg-amber-400 text-main-navy text-[10px] font-black py-1.5 w-48 text-center shadow-md border-b border-amber-500/20",
+          popular && "top-14"
+        )}>
+          {t("free_trial") || "تجربة مجانية"}
         </div>
       )}
 
@@ -154,7 +165,7 @@ export default function PlanCard({
               : "bg-main-navy text-white hover:bg-main-navy/90 shadow-main-navy/20",
           )}
         >
-          {t("subscribe_now") || "اشترك الآن"}
+          {isTrial ? (t("start_trial") || "ابدأ التجربة المجانية") : (t("subscribe_now") || "اشترك الآن")}
         </Button>
       </CardFooter>
     </Card>
