@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -30,29 +30,27 @@ function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get("paymentId");
 
-  // The backend /payment/status/:id expects the internal transactionId,
-  // not the payment gateway's paymentId. We stored the transactionId in
-  // localStorage right before redirecting to the payment gateway.
-  const internalTransactionId =
-    typeof window !== "undefined"
-      ? localStorage.getItem("pending_transaction_id")
-      : null;
+  // Read localStorage after mount to avoid hydration mismatch and ensure
+  // the value is available before React Query fires the verification request.
+  const [internalTransactionId, setInternalTransactionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("pending_transaction_id");
+    if (stored) {
+      setInternalTransactionId(stored);
+      // Clean up after 5 seconds so the key doesn't linger
+      const timer = setTimeout(() => {
+        localStorage.removeItem("pending_transaction_id");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const {
     data: verificationData,
     isLoading,
     isError,
   } = useVerifyPayment(internalTransactionId);
-
-  // Clean up localStorage after the query runs
-  useEffect(() => {
-    if (internalTransactionId) {
-      const timer = setTimeout(() => {
-        localStorage.removeItem("pending_transaction_id");
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [internalTransactionId]);
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center p-4">

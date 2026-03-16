@@ -29,6 +29,16 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
+/**
+ * Whether the app is hosted on a secure (HTTPS) origin.
+ * On plain HTTP servers, cookies with `secure` flag are silently dropped
+ * by the browser — so we disable the flag when not on HTTPS.
+ */
+const isSecureEnv =
+  typeof window !== "undefined"
+    ? window.location.protocol === "https:"
+    : (process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https") ?? false);
+
 // ─── Custom Error Class ────────────────────────────────────────────
 
 export class ApiError extends Error {
@@ -218,8 +228,9 @@ function clearAuthData() {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("refresh_token");
-    // Expire the client-readable cookie
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // Expire the client-readable cookie — do NOT add `secure` on plain HTTP
+    const secureFlag = isSecureEnv ? "; secure" : "";
+    document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT${secureFlag}`;
   }
 }
 
@@ -292,7 +303,9 @@ async function tryRefreshToken(): Promise<string | null> {
     // ── Update stored access token ──────────────────────────────
     localStorage.setItem("token", newAccessToken);
     // Update the client-readable cookie so subsequent buildHeaders() picks it up
-    document.cookie = `token=${encodeURIComponent(newAccessToken)}; path=/; max-age=7200; samesite=lax`;
+    // Do NOT add `secure` flag on plain HTTP — browser will silently drop it
+    const secureFlag = isSecureEnv ? "; secure" : "";
+    document.cookie = `token=${encodeURIComponent(newAccessToken)}; path=/; max-age=7200; samesite=lax${secureFlag}`;
 
     // ── Rotate refresh token (API issues a new one each time) ───
     if (newRefreshToken) {
