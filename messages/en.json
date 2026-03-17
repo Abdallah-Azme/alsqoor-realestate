@@ -1,4 +1,12 @@
 {
+  "partners_profile": {
+    "marketed_properties": "Marketed Properties",
+    "properties": "Properties",
+    "requests": "Requests",
+    "no_marketed_properties": "No marketed properties available currently",
+    "no_properties": "No properties available currently",
+    "no_requests": "No requests available currently"
+  },
   "common": {
     "next": "Next",
     "previous": "Previous",
@@ -466,6 +474,25 @@
     "marketplace": "Marketplace",
     "project_details": "Project Details"
   },
+  "agents": {
+    "title": "Active Partners & Brokers",
+    "description": "A selection of the best certified and trusted real estate brokers",
+    "agent_type": "Agent Type",
+    "individual": "Individual",
+    "office": "Office",
+    "fal_number": "FAL Number",
+    "license_status": "License Status",
+    "valid": "Valid",
+    "expired": "Expired",
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "no_agents": "No active agents currently",
+    "verified": "Verified",
+    "company": "Company",
+    "view_details": "View Details",
+    "view_profile": "View Profile"
+  },
   "offers_page": {
     "title": "Offers",
     "all_offers": "All Offers",
@@ -587,6 +614,8 @@
     "price_max": "Maximum Price",
     "features": "Features",
     "area": "Area (m²)",
+    "building_area": "Building Area (m²)",
+    "building_area_placeholder": "Example: 180",
     "usable_area": "Usable Area (m²)",
     "rooms": "Rooms",
     "bathrooms": "Bathrooms",
@@ -602,6 +631,9 @@
     },
     "images": "Images",
     "property_images": "Property Images",
+    "images_helper": "Drag images here or click to browse. (Max 10 images)",
+    "videos": "Property Videos",
+    "videos_helper": "Drag videos here or click to browse. (Max 3 videos)",
     "images_selected": "{count} images selected",
     "cancel": "Cancel",
     "add_property": "Add Property",
@@ -688,7 +720,17 @@
     "rent": "Rent",
     "update_real_estate": "Update Property",
     "commission_percentage": "Commission Percentage (%)",
-    "select_property_type": "Select Property Type"
+    "select_property_type": "Select Property Type",
+    "villa": "Villa",
+    "land": "Land",
+    "apartment": "Apartment",
+    "floor": "Floor",
+    "shop": "Shop",
+    "building": "Building",
+    "starting_price": "Starting Price",
+    "total_units": "Total Units",
+    "commission_from": "Commission From",
+    "select_source": "Select Source"
   },
   "ad_limit": {
     "no_package_title": "No Active Package",

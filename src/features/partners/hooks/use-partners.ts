@@ -15,6 +15,17 @@ export function usePartners(page = 1, perPage = 10) {
 }
 
 /**
+ * Hook to fetch active agents
+ */
+export function useActiveAgents() {
+  return useQuery({
+    queryKey: ["active-agents"],
+    queryFn: () => partnersService.getActiveAgents(),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
+/**
  * Hook to fetch a single partner/company by ID
  */
 export function usePartner(id: string | number) {

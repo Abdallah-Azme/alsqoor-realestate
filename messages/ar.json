@@ -1,4 +1,12 @@
 {
+  "partners_profile": {
+    "marketed_properties": "عقارات مسوقة",
+    "properties": "العقارات",
+    "requests": "الطلبات",
+    "no_marketed_properties": "لا توجد عقارات مسوقة حالياً",
+    "no_properties": "لا توجد عقارات حالياً",
+    "no_requests": "لا توجد طلبات حالياً"
+  },
   "common": {
     "next": "التالي",
     "previous": "السابق",
@@ -469,6 +477,25 @@
     "points_balance": "رصيد النقاط",
     "marketplace": "السوق",
     "project_details": "تفاصيل المشروع"
+  },
+  "agents": {
+    "title": "الشركاء والوسطاء النشطون",
+    "description": "نخبة من أفضل الوسطاء العقاريين المعتمدين والموثوقين",
+    "agent_type": "نوع الوسيط",
+    "individual": "فرد",
+    "office": "منشأة",
+    "fal_number": "رقم فال",
+    "license_status": "حالة الرخصـة",
+    "valid": "صالحة",
+    "expired": "منتهية",
+    "call": "اتصال",
+    "whatsapp": "واتساب",
+    "email": "بريد إلكتروني",
+    "no_agents": "لا يوجد وسطاء نشطون حالياً",
+    "verified": "موثوق",
+    "company": "الشركة",
+    "view_details": "عرض التفاصيل",
+    "view_profile": "الملف الشخصي"
   },
   "offers_page": {
     "title": "العروض",

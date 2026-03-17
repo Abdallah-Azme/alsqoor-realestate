@@ -1,13 +1,7 @@
 import PageHeader from "@/components/shared/page-header";
-import FeaturedUserCard from "@/components/shared/featured-user-card";
-import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { featuredUsersService } from "@/features/featured-users";
-import {
-  AnimatedSection,
-  AnimatedItem,
-} from "@/components/motion/animated-section";
+import { PartnersList } from "@/features/partners";
+import { AnimatedSection } from "@/components/motion/animated-section";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -19,103 +13,35 @@ export async function generateMetadata({ params }) {
 }
 
 const PartnersPage = async (props: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
+  params: Promise<{ locale: string }>;
 }) => {
-  const searchParams = await props.searchParams;
-  const t = await getTranslations("breadcrumbs");
-
-  // Get current page from search params, default to 1
-  const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
-
-  // Fetch featured users data
-  const featuredUsers = await featuredUsersService.getAll({
-    page: currentPage,
-    per_page: 12,
-  });
-
-  // For pagination
-  const meta = {
-    current_page: currentPage,
-    last_page: Math.ceil(featuredUsers.length / 12) || 1,
-    per_page: 12,
-    total: featuredUsers.length,
-  };
+  const { locale } = await props.params;
+  const t = await getTranslations("agents");
 
   return (
-    <main className="space-y-8">
+    <main className="space-y-12 pb-20">
       <AnimatedSection>
         <PageHeader
-          title={t("partners")}
-          breadcrumbItems={[{ label: t("partners") }]}
+          title={t("title")}
+          breadcrumbItems={[{ label: t("title") }]}
         />
       </AnimatedSection>
 
-      <div className="container space-y-8">
-        <AnimatedSection delay={0.2}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredUsers.length > 0 ? (
-              featuredUsers.map((user, index) => (
-                <AnimatedItem key={user.id} index={index}>
-                  <FeaturedUserCard user={user} />
-                </AnimatedItem>
-              ))
-            ) : (
-              <p className="col-span-full text-center text-gray-500">
-                {t("no_featured_users")}
-              </p>
-            )}
-          </div>
-        </AnimatedSection>
-
-        {/* Dynamic Pagination */}
-        {meta.last_page > 1 && (
-          <AnimatedSection delay={0.3}>
-            <div className="flex items-center justify-center gap-2 mt-8">
-              {/* Previous Button */}
-              {meta.current_page > 1 && (
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-8 p-0"
-                  asChild
-                >
-                  <a href={`?page=${meta.current_page - 1}`}>
-                    <ChevronRight className="h-4 w-4 rotate-180" />
-                  </a>
-                </Button>
-              )}
-
-              {/* Page Numbers */}
-              {Array.from({ length: meta.last_page }, (_, i) => i + 1).map(
-                (page) => (
-                  <Button
-                    key={page}
-                    className={`size-8 p-0 bg-white text-black border border-gray-300 hover:bg-gray-100 ${
-                      page === meta.current_page ? "border-main-green" : ""
-                    }`}
-                    asChild
-                  >
-                    <a href={`?page=${page}`}>{page}</a>
-                  </Button>
-                ),
-              )}
-
-              {/* Next Button */}
-              {meta.current_page < meta.last_page && (
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-8 p-0"
-                  asChild
-                >
-                  <a href={`?page=${meta.current_page + 1}`}>
-                    <ChevronRight className="h-4 w-4" />
-                  </a>
-                </Button>
-              )}
-            </div>
+      <div className="container px-4 md:px-6">
+        <div className="max-w-3xl mb-12">
+          <AnimatedSection delay={0.1}>
+            <h2 className="text-3xl md:text-4xl font-black mb-4 bg-linear-to-r from-gray-900 to-gray-500 bg-clip-text text-transparent">
+              {t("title")}
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              {t("description")}
+            </p>
           </AnimatedSection>
-        )}
+        </div>
+
+        <AnimatedSection delay={0.2}>
+          <PartnersList />
+        </AnimatedSection>
       </div>
     </main>
   );

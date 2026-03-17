@@ -1,10 +1,10 @@
 import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
-import PropertiesCarousel from "@/components/shared/properties-carousel";
 import { featuredUsersService } from "@/features/featured-users";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Mail, Phone, Star, User, Calendar } from "lucide-react";
+import { UserDataTabs } from "@/features/partners";
 
 export async function generateMetadata({ params }) {
   const { id, locale } = await params;
@@ -44,7 +44,7 @@ const SinglePartner = async ({ params }) => {
   };
 
   return (
-    <main className="space-y-12 min-h-screen pb-4 container mx-auto px-4">
+    <main className="space-y-12 min-h-screen pb-20 container mx-auto px-4">
       {/* Header */}
       <div className="bg-white p-4 pb-8 shadow-sm">
         <div className="space-y-4">
@@ -149,17 +149,8 @@ const SinglePartner = async ({ params }) => {
             </div>
           )}
 
-          {/* Properties Section */}
-          {user.properties && user.properties.length > 0 && (
-            <>
-              <div className="pt-8">
-                <div className="inline-block px-6 py-2 bg-[#F5FBF9] text-main-green font-bold rounded-lg text-sm">
-                  {user.name} {t("properties") || "Properties"}
-                </div>
-              </div>
-              <PropertiesCarousel properties={user.properties} />
-            </>
-          )}
+          {/* User Data Tabs (Marketed Properties, Regular Properties, Requests) */}
+          <UserDataTabs userId={user.id} />
         </div>
       </div>
     </main>
