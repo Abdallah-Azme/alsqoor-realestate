@@ -12,20 +12,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-const PartnersPage = async (props: {
-  params: Promise<{ locale: string }>;
-}) => {
+const PartnersPage = async (props: { params: Promise<{ locale: string }> }) => {
   const { locale } = await props.params;
   const t = await getTranslations("agents");
 
   return (
     <main className="space-y-12 pb-20">
-      <AnimatedSection>
+      {/* <AnimatedSection>
         <PageHeader
           title={t("title")}
           breadcrumbItems={[{ label: t("title") }]}
         />
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       <div className="container px-4 md:px-6">
         <div className="max-w-3xl mb-12">

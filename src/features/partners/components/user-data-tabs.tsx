@@ -187,18 +187,18 @@ export function UserDataTabs({ userId }: UserDataTabsProps) {
   const requestsList = Array.isArray(requestsData) ? requestsData : [];
 
   return (
-    <div className="w-full mt-8">
+    <div className="w-full">
       <Tabs
         defaultValue="marketed"
         className="w-full"
         dir={locale === "ar" ? "rtl" : "ltr"}
       >
-        <TabsList className="grid w-full grid-cols-3 bg-gray-100/50 p-0 rounded-xl mb-8 overflow-hidden h-12">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100/50 p-0 rounded-xl mb-12 overflow-hidden h-14 items-stretch">
           <TabsTrigger
             value="marketed"
-            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2"
+            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2 text-base"
           >
-            <Building2 className="w-4 h-4" />
+            <Building2 className="w-5 h-5" />
             {t("marketed_properties")}
             {marketedList.length > 0 && (
               <span className="bg-main-green/10 text-main-green text-xs rounded-full px-2 py-0.5">
@@ -208,9 +208,9 @@ export function UserDataTabs({ userId }: UserDataTabsProps) {
           </TabsTrigger>
           <TabsTrigger
             value="properties"
-            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2"
+            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2 text-base"
           >
-            <Home className="w-4 h-4" />
+            <Home className="w-5 h-5" />
             {t("properties")}
             {propertiesList.length > 0 && (
               <span className="bg-main-green/10 text-main-green text-xs rounded-full px-2 py-0.5">
@@ -220,9 +220,9 @@ export function UserDataTabs({ userId }: UserDataTabsProps) {
           </TabsTrigger>
           <TabsTrigger
             value="requests"
-            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2"
+            className="rounded-none h-full data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:shadow-sm transition-all font-bold gap-2 text-base"
           >
-            <ClipboardList className="w-4 h-4" />
+            <ClipboardList className="w-5 h-5" />
             {t("requests")}
             {requestsList.length > 0 && (
               <span className="bg-main-green/10 text-main-green text-xs rounded-full px-2 py-0.5">
