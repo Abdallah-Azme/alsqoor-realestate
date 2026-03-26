@@ -126,7 +126,6 @@ export async function getDirectDeals(page = 1): Promise<DealResponse> {
     }
 
     const result = await response.json();
-    console.log("API Response:", JSON.stringify(result));
 
     // Check if response is successful (either result.success is true OR response.ok with data)
     if (response.ok && (result.success || result.data)) {

@@ -72,7 +72,6 @@ const StartMarketingDialog = ({
     try {
       // TODO: Call API to start marketing
       // await propertiesService.startMarketing(propertyId);
-      console.log("Starting marketing for property:", propertyId);
 
       // Success - close dialog
       handleOpenChange(false);

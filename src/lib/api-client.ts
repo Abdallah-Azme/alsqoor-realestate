@@ -563,7 +563,6 @@ export const api = {
       });
       if (process.env.NODE_ENV === "development") {
         const duration = (performance.now() - start).toFixed(2);
-        console.log(`[API] GET ${url}: ${duration}ms`);
       }
       return result;
     } catch (error) {
@@ -595,7 +594,6 @@ export const api = {
       });
       if (process.env.NODE_ENV === "development") {
         const duration = (performance.now() - start).toFixed(2);
-        console.log(`[API] POST ${url}: ${duration}ms`);
       }
       return result;
     } catch (error) {
@@ -627,7 +625,6 @@ export const api = {
       });
       if (process.env.NODE_ENV === "development") {
         const duration = (performance.now() - start).toFixed(2);
-        console.log(`[API] PUT ${url}: ${duration}ms`);
       }
       return result;
     } catch (error) {
@@ -659,7 +656,6 @@ export const api = {
       });
       if (process.env.NODE_ENV === "development") {
         const duration = (performance.now() - start).toFixed(2);
-        console.log(`[API] PATCH ${url}: ${duration}ms`);
       }
       return result;
     } catch (error) {
@@ -691,7 +687,6 @@ export const api = {
       });
       if (process.env.NODE_ENV === "development") {
         const duration = (performance.now() - start).toFixed(2);
-        console.log(`[API] DELETE ${url}: ${duration}ms`);
       }
       return result;
     } catch (error) {

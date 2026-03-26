@@ -28,8 +28,6 @@ export async function getFaqs(): Promise<FAQ[]> {
       url: "/faqs",
     });
 
-    console.log("FAQ API Response:", JSON.stringify(response, null, 2));
-
     // getData returns { code, success, data } where data is the FAQApiResponse
     if (response?.success && response?.data?.status) {
       return response.data.data?.data || [];

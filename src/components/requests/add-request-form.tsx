@@ -71,7 +71,6 @@ const AddRequestForm = ({ setOpen }: AddRequestFormProps) => {
     setIsSubmitting(true);
     try {
       // TODO: Implement API call to create request
-      console.log("Form values:", values);
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));

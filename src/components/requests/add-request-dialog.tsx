@@ -66,7 +66,6 @@ const AddRequestDialog = ({ setOpen }: AddRequestDialogProps) => {
   const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
     try {
-      console.log("Form values:", values);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success(t("form.success"));
       setOpen(false);

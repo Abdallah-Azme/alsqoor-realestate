@@ -18,9 +18,16 @@ const EstatesGrid = ({
   properties = [],
   loading = false,
   totalResults = 0,
-  pagination = {},
+  pagination = {} as any,
   onLoadMore,
   loadingMore = false,
+}: {
+  properties?: any[];
+  loading?: boolean;
+  totalResults?: number;
+  pagination?: any;
+  onLoadMore?: () => void;
+  loadingMore?: boolean;
 }) => {
   const t = useTranslations("home.estates_page");
   const [open, setOpen] = React.useState(false);

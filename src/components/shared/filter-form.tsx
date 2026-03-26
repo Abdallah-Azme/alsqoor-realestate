@@ -24,7 +24,7 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useCategories } from "@/features/properties/hooks/use-properties";
 import { cn } from "@/lib/utils";
 
@@ -94,11 +94,7 @@ export default function FilterForm() {
     (c: any) => String(c.id) === selectedTypeId,
   );
   // DEBUG: remove after confirming field names
-  if (selectedCategory)
-    console.log("🏷️ category object:", JSON.stringify(selectedCategory));
-  const isLandMode = selectedCategory
-    ? isLandCategory(selectedCategory)
-    : false;
+  const isLandMode = selectedCategory ? isLandCategory(selectedCategory) : false;
 
   const onSubmit = (values: FormValues) => {
     const params = new URLSearchParams();

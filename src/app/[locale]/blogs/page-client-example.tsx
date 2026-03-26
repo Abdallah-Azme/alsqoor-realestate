@@ -4,6 +4,7 @@ import React from "react";
 import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
 import { BlogCard } from "@/features/blogs";
 import { useBlogs } from "@/features/blogs";
+import type { Blog } from "@/features/blogs";
 import { useTranslations } from "next-intl";
 import { AnimatedSection } from "@/components/motion/animated-section";
 import { AnimatedItem } from "@/components/motion/animated-section";
@@ -17,9 +18,10 @@ export default function BlogsPageClient({
   const [page, setPage] = React.useState(initialPage);
 
   // Use the new React Query hook
-  const { data: paginatedData, isLoading, error } = useBlogs(page, 12);
-
-  const blogs = paginatedData?.data || [];
+  const { data: rawData, isLoading, error } = useBlogs(page, 12);
+  // The API returns a paginated envelope at runtime
+  const paginatedData = rawData as any;
+  const blogs: Blog[] = paginatedData?.data || (Array.isArray(paginatedData) ? paginatedData : []);
   const pagination = paginatedData;
 
   if (isLoading) {
@@ -82,11 +84,11 @@ export default function BlogsPageClient({
                   Previous
                 </button>
               )}
-
+        
               <span className="text-gray-600">
                 Page {pagination.current_page} of {pagination.last_page}
               </span>
-
+        
               {pagination.current_page < pagination.last_page && (
                 <button
                   onClick={() => setPage(pagination.current_page + 1)}

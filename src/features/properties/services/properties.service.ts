@@ -297,6 +297,6 @@ export const propertiesService = {
    * Add a new developer property
    */
   async addDeveloperProperty(data: FormData) {
-    return api.post<any>("/properties-new", data);
+    return api.post<any>("/properties-new/add", data);
   },
 };

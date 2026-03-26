@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 interface FileUploaderProps {
-  value: File[];
-  onChange: (files: File[]) => void;
+  value: (File | string)[];
+  onChange: (files: (File | string)[]) => void;
   accept?: string;
   maxFiles?: number;
+  maxSize?: number; // in bytes
   label?: string;
   helperText?: string;
 }
@@ -19,6 +20,7 @@ export function FileUploader({
   onChange,
   accept = "image/*",
   maxFiles = 10,
+  maxSize,
   label = "Upload files",
   helperText = "Drag & drop files here or click to browse",
 }: FileUploaderProps) {
@@ -41,9 +43,19 @@ export function FileUploader({
     if (!files) return;
     const newFiles = Array.from(files);
 
+    // Check size first
+    if (maxSize) {
+      const oversizedFiles = newFiles.filter(file => file.size > maxSize);
+      if (oversizedFiles.length > 0) {
+        const maxSizeMB = (maxSize / 1024 / 1024).toFixed(1);
+        alert(`يجب أن يكون حجم الملف أقل من ${maxSizeMB} ميجابايت.`);
+        return;
+      }
+    }
+
     // Check total files doesn't exceed maxFiles
     if (value.length + newFiles.length > maxFiles) {
-      alert(`You can only upload up to ${maxFiles} files.`);
+      alert(`يمكنك تحميل حتى ${maxFiles} ملفات فقط.`);
       return;
     }
 

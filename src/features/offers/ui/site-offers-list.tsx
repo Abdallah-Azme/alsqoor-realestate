@@ -35,8 +35,6 @@ export function SiteOffersList() {
     ? data
     : (data as any)?.data || [];
 
-  console.log({ offersList });
-
   if (isLoading && !debouncedSearch) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
@@ -72,7 +70,7 @@ export function SiteOffersList() {
               `يوجد لدينا ${offersList.length} عرض متاح حالياً`}
           </p>
         </div>
-        
+
         <div className="relative w-full md:w-80 group">
           <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-main-green transition-colors duration-300" />
           <Input
@@ -101,7 +99,8 @@ export function SiteOffersList() {
             {t("no_offers") || "لا توجد عروض بعد"}
           </h3>
           <p className="text-gray-500 max-w-sm mx-auto">
-            {t("no_offers_desc") || "سيتم إضافة عروض جديدة ومميزة قريباً في هذه الصفحة."}
+            {t("no_offers_desc") ||
+              "سيتم إضافة عروض جديدة ومميزة قريباً في هذه الصفحة."}
           </p>
         </div>
       ) : (

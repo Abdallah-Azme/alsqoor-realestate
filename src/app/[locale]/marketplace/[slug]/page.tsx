@@ -68,8 +68,6 @@ const MarketplacePropertyDetailPage = () => {
 
   const { data: property, isLoading, error } = useRealEstateBySlug(slug);
 
-  console.log({ property });
-
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
@@ -123,7 +121,8 @@ const MarketplacePropertyDetailPage = () => {
 
               {property.isVerified && (
                 <Badge className="absolute top-6 left-6 z-10 bg-main-green px-3 py-1 text-sm shadow-md">
-                  <CheckCircle2 className="w-4 h-4 mr-1 inline" /> {t("verified")}
+                  <CheckCircle2 className="w-4 h-4 mr-1 inline" />{" "}
+                  {t("verified")}
                 </Badge>
               )}
               <Badge className="absolute top-6 right-6 z-10 bg-main-navy px-3 py-1 text-sm shadow-md">

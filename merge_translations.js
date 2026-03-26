@@ -108,7 +108,6 @@ function translate(key, fullKeyPath) {
 
 // 1. Add propertyRequestsPage to EN
 if (!en.propertyRequestsPage && ar.propertyRequestsPage) {
-  console.log("Adding propertyRequestsPage to en.json");
   en.propertyRequestsPage = {};
 
   function copyStructure(source, target, prefix = "") {
@@ -128,7 +127,6 @@ if (!en.propertyRequestsPage && ar.propertyRequestsPage) {
 
 // 2. Add Profile.my_offers to EN
 if (en.Profile && !en.Profile.my_offers) {
-  console.log("Adding Profile.my_offers to en.json");
   en.Profile.my_offers = "My Offers";
 }
 
@@ -140,9 +138,6 @@ function deepSync(source, target, ns) {
       deepSync(source[key], target[key], ns + "." + key);
     } else {
       if (!target[key]) {
-        console.log(
-          `Adding ${ns}.${key} to ${target === en ? "en.json" : "ar.json"}`,
-        );
         target[key] = translate(key, ns + "." + key);
       }
     }
@@ -163,5 +158,3 @@ if (en.properties) {
 // Write files
 fs.writeFileSync(enPath, JSON.stringify(en, null, 2));
 fs.writeFileSync(arPath, JSON.stringify(ar, null, 2));
-
-console.log("Done merging translations.");

@@ -44,6 +44,8 @@ export interface ApiResponse<T = any> {
   code?: number;
   status?: boolean;
   unauthorized?: boolean;
+  rawResponse?: string;
+  errorDetails?: any;
 }
 
 export interface PaginatedResponse<T = any> {

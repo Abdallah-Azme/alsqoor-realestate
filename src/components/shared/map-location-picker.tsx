@@ -7,7 +7,7 @@ import { MapPin } from "lucide-react";
 // Riyadh, Saudi Arabia — default center
 const DEFAULT_LAT = 24.7136;
 const DEFAULT_LNG = 46.6753;
-const DEFAULT_ZOOM = 12;
+const DEFAULT_ZOOM = 15;
 
 interface MapLocationPickerProps {
   /** Current latitude value */
@@ -61,29 +61,55 @@ export default function MapLocationPicker({
 
       mapRef.current = map;
 
-      // Add OpenStreetMap tiles
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      // Layers
+      const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
-      }).addTo(map);
+      });
+
+      const googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: 'Google Maps'
+      });
+
+      // Default: Google Hybrid as it shows buildings clearly
+      googleHybrid.addTo(map);
+
+      // Add layer control
+      const baseMaps = {
+        "Satellite": googleHybrid,
+        "Map": osm,
+      };
+      L.control.layers(baseMaps, {}, { position: 'topright' }).addTo(map);
 
       // Custom red draggable marker
       const redIcon = L.divIcon({
         className: "",
         html: `
           <div style="
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             background: #16a34a;
-            border: 3px solid white;
+            border: 4px solid white;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             cursor: grab;
-          "></div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <div style="
+              width: 8px;
+              height: 8px;
+              background: white;
+              border-radius: 50%;
+              transform: rotate(45deg);
+            "></div>
+          </div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
       });
 
       // Create draggable marker

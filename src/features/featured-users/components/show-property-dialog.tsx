@@ -79,12 +79,6 @@ const ShowPropertyDialog = ({
     setIsSubmitting(true);
 
     try {
-      // TODO: Submit to API
-      console.log("Showing property to agent:", {
-        agentId,
-        ...formData,
-        images,
-      });
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsSuccess(true);
     } catch (error) {

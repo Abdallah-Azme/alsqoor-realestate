@@ -56,7 +56,6 @@ const RequestPropertyDialog = ({
 
     try {
       // TODO: Submit to API
-      console.log("Submitting request:", { agentId, ...formData });
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsSuccess(true);
     } catch (error) {

@@ -754,9 +754,10 @@ const AddAdvertisementDialog = ({
                             value={field.value || []}
                             onChange={field.onChange}
                             accept="image/*"
-                            maxFiles={10}
+                            maxFiles={20}
+                            maxSize={1 * 1024 * 1024}
                             label={`${t("add_dialog.media")} (Images)`}
-                            helperText="Drag & drop images here or click to browse. Up to 10 images."
+                            helperText="اسحب الصور هنا أو انقر للتصفح. (حد أقصى 20 صورة، 1 ميجابايت لكل صورة)"
                           />
                         </FormControl>
                         <FormMessage />
@@ -774,9 +775,10 @@ const AddAdvertisementDialog = ({
                             value={field.value || []}
                             onChange={field.onChange}
                             accept="video/*"
-                            maxFiles={2}
+                            maxFiles={10}
+                            maxSize={5 * 1024 * 1024}
                             label={`${t("add_dialog.media")} (Videos)`}
-                            helperText="Drag & drop videos here or click to browse. Up to 2 videos."
+                            helperText="اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 10 فيديوهات، 5 ميجابايت لكل فيديو)"
                           />
                         </FormControl>
                         <FormMessage />

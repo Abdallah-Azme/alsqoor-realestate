@@ -32,4 +32,3 @@ const result = {
 };
 
 fs.writeFileSync("missing_keys.json", JSON.stringify(result, null, 2));
-console.log("Comparison saved to missing_keys.json");

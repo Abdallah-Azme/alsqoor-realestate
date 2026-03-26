@@ -351,13 +351,14 @@ export const CreateMarketplacePropertyDialog = ({
                 <Label>{t("images") || "صور العقار"}</Label>
                 <FileUploader
                   value={images}
-                  onChange={setImages}
+                  onChange={setImages as any}
                   accept="image/*"
-                  maxFiles={10}
+                  maxFiles={20}
+                  maxSize={1 * 1024 * 1024}
                   label=""
                   helperText={
-                    t("images_helper") ||
-                    "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 10 صور)"
+                    t("images_helper_updated") ||
+                    "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 20 صورة، 1 ميجابايت لكل صورة)"
                   }
                 />
               </div>
@@ -366,13 +367,14 @@ export const CreateMarketplacePropertyDialog = ({
                 <Label>{t("videos") || "فيديوهات العقار"}</Label>
                 <FileUploader
                   value={videos}
-                  onChange={setVideos}
+                  onChange={setVideos as any}
                   accept="video/*"
-                  maxFiles={3}
+                  maxFiles={1}
+                  maxSize={25 * 1024 * 1024}
                   label=""
                   helperText={
-                    t("videos_helper") ||
-                    "اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 3 فيديوهات)"
+                    t("videos_helper_updated_v2") ||
+                    "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 25 ميجابايت)"
                   }
                 />
               </div>
@@ -478,6 +480,7 @@ export const CreateMarketplacePropertyDialog = ({
                     id="commission_percentage"
                     name="commission_percentage"
                     type="number"
+                    step="0.5"
                     defaultValue={property?.commissionPercentage || ""}
                     required={step === 2 && role === "agent"}
                   />
@@ -587,6 +590,7 @@ export const CreateMarketplacePropertyDialog = ({
                       id="dev_commission_percentage"
                       name="commission_percentage"
                       type="number"
+                      step="0.5"
                       defaultValue={property?.commissionPercentage || ""}
                       required={step === 2 && role === "developer"}
                     />

@@ -16,7 +16,6 @@ const DealsTable = ({
   const t = useTranslations("deals_page");
   const { data: settings } = useSettings();
 
-  console.log({ deals });
   const siteLogo = settings?.siteInfo?.siteLogo || "/images/logo.jpg";
 
   if (isLoading) {
