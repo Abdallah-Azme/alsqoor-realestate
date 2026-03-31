@@ -24,6 +24,8 @@
     "logout_success": "تم تسجيل الخروج بنجاح",
     "success_add_property": "تم إضافة العقار بنجاح",
     "error_add_property": "فشل في إضافة العقار",
+    "success_update_property": "تم تحديث العقار بنجاح",
+    "error_update_property": "فشل في تحديث العقار",
     "more_filters": "فلاتر أكثر",
     "less_filters": "فلاتر أقل"
   },

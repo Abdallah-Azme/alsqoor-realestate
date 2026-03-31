@@ -52,13 +52,6 @@ export const useAddMarketplacePropertyMutation = () => {
       queryClient.invalidateQueries({ queryKey: marketplaceKeys.user });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
     },
-    onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message ||
-          t("error_add_property") ||
-          "Failed to add property",
-      );
-    },
   });
 };
 
@@ -77,13 +70,6 @@ export const useAddDeveloperPropertyMutation = () => {
       queryClient.invalidateQueries({ queryKey: marketplaceKeys.all });
       queryClient.invalidateQueries({ queryKey: marketplaceKeys.user });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
-    },
-    onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message ||
-          t("error_add_property") ||
-          "Failed to add property",
-      );
     },
   });
 };
@@ -107,13 +93,6 @@ export const useUpdateRealEstateProperty = () => {
       queryClient.invalidateQueries({ queryKey: marketplaceKeys.all });
       queryClient.invalidateQueries({ queryKey: marketplaceKeys.user });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
-    },
-    onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message ||
-          t("error_update_property") ||
-          "Failed to update property",
-      );
     },
   });
 };

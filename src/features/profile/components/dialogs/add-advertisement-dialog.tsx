@@ -274,6 +274,7 @@ const AddAdvertisementDialog = ({
 
   useEffect(() => {
     if (property && open) {
+      console.log("Updating advertisement with data:", property);
       form.reset({
         title: property.title || "",
         description: property.description || "",

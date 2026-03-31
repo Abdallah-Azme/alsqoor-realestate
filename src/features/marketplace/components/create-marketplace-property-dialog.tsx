@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import {
@@ -99,10 +99,15 @@ export const CreateMarketplacePropertyDialog = ({
 
   // Address State
   const [countryId, setCountryId] = useState<number>(1);
+  const [cityId, setCityId] = useState<string>("");
   // Images State
-  const [images, setImages] = useState<File[]>([]);
+  const [images, setImages] = useState<(File | string)[]>([]);
   // Videos State
-  const [videos, setVideos] = useState<File[]>([]);
+  const [videos, setVideos] = useState<(File | string)[]>([]);
+  // District State
+  const [district, setDistrict] = useState<string>("");
+  // Submission loading state (for URL→Blob conversion)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Location State — defaults to Riyadh
   const [latitude, setLatitude] = useState(DEFAULT_LAT);
@@ -130,11 +135,51 @@ export const CreateMarketplacePropertyDialog = ({
   // Initialize data if editing or user role changes
   useEffect(() => {
     if (isEdit && property && open) {
-      if (property.country_id) setCountryId(Number(property.country_id));
+      console.log("Updating property with initial data:", property);
+
+      // Resolve country ID
+      const resolvedCountryId =
+        (property as any).country?.id ||
+        property.country_id ||
+        1;
+      setCountryId(Number(resolvedCountryId));
+
+      // Resolve city ID
+      const resolvedCityId =
+        (property as any).city?.id ||
+        property.city_id ||
+        "";
+      if (resolvedCityId) {
+        setCityId(String(resolvedCityId));
+      }
+
       if (property.latitude) setLatitude(Number(property.latitude));
       if (property.longitude) setLongitude(Number(property.longitude));
 
-      // Determine role logically for edit mode
+      // Resolve District/Neighborhood ("الحي")
+      const resolvedDistrict =
+        typeof property.district === "string"
+          ? property.district
+          : (property.district as any)?.name ||
+            (property as any).areaName ||
+            (property as any).area_name ||
+            property.location ||
+            "";
+      setDistrict(resolvedDistrict);
+
+      // Pre-populate images and videos
+      if (Array.isArray(property.images) && property.images.length > 0) {
+        setImages(property.images as string[]);
+      } else {
+        setImages([]);
+      }
+      if (Array.isArray(property.videos) && property.videos.length > 0) {
+        setVideos(property.videos as string[]);
+      } else {
+        setVideos([]);
+      }
+
+      // Role check
       if (property.totalUnits || property.startingPrice) {
         setRole("developer");
       } else if (property.commissionPercentage && !property.startingPrice) {
@@ -147,7 +192,49 @@ export const CreateMarketplacePropertyDialog = ({
     }
   }, [isEdit, property, open, user?.role]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Handle city reset when country changes (only if initiated by user, not during initial load)
+  // We use a ref or check if cities load to determine if we should re-apply initial city
+  const isFirstLoad = useRef(true);
+  useEffect(() => {
+    if (open) {
+      isFirstLoad.current = true;
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (!loadingCities && cities.length > 0 && isEdit && property && open && isFirstLoad.current) {
+      const resolvedCityId = (property as any).city?.id || property.city_id;
+      if (resolvedCityId) {
+        setCityId(String(resolvedCityId));
+        isFirstLoad.current = false;
+      }
+    }
+  }, [loadingCities, cities]);
+
+  const handleCountryChange = (val: string) => {
+    const newId = Number(val);
+    if (newId !== countryId) {
+      setCountryId(newId);
+      setCityId(""); // Reset city when country changes
+      isFirstLoad.current = false; // Stop auto-applying property city
+    }
+  };
+
+  /**
+   * Convert a URL string to a File/Blob object via our server-side proxy.
+   * This avoids CORS issues — the browser calls /api/proxy-media (same origin),
+   * and the Next.js server fetches the actual media file server-to-server.
+   */
+  const urlToFile = async (url: string, type: "image" | "video"): Promise<File> => {
+    const proxyUrl = `/api/proxy-media?url=${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
+    const blob = await response.blob();
+    const filename = url.split("/").pop() || (type === "image" ? "image.jpg" : "video.mp4");
+    return new File([blob], filename, { type: blob.type });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (step === 1) {
@@ -157,23 +244,36 @@ export const CreateMarketplacePropertyDialog = ({
 
     const formData = new FormData(e.currentTarget);
 
-    // Inject the coordinates chosen on the map
+    // Sync state values to FormData
+    formData.set("country_id", String(countryId));
+    formData.set("city_id", String(cityId));
     formData.set("latitude", String(latitude));
     formData.set("longitude", String(longitude));
 
-    // Replace image with files uploaded via FileUploader
-    if (images.length > 0) {
-      formData.delete("image");
-      images.forEach((file) => {
-        formData.append("images[]", file);
-      });
-    }
+    setIsSubmitting(true);
+    try {
+      // Convert all kept existing image URLs to File blobs, then combine with new uploads.
+      // The backend receives the full desired set and replaces images entirely.
+      formData.delete("images[]");
+      const imageFiles = await Promise.all(
+        images.map((img) =>
+          img instanceof File ? Promise.resolve(img) : urlToFile(img as string, "image")
+        )
+      );
+      imageFiles.forEach((file) => formData.append("images[]", file));
 
-    // Add videos uploaded via FileUploader
-    if (videos.length > 0) {
-      videos.forEach((file) => {
-        formData.append("videos[]", file);
-      });
+      // Same for videos
+      formData.delete("videos[]");
+      const videoFiles = await Promise.all(
+        videos.map((vid) =>
+          vid instanceof File ? Promise.resolve(vid) : urlToFile(vid as string, "video")
+        )
+      );
+      videoFiles.forEach((file) => formData.append("videos[]", file));
+    } catch (err) {
+      console.warn("Failed to fetch existing media, submitting without re-fetched files:", err);
+    } finally {
+      setIsSubmitting(false);
     }
 
     const handleSuccess = () => {
@@ -184,6 +284,8 @@ export const CreateMarketplacePropertyDialog = ({
         setLongitude(DEFAULT_LNG);
         setImages([]);
         setVideos([]);
+        setCityId("");
+        setDistrict("");
       }, 300);
     };
 
@@ -207,6 +309,10 @@ export const CreateMarketplacePropertyDialog = ({
         setLatitude(DEFAULT_LAT);
         setLongitude(DEFAULT_LNG);
         setRole(user?.role || defaultRole); // Reset to user role on close
+        setImages([]);
+        setVideos([]);
+        setCityId("");
+        setDistrict("");
       }, 300);
     }
   };
@@ -301,7 +407,7 @@ export const CreateMarketplacePropertyDialog = ({
                 <Select
                   name="country_id"
                   value={String(countryId)}
-                  onValueChange={(val) => setCountryId(Number(val))}
+                  onValueChange={handleCountryChange}
                   disabled={loadingCountries}
                 >
                   <SelectTrigger>
@@ -321,7 +427,12 @@ export const CreateMarketplacePropertyDialog = ({
 
               <div className="space-y-2">
                 <Label htmlFor="city_id">{t("city") || "المدينة"} *</Label>
-                <Select name="city_id" disabled={!countryId || loadingCities}>
+                <Select
+                  name="city_id"
+                  value={cityId}
+                  onValueChange={(val) => setCityId(val)}
+                  disabled={!countryId || loadingCities}
+                >
                   <SelectTrigger>
                     <SelectValue
                       placeholder={t("select_city") || "اختر المدينة"}
@@ -342,7 +453,8 @@ export const CreateMarketplacePropertyDialog = ({
                 <Input
                   id="district"
                   name="district"
-                  defaultValue={property?.district || property?.location || ""}
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
                   placeholder={t("district_placeholder") || "أدخل اسم الحي"}
                 />
               </div>
@@ -627,12 +739,12 @@ export const CreateMarketplacePropertyDialog = ({
                 type="button"
                 variant="outline"
                 onClick={() => setStep(1)}
-                disabled={isPending}
+                disabled={isPending || isSubmitting}
               >
                 {tCommon("previous") || "السابق"}
               </Button>
-              <Button type="submit" disabled={isPending}>
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button type="submit" disabled={isPending || isSubmitting}>
+                {(isPending || isSubmitting) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isEdit
                   ? t("update_real_estate") || "تحديث العقار"
                   : t("submit_property") || "إضافة العقار"}

@@ -121,14 +121,12 @@ const MyPropertyCard = ({
   return (
     <div
       className={`bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative ${
-        isUnderReview
-          ? "grayscale opacity-75 pointer-events-none select-none"
-          : ""
+        isUnderReview ? "grayscale opacity-75 select-none" : ""
       }`}
     >
       {/* Pending Verification Overlay Label */}
       {isUnderReview && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-500/10 backdrop-blur-[1px]">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-500/10 backdrop-blur-[1px] pointer-events-none">
           <div className="bg-main-navy/90 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white/20">
             {t("under_review") || "قيد المراجعة"}
           </div>

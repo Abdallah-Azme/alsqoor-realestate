@@ -22,6 +22,10 @@
       "retry": "Try again"
     },
     "logout_success": "Logged out successfully",
+    "success_add_property": "Property added successfully",
+    "error_add_property": "Failed to add property",
+    "success_update_property": "Property updated successfully",
+    "error_update_property": "Failed to update property",
     "more_filters": "More Filters",
     "less_filters": "Less Filters"
   },
