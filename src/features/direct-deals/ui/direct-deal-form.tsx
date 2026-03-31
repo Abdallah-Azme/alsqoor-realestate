@@ -69,10 +69,10 @@ export function DirectDealForm({
     resolver: zodResolver(directDealSchema),
     defaultValues: {
       start_date: "",
+      country_id: "2", // HIDDEN: always Saudi Arabia
       end_date: "",
       city_id: "",
       district: "",
-      country_id: "",
       plan_number: "",
       plot_number: "",
       min_area: "",
@@ -87,9 +87,11 @@ export function DirectDealForm({
     },
   });
 
-  const countryId = watch("country_id");
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
+  const SAUDI_ARABIA_ID = "2";
+  const countryId = SAUDI_ARABIA_ID;
   const { data: countries } = useCountries();
-  const { data: cities } = useCities(countryId);
+  const { data: cities } = useCities(SAUDI_ARABIA_ID);
 
   const { data: categories } = useCategories();
 
@@ -158,7 +160,7 @@ export function DirectDealForm({
             "transaction_type_id",
           ]) || "",
         // Pre-fill IDs if they exist in the incoming object
-        country_id: getProp(deal, ["countryId", "country_id"]).toString(),
+        country_id: "2", // HIDDEN: always Saudi Arabia
         city_id: getProp(deal, ["cityId", "city_id"]).toString(),
         property_type_id: getProp(deal, [
           "propertyTypeId",
@@ -418,34 +420,7 @@ export function DirectDealForm({
           )}
         </div>
 
-        {/* الدولة */}
-        <div>
-          <Label className={labelStyle}>
-            {t("country")}
-            <span className="text-red-500">*</span>
-          </Label>
-          <Select
-            onValueChange={(v) => {
-              setValue("country_id", v, { shouldValidate: true });
-              setValue("city_id", "");
-            }}
-            value={watch("country_id")}
-          >
-            <SelectTrigger className="w-full" dir="rtl">
-              <SelectValue placeholder={t("select_country") || "اختر الدولة"} />
-            </SelectTrigger>
-            <SelectContent>
-              {countriesList?.map((c: any) => (
-                <SelectItem key={c.id} value={c.id.toString()}>
-                  {c.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.country_id && (
-            <p className="text-red-500 text-sm mt-1">{tVal("required")}</p>
-          )}
-        </div>
+        {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
         {/* المدينة */}
         <div>

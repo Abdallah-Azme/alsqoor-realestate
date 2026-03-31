@@ -97,8 +97,8 @@ export const CreateMarketplacePropertyDialog = ({
   const [role, setRole] = useState<string>(user?.role || defaultRole);
   const { checkCanAddAd, checkCanAddFeatured } = useAdLimit();
 
-  // Address State
-  const [countryId, setCountryId] = useState<number>(1);
+  // HIDDEN: country_id is always 2 (Saudi Arabia)
+  const [countryId, setCountryId] = useState<number>(2);
   const [cityId, setCityId] = useState<string>("");
   // Images State
   const [images, setImages] = useState<(File | string)[]>([]);
@@ -245,7 +245,8 @@ export const CreateMarketplacePropertyDialog = ({
     const formData = new FormData(e.currentTarget);
 
     // Sync state values to FormData
-    formData.set("country_id", String(countryId));
+    // HIDDEN: country is always Saudi Arabia (country_id = 2)
+    formData.set("country_id", "2");
     formData.set("city_id", String(cityId));
     formData.set("latitude", String(latitude));
     formData.set("longitude", String(longitude));
@@ -402,28 +403,7 @@ export const CreateMarketplacePropertyDialog = ({
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="country_id">{t("country") || "الدولة"} *</Label>
-                <Select
-                  name="country_id"
-                  value={String(countryId)}
-                  onValueChange={handleCountryChange}
-                  disabled={loadingCountries}
-                >
-                  <SelectTrigger>
-                    <SelectValue
-                      placeholder={t("select_country") || "اختر الدولة"}
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {countries?.map((country: any) => (
-                      <SelectItem key={country.id} value={String(country.id)}>
-                        {country.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
               <div className="space-y-2">
                 <Label htmlFor="city_id">{t("city") || "المدينة"} *</Label>

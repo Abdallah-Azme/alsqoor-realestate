@@ -38,27 +38,16 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
   const [activeType, setActiveType] = useState("all");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  // HIDDEN: Country is always Saudi Arabia (country_id = 1)
   const [countries, setCountries] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<string>("1"); // Saudi Arabia
   const [selectedCity, setSelectedCity] = useState<string>("");
 
-  // Fetch countries on mount
   useEffect(() => {
-    propertiesService.getCountries().then((data) => setCountries(data));
+    // Fetch cities for Saudi Arabia on mount
+    propertiesService.getCities("1").then((data) => setCities(data));
   }, []);
-
-  // Fetch cities when country changes
-  useEffect(() => {
-    if (selectedCountry) {
-      propertiesService
-        .getCities(selectedCountry)
-        .then((data) => setCities(data));
-      setSelectedCity(""); // Reset city when country changes
-    } else {
-      setCities([]);
-    }
-  }, [selectedCountry]);
 
   const handleTypeClick = (typeKey: string) => {
     setActiveType(typeKey);
@@ -68,14 +57,14 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
   /**
    * Filter the property requests based on user selection
    * search: maps to the keyword/details search
-   * country_id: filters by country
+   * country_id: always Saudi Arabia (1) — hidden from user
    * city_id: filters by city
    */
   const handleSubmit = (additionalFilters: Record<string, any> = {}) => {
     const filters = {
       request_type: activeType === "all" ? undefined : activeType,
       search: search,
-      country_id: selectedCountry ? Number(selectedCountry) : undefined,
+      country_id: 2, // HIDDEN: always Saudi Arabia
       city_id: selectedCity ? Number(selectedCity) : undefined,
       sort_by: sortBy,
       ...additionalFilters,
@@ -91,7 +80,6 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
     setActiveType("all");
     setSearch("");
     setSortBy("newest");
-    setSelectedCountry("");
     setSelectedCity("");
     onSubmit?.({});
   };
@@ -131,19 +119,7 @@ const RequestsFilter = ({ onSubmit }: RequestsFilterProps) => {
           <FiSearch className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
         </div>
 
-        {/* Country filter */}
-        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-          <SelectTrigger className="h-12 border-gray-300 rounded-lg">
-            <SelectValue placeholder={t("fields.country")} />
-          </SelectTrigger>
-          <SelectContent>
-            {countries.map((country) => (
-              <SelectItem key={country.id} value={String(country.id)}>
-                {country.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* HIDDEN: Country filter — always Saudi Arabia (country_id = 1) sent to backend */}
 
         {/* City filter */}
         <Select

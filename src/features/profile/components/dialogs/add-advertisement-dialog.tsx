@@ -218,7 +218,7 @@ const AddAdvertisementDialog = ({
     defaultValues: {
       title: "",
       description: "",
-      country_id: 0,
+      country_id: 2, // HIDDEN: always Saudi Arabia
       city_id: 0,
       district: "",
       category_id: 1,
@@ -352,7 +352,9 @@ const AddAdvertisementDialog = ({
     }
   }, [property, open, form]);
 
-  const watchCountryId = form.watch("country_id");
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
+  const SAUDI_ARABIA_ID = 2;
+  const watchCountryId = SAUDI_ARABIA_ID;
 
   const { data: countriesData, isLoading: loadingCountries } = useCountries();
   const { data: citiesData, isLoading: loadingCities } =
@@ -387,21 +389,10 @@ const AddAdvertisementDialog = ({
       property &&
       open
     ) {
-      const countryName =
-        typeof property.country === "string" ? property.country : null;
-      if (countryName) {
-        const found = countries.find(
-          (c: any) =>
-            c.name === countryName ||
-            c.name_ar === countryName ||
-            c.name_en === countryName,
-        );
-        if (found) {
-          form.setValue("country_id", found.id, { shouldDirty: false });
-          // Reset city so it re-fetches for the new country
-          form.setValue("city_id", 0, { shouldDirty: false });
-        }
-      }
+      // HIDDEN: country is always Saudi Arabia (country_id = 2)
+      form.setValue("country_id", 2, { shouldDirty: false });
+      // Reset city so it re-fetches for Saudi Arabia
+      form.setValue("city_id", 0, { shouldDirty: false });
     }
   }, [loadingCountries, countries, isEditing, open]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -792,41 +783,7 @@ const AddAdvertisementDialog = ({
               {/* Location Tab */}
               <TabsContent value="location" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="country_id"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{tAgent("country") || "Country"}</FormLabel>
-                        <Select
-                          key={`country-select-${countries.length}`}
-                          onValueChange={(val) => {
-                            field.onChange(Number(val));
-                            form.setValue("city_id", 0);
-                          }}
-                          value={field.value ? String(field.value) : undefined}
-                          disabled={loadingCountries}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Country" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {countries?.map((country) => (
-                              <SelectItem
-                                key={country.id}
-                                value={String(country.id)}
-                              >
-                                {country.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
                   <FormField
                     control={form.control}

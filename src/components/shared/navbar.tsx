@@ -329,9 +329,8 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
                       <Link href="/requests">{t("requests")}</Link>
                     </li>
                   </ul>
-                  {/* Country Selector for Mobile */}
+                  {/* HIDDEN: Country Selector — always Saudi Arabia (country_id = 1) */}
                   <div className="flex justify-center gap-2 mt-4">
-                    <CountrySelector />
                     <CurrencySelector />
                   </div>
                   {/* auth fav and cart */}

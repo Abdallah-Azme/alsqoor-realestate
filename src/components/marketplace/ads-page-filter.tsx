@@ -48,9 +48,8 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     searchParams.get("operation_type") || "all",
   );
   const [search, setSearch] = useState(searchParams.get("title") || "");
-  const [selectedCountry, setSelectedCountry] = useState<string>(
-    searchParams.get("country_id") || "",
-  );
+  // HIDDEN: Country is always Saudi Arabia (country_id = 1)
+  const [selectedCountry, setSelectedCountry] = useState<string>("1");
   const [selectedCity, setSelectedCity] = useState<string>(
     searchParams.get("city_id") || "",
   );
@@ -87,7 +86,7 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     const filters = {
       operation_type: activeType === "all" ? undefined : activeType,
       title: search,
-      country_id: selectedCountry ? Number(selectedCountry) : undefined,
+      country_id: 2, // HIDDEN: always Saudi Arabia
       city_id: selectedCity ? Number(selectedCity) : undefined,
       sort_by: sortBy,
       ...formData,
@@ -114,7 +113,6 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
   const handleClear = () => {
     setActiveType("all");
     setSearch("");
-    setSelectedCountry("");
     setSelectedCity("");
     setSortBy("newest");
     setFormData({
@@ -166,19 +164,7 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
           <FiSearch className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
         </div>
 
-        {/* Country */}
-        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-          <SelectTrigger className="!h-12 border-gray-300 rounded-lg">
-            <SelectValue placeholder={tRequests("fields.country")} />
-          </SelectTrigger>
-          <SelectContent>
-            {countries.map((country: any) => (
-              <SelectItem key={country.id} value={String(country.id)}>
-                {country.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* HIDDEN: Country filter — always Saudi Arabia (country_id = 1) sent to backend */}
 
         {/* City */}
         <Select

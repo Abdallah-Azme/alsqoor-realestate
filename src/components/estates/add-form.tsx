@@ -58,7 +58,8 @@ const createSchema = (t: any) =>
         .refine((val) => !val || /^\d+(\.\d+)?$/.test(val), {
           message: t("number_only"),
         }),
-      countryId: z.string().min(1, t("required")),
+      // HIDDEN: country is always Saudi Arabia — countryId is hardcoded, not validated from user
+      countryId: z.string().optional(),
       cityId: z.string().min(1, t("required")),
       district: z.string().optional(),
       finishingType: z.string().min(1, t("required")),
@@ -138,7 +139,7 @@ export default function AddForm({ setOpen }) {
       garages: "",
       area: "",
       usableArea: "",
-      countryId: "",
+      countryId: "2", // Saudi Arabia — always sent to backend
       cityId: "",
       district: "",
       finishingType: "",
@@ -235,7 +236,8 @@ export default function AddForm({ setOpen }) {
         formData.append("usable_area", parseFloat(data.usableArea).toString());
 
       // Add location fields
-      formData.append("country_id", data.countryId);
+      // HIDDEN: country is always Saudi Arabia (country_id = 2)
+      formData.append("country_id", "2");
       formData.append("city_id", data.cityId);
       if (data.district) formData.append("district", data.district);
 
@@ -491,30 +493,7 @@ export default function AddForm({ setOpen }) {
           />
         </div>
 
-        <div>
-          <Label className={lableStyle}>
-            الدولة<span className="text-red-500">*</span>
-          </Label>
-          <Select onValueChange={(v) => setValue("countryId", v)} dir="rtl">
-            <SelectTrigger className={"w-full"}>
-              <SelectValue placeholder="اختر الدولة" />
-            </SelectTrigger>
-            <SelectContent className="">
-              {countries.map((country) => (
-                <SelectItem
-                  className=""
-                  key={country.id}
-                  value={country.id.toString()}
-                >
-                  {country.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.countryId && (
-            <p className="text-red-500 text-sm">{errors.countryId.message}</p>
-          )}
-        </div>
+        {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
         <div>
           <Label className={lableStyle}>

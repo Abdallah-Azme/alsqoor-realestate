@@ -70,21 +70,18 @@ export const RequestDialog = ({
       budget_amount: "",
       whatsapp: "",
       telegram: "",
-      country_id: 1,
+      country_id: 2, // HIDDEN: always Saudi Arabia
       city_id: 1,
       district: "",
       is_urgent: "0",
     },
   }) as any;
 
-  const watchCountryId = form.watch("country_id");
-  const { data: countriesData, isLoading: loadingCountries } = useCountries();
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
+  const SAUDI_ARABIA_ID = 2;
   const { data: citiesData, isLoading: loadingCities } =
-    useCities(watchCountryId);
+    useCities(SAUDI_ARABIA_ID);
 
-  const countries = Array.isArray(countriesData)
-    ? countriesData
-    : (countriesData as any)?.data || [];
   const cities = Array.isArray(citiesData)
     ? citiesData
     : (citiesData as any)?.data || [];
@@ -102,7 +99,7 @@ export const RequestDialog = ({
         budget_amount: request.budgetAmount || "",
         whatsapp: request.whatsapp || "",
         telegram: request.telegram || "",
-        country_id: request.country.id,
+        country_id: 2, // HIDDEN: always Saudi Arabia
         city_id: request.city.id,
         district: request.district,
         is_urgent: request.isUrgent || "0",
@@ -235,38 +232,8 @@ export const RequestDialog = ({
               />
             </div>
 
+            {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
             <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="country_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.country") || "الدولة"}</FormLabel>
-                    <Select
-                      onValueChange={(val) => field.onChange(Number(val))}
-                      value={field.value ? String(field.value) : undefined}
-                      disabled={loadingCountries}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder={t("fields.select_country")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {countries.map((c: any) => (
-                          <SelectItem key={c.id} value={String(c.id)}>
-                            {c.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <FormField
                 control={form.control}
                 name="city_id"
@@ -276,7 +243,7 @@ export const RequestDialog = ({
                     <Select
                       onValueChange={(val) => field.onChange(Number(val))}
                       value={field.value ? String(field.value) : undefined}
-                      disabled={loadingCities || !watchCountryId}
+                      disabled={loadingCities}
                     >
                       <FormControl>
                         <SelectTrigger>

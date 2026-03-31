@@ -99,7 +99,7 @@ export default function FilterForm() {
   const onSubmit = (values: FormValues) => {
     const params = new URLSearchParams();
     params.set("operation_type", operationType);
-    params.set("country_id", "1");
+    params.set("country_id", "2");
     params.set("per_page", "12");
 
     if (values.type) params.set("category_id", values.type);

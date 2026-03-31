@@ -15,10 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createDirectDeal, updateDirectDeal } from "@/actions/deals";
-import {
-  useCountries,
-  useCities,
-} from "@/features/properties/hooks/use-properties";
+import { useCities } from "@/features/properties/hooks/use-properties";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
@@ -62,7 +59,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
       end_date: "",
       city_id: "",
       district: "",
-      country_id: "",
+      country_id: "1",
       plan_number: "",
       plot_number: "",
       min_area: "",
@@ -77,13 +74,10 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
     },
   });
 
-  const countryId = watch("country_id");
-  const { data: countries } = useCountries();
-  const { data: cities } = useCities(countryId);
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
+  const SAUDI_ARABIA_ID = "2";
+  const { data: cities } = useCities(SAUDI_ARABIA_ID);
 
-  const countriesList = Array.isArray(countries)
-    ? countries
-    : (countries as any)?.data || [];
   const citiesList = Array.isArray(cities)
     ? cities
     : (cities as any)?.data || [];
@@ -96,7 +90,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
         end_date: deal.endDate || "",
         city_id: deal.cityId?.toString() || "",
         district: deal.district || "",
-        country_id: deal.countryId?.toString() || "",
+        country_id: "2",
         plan_number: deal.planNumber?.toString() || "",
         plot_number: deal.plotNumber?.toString() || "",
         min_area: deal.minArea?.toString() || "",
@@ -181,35 +175,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
           )}
         </div>
 
-        {/* الدولة */}
-        <div>
-          <Label className={labelStyle}>
-            {t("country")}
-            <span className="text-red-500">*</span>
-          </Label>
-          <Select
-            onValueChange={(v) => {
-              setValue("country_id", v);
-              setValue("city_id", ""); // Clear city when country changes
-            }}
-            value={watch("country_id")}
-            dir="rtl"
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder={t("select_country") || "اختر الدولة"} />
-            </SelectTrigger>
-            <SelectContent>
-              {countriesList?.map((c: any) => (
-                <SelectItem key={c.id} value={c.id.toString()}>
-                  {c.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.country_id && (
-            <p className="text-red-500 text-sm">{errors.country_id.message}</p>
-          )}
-        </div>
+        {/* HIDDEN:      country_id: "2", // HIDDEN: always Saudi Arabia (country_id = 2) sent to backend */}
 
         {/* المدينة */}
         <div>
@@ -220,7 +186,7 @@ export default function AddDealForm({ setOpen, onSuccess, deal = null }) {
           <Select
             onValueChange={(v) => setValue("city_id", v)}
             value={watch("city_id")}
-            disabled={!countryId}
+            disabled={false}
             dir="rtl"
           >
             <SelectTrigger className="w-full">

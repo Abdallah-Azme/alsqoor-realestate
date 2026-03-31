@@ -22,10 +22,7 @@ import {
 } from "@/components/ui/select";
 import { FiCheck, FiUpload, FiX } from "react-icons/fi";
 import Image from "next/image";
-import {
-  useCountries,
-  useCities,
-} from "@/features/properties/hooks/use-properties";
+import { useCities } from "@/features/properties/hooks/use-properties";
 import { FiLoader } from "react-icons/fi";
 
 interface ShowPropertyDialogProps {
@@ -50,7 +47,7 @@ const ShowPropertyDialog = ({
     title: "",
     propertyType: "",
     operationType: "",
-    country_id: "",
+    country_id: "1", // HIDDEN: always Saudi Arabia
     city_id: "",
     neighborhood: "",
     area: "",
@@ -58,10 +55,8 @@ const ShowPropertyDialog = ({
     description: "",
   });
 
-  const { data: countries, isLoading: loadingCountries } = useCountries();
-  const { data: cities, isLoading: loadingCities } = useCities(
-    formData.country_id,
-  );
+  // HIDDEN: Country is always Saudi Arabia (country_id = 1)
+  const { data: cities, isLoading: loadingCities } = useCities("1");
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -95,7 +90,7 @@ const ShowPropertyDialog = ({
       title: "",
       propertyType: "",
       operationType: "",
-      country_id: "",
+      country_id: "1", // HIDDEN: always Saudi Arabia
       city_id: "",
       neighborhood: "",
       area: "",
@@ -194,58 +189,31 @@ const ShowPropertyDialog = ({
           </div>
 
           {/* Location */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>{t("country") || "Country"}</Label>
-              <Select
-                value={formData.country_id}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, country_id: value, city_id: "" })
-                }
-              >
-                <SelectTrigger disabled={loadingCountries}>
-                  <SelectValue
-                    placeholder={
-                      loadingCountries
-                        ? "..."
-                        : t("select_country") || "Select Country"
-                    }
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries?.map((country: any) => (
-                    <SelectItem key={country.id} value={String(country.id)}>
-                      {country.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label>{t("city") || "City"}</Label>
-              <Select
-                value={formData.city_id}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, city_id: value })
-                }
-                disabled={!formData.country_id || loadingCities}
-              >
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder={
-                      loadingCities ? "..." : t("select_city") || "Select City"
-                    }
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {cities?.map((city: any) => (
-                    <SelectItem key={city.id} value={String(city.id)}>
-                      {city.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          {/* HIDDEN: Country select — always Saudi Arabia (country_id = 1) sent to backend */}
+          <div>
+            <Label>{t("city") || "City"}</Label>
+            <Select
+              value={formData.city_id}
+              onValueChange={(value) =>
+                setFormData({ ...formData, city_id: value })
+              }
+              disabled={loadingCities}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={
+                    loadingCities ? "..." : t("select_city") || "Select City"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {cities?.map((city: any) => (
+                  <SelectItem key={city.id} value={String(city.id)}>
+                    {city.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>

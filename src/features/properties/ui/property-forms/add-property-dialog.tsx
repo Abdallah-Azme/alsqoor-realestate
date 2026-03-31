@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -677,49 +677,21 @@ export function AddPropertyDialog({
 
 function LocationFields({ form }: { form: any }) {
   const t = useTranslations("properties");
-  const countryId = form.watch("country_id");
 
-  const { data: countries, isLoading: loadingCountries } = useCountries();
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2) — set on mount and never changed
+  const SAUDI_ARABIA_ID = 2;
+  const countryId = SAUDI_ARABIA_ID;
+
+  // Auto-set country_id to Saudi Arabia immediately
+  useEffect(() => {
+    form.setValue("country_id", SAUDI_ARABIA_ID);
+  }, []);
+
   const { data: cities, isLoading: loadingCities } = useCities(countryId);
 
   return (
     <>
-      <FormField
-        control={form.control}
-        name="country_id"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t("country") || "الدولة"} *</FormLabel>
-            <Select
-              onValueChange={(value) => {
-                field.onChange(parseInt(value));
-                form.setValue("city_id", undefined);
-              }}
-              value={field.value ? String(field.value) : undefined}
-            >
-              <FormControl>
-                <SelectTrigger disabled={loadingCountries}>
-                  <SelectValue
-                    placeholder={
-                      loadingCountries
-                        ? "..."
-                        : t("select_country") || "اختر الدولة"
-                    }
-                  />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {countries?.map((country: any) => (
-                  <SelectItem key={country.id} value={String(country.id)}>
-                    {country.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
       <FormField
         control={form.control}
@@ -730,7 +702,7 @@ function LocationFields({ form }: { form: any }) {
             <Select
               onValueChange={(value) => field.onChange(parseInt(value))}
               value={field.value ? String(field.value) : undefined}
-              disabled={!countryId || loadingCities}
+              disabled={loadingCities}
             >
               <FormControl>
                 <SelectTrigger>
