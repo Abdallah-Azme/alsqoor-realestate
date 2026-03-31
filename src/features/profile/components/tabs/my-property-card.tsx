@@ -119,24 +119,23 @@ const MyPropertyCard = ({
   const isUnderReview = property.isApproved === false;
 
   return (
-    <div
-      className={`bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative ${
-        isUnderReview ? "grayscale opacity-75 select-none" : ""
-      }`}
-    >
-      {/* Pending Verification Overlay Label */}
-      {isUnderReview && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-500/10 backdrop-blur-[1px] pointer-events-none">
-          <div className="bg-main-navy/90 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white/20">
-            {t("under_review") || "قيد المراجعة"}
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative">
+      
+      {/* Content area with conditional styling for 'under review' */}
+      <div className={`flex flex-col flex-1 relative ${isUnderReview ? "grayscale-[0.6] opacity-80" : ""}`}>
+        {/* Pending Verification Overlay Label */}
+        {isUnderReview && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-50/30 backdrop-blur-[1px] pointer-events-none">
+            <div className="bg-main-navy/90 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white/20">
+              {t("under_review") || "قيد المراجعة"}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <Link
-        href={viewHref || `/ads/${property.slug}`}
-        className="flex flex-col flex-1 group/card"
-      >
+        <Link
+          href={viewHref || `/ads/${property.slug}`}
+          className="flex flex-col flex-1 group/card"
+        >
         {/* Image Section */}
         <div className="relative h-48 w-full overflow-hidden">
           <Image
@@ -243,6 +242,7 @@ const MyPropertyCard = ({
           </div>
         </div>
       </Link>
+      </div>
 
       {/* Absolute positioned Delete Action - Outside Link */}
       <button

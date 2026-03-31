@@ -241,7 +241,7 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="flex items-center gap-2 max-md:hidden"
         >
-          <CurrencySelector />
+          {/* <CurrencySelector /> */}
 
           {user && (
             <>
