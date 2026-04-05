@@ -152,7 +152,7 @@ const AboutSection = ({
         }}
       >
         {/* rate */}
-        <div className="w-[30%] text-center bg-white rounded-b-3xl  absolute top-0 end-[10%] ">
+        <div className="lg:w-[25%] md:w-[30%] w-[45%] min-w-[140px] text-center bg-white rounded-b-3xl absolute top-0 end-[10%] shadow-lg">
           <FaSquareCheck
             size={34}
             className="lg:size-[34px] size-[24px] text-main-green absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -165,7 +165,7 @@ const AboutSection = ({
               ))}
             </div>
             <div className="space-y-1">
-              <p className="whitespace-nowrap text-xs font-semibold text-gray-400">
+              <p className="text-xs font-semibold text-gray-400">
                 {t("trusted_by")}
               </p>
               <p className=" text-xs ">

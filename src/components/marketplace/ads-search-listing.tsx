@@ -126,13 +126,15 @@ const AdsSearchListing = () => {
           {t("opportunity")}
         </p>
 
-        <Button
-          onClick={() => setIsAddDialogOpen(true)}
-          className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
-        >
-          <FiPlus className="w-5 h-5" />
-          {tProfile("add_new_ad")}
-        </Button>
+        {mappedProperties.length > 0 && (
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
+          >
+            <FiPlus className="w-5 h-5" />
+            {tProfile("add_new_ad")}
+          </Button>
+        )}
       </div>
 
       {/* Cards grid or empty state */}

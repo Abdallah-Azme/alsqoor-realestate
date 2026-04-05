@@ -18,7 +18,7 @@ export const blogsService = {
    * Get a single blog by ID/slug
    */
   async getById(id: string | number) {
-    return api.get<Blog>(`${BASE_PATH}/${id}`);
+    return api.get<Blog>(`${BASE_PATH}/${encodeURIComponent(id)}`);
   },
 
   /**
@@ -32,7 +32,7 @@ export const blogsService = {
    * Get similar blogs
    */
   async getSimilar(id: string | number) {
-    return api.get<Blog[]>(`${BASE_PATH}/${id}/similar`);
+    return api.get<Blog[]>(`${BASE_PATH}/${encodeURIComponent(id)}/similar`);
   },
 
   /**

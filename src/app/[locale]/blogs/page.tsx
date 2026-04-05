@@ -15,11 +15,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
-const BlogsPage = async ({ searchParams }) => {
+const BlogsPage = async ({ searchParams }: { searchParams: Promise<{ page?: string }> }) => {
   const t = await getTranslations("breadcrumbs");
+  const { page: pageParam } = await searchParams;
 
   // Get page from search params, default to 1
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const page = pageParam ? parseInt(pageParam) : 1;
 
   // Fetch blogs data
   const response = await getBlogs(page, 12);

@@ -113,6 +113,7 @@ const OwnersListing = () => {
         open={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         defaultRole="owner"
+        hideTrigger={true}
       />
     </div>
   );

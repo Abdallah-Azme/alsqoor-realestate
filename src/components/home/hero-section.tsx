@@ -170,10 +170,10 @@ const HeroSection = ({
         initial={{ opacity: 0, y: 50, rotate: -1 }}
         animate={{ opacity: 1, y: 0, rotate: 0 }}
         transition={{ duration: 0.7, delay: 0.5 }}
-        className="flex items-center justify-evenly"
+        className="flex items-center justify-evenly gap-8"
       >
-        {/* video */}
-        <div className="relative lg:h-[30vh] lg:w-[65%] w-full hover rounded-[3rem] overflow-hidden ">
+        {/* video and form container */}
+        <div className="relative min-h-[300px] 2xl:min-h-[30vh] w-full 2xl:w-[65%] rounded-[3rem] overflow-hidden shadow-xl">
           <video
             src={videoSrc}
             autoPlay
@@ -182,17 +182,17 @@ const HeroSection = ({
             playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="relative z-10 p-6 h-full flex  ">
+          <div className="relative z-10 p-4 md:p-8 h-full flex items-center justify-center">
             <FilterForm />
           </div>
         </div>
-        <div className="lg:h-[30vh] max-lg:hidden ">
+        <div className="2xl:h-[30vh] max-2xl:hidden shrink-0">
           <Image
             src="/images/hero.png"
             width={500}
             height={500}
             alt="hero"
-            className="w-full h-full "
+            className="w-full h-full object-contain"
           />
         </div>
       </motion.div>

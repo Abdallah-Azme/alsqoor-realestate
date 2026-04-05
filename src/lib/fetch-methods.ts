@@ -31,6 +31,7 @@ async function getHeaders(
   if (!isFormData) {
     headers["Content-Type"] = "application/json";
   }
+  headers["Accept"] = "application/json";
 
   // اللغة
   const currentLocale = locale || (await getLocale());
@@ -63,7 +64,11 @@ export async function getData<T = any>({
 }: FetchOptions): Promise<ApiResponse<T>> {
   try {
     const headers = await getHeaders(false, locale);
-    const response = await fetch(`${API_URL}${url}`, {
+    const fullUrl = `${API_URL}${url}`;
+    if (process.env.NODE_ENV === "development") {
+      console.log(`[API GET] Fetching: ${fullUrl}`);
+    }
+    const response = await fetch(fullUrl, {
       headers,
       cache: "no-store", // Disable Next.js caching - React Query handles caching
     });

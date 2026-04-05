@@ -67,6 +67,7 @@ interface CreateMarketplacePropertyDialogProps {
   bypassLimitCheck?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  hideTrigger?: boolean;
 }
 
 export const CreateMarketplacePropertyDialog = ({
@@ -79,6 +80,7 @@ export const CreateMarketplacePropertyDialog = ({
   bypassLimitCheck = false,
   open: externalOpen,
   onOpenChange: setExternalOpen,
+  hideTrigger = false,
 }: CreateMarketplacePropertyDialogProps) => {
   const t = useTranslations("properties");
   const tProfile = useTranslations("Profile");
@@ -335,22 +337,24 @@ export const CreateMarketplacePropertyDialog = ({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       {/* Trigger rendered outside DialogTrigger so we can intercept and guard the click */}
-      {isEdit ? (
-        <button className={triggerClassName} onClick={handleTriggerClick}>
-          <FiEdit2 size={16} />
-          {buttonText || tProfile("edit_data")}
-        </button>
-      ) : (
-        <Button
-          onClick={handleTriggerClick}
-          className={
-            triggerClassName ||
-            "bg-main-green hover:bg-main-green/90 text-white gap-2"
-          }
-        >
-          <FiPlus className="text-lg" />
-          <span>{buttonText || tPage("add_ad")}</span>
-        </Button>
+      {!hideTrigger && (
+        isEdit ? (
+          <button className={triggerClassName} onClick={handleTriggerClick}>
+            <FiEdit2 size={16} />
+            {buttonText || tProfile("edit_data")}
+          </button>
+        ) : (
+          <Button
+            onClick={handleTriggerClick}
+            className={
+              triggerClassName ||
+              "bg-main-green hover:bg-main-green/90 text-white gap-2"
+            }
+          >
+            <FiPlus className="text-lg" />
+            <span>{buttonText || tPage("add_ad")}</span>
+          </Button>
+        )
       )}
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>

@@ -110,6 +110,7 @@ const DevelopersListing = () => {
         open={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         defaultRole="developer"
+        hideTrigger={true}
       />
     </div>
   );

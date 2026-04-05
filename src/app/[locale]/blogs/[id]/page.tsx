@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { id, locale } = await params;
+  console.log(`[generateMetadata] Fetching blog with id: "${id}"`);
   const response = await getBlogById(id);
   const blog = response?.data?.data;
   const t = await getTranslations({ locale, namespace: "Metadata" });
@@ -24,15 +25,33 @@ export async function generateMetadata({ params }) {
   };
 }
 
-const SingleBlogPage = async ({ params }) => {
+const SingleBlogPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const t = await getTranslations("breadcrumbs");
-  const { id } = params; // This will actually contain the slug from the URL
+  const { id } = await params;
 
   // Fetch blog data using the slug (passed as id parameter)
+  console.log(`[SingleBlogPage] Fetching blog with id from params: "${id}"`);
   const response = await getBlogById(id);
 
+  if (process.env.NODE_ENV === "development") {
+    console.log("[SingleBlogPage] Response received:", {
+      code: response.code,
+      success: response.success,
+      status: response?.data?.status,
+      msg: response?.data?.message,
+    });
+  }
+
   // If blog not found, show 404
-  if (!response?.success || !response?.data?.data) {
+  if (
+    !response?.success ||
+    !response?.data?.status ||
+    Array.isArray(response?.data?.data)
+  ) {
     notFound();
   }
 
@@ -90,7 +109,7 @@ const SingleBlogPage = async ({ params }) => {
             </div>
           )}
         </div>
-        <div className="space-y-6 lg:p-14 p-8">
+        <div className="space-y-6 lg:pt-20 p-8">
           {blog.description && (
             <div
               className="blog-content"

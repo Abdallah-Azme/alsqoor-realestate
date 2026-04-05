@@ -148,7 +148,7 @@ export default function FilterForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-0 rounded-xl rounded-tl-none shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 relative z-20"
+          className="bg-white p-4 lg:p-6 flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:gap-0 rounded-xl rounded-tl-none shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 relative z-20 w-full"
         >
           {/* 1. Property Type — always visible */}
           <FilterField
@@ -212,10 +212,10 @@ export default function FilterForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.25 }}
-                className="flex flex-1 flex-col md:flex-row items-stretch w-full gap-4 md:gap-0"
+                className="flex flex-1 flex-col lg:flex-row items-stretch w-full gap-4 lg:gap-0"
               >
                 {/* Separator */}
-                <div className="hidden md:block w-px h-10 self-center bg-gray-100 mx-2" />
+                <div className="hidden lg:block w-px h-10 self-center bg-gray-100 mx-2" />
 
                 {/* Min Area */}
                 <FilterField
@@ -247,7 +247,7 @@ export default function FilterForm() {
                 </FilterField>
 
                 {/* Separator */}
-                <div className="hidden md:block w-px h-10 self-center bg-gray-100 mx-2" />
+                <div className="hidden lg:block w-px h-10 self-center bg-gray-100 mx-2" />
 
                 {/* District */}
                 <FilterField
@@ -276,10 +276,10 @@ export default function FilterForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.25 }}
-                className="flex flex-1 flex-col md:flex-row items-stretch w-full gap-4 md:gap-0"
+                className="flex flex-1 flex-col lg:flex-row items-stretch w-full gap-4 lg:gap-0"
               >
                 {/* Separator */}
-                <div className="hidden md:block w-px h-10 self-center bg-gray-100 mx-2" />
+                <div className="hidden lg:block w-px h-10 self-center bg-gray-100 mx-2" />
 
                 {/* Rooms */}
                 <FilterField
@@ -318,7 +318,7 @@ export default function FilterForm() {
                 </FilterField>
 
                 {/* Separator */}
-                <div className="hidden md:block w-px h-10 self-center bg-gray-100 mx-2" />
+                <div className="hidden lg:block w-px h-10 self-center bg-gray-100 mx-2" />
 
                 {/* Finishing Type */}
                 <FilterField
@@ -361,10 +361,10 @@ export default function FilterForm() {
           </AnimatePresence>
 
           {/* Search Button */}
-          <div className="hidden md:block w-px h-10 self-center bg-gray-100 mx-2" />
+          <div className="hidden lg:block w-px h-10 self-center bg-gray-100 mx-2" />
           <Button
             type="submit"
-            className="bg-main-green text-white font-bold rounded-xl h-14 px-8 flex items-center gap-3 hover:gap-4 transition-all duration-300 hover:bg-main-green/90 shadow-lg shadow-main-green/20 group shrink-0 max-md:w-full"
+            className="bg-main-green text-white font-bold rounded-xl h-14 px-8 flex items-center justify-center gap-3 hover:gap-4 transition-all duration-300 hover:bg-main-green/90 shadow-lg shadow-main-green/20 group shrink-0 lg:w-fit w-full"
           >
             <BsSearch className="w-5 h-5 group-hover:scale-110 transition-transform" />
             <span className="text-base">{t("search")}</span>
@@ -391,7 +391,7 @@ function FilterField({
         {icon}
       </div>
       <div className="flex-1 flex flex-col">
-        <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+        <span className="text-[11px] font-bold text-gray-400 tracking-wider mb-1">
           {label}
         </span>
         {children}

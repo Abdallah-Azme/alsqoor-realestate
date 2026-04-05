@@ -129,6 +129,7 @@ const BrokersListing = () => {
         open={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         defaultRole="agent"
+        hideTrigger={true}
       />
     </div>
   );
