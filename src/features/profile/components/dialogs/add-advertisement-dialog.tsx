@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -204,6 +204,7 @@ const AddAdvertisementDialog = ({
 }: AddAdvertisementDialogProps) => {
   const t = useTranslations("owner_properties");
   const tAgent = useTranslations("agent_profile.show_dialog");
+  const locale = useLocale();
 
   const [isSuccess, setIsSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState("basic");
@@ -790,7 +791,9 @@ const AddAdvertisementDialog = ({
                     name="city_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{tAgent("city") || "City"}</FormLabel>
+                      <FormLabel>
+                        {tAgent("city") || (locale === "ar" ? "المدينة" : "City")}
+                      </FormLabel>
                         <Select
                           key={`city-select-${cities.length}-${watchCountryId}`}
                           onValueChange={(val) => field.onChange(Number(val))}
@@ -799,7 +802,11 @@ const AddAdvertisementDialog = ({
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select City" />
+                              <SelectValue
+                                placeholder={
+                                  locale === "ar" ? "اختر المدينة" : "Select City"
+                                }
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -857,6 +864,7 @@ const AddAdvertisementDialog = ({
                     <Map
                       latitude={form.watch("latitude") || 24.7136}
                       longitude={form.watch("longitude") || 46.6753}
+                      satellite={true}
                       draggableMarker={true}
                       onMarkerDrag={(lat, lng) => {
                         form.setValue("latitude", lat);

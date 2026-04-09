@@ -8,7 +8,6 @@ import { FiSearch, FiFilter } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCategories,
-  useCountries,
   useCities,
 } from "@/features/properties/hooks/use-properties";
 import {
@@ -48,8 +47,8 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     searchParams.get("operation_type") || "all",
   );
   const [search, setSearch] = useState(searchParams.get("title") || "");
-  // HIDDEN: Country is always Saudi Arabia (country_id = 1)
-  const [selectedCountry, setSelectedCountry] = useState<string>("1");
+  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
+  const [selectedCountry, setSelectedCountry] = useState<string>("2");
   const [selectedCity, setSelectedCity] = useState<string>(
     searchParams.get("city_id") || "",
   );
@@ -69,7 +68,6 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     max_price: searchParams.get("max_price") || "",
   });
 
-  const { data: countries = [] } = useCountries();
   const { data: cities = [] } = useCities(selectedCountry);
   const { data: categories = [] } = useCategories();
 
@@ -164,7 +162,7 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
           <FiSearch className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
         </div>
 
-        {/* HIDDEN: Country filter — always Saudi Arabia (country_id = 1) sent to backend */}
+        {/* HIDDEN: Country filter — always Saudi Arabia (country_id = 2) sent to backend */}
 
         {/* City */}
         <Select
@@ -173,12 +171,19 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
           disabled={!selectedCountry}
         >
           <SelectTrigger className="!h-12 border-gray-300 rounded-lg">
-            <SelectValue placeholder={tRequests("fields.city")} />
+            <SelectValue
+              placeholder={
+                tRequests("fields.select_city") ||
+                (locale === "ar" ? "اختر المدينة" : "Select City")
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {cities.map((city: any) => (
               <SelectItem key={city.id} value={String(city.id)}>
-                {city.name}
+                {locale === "ar"
+                  ? city.name_ar || city.name
+                  : city.name_en || city.name}
               </SelectItem>
             ))}
           </SelectContent>

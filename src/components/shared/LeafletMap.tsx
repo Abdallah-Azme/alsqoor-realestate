@@ -27,6 +27,7 @@ interface MapProps {
   markerPopup?: string;
   draggableMarker?: boolean;
   onMarkerDrag?: (lat: number, lng: number) => void;
+  satellite?: boolean;
 }
 
 const LeafletMap = ({
@@ -37,6 +38,7 @@ const LeafletMap = ({
   markerPopup = "",
   draggableMarker = false,
   onMarkerDrag,
+  satellite = false,
 }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -49,11 +51,37 @@ const LeafletMap = ({
     const map = L.map(mapRef.current).setView([latitude, longitude], zoom);
     mapInstanceRef.current = map;
 
-    // Add tile layer (OpenStreetMap)
-    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+    // Base layers: default map + optional hybrid satellite
+    const osm = L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+      maxZoom: 19,
+    });
+
+    const googleHybrid = L.tileLayer(
+      "https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+      {
+        maxZoom: 20,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+        attribution: "Google Maps",
+      },
+    );
+
+    if (satellite) {
+      googleHybrid.addTo(map);
+      L.control
+        .layers(
+          {
+            Satellite: googleHybrid,
+            Map: osm,
+          },
+          {},
+          { position: "topright" },
+        )
+        .addTo(map);
+    } else {
+      osm.addTo(map);
+    }
 
     // Add marker
     const marker = L.marker([latitude, longitude], {
@@ -84,7 +112,7 @@ const LeafletMap = ({
       map.remove();
       mapInstanceRef.current = null;
     };
-  }, []);
+  }, [draggableMarker, latitude, longitude, markerPopup, onMarkerDrag, satellite, zoom]);
 
   // Update marker position when coordinates change
   useEffect(() => {
