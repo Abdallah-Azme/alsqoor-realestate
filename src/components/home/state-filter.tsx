@@ -69,11 +69,11 @@ const StateFilterSection = () => {
         </Tabs>
       </motion.div>
       <Image
-        src={"/images/banner.png"}
-        width={200}
-        height={200}
+        src={"/images/banner-image.jpeg"}
+        width={1200}
+        height={400}
         alt="banner"
-        className="static w-full object-contain rounded-e-xl"
+        className="w-full h-[150px] sm:h-[200px] md:h-[300px] lg:h-[400px] object-cover object-center rounded-xl block"
       />
     </section>
   );

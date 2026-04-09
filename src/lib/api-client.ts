@@ -401,8 +401,12 @@ async function apiClient<T = any>(
     throw error;
   }
 
-  // Handle 401 — attempt token refresh before giving up
-  if (response.status === 401) {
+  // Handle 401 for authenticated requests only:
+  // for public endpoints like /login, preserve backend message as-is.
+  const hasAuthorizationHeader = Boolean(
+    headers["Authorization"] || headers["authorization"],
+  );
+  if (response.status === 401 && hasAuthorizationHeader) {
     // If another refresh is already in progress, queue this request
     if (isRefreshing) {
       return new Promise<T>((resolve, reject) => {

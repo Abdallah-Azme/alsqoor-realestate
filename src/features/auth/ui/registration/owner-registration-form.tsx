@@ -29,6 +29,7 @@ import { createOwnerRegistrationSchema } from "../../schemas/registration.schema
 import { useRegistration } from "../../hooks/use-registration";
 import { CommonFields } from "./common-fields";
 import type { OwnerRegistrationFormData } from "../../schemas/registration.schemas";
+import { FileUploader } from "@/components/shared/file-uploader";
 
 export function OwnerRegistrationForm() {
   const locale = useLocale();
@@ -71,7 +72,7 @@ export function OwnerRegistrationForm() {
           <CommonFields form={form} t={t} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-            {/* Owner-specific fields */}
+            {/* WhatsApp */}
             <FormField
               control={form.control}
               name="whatsapp"
@@ -91,6 +92,7 @@ export function OwnerRegistrationForm() {
               )}
             />
 
+            {/* Backup Mobile */}
             <FormField
               control={form.control}
               name="backup_mobile"
@@ -110,6 +112,7 @@ export function OwnerRegistrationForm() {
               )}
             />
 
+            {/* Has FAL License */}
             <FormField
               control={form.control}
               name="has_fal_license"
@@ -135,6 +138,33 @@ export function OwnerRegistrationForm() {
               )}
             />
 
+            {/* Has AD License */}
+            <FormField
+              control={form.control}
+              name="has_ad_license"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("has_ad_license")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_option")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">{t("yes")}</SelectItem>
+                      <SelectItem value="0">{t("no")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* FAL License Details — shown when has_fal_license === "1" */}
             {form.watch("has_fal_license") === "1" && (
               <>
                 <FormField
@@ -172,19 +202,19 @@ export function OwnerRegistrationForm() {
                 <FormField
                   control={form.control}
                   name="fal_license_document"
-                  render={({ field: { value, onChange, ...field } }) => (
-                    <FormItem>
+                  render={({ field: { value, onChange } }) => (
+                    <FormItem className="md:col-span-2">
                       <FormLabel>{t("fal_license_image")}</FormLabel>
                       <FormControl>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            onChange(file);
+                        <FileUploader
+                          value={value ? [value] : []}
+                          onChange={(files) => {
+                            onChange(files.length > 0 ? files[0] : undefined);
                           }}
-                          {...field}
-                          className={inputStyle}
+                          accept="image/*"
+                          maxFiles={1}
+                          label=""
+                          helperText="Click or drag file here"
                         />
                       </FormControl>
                       <FormMessage />
@@ -193,31 +223,6 @@ export function OwnerRegistrationForm() {
                 />
               </>
             )}
-
-            <FormField
-              control={form.control}
-              name="has_ad_license"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("has_ad_license")}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className={inputStyle}>
-                        <SelectValue placeholder={t("select_option")} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="1">{t("yes")}</SelectItem>
-                      <SelectItem value="0">{t("no")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
 
           <div className="w-full flex items-center justify-between">

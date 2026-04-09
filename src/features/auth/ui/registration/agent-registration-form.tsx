@@ -29,6 +29,7 @@ import { createAgentRegistrationSchema } from "../../schemas/registration.schema
 import { useRegistration } from "../../hooks/use-registration";
 import { CommonFields } from "./common-fields";
 import type { AgentRegistrationFormData } from "../../schemas/registration.schemas";
+import { FileUploader } from "@/components/shared/file-uploader";
 
 export function AgentRegistrationForm() {
   const locale = useLocale();
@@ -72,7 +73,7 @@ export function AgentRegistrationForm() {
           <CommonFields form={form} t={t} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-            {/* Agent-specific fields */}
+            {/* FAL Number */}
             <FormField
               control={form.control}
               name="fal_number"
@@ -91,6 +92,22 @@ export function AgentRegistrationForm() {
               )}
             />
 
+            {/* FAL Expiry Date */}
+            <FormField
+              control={form.control}
+              name="fal_expiry_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("fal_expiry_date")}</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} className={inputStyle} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Agent Type */}
             <FormField
               control={form.control}
               name="agent_type"
@@ -120,99 +137,7 @@ export function AgentRegistrationForm() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="company_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("company_name_optional")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t("placeholder")}
-                      {...field}
-                      className={inputStyle}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="company_logo"
-              render={({ field: { value, onChange, ...field } }) => (
-                <FormItem>
-                  <FormLabel>{t("company_logo_optional")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        onChange(file);
-                      }}
-                      {...field}
-                      className={inputStyle}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="whatsapp"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("whatsapp")}</FormLabel>
-                  <FormControl>
-                    <PhoneInput
-                      {...field}
-                      defaultCountry="sa"
-                      inputClassName={`${inputStyle} w-full`}
-                      className={`${inputStyle} w-full`}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="backup_mobile"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("backup_mobile")}</FormLabel>
-                  <FormControl>
-                    <PhoneInput
-                      {...field}
-                      defaultCountry="sa"
-                      inputClassName={`${inputStyle} w-full`}
-                      className={`${inputStyle} w-full`}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="fal_expiry_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fal_expiry_date")}</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} className={inputStyle} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            {/* Has AD License */}
             <FormField
               control={form.control}
               name="has_ad_license"
@@ -238,22 +163,106 @@ export function AgentRegistrationForm() {
               )}
             />
 
+            {/* Company Name (optional) */}
+            <FormField
+              control={form.control}
+              name="company_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("company_name_optional")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("placeholder")}
+                      {...field}
+                      className={inputStyle}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* WhatsApp */}
+            <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("whatsapp")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Backup Mobile */}
+            <FormField
+              control={form.control}
+              name="backup_mobile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("backup_mobile")}</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="sa"
+                      inputClassName={`${inputStyle} w-full`}
+                      className={`${inputStyle} w-full`}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Company Logo (optional) — full width */}
+            <FormField
+              control={form.control}
+              name="company_logo"
+              render={({ field: { value, onChange } }) => (
+                <FormItem className="md:col-span-2">
+                  <FormLabel>{t("company_logo_optional")}</FormLabel>
+                  <FormControl>
+                    <FileUploader
+                      value={value ? [value] : []}
+                      onChange={(files) => {
+                        onChange(files.length > 0 ? files[0] : undefined);
+                      }}
+                      accept="image/*"
+                      maxFiles={1}
+                      label=""
+                      helperText="Click or drag file here"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* FAL License Document — full width */}
             <FormField
               control={form.control}
               name="fal_license_document"
-              render={({ field: { value, onChange, ...field } }) => (
-                <FormItem>
+              render={({ field: { value, onChange } }) => (
+                <FormItem className="md:col-span-2">
                   <FormLabel>{t("fal_license_image")}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        onChange(file);
+                    <FileUploader
+                      value={value ? [value] : []}
+                      onChange={(files) => {
+                        onChange(files.length > 0 ? files[0] : undefined);
                       }}
-                      {...field}
-                      className={inputStyle}
+                      accept="image/*"
+                      maxFiles={1}
+                      label=""
+                      helperText="Click or drag file here"
                     />
                   </FormControl>
                   <FormMessage />

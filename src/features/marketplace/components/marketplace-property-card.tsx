@@ -23,6 +23,7 @@ export function MarketplacePropertyCard({
   property,
   index = 0,
 }: MarketplacePropertyCardProps) {
+  console.log({ property });
   const t = useTranslations("properties");
   const tMarket = useTranslations("marketplace");
   const locale = useLocale();
@@ -38,7 +39,7 @@ export function MarketplacePropertyCard({
 
   React.useEffect(() => {
     if (!api) return;
-    
+
     // In RTL/dynamic layouts, sometimes Embla needs an extra nudge
     setTimeout(() => {
       api.reInit();
@@ -50,7 +51,7 @@ export function MarketplacePropertyCard({
     };
 
     api.on("select", onSelect);
-    
+
     return () => {
       api.off("select", onSelect);
     };
@@ -72,25 +73,36 @@ export function MarketplacePropertyCard({
       <Card className="overflow-hidden transition-all hover:shadow-lg border-2 py-0 border-gray-100 h-full flex flex-col group/card">
         <div className="relative h-48 w-full shrink-0 group">
           {images.length > 1 ? (
-            <Carousel 
-              setApi={setApi} 
-              className="w-full h-full overflow-hidden" 
-              opts={{ 
+            <Carousel
+              setApi={setApi}
+              className="w-full h-full overflow-hidden"
+              opts={{
                 loop: true,
-                direction: locale === "ar" ? "rtl" : "ltr"
+                direction: locale === "ar" ? "rtl" : "ltr",
               }}
             >
-              <CarouselContent className="h-48" style={{ marginInlineStart: 0 }}>
+              <CarouselContent
+                className="h-48"
+                style={{ marginInlineStart: 0 }}
+              >
                 {images.map((img, idx) => (
-                  <CarouselItem key={idx} className="h-48 w-full basis-full" style={{ paddingInlineStart: 0 }}>
-                    <Link href={`/marketplace/${property.slug}`} className="block h-full w-full">
+                  <CarouselItem
+                    key={idx}
+                    className="h-48 w-full basis-full"
+                    style={{ paddingInlineStart: 0 }}
+                  >
+                    <Link
+                      href={`/marketplace/${property.slug}`}
+                      className="block h-full w-full"
+                    >
                       <div className="h-48 w-full bg-gray-100 overflow-hidden relative">
                         <img
                           src={img}
                           alt={`${property.title} - ${idx + 1}`}
                           className="h-full w-full object-cover"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = "/images/state.png";
+                            (e.target as HTMLImageElement).src =
+                              "/images/state.png";
                           }}
                         />
                       </div>
@@ -98,7 +110,7 @@ export function MarketplacePropertyCard({
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              
+
               {/* Dots */}
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {images.map((_, idx) => (
@@ -111,9 +123,9 @@ export function MarketplacePropertyCard({
                     }}
                     className={cn(
                       "w-2 h-2 rounded-full transition-all duration-300",
-                      current === idx 
-                        ? "bg-main-green w-4" 
-                        : "bg-white/60 hover:bg-white/80"
+                      current === idx
+                        ? "bg-main-green w-4"
+                        : "bg-white/60 hover:bg-white/80",
                     )}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
@@ -121,7 +133,10 @@ export function MarketplacePropertyCard({
               </div>
             </Carousel>
           ) : (
-            <Link href={`/marketplace/${property.slug}`} className="block h-48 w-full">
+            <Link
+              href={`/marketplace/${property.slug}`}
+              className="block h-48 w-full"
+            >
               <div className="h-48 w-full bg-gray-100 overflow-hidden">
                 <img
                   src={images[0]}
@@ -147,7 +162,10 @@ export function MarketplacePropertyCard({
           )}
         </div>
 
-        <Link href={`/marketplace/${property.slug}`} className="flex-1 flex flex-col">
+        <Link
+          href={`/marketplace/${property.slug}`}
+          className="flex-1 flex flex-col"
+        >
           <CardContent className="p-4 flex-1 flex flex-col hover:bg-gray-50/50 transition-colors">
             <div className="flex-1">
               <h3 className="mb-2 line-clamp-1 text-lg font-bold text-main-navy group-hover/card:text-main-green transition-colors">
@@ -188,7 +206,10 @@ export function MarketplacePropertyCard({
               </div>
 
               {property.transactionType && (
-                <Badge variant="outline" className="text-xs uppercase border-main-navy text-main-navy">
+                <Badge
+                  variant="outline"
+                  className="text-xs uppercase border-main-navy text-main-navy"
+                >
                   {t(property.transactionType)}
                 </Badge>
               )}

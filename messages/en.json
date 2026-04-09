@@ -229,7 +229,10 @@
       "fal_number_required": "FAL number is required",
       "company_name_required": "Company name is required",
       "company_logo_required": "Company logo is required",
-      "required": "This field is required"
+      "required": "This field is required",
+      "upload_click": "Click or drag files here",
+      "upload_drop": "Drop files now...",
+      "upload_helper": "Drag & drop files here or click to browse"
     }
   },
   "otp": {

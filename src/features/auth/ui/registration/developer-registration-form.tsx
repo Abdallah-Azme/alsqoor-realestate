@@ -29,6 +29,7 @@ import { createDeveloperRegistrationSchema } from "../../schemas/registration.sc
 import { useRegistration } from "../../hooks/use-registration";
 import { CommonFields } from "./common-fields";
 import type { DeveloperRegistrationFormData } from "../../schemas/registration.schemas";
+import { FileUploader } from "@/components/shared/file-uploader";
 
 export function DeveloperRegistrationForm() {
   const locale = useLocale();
@@ -74,7 +75,7 @@ export function DeveloperRegistrationForm() {
           <CommonFields form={form} t={t} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-            {/* Developer-specific fields */}
+            {/* Company Name */}
             <FormField
               control={form.control}
               name="company_name"
@@ -93,29 +94,7 @@ export function DeveloperRegistrationForm() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="company_logo"
-              render={({ field: { value, onChange, ...field } }) => (
-                <FormItem>
-                  <FormLabel>{t("company_logo")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        onChange(file);
-                      }}
-                      {...field}
-                      className={inputStyle}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            {/* Commercial Register */}
             <FormField
               control={form.control}
               name="commercial_register"
@@ -134,6 +113,7 @@ export function DeveloperRegistrationForm() {
               )}
             />
 
+            {/* WhatsApp */}
             <FormField
               control={form.control}
               name="whatsapp"
@@ -153,6 +133,7 @@ export function DeveloperRegistrationForm() {
               )}
             />
 
+            {/* Backup Mobile */}
             <FormField
               control={form.control}
               name="backup_mobile"
@@ -172,6 +153,7 @@ export function DeveloperRegistrationForm() {
               )}
             />
 
+            {/* Has FAL License */}
             <FormField
               control={form.control}
               name="has_fal_license"
@@ -197,6 +179,33 @@ export function DeveloperRegistrationForm() {
               )}
             />
 
+            {/* Has AD License */}
+            <FormField
+              control={form.control}
+              name="has_ad_license"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("has_ad_license")}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={inputStyle}>
+                        <SelectValue placeholder={t("select_option")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">{t("yes")}</SelectItem>
+                      <SelectItem value="0">{t("no")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* FAL License Details — shown when has_fal_license === "1" */}
             {form.watch("has_fal_license") === "1" && (
               <>
                 <FormField
@@ -234,19 +243,19 @@ export function DeveloperRegistrationForm() {
                 <FormField
                   control={form.control}
                   name="fal_license_document"
-                  render={({ field: { value, onChange, ...field } }) => (
-                    <FormItem>
+                  render={({ field: { value, onChange } }) => (
+                    <FormItem className="md:col-span-2">
                       <FormLabel>{t("fal_license_image")}</FormLabel>
                       <FormControl>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            onChange(file);
+                        <FileUploader
+                          value={value ? [value] : []}
+                          onChange={(files) => {
+                            onChange(files.length > 0 ? files[0] : undefined);
                           }}
-                          {...field}
-                          className={inputStyle}
+                          accept="image/*"
+                          maxFiles={1}
+                          label=""
+                          helperText="Click or drag file here"
                         />
                       </FormControl>
                       <FormMessage />
@@ -256,26 +265,25 @@ export function DeveloperRegistrationForm() {
               </>
             )}
 
+            {/* Company Logo — full width */}
             <FormField
               control={form.control}
-              name="has_ad_license"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("has_ad_license")}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className={inputStyle}>
-                        <SelectValue placeholder={t("select_option")} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="1">{t("yes")}</SelectItem>
-                      <SelectItem value="0">{t("no")}</SelectItem>
-                    </SelectContent>
-                  </Select>
+              name="company_logo"
+              render={({ field: { value, onChange } }) => (
+                <FormItem className="md:col-span-2">
+                  <FormLabel>{t("company_logo")}</FormLabel>
+                  <FormControl>
+                    <FileUploader
+                      value={value ? [value] : []}
+                      onChange={(files) => {
+                        onChange(files.length > 0 ? files[0] : undefined);
+                      }}
+                      accept="image/*"
+                      maxFiles={1}
+                      label=""
+                      helperText="Click or drag file here"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
