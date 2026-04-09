@@ -20,9 +20,9 @@ import { UserContext } from "@/context/user-context";
 import { Link, useRouter } from "@/i18n/navigation";
 import { LogInIcon } from "lucide-react";
 import { motion } from "motion/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiInbox, FiPhoneCall } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiOutlineHome } from "react-icons/hi2";
@@ -97,9 +97,54 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
   const topnavColor = fetchedColor || initialColor;
   const { user, logout } = useContext(UserContext);
   const t = useTranslations("Navbar");
+  const locale = useLocale();
   const router = useRouter();
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    let isUnmounted = false;
+
+    const fetchUnreadCount = async () => {
+      if (typeof window === "undefined") return;
+      const token = localStorage.getItem("token");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      if (!token || !apiUrl) {
+        if (!isUnmounted) setUnreadCount(0);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiUrl}/notifications`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Accept-Language": locale || "ar",
+          },
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+        const json = await response.json();
+        const count = Number(json?.meta?.unread_count ?? 0);
+        if (!isUnmounted) setUnreadCount(Number.isFinite(count) ? count : 0);
+      } catch {
+        // Keep the last visible count if the network fails.
+      }
+    };
+
+    void fetchUnreadCount();
+    const intervalId = window.setInterval(() => {
+      void fetchUnreadCount();
+    }, 30000);
+
+    return () => {
+      isUnmounted = true;
+      window.clearInterval(intervalId);
+    };
+  }, [locale, user?.id]);
 
   const handleLogout = () => {
     logout();
@@ -251,7 +296,7 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
               <Link href="/notifications" className="relative block">
                 <TbMessage2 className="text-white text-2xl hover:text-main-green" />
                 <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                  5
+                  {unreadCount > 99 ? "99+" : unreadCount}
                 </span>
               </Link>
             </>
@@ -343,7 +388,7 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
                         <Link href="/notifications" className="relative block">
                           <TbMessage2 className="text-white text-2xl hover:text-main-green" />
                           <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                            5
+                            {unreadCount > 99 ? "99+" : unreadCount}
                           </span>
                         </Link>
                       </>

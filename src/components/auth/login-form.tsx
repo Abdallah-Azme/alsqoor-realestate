@@ -86,6 +86,7 @@ export function LoginForm() {
         // Store user data
         if (res?.user) {
           setUser(res.user);
+          localStorage.setItem("user", JSON.stringify(res.user));
         }
         router.push(`/`);
       } else {

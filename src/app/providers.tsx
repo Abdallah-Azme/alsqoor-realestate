@@ -11,6 +11,10 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ApiError } from "@/lib/api-client";
+import {
+  FirebaseAnalyticsBootstrap,
+  FirebaseNotificationsBootstrap,
+} from "@/features/firebase";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -34,6 +38,9 @@ function makeQueryClient() {
 
         // Skip annoying partner access message
         if (message === "الوصول للشركاء غير مسموح به.") return;
+        // Backend may return this when unread count is zero; don't toast it
+        if (message === "لا توجد رسائل غير مقروءة.") return;
+        if (message === "لا توجد رسائل غير مقروءة") return;
 
         toast.error(message);
       },
@@ -58,6 +65,9 @@ function makeQueryClient() {
 
         // Skip annoying partner access message
         if (message === "الوصول للشركاء غير مسموح به.") return;
+        // Backend may return this when unread count is zero; don't toast it
+        if (message === "لا توجد رسائل غير مقروءة.") return;
+        if (message === "لا توجد رسائل غير مقروءة") return;
 
         toast.error(message);
       },
@@ -105,6 +115,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <FirebaseAnalyticsBootstrap />
+      <FirebaseNotificationsBootstrap />
+      {children}
+    </QueryClientProvider>
   );
 }

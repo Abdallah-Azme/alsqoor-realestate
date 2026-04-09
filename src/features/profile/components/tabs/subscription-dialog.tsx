@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,7 @@ export function SubscriptionDialog({
 }: SubscriptionDialogProps) {
   const t = useTranslations("Profile");
   const locale = useLocale();
+  const router = useRouter();
   const isAr = locale === "ar";
 
   const { data: paymentMethods, isLoading: isLoadingMethods } =
@@ -40,11 +42,23 @@ export function SubscriptionDialog({
   const handleSubscribe = () => {
     if (!packageId || !paymentMethodId) return;
 
-    subscribe({
-      packageId,
-      paymentMethodId,
-      period,
-    });
+    subscribe(
+      {
+        packageId,
+        paymentMethodId,
+        period,
+      },
+      {
+        onSuccess: (data: any) => {
+          // Free packages complete immediately (no payment redirect URL).
+          // Close dialog and move user to profile page after success.
+          if (!data?.paymentUrl) {
+            onOpenChange(false);
+            router.push("/profile");
+          }
+        },
+      },
+    );
   };
 
   // Reset state when dialog opens

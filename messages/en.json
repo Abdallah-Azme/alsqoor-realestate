@@ -957,7 +957,8 @@
     "login_to_chat": "Please login to chat",
     "no_owner_info": "Owner information not available",
     "own_property_title": "This is your listing",
-    "own_property_desc": "You cannot chat with yourself",
+    "own_property_desc": "Clients can start a chat from this listing, and their messages will appear in notifications.",
+    "go_to_messages": "View messages and notifications",
     "chat_unavailable": "Chat Unavailable"
   },
   "validations": {

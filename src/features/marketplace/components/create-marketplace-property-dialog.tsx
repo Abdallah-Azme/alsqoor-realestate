@@ -41,6 +41,121 @@ import { UserContext } from "@/context/user-context";
 const DEFAULT_LAT = 24.7136;
 const DEFAULT_LNG = 46.6753;
 
+const SAUDI_CITY_FALLBACK_COORDS: Record<string, { lat: number; lng: number }> = {
+  riyadh: { lat: 24.7136, lng: 46.6753 },
+  الرياض: { lat: 24.7136, lng: 46.6753 },
+  jeddah: { lat: 21.5433, lng: 39.1728 },
+  جدة: { lat: 21.5433, lng: 39.1728 },
+  mecca: { lat: 21.3891, lng: 39.8579 },
+  makkah: { lat: 21.3891, lng: 39.8579 },
+  مكة: { lat: 21.3891, lng: 39.8579 },
+  medina: { lat: 24.5247, lng: 39.5692 },
+  madinah: { lat: 24.5247, lng: 39.5692 },
+  المدينة: { lat: 24.5247, lng: 39.5692 },
+  dammam: { lat: 26.4207, lng: 50.0888 },
+  الدمام: { lat: 26.4207, lng: 50.0888 },
+  khobar: { lat: 26.2794, lng: 50.2083 },
+  الخبر: { lat: 26.2794, lng: 50.2083 },
+  taif: { lat: 21.2854, lng: 40.4267 },
+  الطائف: { lat: 21.2854, lng: 40.4267 },
+  abha: { lat: 18.2164, lng: 42.5053 },
+  أبها: { lat: 18.2164, lng: 42.5053 },
+  tabuk: { lat: 28.3835, lng: 36.5662 },
+  تبوك: { lat: 28.3835, lng: 36.5662 },
+  buraidah: { lat: 26.326, lng: 43.975 },
+  بريدة: { lat: 26.326, lng: 43.975 },
+  hail: { lat: 27.5114, lng: 41.7208 },
+  حائل: { lat: 27.5114, lng: 41.7208 },
+  jazan: { lat: 16.8892, lng: 42.5511 },
+  جازان: { lat: 16.8892, lng: 42.5511 },
+  najran: { lat: 17.565, lng: 44.2289 },
+  نجران: { lat: 17.565, lng: 44.2289 },
+};
+
+const toNumber = (value: unknown): number | null => {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : null;
+};
+
+const geocodeCache = new Map<string, { lat: number; lng: number } | null>();
+
+const extractCityCoordinates = (city: any): { lat: number; lng: number } | null => {
+  if (!city) return null;
+
+  const latCandidates = [
+    city?.latitude,
+    city?.lat,
+    city?.location?.lat,
+    city?.location?.latitude,
+    city?.coordinates?.lat,
+    city?.coordinates?.latitude,
+    city?.center?.lat,
+    city?.center?.latitude,
+  ];
+  const lngCandidates = [
+    city?.longitude,
+    city?.lng,
+    city?.lon,
+    city?.location?.lng,
+    city?.location?.longitude,
+    city?.coordinates?.lng,
+    city?.coordinates?.longitude,
+    city?.center?.lng,
+    city?.center?.longitude,
+  ];
+
+  const lat = latCandidates.map(toNumber).find((v): v is number => v !== null);
+  const lng = lngCandidates.map(toNumber).find((v): v is number => v !== null);
+
+  if (lat !== undefined && lng !== undefined) {
+    return { lat, lng };
+  }
+
+  const cityName = String(city?.name_ar || city?.name_en || city?.name || "")
+    .trim()
+    .toLowerCase();
+  return SAUDI_CITY_FALLBACK_COORDS[cityName] || null;
+};
+
+const geocodeCityInSaudiArabia = async (
+  cityName: string,
+): Promise<{ lat: number; lng: number } | null> => {
+  const normalized = cityName.trim().toLowerCase();
+  if (!normalized) return null;
+
+  if (geocodeCache.has(normalized)) {
+    return geocodeCache.get(normalized) ?? null;
+  }
+
+  try {
+    const query = encodeURIComponent(`${cityName}, Saudi Arabia`);
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=sa&q=${query}`,
+      {
+        headers: {
+          "Accept-Language": "ar,en",
+        },
+      },
+    );
+    if (!res.ok) {
+      geocodeCache.set(normalized, null);
+      return null;
+    }
+
+    const data = await res.json();
+    const first = Array.isArray(data) ? data[0] : null;
+    const lat = toNumber(first?.lat);
+    const lng = toNumber(first?.lon);
+    const coords = lat !== null && lng !== null ? { lat, lng } : null;
+    geocodeCache.set(normalized, coords);
+    return coords;
+  } catch {
+    geocodeCache.set(normalized, null);
+    return null;
+  }
+};
+
+
 // Dynamically import Leaflet map to avoid SSR issues
 const MapLocationPicker = dynamic(
   () => import("@/components/shared/map-location-picker"),
@@ -197,6 +312,7 @@ export const CreateMarketplacePropertyDialog = ({
   // Handle city reset when country changes (only if initiated by user, not during initial load)
   // We use a ref or check if cities load to determine if we should re-apply initial city
   const isFirstLoad = useRef(true);
+  const citySelectionRequestRef = useRef(0);
   useEffect(() => {
     if (open) {
       isFirstLoad.current = true;
@@ -219,6 +335,34 @@ export const CreateMarketplacePropertyDialog = ({
       setCountryId(newId);
       setCityId(""); // Reset city when country changes
       isFirstLoad.current = false; // Stop auto-applying property city
+    }
+  };
+
+  const handleCityChange = async (val: string) => {
+    setCityId(val);
+    const requestId = ++citySelectionRequestRef.current;
+
+    const selectedCity = cities.find((city: any) => String(city?.id) === val);
+    const coords = extractCityCoordinates(selectedCity);
+    if (coords) {
+      setLatitude(coords.lat);
+      setLongitude(coords.lng);
+      return;
+    }
+
+    // Fallback to geocoding when city payload has no coordinates.
+    const cityName = String(
+      selectedCity?.name_ar || selectedCity?.name_en || selectedCity?.name || "",
+    ).trim();
+    if (!cityName) return;
+
+    const geocoded = await geocodeCityInSaudiArabia(cityName);
+    if (!geocoded) return;
+
+    // Prevent stale async updates if user changed city quickly.
+    if (requestId === citySelectionRequestRef.current) {
+      setLatitude(geocoded.lat);
+      setLongitude(geocoded.lng);
     }
   };
 
@@ -414,7 +558,7 @@ export const CreateMarketplacePropertyDialog = ({
                 <Select
                   name="city_id"
                   value={cityId}
-                  onValueChange={(val) => setCityId(val)}
+                  onValueChange={handleCityChange}
                   disabled={!countryId || loadingCities}
                 >
                   <SelectTrigger>
@@ -575,9 +719,12 @@ export const CreateMarketplacePropertyDialog = ({
                   <Input
                     id="commission_percentage"
                     name="commission_percentage"
-                    type="number"
-                    step="0.5"
+                    type="text"
+                    inputMode="decimal"
                     defaultValue={property?.commissionPercentage || ""}
+                    onChange={(e) => {
+                      e.currentTarget.value = e.currentTarget.value.replace(",", ".");
+                    }}
                     required={step === 2 && role === "agent"}
                   />
                 </div>
@@ -685,9 +832,12 @@ export const CreateMarketplacePropertyDialog = ({
                     <Input
                       id="dev_commission_percentage"
                       name="commission_percentage"
-                      type="number"
-                      step="0.5"
+                      type="text"
+                      inputMode="decimal"
                       defaultValue={property?.commissionPercentage || ""}
+                      onChange={(e) => {
+                        e.currentTarget.value = e.currentTarget.value.replace(",", ".");
+                      }}
                       required={step === 2 && role === "developer"}
                     />
                   </div>

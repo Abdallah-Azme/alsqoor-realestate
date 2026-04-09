@@ -2215,7 +2215,7 @@
               "formdata": [
                 {
                   "key": "fcm_token",
-                  "value": "rawdawaelnassar",
+                  "value": "{{fcm_token}}",
                   "type": "text",
                   "uuid": "aeb54c3d-c9f1-4266-8c4a-575875bbfa7f"
                 }

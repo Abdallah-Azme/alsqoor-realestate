@@ -21,6 +21,9 @@ export function useMyChats() {
     queryKey: ["chats"],
     queryFn: () => chatService.getMyChats(),
     staleTime: 5 * 60 * 1000,
+    // Fallback when realtime events fail: keep inbox fresh.
+    refetchInterval: 10 * 1000,
+    refetchIntervalInBackground: true,
   });
 }
 
@@ -30,6 +33,9 @@ export function useGetMessages(chatId: number | null, page: number = 1) {
     queryFn: () => chatService.getMessages(chatId!, page),
     enabled: !!chatId,
     staleTime: 30 * 1000,
+    // Poll active chats so new messages still appear without Pusher broadcast.
+    refetchInterval: chatId ? 5 * 1000 : false,
+    refetchIntervalInBackground: true,
   });
 }
 

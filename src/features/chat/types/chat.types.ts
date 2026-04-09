@@ -31,6 +31,7 @@ export interface Chat {
 
 export interface StartChatRequest {
   other_user_id: number;
+  property_id?: number;
 }
 
 export interface SendMessageRequest {
