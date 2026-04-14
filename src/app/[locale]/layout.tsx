@@ -57,6 +57,9 @@ export async function generateMetadata({ params }): Promise<Metadata> {
         seo?.metaDescription || siteInfo?.siteDescription || t("description"),
       images: siteInfo?.siteLogo ? [siteInfo.siteLogo] : [],
     },
+    other: {
+      "domain-verification": "d4c0e458a829004dd160564b174d76de45c39bd06598f6a4c00458830e61dfe7",
+    },
   };
 }
 
