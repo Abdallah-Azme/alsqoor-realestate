@@ -275,8 +275,7 @@ const AddAdvertisementDialog = ({
 
   useEffect(() => {
     if (property && open) {
-      console.log("Updating advertisement with data:", property);
-      form.reset({
+       form.reset({
         title: property.title || "",
         description: property.description || "",
         // country_id & city_id & category_id will be resolved by name

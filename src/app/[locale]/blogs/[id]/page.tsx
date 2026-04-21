@@ -8,8 +8,7 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { id, locale } = await params;
-  console.log(`[generateMetadata] Fetching blog with id: "${id}"`);
-  const response = await getBlogById(id);
+   const response = await getBlogById(id);
   const blog = response?.data?.data;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -34,17 +33,9 @@ const SingleBlogPage = async ({
   const { id } = await params;
 
   // Fetch blog data using the slug (passed as id parameter)
-  console.log(`[SingleBlogPage] Fetching blog with id from params: "${id}"`);
-  const response = await getBlogById(id);
+   const response = await getBlogById(id);
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("[SingleBlogPage] Response received:", {
-      code: response.code,
-      success: response.success,
-      status: response?.data?.status,
-      msg: response?.data?.message,
-    });
-  }
+ 
 
   // If blog not found, show 404
   if (

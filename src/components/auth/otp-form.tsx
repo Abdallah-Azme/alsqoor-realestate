@@ -24,7 +24,6 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { api, ApiError } from "@/lib/api-client";
 import { Loader2 } from "lucide-react";
-import { setToken } from "@/services";
 import { useRouter } from "@/i18n/navigation";
 import { useContext, useState } from "react";
 import { UserContext } from "@/context/user-context";
@@ -37,7 +36,7 @@ export function OtpForm() {
   const mobile = searchParams.get("mobile");
   const code = searchParams.get("code");
   const router = useRouter();
-  const { setUser } = useContext(UserContext);
+  useContext(UserContext);
   const [resendLoading, setResendLoading] = useState(false);
 
   const formSchema = z.object({
@@ -62,7 +61,7 @@ export function OtpForm() {
       };
 
       const res = await api.post<any>("/verification", data);
-      const user = res?.data?.user;
+      const user = res?.user;
       const isBroker = user?.role === "agent" || user?.role === "developer";
 
       if (isBroker) {
@@ -85,8 +84,8 @@ export function OtpForm() {
     setResendLoading(true);
     try {
       const data = { mobile: mobile };
-      const res = await api.post<any>("/resend-verification", data);
-      toast.success(res?.message);
+      await api.post<any>("/resend-verification", data);
+      toast.success("تم إرسال رمز التحقق بنجاح.");
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.message);

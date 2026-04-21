@@ -27,17 +27,11 @@
  * ```
  */
 
+import { getSiteOrigin, isSecureCookiesEnabled } from "./site-origin";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-/**
- * Whether the app is hosted on a secure (HTTPS) origin.
- * On plain HTTP servers, cookies with `secure` flag are silently dropped
- * by the browser — so we disable the flag when not on HTTPS.
- */
-const isSecureEnv =
-  typeof window !== "undefined"
-    ? window.location.protocol === "https:"
-    : (process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https") ?? false);
+const isSecureEnv = isSecureCookiesEnabled();
 
 // ─── Custom Error Class ────────────────────────────────────────────
 
@@ -386,8 +380,7 @@ async function apiClient<T = any>(
     // @ts-ignore - Headers type allows string keys
     headers["User-Agent"] = "Next.js/Server";
     // @ts-ignore
-    headers["Referer"] =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    headers["Referer"] = getSiteOrigin();
   }
 
   try {

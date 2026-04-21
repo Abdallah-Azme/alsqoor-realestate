@@ -31,9 +31,16 @@ export function LoginForm() {
   const tSignUp = useTranslations("sign_up");
   const tv = useTranslations("login.validation");
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState<
-    "seeker" | "owner" | "broker" | "developer"
-  >("seeker");
+  const ROLE_TABS = [
+    { id: "seeker", label: "seeker", apiRole: "seeker" },
+    { id: "owner", label: "owner", apiRole: "owner" },
+    { id: "broker", label: "broker", apiRole: "agent" },
+    { id: "developer", label: "developer", apiRole: "developer" },
+  ] as const;
+
+  const [activeTab, setActiveTab] = useState<(typeof ROLE_TABS)[number]["id"]>(
+    "seeker",
+  );
   const inputStyle = "!h-14 rounded-none rounded-s-lg";
   const router = useRouter();
   const { setUser } = useContext(UserContext);
@@ -58,8 +65,12 @@ export function LoginForm() {
   const { isSubmitting } = form.formState;
   async function onSubmit(values: any) {
     try {
+      const selectedTab = ROLE_TABS.find((tab) => tab.id === activeTab);
+      const role = selectedTab?.apiRole || "seeker";
+      const payload = { ...values, role };
+
       // API client unwraps response.data, so res = { accessToken, user, ... }
-      const res = await api.post<any>("/login", values);
+      const res = await api.post<any>("/login", payload);
 
       // Handle business logic status (e.g. account under review)
       if (res?.status === false) {
@@ -105,16 +116,11 @@ export function LoginForm() {
     <>
       {/* Decorative User/Agent Tabs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
-        {[
-          { id: "seeker", label: "seeker" },
-          { id: "owner", label: "owner" },
-          { id: "broker", label: "broker" },
-          { id: "developer", label: "developer" },
-        ].map((tab) => (
+        {ROLE_TABS.map((tab) => (
           <button
             key={tab.id}
             type="button"
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id)}
             className={`px-2 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
               activeTab === tab.id
                 ? activeStyle

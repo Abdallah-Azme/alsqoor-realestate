@@ -32,19 +32,22 @@ export function useRegistration() {
         return;
       }
 
-      if (data?.verificationCode) {
-        // Success message is shown by global handler or we can show a custom one
-        toast.success("تم إنشاء الحساب بنجاح");
-        const encodedMobile = encodeURIComponent(variables.mobile);
-        const encodedCode = encodeURIComponent(data.verificationCode);
+      const verificationCode =
+        data?.verificationCode || data?.verification_code;
+
+      // Registration should always continue through OTP flow.
+      toast.success("تم إنشاء الحساب بنجاح");
+      const encodedMobile = encodeURIComponent(variables.mobile);
+
+      if (verificationCode) {
+        const encodedCode = encodeURIComponent(verificationCode);
         router.push(
           `/auth/verfiy-otp?mobile=${encodedMobile}&code=${encodedCode}`,
         );
-      } else {
-        // If no verification code and status wasn't false, maybe it's a direct success?
-        toast.success("تم إنشاء الحساب بنجاح");
-        router.push("/auth/login");
+        return;
       }
+
+      router.push(`/auth/verfiy-otp?mobile=${encodedMobile}`);
     },
     // Removed onError handler - global error handler in QueryClient will show backend errors
   });

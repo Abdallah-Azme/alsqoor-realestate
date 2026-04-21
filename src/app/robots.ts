@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
+import { getSiteOrigin } from "@/lib/site-origin";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://api.alsqoor-realestate.sa";
+const BASE_URL = getSiteOrigin();
 
 export default function robots(): MetadataRoute.Robots {
   return {

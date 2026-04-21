@@ -1,13 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { isSecureCookiesEnabled } from "@/lib/site-origin";
 
-/**
- * Whether we are running on a secure (HTTPS) origin.
- * On a plain HTTP server (no SSL/domain), `secure: true` causes browsers
- * to silently refuse to store or send the cookie — so we disable it on HTTP.
- */
-const isSecure = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https") ?? false;
+const isSecure = isSecureCookiesEnabled();
 
 export async function setToken(token: string): Promise<void> {
   const cookieStore = await cookies();

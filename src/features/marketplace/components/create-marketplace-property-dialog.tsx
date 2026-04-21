@@ -252,8 +252,7 @@ export const CreateMarketplacePropertyDialog = ({
   // Initialize data if editing or user role changes
   useEffect(() => {
     if (isEdit && property && open) {
-      console.log("Updating property with initial data:", property);
-
+ 
       // Resolve country ID
       const resolvedCountryId =
         (property as any).country?.id ||

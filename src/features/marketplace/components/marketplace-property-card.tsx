@@ -23,8 +23,7 @@ export function MarketplacePropertyCard({
   property,
   index = 0,
 }: MarketplacePropertyCardProps) {
-  console.log({ property });
-  const t = useTranslations("properties");
+   const t = useTranslations("properties");
   const tMarket = useTranslations("marketplace");
   const locale = useLocale();
   const [api, setApi] = React.useState<any>();

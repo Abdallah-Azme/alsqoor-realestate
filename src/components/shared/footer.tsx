@@ -294,7 +294,7 @@ const Footer = ({ settings = null }) => {
           <p className="text-sm text-gray-500">
             {t("all_rights_reserved")}
             <a href="#" className="font-bold text-main-green mx-1">
-              {t("company_short_name")}
+              Alsqoor Realestate
             </a>
             2025
           </p>
