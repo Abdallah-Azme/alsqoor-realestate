@@ -28,8 +28,7 @@ const ProfileTabs = ({
   user: User | null;
 }) => {
   const t = useTranslations("Profile");
-  const router = useRouter();
-  const [addPropertyOpen, setAddPropertyOpen] = useState(false);
+   const [addPropertyOpen, setAddPropertyOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<any>(null);
   const searchParams = useSearchParams();
   const action = searchParams.get("action");

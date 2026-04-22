@@ -36,6 +36,7 @@ import {
 import { FileUploader } from "@/components/shared/file-uploader";
 import { MarketplaceProperty } from "@/features/properties/types/property.types";
 import { UserContext } from "@/context/user-context";
+import { toast } from "sonner";
 
 // Riyadh, Saudi Arabia defaults
 const DEFAULT_LAT = 24.7136;
@@ -78,6 +79,12 @@ const toNumber = (value: unknown): number | null => {
 };
 
 const geocodeCache = new Map<string, { lat: number; lng: number } | null>();
+const ALLOWED_IMAGE_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/gif",
+]);
 
 const extractCityCoordinates = (city: any): { lat: number; lng: number } | null => {
   if (!city) return null;
@@ -153,6 +160,45 @@ const geocodeCityInSaudiArabia = async (
     geocodeCache.set(normalized, null);
     return null;
   }
+};
+
+const convertImageBlobToJpeg = async (blob: Blob, filename: string): Promise<File> => {
+  if (typeof window === "undefined") {
+    return new File([blob], filename.replace(/\.[^.]+$/, ".jpg"), {
+      type: "image/jpeg",
+    });
+  }
+
+  const imageBitmap = await createImageBitmap(blob);
+  const canvas = document.createElement("canvas");
+  canvas.width = imageBitmap.width;
+  canvas.height = imageBitmap.height;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("Failed to create canvas context for image conversion");
+  }
+
+  ctx.drawImage(imageBitmap, 0, 0);
+  const jpegBlob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", 0.92),
+  );
+  imageBitmap.close();
+
+  if (!jpegBlob) {
+    throw new Error("Failed to convert image to JPEG");
+  }
+
+  return new File([jpegBlob], filename.replace(/\.[^.]+$/, ".jpg"), {
+    type: "image/jpeg",
+  });
+};
+
+const normalizeImageFile = async (file: File): Promise<File> => {
+  if (ALLOWED_IMAGE_MIME_TYPES.has(file.type)) return file;
+
+  // Backend only accepts jpeg/png/jpg/gif. Convert unsupported formats (e.g. webp) to jpeg.
+  return convertImageBlobToJpeg(file, file.name || "image.jpg");
 };
 
 
@@ -257,7 +303,7 @@ export const CreateMarketplacePropertyDialog = ({
       const resolvedCountryId =
         (property as any).country?.id ||
         property.country_id ||
-        1;
+        2;
       setCountryId(Number(resolvedCountryId));
 
       // Resolve city ID
@@ -392,6 +438,13 @@ export const CreateMarketplacePropertyDialog = ({
     // Sync state values to FormData
     // HIDDEN: country is always Saudi Arabia (country_id = 2)
     formData.set("country_id", "2");
+    if (!cityId) {
+      toast.error(tCommon("error.title") || "Error", {
+        description: t("select_city") || "اختر المدينة",
+      });
+      return;
+    }
+
     formData.set("city_id", String(cityId));
     formData.set("latitude", String(latitude));
     formData.set("longitude", String(longitude));
@@ -401,23 +454,73 @@ export const CreateMarketplacePropertyDialog = ({
       // Convert all kept existing image URLs to File blobs, then combine with new uploads.
       // The backend receives the full desired set and replaces images entirely.
       formData.delete("images[]");
-      const imageFiles = await Promise.all(
-        images.map((img) =>
-          img instanceof File ? Promise.resolve(img) : urlToFile(img as string, "image")
-        )
+      let hasImageFormatError = false;
+      let hasImageFetchError = false;
+      const imageCandidates = await Promise.all(
+        images.map(async (img) => {
+          try {
+            if (img instanceof File) {
+              return await normalizeImageFile(img);
+            }
+
+            const fetchedFile = await urlToFile(img as string, "image");
+            return await normalizeImageFile(fetchedFile);
+          } catch (error) {
+            if (img instanceof File) {
+              hasImageFormatError = true;
+            } else {
+              hasImageFetchError = true;
+            }
+            console.warn("Skipping invalid image during update:", error);
+            return null;
+          }
+        }),
+      );
+      const imageFiles = imageCandidates.filter(
+        (file): file is File => file instanceof File,
       );
       imageFiles.forEach((file) => formData.append("images[]", file));
 
       // Same for videos
       formData.delete("videos[]");
-      const videoFiles = await Promise.all(
-        videos.map((vid) =>
-          vid instanceof File ? Promise.resolve(vid) : urlToFile(vid as string, "video")
-        )
+      let hasVideoFetchError = false;
+      const videoCandidates = await Promise.all(
+        videos.map(async (vid) => {
+          try {
+            return vid instanceof File
+              ? await Promise.resolve(vid)
+              : await urlToFile(vid as string, "video");
+          } catch (error) {
+            hasVideoFetchError = true;
+            console.warn("Skipping invalid video during update:", error);
+            return null;
+          }
+        }),
+      );
+      const videoFiles = videoCandidates.filter(
+        (file): file is File => file instanceof File,
       );
       videoFiles.forEach((file) => formData.append("videos[]", file));
+
+      if (hasImageFormatError) {
+        toast.error(tCommon("error.title") || "Error", {
+          description:
+            t("images_format_error") ||
+            "صيغة بعض الصور غير مدعومة. يرجى استخدام JPG/PNG/GIF فقط.",
+        });
+      }
+      if (hasImageFetchError || hasVideoFetchError) {
+        // Non-blocking: some old media URLs may fail to re-fetch, but update can still succeed.
+        console.warn("Some existing media URLs could not be fetched during update.");
+      }
     } catch (err) {
       console.warn("Failed to fetch existing media, submitting without re-fetched files:", err);
+      toast.error(tCommon("error.title") || "Error", {
+        description:
+          t("media_fetch_error") ||
+          "تعذر تحميل الوسائط أثناء التحديث. حاول مرة أخرى.",
+      });
+      return;
     } finally {
       setIsSubmitting(false);
     }
@@ -609,11 +712,11 @@ export const CreateMarketplacePropertyDialog = ({
                   onChange={setVideos as any}
                   accept="video/*"
                   maxFiles={1}
-                  maxSize={25 * 1024 * 1024}
+                  maxSize={50 * 1024 * 1024}
                   label=""
                   helperText={
                     t("videos_helper_updated_v2") ||
-                    "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 25 ميجابايت)"
+                    "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 50 ميجابايت)"
                   }
                 />
               </div>

@@ -1,15 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { FiPlus, FiSearch } from "react-icons/fi";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import MyPropertyCard from "./my-property-card";
-import { useRealEstateProperties } from "@/features/properties/hooks/use-properties";
 import SmartPagination from "@/components/shared/smart-pagination";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
+import { useRealEstateProperties } from "@/features/properties/hooks/use-properties";
 import { useAdLimit } from "@/hooks/use-ad-limit";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { FiPlus } from "react-icons/fi";
+import MyPropertyCard from "./my-property-card";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -58,14 +56,7 @@ const RealEstateTab = () => {
     <div className="space-y-6">
       {/* Search and Add Action */}
       <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-        {/* Search */}
-        {/* <div className="relative w-full md:w-96">
-          <Input
-            placeholder={t("search_ad_placeholder") || "Search"}
-            className="ps-10 h-11 bg-white border-gray-200"
-          />
-          <FiSearch className="absolute start-3 top-3.5 text-gray-400" />
-        </div> */}
+
 
         {/* Add New Ad Button */}
         {properties.length > 0 && (

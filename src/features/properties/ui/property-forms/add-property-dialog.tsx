@@ -641,11 +641,11 @@ export function AddPropertyDialog({
                       onChange={setVideos as any}
                       accept="video/*"
                       maxFiles={1}
-                      maxSize={25 * 1024 * 1024}
+                      maxSize={50 * 1024 * 1024}
                       label={t("property_videos") || "فيديوهات العقار"}
                       helperText={
                         t("videos_helper_updated_v2") ||
-                        "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 25 ميجابايت)"
+                        "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 50 ميجابايت)"
                       }
                     />
                   </FormControl>

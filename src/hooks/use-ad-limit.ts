@@ -8,9 +8,10 @@ import { useRouter } from "@/i18n/navigation";
 
 /**
  * Hook to check if the logged-in user can add a new ad.
- * Uses `permissions.adLimit` and `permissions.totalUsedAds` from the profile API.
+ * Uses permissions from the profile API.
  *
- * - adLimit === 0  → no package → redirect to /packages
+ * - unlimited/package-level add permission → allow immediately
+ * - adLimit <= 0 (or missing with no unlimited permission) → no package → redirect
  * - totalUsedAds >= adLimit → limit reached → redirect to /packages
  * - otherwise → ok, returns true
  */
@@ -28,11 +29,22 @@ export function useAdLimit() {
       return false;
     }
 
-    const adLimit = user?.permissions?.adLimit ?? 0;
+    const rawAdLimit = user?.permissions?.adLimit;
+    const adLimit =
+      typeof rawAdLimit === "number" && Number.isFinite(rawAdLimit)
+        ? rawAdLimit
+        : 0;
     const totalUsedAds = user?.permissions?.totalUsedAds ?? 0;
+    const hasUnlimitedAds = user?.permissions?.package?.hasUnlimitedAds === true;
+    const canAddPropertyNew = user?.permissions?.package?.canAddPropertyNew === true;
+    const canAddByLicense = user?.permissions?.canAddAdBasedOnLicense === true;
+
+    if (hasUnlimitedAds || canAddPropertyNew || canAddByLicense) {
+      return true;
+    }
 
     // No active package
-    if (adLimit === 0) {
+    if (adLimit <= 0) {
       toast.error(t("no_package_title"), {
         description: t("no_package_desc"),
         action: {
