@@ -18,7 +18,7 @@ export async function generateMetadata({
 const ContactInfoPage = async () => {
   const t = await getTranslations("Footer");
   const settings = await settingsService.getSettings();
-  const content = settings?.content?.contactInfoContent || "";
+  const content = settings?.data?.content?.contactInfoContent || "";
 
   return (
     <StaticPageContent

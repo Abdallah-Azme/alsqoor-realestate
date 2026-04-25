@@ -18,7 +18,7 @@ export async function generateMetadata({
 const IpPolicyPage = async () => {
   const t = await getTranslations("Footer");
   const settings = await settingsService.getSettings();
-  const content = settings?.content?.ipPolicy || "";
+  const content = settings?.data?.content?.ipPolicy || "";
 
   return (
     <StaticPageContent

@@ -18,7 +18,7 @@ export async function generateMetadata({
 const PrivacyPolicyPage = async () => {
   const t = await getTranslations("Footer");
   const settings = await settingsService.getSettings();
-  const content = settings?.content?.privacyPolicy || "";
+  const content = settings?.data?.content?.privacyPolicy || "";
 
   return (
     <StaticPageContent

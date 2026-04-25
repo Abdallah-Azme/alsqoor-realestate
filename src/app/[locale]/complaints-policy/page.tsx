@@ -18,8 +18,9 @@ export async function generateMetadata({
 const ComplaintsPolicyPage = async () => {
   const t = await getTranslations("Footer");
   const settings = await settingsService.getSettings();
-  const content = settings?.content?.complaintsPolicy || "";
+  const content = settings?.data?.content?.complaintsPolicy || "";
 
+  console.log({ settings });
   return (
     <StaticPageContent
       title={t("complaints_policy")}
