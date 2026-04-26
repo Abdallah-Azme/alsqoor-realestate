@@ -201,6 +201,44 @@ const normalizeImageFile = async (file: File): Promise<File> => {
   return convertImageBlobToJpeg(file, file.name || "image.jpg");
 };
 
+const VALID_PROPERTY_TYPES = [
+  "villa",
+  "land",
+  "apartment",
+  "floor",
+  "building",
+  "shop",
+  "resthouse",
+  "farm",
+] as const;
+
+const PROPERTY_TYPE_SYNONYMS: Record<string, (typeof VALID_PROPERTY_TYPES)[number]> = {
+  villa: "villa",
+  "فيلا": "villa",
+  land: "land",
+  "أرض": "land",
+  apartment: "apartment",
+  "شقة": "apartment",
+  floor: "floor",
+  "دور": "floor",
+  building: "building",
+  "عمارة": "building",
+  shop: "shop",
+  "محل": "shop",
+  resthouse: "resthouse",
+  "استراحة": "resthouse",
+  farm: "farm",
+  "مزرعة": "farm",
+};
+
+const normalizePropertyType = (
+  value?: string | null,
+): (typeof VALID_PROPERTY_TYPES)[number] | undefined => {
+  if (!value) return undefined;
+  const normalized = String(value).trim().toLowerCase();
+  return PROPERTY_TYPE_SYNONYMS[normalized];
+};
+
 
 // Dynamically import Leaflet map to avoid SSR issues
 const MapLocationPicker = dynamic(
@@ -247,6 +285,9 @@ export const CreateMarketplacePropertyDialog = ({
   const tProfile = useTranslations("Profile");
   const tPage = useTranslations("home.estates_page");
   const tCommon = useTranslations("common");
+  const safeT = (key: string, fallback: string) => {
+    return t.has(key) ? t(key) : fallback;
+  };
 
   const [internalOpen, setInternalOpen] = useState(false);
   const open = externalOpen !== undefined ? externalOpen : internalOpen;
@@ -294,6 +335,7 @@ export const CreateMarketplacePropertyDialog = ({
     useUpdateRealEstateProperty();
 
   const isPending = isAddingMarketplace || isAddingDeveloper || isUpdating;
+  const initialPropertyType = normalizePropertyType(property?.propertyType) || "villa";
 
   // Initialize data if editing or user role changes
   useEffect(() => {
@@ -849,12 +891,44 @@ export const CreateMarketplacePropertyDialog = ({
                   <Label htmlFor="property_type">
                     {t("property_type") || "نوع العقار"}
                   </Label>
-                  <Input
-                    id="property_type"
+                  <Select
                     name="property_type"
-                    defaultValue={property?.propertyType || ""}
-                    placeholder={t("select_property_type")}
-                  />
+                    defaultValue={initialPropertyType}
+                  >
+                    <SelectTrigger id="property_type">
+                      <SelectValue
+                        placeholder={
+                          t("select_property_type") || "اختر نوع العقار"
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="villa">
+                        {t("villa") || "فيلا"}
+                      </SelectItem>
+                      <SelectItem value="land">
+                        {t("land") || "أرض"}
+                      </SelectItem>
+                      <SelectItem value="apartment">
+                        {t("apartment") || "شقة"}
+                      </SelectItem>
+                      <SelectItem value="floor">
+                        {t("floor") || "دور"}
+                      </SelectItem>
+                      <SelectItem value="building">
+                        {t("building") || "عمارة"}
+                      </SelectItem>
+                      <SelectItem value="shop">
+                        {t("shop") || "محل"}
+                      </SelectItem>
+                      <SelectItem value="resthouse">
+                        {safeT("resthouse", "استراحة")}
+                      </SelectItem>
+                      <SelectItem value="farm">
+                        {safeT("farm", "مزرعة")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             )}
@@ -869,7 +943,7 @@ export const CreateMarketplacePropertyDialog = ({
                     </Label>
                     <Select
                       name="property_type"
-                      defaultValue={property?.propertyType || "villa"}
+                      defaultValue={initialPropertyType}
                     >
                       <SelectTrigger>
                         <SelectValue
@@ -896,6 +970,12 @@ export const CreateMarketplacePropertyDialog = ({
                         </SelectItem>
                         <SelectItem value="shop">
                           {t("shop") || "محل"}
+                        </SelectItem>
+                        <SelectItem value="resthouse">
+                          {safeT("resthouse", "استراحة")}
+                        </SelectItem>
+                        <SelectItem value="farm">
+                          {safeT("farm", "مزرعة")}
                         </SelectItem>
                       </SelectContent>
                     </Select>
