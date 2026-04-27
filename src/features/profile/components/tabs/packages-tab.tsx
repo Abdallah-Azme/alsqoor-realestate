@@ -210,12 +210,10 @@ const PackagesTab = () => {
   const t = useTranslations("Profile");
   const { data: packages, isLoading, error } = usePackages();
 
-  console.log({packages});
-  const { data: activeSubData, isLoading: isLoadingActive } =
+   const { data: activeSubData, isLoading: isLoadingActive } =
     useActiveSubscription();
 
-  console.log({activeSubData});
-
+ 
   const [selectedPackageId, setSelectedPackageId] = useState<
     string | number | null
   >(null);

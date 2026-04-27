@@ -5,24 +5,18 @@ import { SiteOffersList, CreateSiteOfferDialog } from "@/features/offers/propert
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { ServiceDescription } from "@/features/service-descriptions";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
-import { getToken } from "@/services";
-import { useRouter } from "@/i18n/navigation";
+import { UserContext } from "@/context/user-context";
 
 const OffersPage = () => {
   const t = useTranslations("offers_page");
   const tBreadcrumbs = useTranslations("breadcrumbs");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const router = useRouter();
+  const { user } = useContext(UserContext) || { user: null };
 
-  const handleOpenAddDialog = async () => {
-    const token = await getToken();
-    if (!token) {
-      router.push("/auth/login");
-      return;
-    }
+  const handleOpenAddDialog = () => {
     setIsAddDialogOpen(true);
   };
 
@@ -40,13 +34,15 @@ const OffersPage = () => {
         >
           <div className="flex items-center gap-4">
             <ServiceDescription type="offers" />
-            <Button
-              onClick={handleOpenAddDialog}
-              className="bg-main-green hover:bg-main-green/90 text-white gap-2 font-bold px-6 shadow-lg shadow-main-green/20 border-none"
-            >
-              <FiPlus className="stroke-[3px]" />
-              {t("add_offer") || "إضافة عرض"}
-            </Button>
+            {user && (
+              <Button
+                onClick={handleOpenAddDialog}
+                className="bg-main-green hover:bg-main-green/90 text-white gap-2 font-bold px-6 shadow-lg shadow-main-green/20 border-none"
+              >
+                <FiPlus className="stroke-[3px]" />
+                {t("add_offer") || "إضافة عرض"}
+              </Button>
+            )}
           </div>
         </PageHeader>
       </motion.div>

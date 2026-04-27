@@ -12,6 +12,8 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiPlus } from "react-icons/fi";
 import { ServiceDescription } from "@/features/service-descriptions";
+import { useContext } from "react";
+import { UserContext } from "@/context/user-context";
 
 const MarketplacePage = () => {
   const t = useTranslations("breadcrumbs");
@@ -21,6 +23,7 @@ const MarketplacePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const { user } = useContext(UserContext) || { user: null };
   const activeTab = searchParams.get("type") || "agent";
 
   // Fetch properties from /properties-new
@@ -87,11 +90,13 @@ const MarketplacePage = () => {
           </Tabs>
 
           <div className="flex items-center gap-4">
-            <CreateMarketplacePropertyDialog
-              buttonText={tMarket("add_property")}
-              bypassLimitCheck={true}
-              defaultRole={activeTab}
-            />
+            {user && (
+              <CreateMarketplacePropertyDialog
+                buttonText={tMarket("add_property")}
+                bypassLimitCheck={true}
+                defaultRole={activeTab}
+              />
+            )}
             <ServiceDescription type="marketplace" />
           </div>
         </div>
@@ -186,12 +191,14 @@ const MarketplacePage = () => {
                 {tMarket("no_properties_description")}
               </p>
             </div>
-            <CreateMarketplacePropertyDialog
-              triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-              buttonText={tMarket("add_property")}
-              bypassLimitCheck={true}
-              defaultRole={activeTab}
-            />
+            {user && (
+              <CreateMarketplacePropertyDialog
+                triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+                buttonText={tMarket("add_property")}
+                bypassLimitCheck={true}
+                defaultRole={activeTab}
+              />
+            )}
           </div>
         )}
       </div>

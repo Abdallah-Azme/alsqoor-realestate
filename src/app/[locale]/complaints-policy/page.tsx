@@ -20,8 +20,7 @@ const ComplaintsPolicyPage = async () => {
   const settings = await settingsService.getSettings();
   const content = settings?.data?.content?.complaintsPolicy || "";
 
-  console.log({ settings });
-  return (
+   return (
     <StaticPageContent
       title={t("complaints_policy")}
       content={content}

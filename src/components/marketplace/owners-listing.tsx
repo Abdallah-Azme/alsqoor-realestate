@@ -54,7 +54,7 @@ const OwnersListing = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          {properties.length > 0 && (
+          {user && properties.length > 0 && (
             <Button
               onClick={() => setIsAddDialogOpen(true)}
               className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
@@ -104,8 +104,8 @@ const OwnersListing = () => {
             t("no_properties_description") ||
             "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
           }
-          buttonText={tPage("add_property")}
-          onAction={() => setIsAddDialogOpen(true)}
+          buttonText={user ? tPage("add_property") : undefined}
+          onAction={user ? () => setIsAddDialogOpen(true) : undefined}
         />
       )}
 

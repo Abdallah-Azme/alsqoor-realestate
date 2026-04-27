@@ -4,14 +4,15 @@ import { useTranslations } from "next-intl";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSearchProperties } from "@/features/properties/hooks/use-properties";
 import StatesCard from "@/components/shared/state-card";
-import { Loader2, AlertCircle, Plus } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { FiPlus } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/shared/empty-state";
 import { motion } from "motion/react";
 import SmartPagination from "@/components/shared/smart-pagination";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import AddAdvertisementDialog from "@/features/profile/components/dialogs/add-advertisement-dialog";
+import { UserContext } from "@/context/user-context";
 
 const AdsSearchListing = () => {
   const t = useTranslations("marketplace");
@@ -19,6 +20,7 @@ const AdsSearchListing = () => {
   const tProfile = useTranslations("Profile");
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user } = useContext(UserContext) || { user: null };
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
@@ -126,7 +128,7 @@ const AdsSearchListing = () => {
           {t("opportunity")}
         </p>
 
-        {mappedProperties.length > 0 && (
+        {user && mappedProperties.length > 0 && (
           <Button
             onClick={() => setIsAddDialogOpen(true)}
             className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
@@ -169,8 +171,8 @@ const AdsSearchListing = () => {
         <EmptyState
           title={t("no_properties")}
           description={t("no_properties_description")}
-          buttonText={tProfile("add_new_ad")}
-          onAction={() => setIsAddDialogOpen(true)}
+          buttonText={user ? tProfile("add_new_ad") : undefined}
+          onAction={user ? () => setIsAddDialogOpen(true) : undefined}
         />
       )}
 
