@@ -718,8 +718,8 @@ export const CreateMarketplacePropertyDialog = ({
           (file): file is File => file instanceof File,
         );
         if (imageFiles.length === 0) {
-          // Explicit null marker so backend clears images on full-replacement updates.
-          payload.append("images[]", "null");
+          // Backend clear contract: send remove_images=1 when images are removed.
+          payload.set("remove_images", "1");
         } else {
           imageFiles.forEach((file) => payload.append("images[]", file));
         }
@@ -743,8 +743,8 @@ export const CreateMarketplacePropertyDialog = ({
           (file): file is File => file instanceof File,
         );
         if (videoFiles.length === 0) {
-          // Explicit null marker so backend clears videos on full-replacement updates.
-          payload.append("videos[]", "null");
+          // Backend clear contract: send remove_videos=1 when videos are removed.
+          payload.set("remove_videos", "1");
         } else {
           videoFiles.forEach((file) => payload.append("videos[]", file));
         }

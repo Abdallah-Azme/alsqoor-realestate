@@ -579,7 +579,7 @@ const AddAdvertisementDialog = ({
             (img): img is File => img instanceof File,
           );
           if (imageFiles.length === 0) {
-            payload.append("images[]", "null");
+            payload.set("remove_images", "1");
           } else {
             imageFiles.forEach((file) => payload.append("images[]", file));
           }
@@ -599,7 +599,7 @@ const AddAdvertisementDialog = ({
             (vid): vid is File => vid instanceof File,
           );
           if (videoFiles.length === 0) {
-            payload.append("videos[]", "null");
+            payload.set("remove_videos", "1");
           } else {
             videoFiles.forEach((file) => payload.append("videos[]", file));
           }
