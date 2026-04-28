@@ -15,18 +15,6 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
       text: t("min_length"),
       test: (pwd: string) => pwd.length >= 8,
     },
-    {
-      text: t("has_number"),
-      test: (pwd: string) => /\d/.test(pwd),
-    },
-    {
-      text: t("has_special"),
-      test: (pwd: string) => /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
-    },
-    {
-      text: t("has_uppercase"),
-      test: (pwd: string) => /[A-Z]/.test(pwd),
-    },
   ];
 
   return (

@@ -11,10 +11,7 @@ const createBaseRegistrationFields = (t: TFunction) =>
     mobile: z.string().min(10, t("validation.phone_min")),
     password: z
       .string()
-      .min(8, t("validation.password_min"))
-      .regex(/[A-Z]/, t("password_requirements.has_uppercase"))
-      .regex(/[0-9]/, t("password_requirements.has_number"))
-      .regex(/[!@#$%^&*]/, t("password_requirements.has_special")),
+      .min(8, t("validation.password_min")),
     password_confirmation: z.string(),
     terms_accepted: z.literal("1"),
     latitude: z.string().optional(),

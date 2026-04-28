@@ -49,8 +49,8 @@ export function LoginForm() {
     mobile: z.string().min(10, {
       message: tv("phone_min"),
     }),
-    password: z.string().min(1, {
-      message: tv("password_required"),
+    password: z.string().min(8, {
+      message: tv("password_min"),
     }),
   });
 
