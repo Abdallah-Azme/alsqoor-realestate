@@ -46,9 +46,6 @@ export const useAcceptOffer = () => {
       toast.success(t("accept_success"));
       queryClient.invalidateQueries({ queryKey: propertyOfferKeys.user() });
     },
-    onError: () => {
-      toast.error(t("accept_error"));
-    },
   });
 };
 
@@ -62,9 +59,6 @@ export const useRejectOffer = () => {
     onSuccess: () => {
       toast.success(t("reject_success"));
       queryClient.invalidateQueries({ queryKey: propertyOfferKeys.user() });
-    },
-    onError: () => {
-      toast.error(t("reject_error"));
     },
   });
 };

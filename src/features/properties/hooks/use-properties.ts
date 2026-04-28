@@ -171,7 +171,7 @@ export function useUpdateProperty() {
       data,
     }: {
       id: number;
-      data: Partial<PropertyFormInput>;
+      data: FormData | Partial<PropertyFormInput>;
     }) => propertiesService.updateProperty(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["property", variables.id] });

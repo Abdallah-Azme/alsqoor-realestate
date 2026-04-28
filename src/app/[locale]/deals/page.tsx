@@ -118,15 +118,13 @@ const Page = () => {
               </TabsTrigger>
             </TabsList> */}
             {/* add */}
-            {user && (
-              <button
-                onClick={handleAddNew}
-                className="text-main-green px-4 ms-auto py-2 rounded flex items-center gap-2 border border-main-green text-sm hover:bg-main-green hover:text-white transition-all duration-300"
-              >
-                <FaPlus />
-                {t("add_deal")}
-              </button>
-            )}
+            <button
+              onClick={handleAddNew}
+              className="text-main-green px-4 ms-auto py-2 rounded flex items-center gap-2 border border-main-green text-sm hover:bg-main-green hover:text-white transition-all duration-300"
+            >
+              <FaPlus />
+              {t("add_deal")}
+            </button>
 
             <DirectDealDialog
               open={open}

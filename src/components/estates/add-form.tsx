@@ -21,6 +21,7 @@ import { Trash2, Upload, MapPin } from "lucide-react";
 import { addProperty } from "@/lib/property-actions";
 import Map from "@/components/shared/Map";
 import { toast } from "sonner";
+import { IMAGE_UPLOAD_ACCEPT, splitSupportedImageFiles } from "@/lib/image-upload";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -700,12 +701,19 @@ export default function AddForm({ setOpen }) {
             <div className="border-2 border-dashed rounded-lg p-6 text-center">
               <input
                 type="file"
-                accept="image/*"
+                accept={IMAGE_UPLOAD_ACCEPT}
                 multiple
                 onChange={(e) => {
                   if (e.target.files) {
-                    const newFiles = Array.from(e.target.files);
-                    setPhotos((prev) => [...prev, ...newFiles]);
+                    const { accepted, rejected } = splitSupportedImageFiles(
+                      Array.from(e.target.files),
+                    );
+                    if (rejected.length > 0) {
+                      toast.error("صيغة WEBP و AVIF غير مسموح بها.");
+                    }
+                    if (accepted.length > 0) {
+                      setPhotos((prev) => [...prev, ...accepted]);
+                    }
                   }
                 }}
                 className="hidden"

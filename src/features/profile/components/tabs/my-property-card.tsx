@@ -6,7 +6,6 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import {
   FiClock,
   FiHome,
-  FiTrendingUp,
   FiShare2,
   FiRefreshCw,
   FiEye,
@@ -15,7 +14,6 @@ import { TbDimensions, TbBath } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
 import { Link } from "@/i18n/navigation";
 import {
-  useStartMarketing,
   useDeleteRealEstateProperty,
   useReactivateProperty,
 } from "@/features/properties/hooks/use-properties";
@@ -40,6 +38,7 @@ interface MyPropertyCardProps {
   showConvertButton?: boolean;
   onEdit?: () => void;
   viewHref?: string;
+  hideDeleteButton?: boolean;
 }
 
 const MyPropertyCard = ({
@@ -47,26 +46,16 @@ const MyPropertyCard = ({
   showConvertButton = false,
   onEdit,
   viewHref,
+  hideDeleteButton = false,
 }: MyPropertyCardProps) => {
   const t = useTranslations("Profile");
   const tCommon = useTranslations("marketplace");
   const tProps = useTranslations("properties");
 
-  const marketMutation = useStartMarketing();
   const deleteMutation = useDeleteRealEstateProperty();
   const reactivateMutation = useReactivateProperty();
 
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-
-  const handleStartMarketing = async () => {
-    if (!property.id) return;
-    try {
-      await marketMutation.mutateAsync(property.id as number);
-      toast.success(t("marketing_success"));
-    } catch (error) {
-      console.error("Failed to start marketing", error);
-    }
-  };
 
   const handleDelete = async () => {
     if (!property.id) return;
@@ -245,17 +234,19 @@ const MyPropertyCard = ({
       </div>
 
       {/* Absolute positioned Delete Action - Outside Link */}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setDeleteConfirmOpen(true);
-        }}
-        className="absolute top-3 end-3 bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition-colors z-10"
-        title={t("delete") || "Delete"}
-      >
-        <Trash2 size={16} />
-      </button>
+      {!hideDeleteButton && (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setDeleteConfirmOpen(true);
+          }}
+          className="absolute top-3 end-3 bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition-colors z-10"
+          title={t("delete") || "Delete"}
+        >
+          <Trash2 size={16} />
+        </button>
+      )}
 
       {/* Actions Grid - Outside Link for better accessibility/nesting */}
       <div className="p-4 pt-0">
@@ -308,18 +299,6 @@ const MyPropertyCard = ({
               />
             </div>
           )}
-
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleStartMarketing();
-            }}
-            disabled={marketMutation.isPending}
-            className={`col-span-${showConvertButton ? "1" : "2"} bg-main-navy text-white hover:bg-main-navy/90 disabled:bg-gray-300 font-medium py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-sm`}
-          >
-            {t("market_now") || "قم بالتسويق للعقار"}
-          </button>
 
           {((property.status as string) === "expired" ||
             (property.status as string) === "inactive") && (

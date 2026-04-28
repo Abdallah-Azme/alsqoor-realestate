@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,7 +45,6 @@ import {
   useUpdateProperty,
 } from "@/features/properties/hooks/use-properties";
 import { Property } from "@/features/properties/types/property.types";
-import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FileUploader } from "@/components/shared/file-uploader";
 import Map from "@/components/shared/Map";
@@ -91,7 +90,7 @@ const getFormSchema = (t: any) =>
     finishing_type: z.enum(["none", "basic", "good", "luxury", "super_luxury"]),
     latitude: z.coerce.number().optional(),
     longitude: z.coerce.number().optional(),
-    amenity_ids: z.array(z.number()).optional(),
+    amenity_ids: z.array(z.coerce.number()).optional(),
     property_use: z.enum([
       "apartment",
       "villa",
@@ -197,6 +196,11 @@ const TAB_FIELDS: Record<string, string[]> = {
   ],
 };
 
+const areStringArraysEqual = (a: string[], b: string[]) => {
+  if (a.length !== b.length) return false;
+  return a.every((item, index) => item === b[index]);
+};
+
 const AddAdvertisementDialog = ({
   open,
   onOpenChange,
@@ -208,8 +212,11 @@ const AddAdvertisementDialog = ({
 
   const [isSuccess, setIsSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState("basic");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isEditing = !!property;
+  const initialImagesRef = useRef<string[]>([]);
+  const initialVideosRef = useRef<string[]>([]);
 
   const currentTabIndex = TABS.indexOf(activeTab);
   const isLastTab = currentTabIndex === TABS.length - 1;
@@ -306,9 +313,14 @@ const AddAdvertisementDialog = ({
         latitude: Number(property.latitude || 0),
         longitude: Number(property.longitude || 0),
         amenity_ids:
-          property.amenities?.map((a: any) =>
-            typeof a === "object" ? a.id : a,
-          ) || [],
+          property.amenities
+            ?.map((a: any) => {
+              const rawId =
+                typeof a === "object" ? a?.id ?? a?.amenity_id ?? a?.value : a;
+              const parsed = Number(rawId);
+              return Number.isFinite(parsed) ? parsed : null;
+            })
+            .filter((id: number | null): id is number => id !== null) || [],
         property_use: (property.property_use ||
           property.propertyUse ||
           "apartment") as any,
@@ -344,11 +356,28 @@ const AddAdvertisementDialog = ({
           "agent") as any,
         images: property.images || [],
         videos: property.videos || [],
-        qr_code: property.qr_code ? [property.qr_code] : [],
+        qr_code: (() => {
+          const rawQr =
+            property.qr_code ||
+            property.qrCode ||
+            (property as any)?.qr?.url ||
+            (property as any)?.qr_code?.url ||
+            (property as any)?.qrCode?.url;
+
+          return typeof rawQr === "string" && rawQr.trim() ? [rawQr] : [];
+        })(),
       });
+      initialImagesRef.current = (property.images || []).filter(
+        (img): img is string => typeof img === "string" && img.trim().length > 0,
+      );
+      initialVideosRef.current = (property.videos || []).filter(
+        (vid): vid is string => typeof vid === "string" && vid.trim().length > 0,
+      );
     } else if (!open) {
       form.reset();
       setActiveTab("basic");
+      initialImagesRef.current = [];
+      initialVideosRef.current = [];
     }
   }, [property, open, form]);
 
@@ -445,38 +474,194 @@ const AddAdvertisementDialog = ({
   const isPending =
     createPropertyMutation.isPending || updatePropertyMutation.isPending;
 
-  const onSubmit: SubmitHandler<FormValues> = async (values) => {
-    try {
-      const submitData = {
-        ...values,
-        services: values.services
-          ? values.services
-              .split(",")
-              .map((s: string) => s.trim())
-              .filter(Boolean)
-          : [],
-        images: values.images?.filter((img: any) => img instanceof File) || [],
-        videos: values.videos?.filter((vid: any) => vid instanceof File) || [],
-        qr_code: values.qr_code?.filter((img: any) => img instanceof File)[0],
-      };
+  const urlToFile = async (
+    url: string,
+    fallbackName: string,
+    mimePrefix: "image" | "video",
+  ): Promise<File> => {
+    const proxyUrl = `/api/proxy-media?url=${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl);
+    if (!response.ok) {
+      throw new Error(`Proxy fetch failed: ${response.status}`);
+    }
 
+    const blob = await response.blob();
+
+    const getFileNameFromUrl = (rawUrl: string) => {
+      try {
+        const parsed = new URL(rawUrl);
+        const name = parsed.pathname.split("/").pop();
+        return name || fallbackName;
+      } catch {
+        const sanitized = rawUrl.split("?")[0];
+        const name = sanitized.split("/").pop();
+        return name || fallbackName;
+      }
+    };
+
+    const inferImageMimeType = (fileName: string): string => {
+      const lower = fileName.toLowerCase();
+      if (lower.endsWith(".png")) return "image/png";
+      if (lower.endsWith(".gif")) return "image/gif";
+      if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
+        return "image/jpeg";
+      }
+      return "image/jpeg";
+    };
+
+    const fileName = getFileNameFromUrl(url);
+    const normalizedBlobType = blob.type.trim().toLowerCase();
+
+    const fileType =
+      mimePrefix === "image"
+        ? normalizedBlobType.startsWith("image/") &&
+          normalizedBlobType !== "application/octet-stream"
+          ? normalizedBlobType
+          : inferImageMimeType(fileName)
+        : normalizedBlobType || "video/mp4";
+
+    return new File([blob], fileName, { type: fileType });
+  };
+
+  const onSubmit: SubmitHandler<FormValues> = async (values) => {
+    setIsSubmitting(true);
+    try {
       if (isEditing && property) {
+        const payload = new FormData();
+        const dirtyFields = form.formState.dirtyFields as Record<string, boolean>;
+
+        Object.entries(dirtyFields).forEach(([key, isDirty]) => {
+          if (!isDirty) return;
+          if (key === "images" || key === "videos" || key === "qr_code") return;
+
+          const rawValue = (values as any)[key];
+          if (rawValue === undefined || rawValue === null) return;
+
+          if (Array.isArray(rawValue)) {
+            rawValue.forEach((item) => {
+              payload.append(`${key}[]`, String(item));
+            });
+            return;
+          }
+
+          if (typeof rawValue === "boolean") {
+            payload.append(key, rawValue ? "1" : "0");
+            return;
+          }
+
+          payload.append(key, String(rawValue));
+        });
+
+        const currentImageUrls = (values.images || []).filter(
+          (img: any): img is string => typeof img === "string" && img.trim().length > 0,
+        );
+        const currentVideoUrls = (values.videos || []).filter(
+          (vid: any): vid is string => typeof vid === "string" && vid.trim().length > 0,
+        );
+        const hasNewImageFiles = (values.images || []).some((img: any) => img instanceof File);
+        const hasNewVideoFiles = (values.videos || []).some((vid: any) => vid instanceof File);
+        const imagesChanged =
+          hasNewImageFiles || !areStringArraysEqual(currentImageUrls, initialImagesRef.current);
+        const videosChanged =
+          hasNewVideoFiles || !areStringArraysEqual(currentVideoUrls, initialVideosRef.current);
+
+        if (imagesChanged) {
+          const normalizedImages = await Promise.all(
+            (values.images || []).map(async (img: any, index: number) => {
+              if (img instanceof File) return img;
+              if (typeof img === "string" && img.trim()) {
+                return urlToFile(img, `image-${index + 1}.jpg`, "image");
+              }
+              return null;
+            }),
+          );
+          const imageFiles = normalizedImages.filter(
+            (img): img is File => img instanceof File,
+          );
+          if (imageFiles.length === 0) {
+            payload.append("images[]", "null");
+          } else {
+            imageFiles.forEach((file) => payload.append("images[]", file));
+          }
+        }
+
+        if (videosChanged) {
+          const normalizedVideos = await Promise.all(
+            (values.videos || []).map(async (vid: any, index: number) => {
+              if (vid instanceof File) return vid;
+              if (typeof vid === "string" && vid.trim()) {
+                return urlToFile(vid, `video-${index + 1}.mp4`, "video");
+              }
+              return null;
+            }),
+          );
+          const videoFiles = normalizedVideos.filter(
+            (vid): vid is File => vid instanceof File,
+          );
+          if (videoFiles.length === 0) {
+            payload.append("videos[]", "null");
+          } else {
+            videoFiles.forEach((file) => payload.append("videos[]", file));
+          }
+        }
+
+        const qrDirty = Boolean((dirtyFields as any).qr_code);
+        if (qrDirty) {
+          const newQrCodeFile = values.qr_code?.find((img: any) => img instanceof File);
+          if (newQrCodeFile) {
+            payload.append("qr_code", newQrCodeFile);
+          }
+        }
+
         await updatePropertyMutation.mutateAsync({
           id: property.id,
-          data: submitData,
+          data: payload,
         });
       } else {
+        // Create path keeps full payload behavior.
+        const normalizedImages = await Promise.all(
+          (values.images || []).map(async (img: any, index: number) => {
+            if (img instanceof File) return img;
+            if (typeof img === "string" && img.trim()) {
+              return urlToFile(img, `image-${index + 1}.jpg`, "image");
+            }
+            return null;
+          }),
+        );
+
+        const normalizedVideos = await Promise.all(
+          (values.videos || []).map(async (vid: any, index: number) => {
+            if (vid instanceof File) return vid;
+            if (typeof vid === "string" && vid.trim()) {
+              return urlToFile(vid, `video-${index + 1}.mp4`, "video");
+            }
+            return null;
+          }),
+        );
+
+        const newQrCodeFile = values.qr_code?.find((img: any) => img instanceof File);
+
+        const submitData = {
+          ...values,
+          services: values.services
+            ? values.services
+                .split(",")
+                .map((s: string) => s.trim())
+                .filter(Boolean)
+            : [],
+          images: normalizedImages.filter((img): img is File => img instanceof File),
+          videos: normalizedVideos.filter((vid): vid is File => vid instanceof File),
+          ...(newQrCodeFile ? { qr_code: newQrCodeFile } : {}),
+        };
+
         await createPropertyMutation.mutateAsync(submitData);
       }
 
       setIsSuccess(true);
     } catch (error: any) {
       console.error("Failed to submit property:", error);
-      toast.error(
-        error?.response?.data?.message ||
-          (isEditing ? t("failed_to_update") : t("failed_to_add")) ||
-          (isEditing ? "Failed to update property" : "Failed to add property"),
-      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -768,9 +953,9 @@ const AddAdvertisementDialog = ({
                             onChange={field.onChange}
                             accept="video/*"
                             maxFiles={10}
-                            maxSize={5 * 1024 * 1024}
+                            maxSize={50 * 1024 * 1024}
                             label={`${t("add_dialog.media")} (Videos)`}
-                            helperText="اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 10 فيديوهات، 5 ميجابايت لكل فيديو)"
+                            helperText="اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 10 فيديوهات، 50 ميجابايت لكل فيديو)"
                           />
                         </FormControl>
                         <FormMessage />
@@ -1477,9 +1662,13 @@ const AddAdvertisementDialog = ({
                 <Button
                   type="submit"
                   className="bg-main-green text-white px-8"
-                  disabled={isPending || !form.formState.isDirty}
+                  disabled={
+                    isPending ||
+                    isSubmitting ||
+                    (!isEditing && !form.formState.isDirty)
+                  }
                 >
-                  {isPending
+                  {isPending || isSubmitting
                     ? t("add_dialog.submitting")
                     : isEditing
                       ? t("update")

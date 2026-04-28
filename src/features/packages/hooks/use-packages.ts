@@ -42,13 +42,20 @@ export function useSubscribeToPackage() {
   return useMutation({
     mutationFn: (args: {
       packageId: string | number;
-      paymentMethodId: number;
-      period: "monthly" | "yearly";
-    }) =>
-      subscriptionsService.subscribe(args.packageId, {
-        payment_method_id: args.paymentMethodId,
-        subscription_period: args.period,
-      }),
+      paymentMethodId?: number;
+      period?: "monthly" | "yearly";
+    }) => {
+      const payload = {
+        ...(args.paymentMethodId !== undefined && {
+          payment_method_id: args.paymentMethodId,
+        }),
+        ...(args.period && {
+          subscription_period: args.period,
+        }),
+      };
+
+      return subscriptionsService.subscribe(args.packageId, payload);
+    },
     onSuccess: async (data: any) => {
       if (data.paymentUrl) {
         // Save the internal transactionId so the success page can use it

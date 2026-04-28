@@ -17,9 +17,14 @@ import { Badge } from "@/components/ui/badge";
 interface SiteOfferCardProps {
   offer: SiteOffer;
   index: number;
+  hideContactButton?: boolean;
 }
 
-export function SiteOfferCard({ offer, index }: SiteOfferCardProps) {
+export function SiteOfferCard({
+  offer,
+  index,
+  hideContactButton = false,
+}: SiteOfferCardProps) {
   const t = useTranslations("offers_page");
 
   return (
@@ -115,7 +120,7 @@ export function SiteOfferCard({ offer, index }: SiteOfferCardProps) {
             </div>
           )}
 
-          {offer.whatsapp_number ? (
+          {offer.whatsapp_number && !hideContactButton ? (
             <a
               href={`https://wa.me/${offer.whatsapp_number.replace(/\+/g, "")}`}
               target="_blank"

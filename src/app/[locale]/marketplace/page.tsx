@@ -12,8 +12,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiPlus } from "react-icons/fi";
 import { ServiceDescription } from "@/features/service-descriptions";
-import { useContext } from "react";
-import { UserContext } from "@/context/user-context";
+import { getToken } from "@/services";
 
 const MarketplacePage = () => {
   const t = useTranslations("breadcrumbs");
@@ -23,8 +22,16 @@ const MarketplacePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { user } = useContext(UserContext) || { user: null };
   const activeTab = searchParams.get("type") || "agent";
+
+  const handleBeforeOpen = async () => {
+    const token = await getToken();
+    if (!token) {
+      router.push("/auth/login");
+      return false;
+    }
+    return true;
+  };
 
   // Fetch properties from /properties-new
   const {
@@ -90,13 +97,12 @@ const MarketplacePage = () => {
           </Tabs>
 
           <div className="flex items-center gap-4">
-            {user && (
-              <CreateMarketplacePropertyDialog
-                buttonText={tMarket("add_property")}
-                bypassLimitCheck={true}
-                defaultRole={activeTab}
-              />
-            )}
+            <CreateMarketplacePropertyDialog
+              buttonText={tMarket("add_property")}
+              bypassLimitCheck={true}
+              defaultRole={activeTab}
+              onBeforeOpen={handleBeforeOpen}
+            />
             <ServiceDescription type="marketplace" />
           </div>
         </div>
@@ -191,14 +197,13 @@ const MarketplacePage = () => {
                 {tMarket("no_properties_description")}
               </p>
             </div>
-            {user && (
-              <CreateMarketplacePropertyDialog
-                triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
-                buttonText={tMarket("add_property")}
-                bypassLimitCheck={true}
-                defaultRole={activeTab}
-              />
-            )}
+            <CreateMarketplacePropertyDialog
+              triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8"
+              buttonText={tMarket("add_property")}
+              bypassLimitCheck={true}
+              defaultRole={activeTab}
+              onBeforeOpen={handleBeforeOpen}
+            />
           </div>
         )}
       </div>

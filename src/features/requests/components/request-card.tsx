@@ -126,10 +126,10 @@ export const RequestCard = ({
         )}
       </CardContent>
 
-      <CardFooter className="bg-gray-50/50 pt-4 flex gap-2">
+      <CardFooter className="bg-gray-50/50 pt-4 flex flex-wrap gap-2">
         <Button
           variant="outline"
-          className="flex-1 text-sm h-9"
+          className="flex-1 min-w-[110px] text-sm h-9"
           onClick={() => onView?.(request)}
         >
           <FiInfo className="me-2 h-4 w-4" />
@@ -140,14 +140,14 @@ export const RequestCard = ({
           <>
             <Button
               variant="outline"
-              className="flex-1 text-sm h-9 text-main-green border-main-green hover:bg-main-green/5"
+              className="flex-1 min-w-[110px] text-sm h-9 text-main-green border-main-green hover:bg-main-green/5"
               onClick={() => onEdit?.(request)}
             >
               {t("actions.edit") || "تعديل"}
             </Button>
             <Button
               variant="outline"
-              className="flex-1 text-sm h-9 text-orange-600 border-orange-200 hover:bg-orange-50"
+              className="flex-1 min-w-[110px] text-sm h-9 text-orange-600 border-orange-200 hover:bg-orange-50"
               onClick={() => onAction?.(request)}
             >
               {t("actions.close") || "إغلاق"}

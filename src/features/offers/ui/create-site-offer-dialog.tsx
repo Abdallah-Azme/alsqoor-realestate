@@ -73,11 +73,6 @@ export function CreateSiteOfferDialog({
         reset();
         onOpenChange(false);
       },
-      onError: (error: any) => {
-        toast.error(t("create_error") || "حدث خطأ أثناء إضافة العرض", {
-          description: error?.message,
-        });
-      },
     });
   };
 

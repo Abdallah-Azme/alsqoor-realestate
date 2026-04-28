@@ -76,8 +76,9 @@ const RealEstateTab = () => {
               <MyPropertyCard
                 key={property.id}
                 property={property}
-                showConvertButton={true}
+                showConvertButton={!property.isConverted}
                 viewHref={`/marketplace/${property.slug}`}
+                hideDeleteButton
               />
             ))}
           </div>

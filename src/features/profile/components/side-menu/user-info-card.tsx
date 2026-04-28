@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { UserContext } from "@/context/user-context";
 import ChangeRoleDialog from "../dialogs/change-role-dialog";
 import { RenewFalDialog } from "../dialogs/renew-fal-dialog";
+import { IMAGE_UPLOAD_ACCEPT, isBlockedImageFile } from "@/lib/image-upload";
 
 interface UserInfoCardProps {
   user: User;
@@ -29,6 +30,11 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (isBlockedImageFile(file)) {
+      toast.error("صيغة WEBP و AVIF غير مسموح بها.");
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
 
     const toastId = toast.loading(t("updating") || "Updating...");
 
@@ -48,10 +54,8 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
             await fetchUserProfile();
           }
         },
-        onError: () => {
-          toast.error(t("update_failed") || "Update failed", { id: toastId });
-        },
         onSettled: () => {
+          toast.dismiss(toastId);
           if (fileInputRef.current) {
             fileInputRef.current.value = "";
           }
@@ -102,7 +106,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept="image/*"
+            accept={IMAGE_UPLOAD_ACCEPT}
             className="hidden"
           />
         </div>
@@ -123,7 +127,8 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
             تغيير الدور
           </button>
 
-          {(user.role === "agent" || user.role === "developer") && (
+          {(user.role === "agent" || user.role === "developer") &&
+            user.falLicenseStatus === "expired" && (
             <button
               type="button"
               onClick={() => setRenewFalOpen(true)}

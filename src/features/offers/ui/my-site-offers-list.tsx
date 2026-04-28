@@ -101,9 +101,14 @@ export function MySiteOffersList() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 py-4">
         {offersList.map((offer, idx) => (
-          <SiteOfferCard key={offer.id} offer={offer} index={idx} />
+          <SiteOfferCard
+            key={offer.id}
+            offer={offer}
+            index={idx}
+            hideContactButton
+          />
         ))}
       </div>
 

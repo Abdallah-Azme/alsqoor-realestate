@@ -84,10 +84,6 @@ const ComplaintsForm = () => {
         toast.success(t("validation.success") || "تم إرسال الشكوى بنجاح");
         form.reset();
       },
-      onError: (error) => {
-        toast.error(t("validation.error") || "حدث خطأ ما");
-        console.error("Complaint Submission Error:", error);
-      },
     });
   }
 

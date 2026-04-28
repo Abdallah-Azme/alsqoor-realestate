@@ -24,6 +24,7 @@ import { FiCheck, FiUpload, FiX } from "react-icons/fi";
 import Image from "next/image";
 import { useCities } from "@/features/properties/hooks/use-properties";
 import { FiLoader } from "react-icons/fi";
+import { IMAGE_UPLOAD_ACCEPT, splitSupportedImageFiles } from "@/lib/image-upload";
 
 interface ShowPropertyDialogProps {
   open: boolean;
@@ -61,7 +62,13 @@ const ShowPropertyDialog = ({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      setImages([...images, ...Array.from(files)]);
+      const { accepted, rejected } = splitSupportedImageFiles(Array.from(files));
+      if (rejected.length > 0) {
+        alert("صيغة WEBP و AVIF غير مسموح بها.");
+      }
+      if (accepted.length > 0) {
+        setImages([...images, ...accepted]);
+      }
     }
   };
 
@@ -263,7 +270,7 @@ const ShowPropertyDialog = ({
                 <input
                   type="file"
                   multiple
-                  accept="image/*"
+                  accept={IMAGE_UPLOAD_ACCEPT}
                   onChange={handleImageUpload}
                   className="hidden"
                 />

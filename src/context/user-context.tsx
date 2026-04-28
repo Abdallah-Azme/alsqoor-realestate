@@ -41,7 +41,8 @@ export default function UserContextProvider({
       }
 
       const data = await api.get<any>("/profile");
-       // api.get auto-unwraps .data, so data is the profile payload
+console.log({data})
+        // api.get auto-unwraps .data, so data is the profile payload
       const apiUser = data?.data || data;
       const mappedUser: User = {
         ...apiUser,

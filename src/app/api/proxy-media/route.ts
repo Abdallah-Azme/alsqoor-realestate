@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import sharp from "sharp";
+
+export const runtime = "nodejs";
 
 /**
  * Server-side media proxy.
@@ -42,6 +45,22 @@ export async function GET(request: NextRequest) {
     const contentType =
       upstream.headers.get("content-type") || "application/octet-stream";
     const body = await upstream.arrayBuffer();
+    const normalizedContentType = contentType.toLowerCase();
+
+    // Backend does not accept WEBP/AVIF uploads. Convert them to JPEG here.
+    if (
+      normalizedContentType.startsWith("image/webp") ||
+      normalizedContentType.startsWith("image/avif")
+    ) {
+      const converted = await sharp(Buffer.from(body)).jpeg({ quality: 90 }).toBuffer();
+      return new NextResponse(converted, {
+        status: 200,
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "public, max-age=3600",
+        },
+      });
+    }
 
     return new NextResponse(body, {
       status: 200,

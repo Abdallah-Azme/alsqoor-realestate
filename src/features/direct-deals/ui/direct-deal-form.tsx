@@ -63,6 +63,7 @@ export function DirectDealForm({
     handleSubmit,
     setValue,
     watch,
+    getValues,
     reset,
     formState: { errors },
   } = useForm<DirectDealFormValues>({
@@ -114,9 +115,97 @@ export function DirectDealForm({
     return "";
   };
 
+  const VALID_TRANSACTION_SLUGS = [
+    "ownership_transfer",
+    "mortgage",
+    "mortgage_release",
+    "division_merge",
+    "update_modification",
+    "all",
+  ];
+
+  const normalizeTransactionType = (rawValue: any): string => {
+    const normalized = String(rawValue || "").trim();
+    if (!normalized) return "";
+
+    if (VALID_TRANSACTION_SLUGS.includes(normalized)) {
+      return normalized;
+    }
+
+    const lower = normalized.toLowerCase();
+    const aliasToSlug: Record<string, string> = {
+      "1": "ownership_transfer",
+      "2": "mortgage",
+      "3": "mortgage_release",
+      "4": "division_merge",
+      "5": "update_modification",
+      "6": "all",
+      ownershiptransfer: "ownership_transfer",
+      ownership_transfer: "ownership_transfer",
+      mortgage: "mortgage",
+      mortgage_release: "mortgage_release",
+      mortgagerelease: "mortgage_release",
+      division_merge: "division_merge",
+      divisionmerge: "division_merge",
+      update_modification: "update_modification",
+      updatemodification: "update_modification",
+      all: "all",
+    };
+
+    if (aliasToSlug[lower]) return aliasToSlug[lower];
+
+    try {
+      const transTranslations = t.raw("transactions");
+      const foundSlug = Object.keys(transTranslations).find((key) => {
+        const translated = String(transTranslations[key] || "").trim().toLowerCase();
+        return translated && translated === lower;
+      });
+      if (foundSlug && VALID_TRANSACTION_SLUGS.includes(foundSlug)) {
+        return foundSlug;
+      }
+    } catch {
+      // no-op
+    }
+
+    return "";
+  };
+
   // 2. Initial Reset for all non-lookup fields (run once when deal changes)
   useEffect(() => {
     if (deal) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[DirectDealForm] Incoming deal payload:", deal);
+      }
+      const rawTransactionType = getProp(deal, [
+        "transaction_type",
+        "transactionType",
+        "transaction",
+        "transaction_type_id",
+      ]);
+      const normalizedTransactionType = normalizeTransactionType(rawTransactionType);
+      const resolvedIdentity = getProp(deal, [
+        "identity_number",
+        "identityNumber",
+        "identity",
+        "identity_no",
+        "identityNo",
+        "id_number",
+        "idNumber",
+        "national_id",
+        "nationalId",
+        "plot_identity",
+        "property_identity",
+        "identity_id",
+      ]);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[DirectDealForm] Transaction mapping:", {
+          rawTransactionType,
+          normalizedTransactionType,
+        });
+        console.log("[DirectDealForm] Identity mapping:", {
+          resolvedIdentity,
+        });
+      }
       reset({
         start_date: getProp(deal, ["startDate", "start_date"]),
         end_date: getProp(deal, ["endDate", "end_date"]),
@@ -141,24 +230,8 @@ export function DirectDealForm({
           "maxPricePerMeter",
           "max_price_per_meter",
         ]).toString(),
-        identity_number:
-          getProp(deal, [
-            "identity_number",
-            "identityNumber",
-            "identity",
-            "identity_no",
-            "identityNo",
-            "plot_identity",
-            "property_identity",
-            "identity_id",
-          ]).toString() || "",
-        transaction_type:
-          getProp(deal, [
-            "transaction_type",
-            "transactionType",
-            "transaction",
-            "transaction_type_id",
-          ]) || "",
+        identity_number: resolvedIdentity.toString() || "",
+        transaction_type: normalizedTransactionType,
         // Pre-fill IDs if they exist in the incoming object
         country_id: "2", // HIDDEN: always Saudi Arabia
         city_id: getProp(deal, ["cityId", "city_id"]).toString(),
@@ -167,8 +240,22 @@ export function DirectDealForm({
           "property_type_id",
         ]).toString(),
       });
+
+      // Force critical fields after reset in case lifecycle timing clears uncontrolled select/input state.
+      if (normalizedTransactionType) {
+        setValue("transaction_type", normalizedTransactionType, {
+          shouldValidate: true,
+          shouldDirty: false,
+        });
+      }
+      if (resolvedIdentity) {
+        setValue("identity_number", resolvedIdentity.toString(), {
+          shouldValidate: true,
+          shouldDirty: false,
+        });
+      }
     }
-  }, [deal, reset]);
+  }, [deal, reset, setValue]);
 
   // 3. Lookup IDs for Country and Property Type when lists are ready
   const currentCountryId = watch("country_id");
@@ -239,30 +326,20 @@ export function DirectDealForm({
       "transaction_type",
       "transactionType",
       "transaction",
+      "transaction_type_id",
     ]);
-    const currentTrans = watch("transaction_type");
-    const validSlugs = [
-      "ownership_transfer",
-      "mortgage",
-      "mortgage_release",
-      "division_merge",
-      "update_modification",
-      "all",
-    ];
-
-    if (transVal && !validSlugs.includes(transVal) && !currentTrans) {
-      try {
-        const transTranslations = t.raw("transactions");
-        const foundSlug = Object.keys(transTranslations).find(
-          (key) =>
-            transTranslations[key] === transVal ||
-            transTranslations[key]?.toLowerCase() === transVal?.toLowerCase(),
-        );
-        if (foundSlug) {
-          setValue("transaction_type", foundSlug, { shouldValidate: true });
-        }
-      } catch (e) {
-        console.error("Trans lookup error", e);
+    const currentTrans = getValues("transaction_type");
+    if (!currentTrans) {
+      const normalizedTrans = normalizeTransactionType(transVal);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[DirectDealForm] Fallback transaction mapping:", {
+          transVal,
+          normalizedTrans,
+          currentTrans,
+        });
+      }
+      if (normalizedTrans) {
+        setValue("transaction_type", normalizedTrans, { shouldValidate: true });
       }
     }
 
@@ -273,15 +350,25 @@ export function DirectDealForm({
       "identity",
       "identity_no",
       "identityNo",
+      "id_number",
+      "idNumber",
+      "national_id",
+      "nationalId",
       "plot_identity",
       "property_identity",
       "identity_id",
     ]);
-    const currentId = watch("identity_number");
+    const currentId = getValues("identity_number");
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[DirectDealForm] Fallback identity mapping:", {
+        idVal,
+        currentId,
+      });
+    }
     if (idVal && !currentId) {
       setValue("identity_number", idVal.toString(), { shouldValidate: true });
     }
-  }, [deal, currentCountryId, citiesList, setValue, currentCityId]);
+  }, [deal, currentCountryId, citiesList, setValue, currentCityId, getValues]);
 
   const onSubmit = (data: DirectDealFormValues) => {
     if (isEditMode && deal) {
@@ -292,9 +379,6 @@ export function DirectDealForm({
             toast.success(res.message || t("success_update"));
             onSuccess?.();
           },
-          onError: (err: any) => {
-            toast.error(err.message || t("error_update"));
-          },
         },
       );
     } else {
@@ -302,9 +386,6 @@ export function DirectDealForm({
         onSuccess: (res) => {
           toast.success(res.message || t("success_add"));
           onSuccess?.();
-        },
-        onError: (err: any) => {
-          toast.error(err.message || t("error_add"));
         },
       });
     }

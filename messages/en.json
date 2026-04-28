@@ -682,6 +682,7 @@
       "next": "Next"
     },
     "featured": "Featured",
+    "featured_description": "This property was selected as featured based on its quality and competitive price.",
     "sqm": "m²",
     "per_sqm": "per m²",
     "price": "Price",
@@ -714,6 +715,7 @@
     "status": {
       "active": "Active",
       "inactive": "Inactive",
+      "pending": "Pending Review",
       "new": "New",
       "marketing": "Under marketing",
       "sold": "Sold",

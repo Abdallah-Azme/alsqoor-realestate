@@ -23,6 +23,14 @@ const BrokersListing = () => {
   const searchParams = useSearchParams();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
+  const handleOpenAddDialog = () => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+    setIsAddDialogOpen(true);
+  };
+
   // ── Read filter values from URL (set by FilterForm on homepage) ──
   const urlOperationType = searchParams.get("operation_type") || undefined;
   const urlCategoryId = searchParams.get("category_id") || undefined;
@@ -70,9 +78,9 @@ const BrokersListing = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          {user && properties.length > 0 && (
+          {properties.length > 0 && (
             <Button
-              onClick={() => setIsAddDialogOpen(true)}
+              onClick={handleOpenAddDialog}
               className="bg-main-green hover:bg-main-green/90 text-white gap-2 h-9 px-4 text-sm whitespace-nowrap shrink-0 shadow-sm"
             >
               <FiPlus className="text-lg" />
@@ -120,8 +128,8 @@ const BrokersListing = () => {
             t("no_properties_description") ||
             "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
           }
-          buttonText={user ? tPage("add_property") : undefined}
-          onAction={user ? () => setIsAddDialogOpen(true) : undefined}
+          buttonText={tPage("add_property")}
+          onAction={handleOpenAddDialog}
         />
       )}
 

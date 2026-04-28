@@ -83,6 +83,7 @@ const MyPropertiesTab = ({
                 property={property as any}
                 onEdit={() => onEditProperty?.(property)}
                 viewHref={`/ads/${(property as any).slug}`}
+                hideDeleteButton
               />
             ))}
           </div>

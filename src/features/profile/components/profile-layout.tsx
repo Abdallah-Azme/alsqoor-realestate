@@ -17,7 +17,8 @@ import ProfileTabs from "./tabs/profile-tabs";
 const ProfileLayout = () => {
   const t = useTranslations("Profile");
   const { user, setUser, fetchUserProfile, loading } = useContext(UserContext);
-  const router = useRouter();
+
+   const router = useRouter();
   const pathname = usePathname();
 
   // Redirect to signin if not authenticated

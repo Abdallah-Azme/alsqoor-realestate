@@ -158,8 +158,8 @@ export const propertiesService = {
   /**
    * Update an existing property (requires authentication)
    */
-  async updateProperty(id: number, data: Partial<PropertyFormInput>) {
-    const formData = propertyToFormData(data);
+  async updateProperty(id: number, data: FormData | Partial<PropertyFormInput>) {
+    const formData = data instanceof FormData ? data : propertyToFormData(data);
     return api.post<Property>(`${BASE_PATH}/update/${id}`, formData);
   },
 

@@ -33,15 +33,13 @@ const EmptyState = ({
         <p className="text-gray-500 max-w-sm px-4">{description}</p>
       </div>
 
-      {onAction && buttonText && (
-        <Button
-          onClick={onAction}
-          className="bg-main-green hover:bg-main-green/90 text-white gap-2"
-        >
-          <FiPlus className="text-lg" />
-          <span>{buttonText}</span>
-        </Button>
-      )}
+      <Button
+        onClick={onAction}
+        className="bg-main-green hover:bg-main-green/90 text-white gap-2"
+      >
+        <FiPlus className="text-lg" />
+        <span>{buttonText}</span>
+      </Button>
     </div>
   );
 };

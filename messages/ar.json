@@ -1908,6 +1908,7 @@
     "add_success": "تم إضافة العقار بنجاح",
     "add_error": "فشل في إضافة العقار",
     "featured": "مميز",
+    "featured_description": "تم اختيار هذا العقار ليكون مميزاً بناءً على جودته وسعره المنافس.",
     "error_loading": "حدث خطأ أثناء تحميل العقارات",
     "showing_results": "عرض {count} من {total} عقار",
     "no_properties": "لا توجد عقارات متاحة",
@@ -1943,6 +1944,7 @@
     "status": {
       "active": "نشط",
       "inactive": "غير نشط",
+      "pending": "قيد المراجعة",
       "new": "جديد",
       "marketing": "قيد التسويق",
       "sold": "مباع",

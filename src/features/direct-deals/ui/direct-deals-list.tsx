@@ -18,6 +18,7 @@ export function DirectDealsList() {
     isLoading,
     error,
   } = useDirectDeals({ page: currentPage });
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState<DirectDeal | null>(null);
 

@@ -24,6 +24,14 @@ const AdsSearchListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
+  const handleOpenAddDialog = () => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+    setIsAddDialogOpen(true);
+  };
+
   // Sync page from URL if present
   useEffect(() => {
     const page = searchParams.get("page");
@@ -128,9 +136,9 @@ const AdsSearchListing = () => {
           {t("opportunity")}
         </p>
 
-        {user && mappedProperties.length > 0 && (
+        {mappedProperties.length > 0 && (
           <Button
-            onClick={() => setIsAddDialogOpen(true)}
+            onClick={handleOpenAddDialog}
             className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
           >
             <FiPlus className="w-5 h-5" />
@@ -171,8 +179,8 @@ const AdsSearchListing = () => {
         <EmptyState
           title={t("no_properties")}
           description={t("no_properties_description")}
-          buttonText={user ? tProfile("add_new_ad") : undefined}
-          onAction={user ? () => setIsAddDialogOpen(true) : undefined}
+          buttonText={tProfile("add_new_ad")}
+          onAction={handleOpenAddDialog}
         />
       )}
 

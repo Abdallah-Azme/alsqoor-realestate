@@ -78,11 +78,6 @@ export function AddPropertyDialog({
           setVideos([]);
           onOpenChange(false);
         },
-        onError: (error: any) => {
-          toast.error(
-            error?.message || t("add_error") || "فشل في إضافة العقار",
-          );
-        },
       },
     );
   };

@@ -37,6 +37,7 @@ import { FileUploader } from "@/components/shared/file-uploader";
 import { MarketplaceProperty } from "@/features/properties/types/property.types";
 import { UserContext } from "@/context/user-context";
 import { toast } from "sonner";
+import { isBlockedImageFile } from "@/lib/image-upload";
 
 // Riyadh, Saudi Arabia defaults
 const DEFAULT_LAT = 24.7136;
@@ -79,12 +80,6 @@ const toNumber = (value: unknown): number | null => {
 };
 
 const geocodeCache = new Map<string, { lat: number; lng: number } | null>();
-const ALLOWED_IMAGE_MIME_TYPES = new Set([
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/gif",
-]);
 
 const extractCityCoordinates = (city: any): { lat: number; lng: number } | null => {
   if (!city) return null;
@@ -162,43 +157,11 @@ const geocodeCityInSaudiArabia = async (
   }
 };
 
-const convertImageBlobToJpeg = async (blob: Blob, filename: string): Promise<File> => {
-  if (typeof window === "undefined") {
-    return new File([blob], filename.replace(/\.[^.]+$/, ".jpg"), {
-      type: "image/jpeg",
-    });
-  }
-
-  const imageBitmap = await createImageBitmap(blob);
-  const canvas = document.createElement("canvas");
-  canvas.width = imageBitmap.width;
-  canvas.height = imageBitmap.height;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("Failed to create canvas context for image conversion");
-  }
-
-  ctx.drawImage(imageBitmap, 0, 0);
-  const jpegBlob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, "image/jpeg", 0.92),
-  );
-  imageBitmap.close();
-
-  if (!jpegBlob) {
-    throw new Error("Failed to convert image to JPEG");
-  }
-
-  return new File([jpegBlob], filename.replace(/\.[^.]+$/, ".jpg"), {
-    type: "image/jpeg",
-  });
-};
-
 const normalizeImageFile = async (file: File): Promise<File> => {
-  if (ALLOWED_IMAGE_MIME_TYPES.has(file.type)) return file;
-
-  // Backend only accepts jpeg/png/jpg/gif. Convert unsupported formats (e.g. webp) to jpeg.
-  return convertImageBlobToJpeg(file, file.name || "image.jpg");
+  if (isBlockedImageFile(file)) {
+    throw new Error("WEBP/AVIF images are not allowed");
+  }
+  return file;
 };
 
 const VALID_PROPERTY_TYPES = [
@@ -239,6 +202,41 @@ const normalizePropertyType = (
   return PROPERTY_TYPE_SYNONYMS[normalized];
 };
 
+const NUMERIC_FIELD_KEYS = new Set([
+  "area",
+  "building_area",
+  "country_id",
+  "city_id",
+  "latitude",
+  "longitude",
+  "price",
+  "rooms",
+  "starting_price",
+  "total_units",
+  "commission_percentage",
+]);
+
+const normalizeComparableValue = (
+  key: string,
+  value: string | number | null | undefined,
+): string => {
+  if (value === null || value === undefined) return "";
+  const strValue = String(value).trim();
+  if (!strValue) return "";
+
+  if (NUMERIC_FIELD_KEYS.has(key)) {
+    const numeric = Number(strValue);
+    return Number.isFinite(numeric) ? String(numeric) : strValue;
+  }
+
+  return strValue;
+};
+
+const areStringArraysEqual = (a: string[], b: string[]) => {
+  if (a.length !== b.length) return false;
+  return a.every((item, index) => item === b[index]);
+};
+
 
 // Dynamically import Leaflet map to avoid SSR issues
 const MapLocationPicker = dynamic(
@@ -261,7 +259,7 @@ interface CreateMarketplacePropertyDialogProps {
   /** Initial role to show when adding a new property */
   defaultRole?: string;
   /** Called when trigger is clicked. Return false to block opening the dialog. */
-  onBeforeOpen?: () => boolean;
+  onBeforeOpen?: () => boolean | Promise<boolean>;
   /** Whether to skip ad limit and featured property checks. Useful for bypassing redirects to packages. */
   bypassLimitCheck?: boolean;
   open?: boolean;
@@ -336,6 +334,8 @@ export const CreateMarketplacePropertyDialog = ({
 
   const isPending = isAddingMarketplace || isAddingDeveloper || isUpdating;
   const initialPropertyType = normalizePropertyType(property?.propertyType) || "villa";
+  const initialImagesRef = useRef<string[]>([]);
+  const initialVideosRef = useRef<string[]>([]);
 
   // Initialize data if editing or user role changes
   useEffect(() => {
@@ -373,14 +373,24 @@ export const CreateMarketplacePropertyDialog = ({
 
       // Pre-populate images and videos
       if (Array.isArray(property.images) && property.images.length > 0) {
-        setImages(property.images as string[]);
+        const initialImages = property.images.filter(
+          (img): img is string => typeof img === "string" && img.length > 0,
+        );
+        setImages(initialImages);
+        initialImagesRef.current = initialImages;
       } else {
         setImages([]);
+        initialImagesRef.current = [];
       }
       if (Array.isArray(property.videos) && property.videos.length > 0) {
-        setVideos(property.videos as string[]);
+        const initialVideos = property.videos.filter(
+          (vid): vid is string => typeof vid === "string" && vid.length > 0,
+        );
+        setVideos(initialVideos);
+        initialVideosRef.current = initialVideos;
       } else {
         setVideos([]);
+        initialVideosRef.current = [];
       }
 
       // Role check
@@ -393,6 +403,8 @@ export const CreateMarketplacePropertyDialog = ({
       }
     } else if (!isEdit && user?.role) {
       setRole(user.role);
+      initialImagesRef.current = [];
+      initialVideosRef.current = [];
     }
   }, [isEdit, property, open, user?.role]);
 
@@ -463,8 +475,40 @@ export const CreateMarketplacePropertyDialog = ({
     const response = await fetch(proxyUrl);
     if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
     const blob = await response.blob();
-    const filename = url.split("/").pop() || (type === "image" ? "image.jpg" : "video.mp4");
-    return new File([blob], filename, { type: blob.type });
+
+    const getFileNameFromUrl = (rawUrl: string) => {
+      try {
+        const parsed = new URL(rawUrl);
+        const name = parsed.pathname.split("/").pop();
+        return name || (type === "image" ? "image.jpg" : "video.mp4");
+      } catch {
+        const sanitized = rawUrl.split("?")[0];
+        const name = sanitized.split("/").pop();
+        return name || (type === "image" ? "image.jpg" : "video.mp4");
+      }
+    };
+
+    const inferImageMimeType = (fileName: string): string => {
+      const lower = fileName.toLowerCase();
+      if (lower.endsWith(".png")) return "image/png";
+      if (lower.endsWith(".gif")) return "image/gif";
+      if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
+        return "image/jpeg";
+      }
+      return "image/jpeg";
+    };
+
+    const normalizedBlobType = blob.type.trim().toLowerCase();
+    const filename = getFileNameFromUrl(url);
+    const mimeType =
+      type === "image"
+        ? normalizedBlobType.startsWith("image/") &&
+          normalizedBlobType !== "application/octet-stream"
+          ? normalizedBlobType
+          : inferImageMimeType(filename)
+        : normalizedBlobType || "video/mp4";
+
+    return new File([blob], filename, { type: mimeType });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -475,74 +519,236 @@ export const CreateMarketplacePropertyDialog = ({
       return;
     }
 
-    const formData = new FormData(e.currentTarget);
+    const submittedFormData = new FormData(e.currentTarget);
+    const payload = new FormData();
 
-    // Sync state values to FormData
-    // HIDDEN: country is always Saudi Arabia (country_id = 2)
-    formData.set("country_id", "2");
-    if (!cityId) {
-      toast.error(tCommon("error.title") || "Error", {
-        description: t("select_city") || "اختر المدينة",
+    const initialRole =
+      property?.totalUnits || property?.startingPrice
+        ? "developer"
+        : property?.commissionPercentage && !property?.startingPrice
+          ? "agent"
+          : "owner";
+
+    const initialFieldValues: Record<string, string> = {
+      role: normalizeComparableValue("role", initialRole),
+      title: normalizeComparableValue("title", property?.title),
+      area: normalizeComparableValue("area", property?.area),
+      building_area: normalizeComparableValue(
+        "building_area",
+        (property as any)?.buildingArea ?? (property as any)?.building_area,
+      ),
+      country_id: normalizeComparableValue(
+        "country_id",
+        (property as any)?.country?.id || property?.country_id || 2,
+      ),
+      city_id: normalizeComparableValue(
+        "city_id",
+        (property as any)?.city?.id || property?.city_id,
+      ),
+      district: normalizeComparableValue(
+        "district",
+        typeof property?.district === "string"
+          ? property.district
+          : (property?.district as any)?.name ||
+              (property as any)?.areaName ||
+              (property as any)?.area_name ||
+              property?.location ||
+              "",
+      ),
+      description: normalizeComparableValue("description", property?.description),
+      latitude: normalizeComparableValue("latitude", property?.latitude),
+      longitude: normalizeComparableValue("longitude", property?.longitude),
+      price: normalizeComparableValue(
+        "price",
+        property?.price ?? (property as any)?.price_value,
+      ),
+      transaction_type: normalizeComparableValue(
+        "transaction_type",
+        property?.transactionType || (property as any)?.transaction_type,
+      ),
+      rooms: normalizeComparableValue(
+        "rooms",
+        property?.rooms ?? (property as any)?.bedrooms,
+      ),
+      property_type: normalizeComparableValue(
+        "property_type",
+        normalizePropertyType(
+          property?.propertyType || (property as any)?.property_type,
+        ),
+      ),
+      starting_price: normalizeComparableValue(
+        "starting_price",
+        property?.startingPrice ?? (property as any)?.starting_price,
+      ),
+      total_units: normalizeComparableValue(
+        "total_units",
+        property?.totalUnits ?? (property as any)?.total_units,
+      ),
+      commission_percentage: normalizeComparableValue(
+        "commission_percentage",
+        property?.commissionPercentage ??
+          (property as any)?.commission_percentage,
+      ),
+      commission_from: normalizeComparableValue(
+        "commission_from",
+        property?.commissionFrom || (property as any)?.commission_from,
+      ),
+    };
+
+    const currentFieldValues: Record<string, string> = {
+      role: normalizeComparableValue("role", role),
+      title: normalizeComparableValue("title", submittedFormData.get("title") as string),
+      area: normalizeComparableValue("area", submittedFormData.get("area") as string),
+      building_area: normalizeComparableValue(
+        "building_area",
+        submittedFormData.get("building_area") as string,
+      ),
+      country_id: normalizeComparableValue("country_id", 2),
+      city_id: normalizeComparableValue("city_id", cityId),
+      district: normalizeComparableValue("district", district),
+      description: normalizeComparableValue(
+        "description",
+        submittedFormData.get("description") as string,
+      ),
+      latitude: normalizeComparableValue("latitude", latitude),
+      longitude: normalizeComparableValue("longitude", longitude),
+      price: normalizeComparableValue("price", submittedFormData.get("price") as string),
+      transaction_type: normalizeComparableValue(
+        "transaction_type",
+        submittedFormData.get("transaction_type") as string,
+      ),
+      rooms: normalizeComparableValue("rooms", submittedFormData.get("rooms") as string),
+      property_type: normalizeComparableValue(
+        "property_type",
+        submittedFormData.get("property_type") as string,
+      ),
+      starting_price: normalizeComparableValue(
+        "starting_price",
+        submittedFormData.get("starting_price") as string,
+      ),
+      total_units: normalizeComparableValue(
+        "total_units",
+        submittedFormData.get("total_units") as string,
+      ),
+      commission_percentage: normalizeComparableValue(
+        "commission_percentage",
+        submittedFormData.get("commission_percentage") as string,
+      ),
+      commission_from: normalizeComparableValue(
+        "commission_from",
+        submittedFormData.get("commission_from") as string,
+      ),
+    };
+
+    if (isEdit) {
+      Object.entries(currentFieldValues).forEach(([key, value]) => {
+        if (value !== initialFieldValues[key]) {
+          payload.set(key, value);
+        }
       });
+    } else {
+      // HIDDEN: country is always Saudi Arabia (country_id = 2)
+      if (!cityId) {
+        toast.error(tCommon("error.title") || "Error", {
+          description: t("select_city") || "اختر المدينة",
+        });
+        return;
+      }
+
+      Object.entries(currentFieldValues).forEach(([key, value]) => {
+        if (value !== "") {
+          payload.set(key, value);
+        }
+      });
+    }
+
+    const currentImageUrls = images.filter(
+      (img): img is string => typeof img === "string",
+    );
+    const currentVideoUrls = videos.filter(
+      (vid): vid is string => typeof vid === "string",
+    );
+    const hasNewImageFiles = images.some((img) => img instanceof File);
+    const hasNewVideoFiles = videos.some((vid) => vid instanceof File);
+    const imagesChanged =
+      !isEdit ||
+      hasNewImageFiles ||
+      !areStringArraysEqual(currentImageUrls, initialImagesRef.current);
+    const videosChanged =
+      !isEdit ||
+      hasNewVideoFiles ||
+      !areStringArraysEqual(currentVideoUrls, initialVideosRef.current);
+
+    if (isEdit && !imagesChanged && !videosChanged && Array.from(payload.keys()).length === 0) {
+      toast.info(tProfile("no_changes") || "لا توجد تغييرات للحفظ");
       return;
     }
 
-    formData.set("city_id", String(cityId));
-    formData.set("latitude", String(latitude));
-    formData.set("longitude", String(longitude));
-
     setIsSubmitting(true);
     try {
-      // Convert all kept existing image URLs to File blobs, then combine with new uploads.
-      // The backend receives the full desired set and replaces images entirely.
-      formData.delete("images[]");
+      // Media contract in edit mode:
+      // - Only send images[] when images are changed (full replacement list).
+      // - Only send videos[] when videos are changed (full replacement list).
       let hasImageFormatError = false;
       let hasImageFetchError = false;
-      const imageCandidates = await Promise.all(
-        images.map(async (img) => {
-          try {
-            if (img instanceof File) {
-              return await normalizeImageFile(img);
-            }
-
-            const fetchedFile = await urlToFile(img as string, "image");
-            return await normalizeImageFile(fetchedFile);
-          } catch (error) {
-            if (img instanceof File) {
-              hasImageFormatError = true;
-            } else {
-              hasImageFetchError = true;
-            }
-            console.warn("Skipping invalid image during update:", error);
-            return null;
-          }
-        }),
-      );
-      const imageFiles = imageCandidates.filter(
-        (file): file is File => file instanceof File,
-      );
-      imageFiles.forEach((file) => formData.append("images[]", file));
-
-      // Same for videos
-      formData.delete("videos[]");
       let hasVideoFetchError = false;
-      const videoCandidates = await Promise.all(
-        videos.map(async (vid) => {
-          try {
-            return vid instanceof File
-              ? await Promise.resolve(vid)
-              : await urlToFile(vid as string, "video");
-          } catch (error) {
-            hasVideoFetchError = true;
-            console.warn("Skipping invalid video during update:", error);
-            return null;
-          }
-        }),
-      );
-      const videoFiles = videoCandidates.filter(
-        (file): file is File => file instanceof File,
-      );
-      videoFiles.forEach((file) => formData.append("videos[]", file));
+
+      if (imagesChanged) {
+        const imageCandidates = await Promise.all(
+          images.map(async (img) => {
+            try {
+              if (img instanceof File) {
+                return await normalizeImageFile(img);
+              }
+
+              const fetchedFile = await urlToFile(img as string, "image");
+              return await normalizeImageFile(fetchedFile);
+            } catch (error) {
+              if (img instanceof File) {
+                hasImageFormatError = true;
+              } else {
+                hasImageFetchError = true;
+              }
+              console.warn("Skipping invalid image during update:", error);
+              return null;
+            }
+          }),
+        );
+        const imageFiles = imageCandidates.filter(
+          (file): file is File => file instanceof File,
+        );
+        if (imageFiles.length === 0) {
+          // Explicit null marker so backend clears images on full-replacement updates.
+          payload.append("images[]", "null");
+        } else {
+          imageFiles.forEach((file) => payload.append("images[]", file));
+        }
+      }
+
+      if (videosChanged) {
+        const videoCandidates = await Promise.all(
+          videos.map(async (vid) => {
+            try {
+              return vid instanceof File
+                ? await Promise.resolve(vid)
+                : await urlToFile(vid as string, "video");
+            } catch (error) {
+              hasVideoFetchError = true;
+              console.warn("Skipping invalid video during update:", error);
+              return null;
+            }
+          }),
+        );
+        const videoFiles = videoCandidates.filter(
+          (file): file is File => file instanceof File,
+        );
+        if (videoFiles.length === 0) {
+          // Explicit null marker so backend clears videos on full-replacement updates.
+          payload.append("videos[]", "null");
+        } else {
+          videoFiles.forEach((file) => payload.append("videos[]", file));
+        }
+      }
 
       if (hasImageFormatError) {
         toast.error(tCommon("error.title") || "Error", {
@@ -582,13 +788,13 @@ export const CreateMarketplacePropertyDialog = ({
 
     if (isEdit && property?.id) {
       updateProperty(
-        { id: property.id, data: formData },
+        { id: property.id, data: payload },
         { onSuccess: handleSuccess },
       );
     } else if (role === "developer") {
-      addDeveloper(formData, { onSuccess: handleSuccess });
+      addDeveloper(payload, { onSuccess: handleSuccess });
     } else {
-      addMarketplace(formData, { onSuccess: handleSuccess });
+      addMarketplace(payload, { onSuccess: handleSuccess });
     }
   };
 
@@ -608,7 +814,7 @@ export const CreateMarketplacePropertyDialog = ({
     }
   };
 
-  const handleTriggerClick = () => {
+  const handleTriggerClick = async () => {
     // Only check limits for new properties, not when editing
     if (!isEdit && !bypassLimitCheck) {
       if (!checkCanAddAd()) return;
@@ -616,7 +822,7 @@ export const CreateMarketplacePropertyDialog = ({
     }
 
     if (onBeforeOpen) {
-      const canOpen = onBeforeOpen();
+      const canOpen = await onBeforeOpen();
       if (!canOpen) return;
     }
     setOpen(true);

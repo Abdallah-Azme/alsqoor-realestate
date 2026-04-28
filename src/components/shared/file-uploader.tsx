@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { FiUploadCloud, FiX, FiImage, FiVideo } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { IMAGE_UPLOAD_ACCEPT, splitSupportedImageFiles } from "@/lib/image-upload";
 
 interface FileUploaderProps {
   value: (File | string)[];
@@ -18,7 +19,7 @@ interface FileUploaderProps {
 export function FileUploader({
   value = [],
   onChange,
-  accept = "image/*",
+  accept = IMAGE_UPLOAD_ACCEPT,
   maxFiles = 10,
   maxSize,
   label = "Upload files",
@@ -41,7 +42,19 @@ export function FileUploader({
 
   const processFiles = (files: FileList | null) => {
     if (!files) return;
-    const newFiles = Array.from(files);
+    const selectedFiles = Array.from(files);
+    const isImageUpload = accept.includes("image");
+    const { accepted: newFiles, rejected } = isImageUpload
+      ? splitSupportedImageFiles(selectedFiles)
+      : { accepted: selectedFiles, rejected: [] as File[] };
+
+    if (rejected.length > 0) {
+      alert("صيغة WEBP و AVIF غير مسموح بها. يرجى اختيار صيغة أخرى.");
+    }
+
+    if (newFiles.length === 0) {
+      return;
+    }
 
     // Check size first
     if (maxSize) {
@@ -82,6 +95,7 @@ export function FileUploader({
   };
 
   const isVideo = accept.includes("video");
+  const computedAccept = accept === "image/*" ? IMAGE_UPLOAD_ACCEPT : accept;
 
   return (
     <div className="w-full space-y-4">
@@ -113,7 +127,7 @@ export function FileUploader({
           ref={inputRef}
           type="file"
           multiple
-          accept={accept}
+          accept={computedAccept}
           className="hidden"
           onChange={handleFileChange}
         />

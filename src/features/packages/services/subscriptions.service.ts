@@ -18,8 +18,8 @@ export const subscriptionsService = {
   async subscribe(
     packageId: string | number,
     data: {
-      payment_method_id: number;
-      subscription_period: "monthly" | "yearly";
+      payment_method_id?: number;
+      subscription_period?: "monthly" | "yearly";
     },
   ) {
     return api.post<SubscriptionResponse>(

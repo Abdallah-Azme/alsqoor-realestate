@@ -202,7 +202,7 @@ export const ConvertPropertyToAdDialog = ({
                   <FormLabel>{t("marketing_option")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={field.value}
                   >
                     <FormControl>
                       <SelectTrigger className="text-right">

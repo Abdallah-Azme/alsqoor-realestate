@@ -73,9 +73,6 @@ export function useCreateRequest() {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
     },
-    onError: (error: any) => {
-      toast.error(error.message || t("messages.create_error"));
-    },
   });
 }
 
@@ -102,9 +99,6 @@ export function useUpdateRequest() {
       });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
     },
-    onError: (error: any) => {
-      toast.error(error.message || t("messages.update_error"));
-    },
   });
 }
 
@@ -121,9 +115,6 @@ export function useDeleteRequest() {
       toast.success(t("messages.delete_success"));
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || t("messages.delete_error"));
     },
   });
 }
@@ -145,9 +136,6 @@ export function useRequestAction() {
         queryKey: QUERY_KEYS.detail(variables.id),
       });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myRequests() });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || t("messages.action_error"));
     },
   });
 }

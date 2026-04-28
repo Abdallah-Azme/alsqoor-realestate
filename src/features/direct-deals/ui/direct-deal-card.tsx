@@ -15,17 +15,21 @@ interface DirectDealCardProps {
 
 export function DirectDealCard({ deal, onEdit }: DirectDealCardProps) {
   const t = useTranslations("deals_page");
+  const isDealActive =
+    typeof deal.isActive === "boolean"
+      ? deal.isActive
+      : Boolean((deal as any).isApproved);
 
   const getStatusBadge = () => {
     return (
       <Badge
         className={
-          deal.isActive
+          isDealActive
             ? "bg-main-green/10 text-main-green"
             : "bg-gray-100 text-gray-800"
         }
       >
-        {deal.isActive ? t("active") : t("inactive")}
+        {isDealActive ? t("active") : t("inactive")}
       </Badge>
     );
   };
@@ -34,10 +38,10 @@ export function DirectDealCard({ deal, onEdit }: DirectDealCardProps) {
     <Card
       className={cn(
         "overflow-hidden border-gray-200 relative",
-        !deal.isActive && "opacity-80",
+        !isDealActive && "opacity-80",
       )}
     >
-      {!deal.isActive && (
+      {!isDealActive && (
         <>
           <div className="absolute inset-0 bg-gray-200/40 z-10 pointer-events-none backdrop-grayscale-[0.5]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">

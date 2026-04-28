@@ -202,11 +202,6 @@ export const ChangeRoleDialog = ({
         onOpenChange(false);
         form.reset();
       },
-      onError: (error: any) => {
-        toast.error(
-          error?.response?.data?.message || "حدث خطأ أثناء تغيير الدور",
-        );
-      },
     });
   };
 
