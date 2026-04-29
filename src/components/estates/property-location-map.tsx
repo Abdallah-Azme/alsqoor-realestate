@@ -37,6 +37,7 @@ export default function PropertyLocationMap({
         className="h-80 w-full rounded-xl"
         markerPopup={popupContent}
         draggableMarker={false}
+        satellite={true}
       />
       <div className="flex items-center gap-2 text-sm text-gray-600">
         <MapPin className="w-4 h-4 text-main-green" />

@@ -576,6 +576,10 @@
     }
   },
   "properties": {
+    "views": "Views",
+    "commission": "Commission",
+    "contact_info": "Contact Information",
+    "contact_owner": "Contact Owner",
     "back": "Back",
     "add_new_property": "Add New Property",
     "fill_required_fields": "Fill in all required fields to add a new property",
@@ -1247,6 +1251,7 @@
     "title": "Properties",
     "add_property": "Add Property",
     "add": "Add",
+    "start_marketing": "Start Marketing",
     "tabs": {
       "agent": "Broker Properties",
       "owner": "Owner Properties",
