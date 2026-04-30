@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 
@@ -20,6 +21,7 @@ interface ServiceDescriptionProps {
 
 export const ServiceDescription = ({ type }: ServiceDescriptionProps) => {
   const { description, isLoading, isError } = useServiceDescription(type);
+  const t = useTranslations("marketplace");
 
   if (isLoading) {
     return (
@@ -45,13 +47,13 @@ export const ServiceDescription = ({ type }: ServiceDescriptionProps) => {
           className="gap-2 border-main-green text-main-green hover:bg-main-green hover:text-white transition-all duration-300 rounded-lg h-9"
         >
           <Info className="h-4 w-4" />
-          <span>شرح الخدمة</span>
+          <span>{t("service_description")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-main-navy mb-4">
-            شرح الخدمة
+            {t("service_description")}
           </DialogTitle>
         </DialogHeader>
         <motion.div

@@ -18,7 +18,7 @@ const LoginPage = async () => {
     <>
       <div className="space-y-1 mb-6 md:mb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-main-navy tracking-tight">{t("title")}</h1>
-        <p className="text-gray-500 text-sm md:text-lg">سجل دخولك لتجربة عقارية استثنائية</p>
+        <p className="text-gray-500 text-sm md:text-lg">{t("subtitle")}</p>
       </div>
       <LoginForm />
     </>

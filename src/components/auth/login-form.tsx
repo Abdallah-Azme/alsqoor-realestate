@@ -99,11 +99,6 @@ export function LoginForm() {
       // API client unwraps response.data, so res = { accessToken, user, ... }
       const res = await api.post<any>("/login", payload);
 
-      // Handle business logic status (e.g. account under review)
-      if (res?.status === false) {
-        toast.error(res?.message || tv("error"));
-        return;
-      }
 
       // Show success message
       toast.success(t("login_success"));

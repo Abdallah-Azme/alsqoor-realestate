@@ -172,6 +172,7 @@
   },
   "sign_up": {
     "title": "Sign Up",
+    "subtitle": "Join us now for a distinguished real estate experience",
     "seeker": "General User",
     "owner": "Property Owner",
     "broker": "Broker",
@@ -249,6 +250,16 @@
       "error": "Something went wrong"
     }
   },
+  "auth_layout": {
+    "personalized_experience": "Personalized Experience",
+    "selected_properties": "Selected Properties",
+    "trusted_partners": "Trusted Partners",
+    "safety_reliability": "Safety & Reliability",
+    "platform_name": "Alsqoor Platform",
+    "real_estate": "Real Estate",
+    "connect_opportunities": "Connecting you to the best opportunities",
+    "ease_confidence": "With ease and confidence"
+  },
   "login": {
     "title": "Login",
     "phone_number": "Phone Number",
@@ -273,10 +284,12 @@
       "password_min": "Password must be at least 8 characters",
       "id_number_length": "ID number must be 10 digits",
       "error": "An error occurred while logging in"
-    }
+    },
+    "subtitle": "Sign in for an exceptional real estate experience"
   },
   "forget-password": {
     "title": "Forgot Password",
+    "description": "Enter your phone number to receive a verification code",
     "phone_number": "Phone Number",
     "submit_button": "Send",
     "otp_sent_success": "Verification code sent successfully",
@@ -1286,6 +1299,7 @@
     "title": "Properties",
     "add_property": "Add Property",
     "add": "Add",
+    "service_description": "Service Description",
     "start_marketing": "Start Marketing",
     "tabs": {
       "agent": "Broker Properties",

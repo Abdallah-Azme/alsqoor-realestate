@@ -19,7 +19,7 @@ const SignUpPage = async () => {
     <>
       <div className="space-y-2 mb-8">
         <h1 className="text-4xl font-bold text-main-navy tracking-tight">{t("title")}</h1>
-        <p className="text-gray-500 text-lg">انضم إلينا الآن لتجربة عقارية مميزة</p>
+        <p className="text-gray-500 text-lg">{t("subtitle")}</p>
       </div>
       <SignUpForm />
     </>

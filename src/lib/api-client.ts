@@ -498,8 +498,8 @@ async function apiClient<T = any>(
     return text as unknown as T;
   }
 
-  // Handle API-level errors (non-2xx or success === false in body)
-  if (!response.ok || responseData?.success === false) {
+  // Handle API-level errors (non-2xx or success/status === false in body)
+  if (!response.ok || responseData?.success === false || responseData?.status === false) {
     let message =
       responseData?.message ||
       responseData?.error ||

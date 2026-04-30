@@ -172,6 +172,7 @@
   },
   "sign_up": {
     "title": "تسجيل حساب",
+    "subtitle": "انضم إلينا الآن لتجربة عقارية مميزة",
     "seeker": "مستخدم عام",
     "owner": "مالك عقار",
     "broker": "وسيط عقاري",
@@ -249,6 +250,16 @@
       "error": "حدث خطأ ما"
     }
   },
+  "auth_layout": {
+    "personalized_experience": "تجربة مخصصة",
+    "selected_properties": "عقارات مختارة",
+    "trusted_partners": "شركاء موثوقون",
+    "safety_reliability": "أمان وموثوقية",
+    "platform_name": "منصة الصقور",
+    "real_estate": "العقارية",
+    "connect_opportunities": "تربطك بالفرص الأفضل",
+    "ease_confidence": "بكل سهولة وثقة"
+  },
   "login": {
     "title": "تسجيل الدخول",
     "phone_number": "رقم الهاتف",
@@ -273,10 +284,12 @@
       "password_min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
       "id_number_length": "يجب أن يتكون رقم الهوية من 10 أرقام",
       "error": "حدث خطأ أثناء تسجيل الدخول"
-    }
+    },
+    "subtitle": "سجل دخولك لتجربة عقارية استثنائية"
   },
   "forget-password": {
     "title": "نسيت كلمة المرور",
+    "description": "أدخل رقم هاتفك لإرسال رمز التحقق",
     "phone_number": "رقم الهاتف",
     "submit_button": "إرسال",
     "otp_sent_success": "تم إرسال رمز التحقق بنجاح",
@@ -1115,6 +1128,7 @@
     "title": "عقارات",
     "add_property": "إضافة عقار",
     "add": "إضافة",
+    "service_description": "شرح الخدمة",
     "tabs": {
       "agent": "عقارات الوسطاء",
       "owner": "عقارات الملاك",
