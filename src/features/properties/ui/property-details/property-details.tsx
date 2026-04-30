@@ -90,11 +90,10 @@ export function PropertyDetails({ slug }: PropertyDetailsProps) {
               {/* Extra Widget Example (Optional, helps fill space) */}
               <div className="rounded-3xl p-6 bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                 <h4 className="font-bold text-primary mb-2 flex items-center gap-2 italic">
-                  <span>✨</span> {t("featured") || "مميز"}
+                  <span>✨</span> {t("featured")}
                 </h4>
                 <p className="text-xs text-primary/80 leading-relaxed">
-                  {t("featured_description") ||
-                    "تم اختيار هذا العقار ليكون مميزاً بناءً على جودته وسعره المنافس."}
+                  {t("featured_description")}
                 </p>
               </div>
             </div>

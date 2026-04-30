@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import {
   FiTag,
   FiDollarSign,
 } from "react-icons/fi";
+import { cn } from "@/lib/utils";
 
 interface RequestDetailsDialogProps {
   open: boolean;
@@ -31,6 +32,9 @@ export const RequestDetailsDialog = ({
   request,
 }: RequestDetailsDialogProps) => {
   const t = useTranslations("propertyRequestsPage");
+  const tProps = useTranslations("properties");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
 
   if (!request) return null;
 
@@ -49,14 +53,14 @@ export const RequestDetailsDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <div className="flex items-center justify-between mb-2">
+      <DialogContent className="sm:max-w-[600px]" dir={isRtl ? "rtl" : "ltr"}>
+        <DialogHeader className={cn(isRtl ? "text-right" : "text-left")}>
+          <div className={cn("flex items-center justify-between mb-2", isRtl ? "flex-row-reverse" : "flex-row")}>
             <Badge variant="outline" className={getStatusColor(request.status)}>
               {request.statusLabel}
             </Badge>
             <span className="text-sm text-gray-500">
-              {new Date(request.createdAt).toLocaleDateString("ar-SA", {
+              {new Date(request.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -73,43 +77,43 @@ export const RequestDetailsDialog = ({
         <div className="space-y-6 pt-4">
           {/* Main Info Grid */}
           <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl">
-            <div className="space-y-1">
+            <div className={cn("space-y-1", isRtl ? "text-right" : "text-left")}>
               <p className="text-xs text-gray-400">
                 {t("fields.request_type")}
               </p>
-              <div className="flex items-center gap-2">
+              <div className={cn("flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiSend className="text-main-green h-4 w-4" />
                 <span className="font-semibold">
                   {request.requestTypeLabel}
                 </span>
               </div>
             </div>
-            <div className="space-y-1">
+            <div className={cn("space-y-1", isRtl ? "text-right" : "text-left")}>
               <p className="text-xs text-gray-400">
                 {t("fields.payment_method")}
               </p>
-              <div className="flex items-center gap-2">
+              <div className={cn("flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiDollarSign className="text-main-green h-4 w-4" />
                 <span className="font-semibold">
                   {request.paymentMethodLabel}
                 </span>
               </div>
             </div>
-            <div className="space-y-1">
+            <div className={cn("space-y-1", isRtl ? "text-right" : "text-left")}>
               <p className="text-xs text-gray-400">{t("fields.area")}</p>
-              <div className="flex items-center gap-2">
+              <div className={cn("flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiTag className="text-main-green h-4 w-4" />
-                <span className="font-semibold">{request.area} م²</span>
+                <span className="font-semibold">{Number(request.area).toLocaleString(locale)} {tProps("sqm")}</span>
               </div>
             </div>
-            <div className="space-y-1">
+            <div className={cn("space-y-1", isRtl ? "text-right" : "text-left")}>
               <p className="text-xs text-gray-400">
                 {t("fields.property_age")}
               </p>
-              <div className="flex items-center gap-2">
+              <div className={cn("flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiTag className="text-main-green h-4 w-4" />
                 <span className="font-semibold">
-                  {request.propertyAge} سنوات
+                  {Number(request.propertyAge).toLocaleString(locale)} {tProps("years")}
                 </span>
               </div>
             </div>
@@ -118,25 +122,25 @@ export const RequestDetailsDialog = ({
           {/* Location & Contact */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <h4 className="font-bold flex items-center gap-2">
+              <h4 className={cn("font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiMapPin className="text-main-green" />
-                {t("add_dialog.location") || "الموقع"}
+                {tProps("location")}
               </h4>
-              <p className="text-sm text-gray-600 ps-6">
+              <p className={cn("text-sm text-gray-600", isRtl ? "pe-6 text-right" : "ps-6 text-left")}>
                 {request.country.name} - {request.city.name}
               </p>
-              <p className="text-sm text-gray-600 ps-6">{request.district}</p>
+              <p className={cn("text-sm text-gray-600", isRtl ? "pe-6 text-right" : "ps-6 text-left")}>{request.district}</p>
             </div>
             <div className="space-y-3">
-              <h4 className="font-bold flex items-center gap-2">
+              <h4 className={cn("font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiPhone className="text-main-green" />
-                {t("contact_info") || "معلومات التواصل"}
+                {t("contact_info")}
               </h4>
-              <p className="text-sm text-gray-600 ps-6">
-                واتساب: {request.whatsapp}
+              <p className={cn("text-sm text-gray-600", isRtl ? "pe-6 text-right" : "ps-6 text-left")}>
+                {t("fields.whatsapp")}: {request.whatsapp}
               </p>
-              <p className="text-sm text-gray-600 ps-6">
-                تيليجرام: {request.telegram}
+              <p className={cn("text-sm text-gray-600", isRtl ? "pe-6 text-right" : "ps-6 text-left")}>
+                {t("fields.telegram")}: {request.telegram}
               </p>
             </div>
           </div>
@@ -144,20 +148,20 @@ export const RequestDetailsDialog = ({
           {/* Details & Offer */}
           <div className="space-y-4">
             <div className="space-y-2">
-              <h4 className="font-bold flex items-center gap-2">
+              <h4 className={cn("font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiFileText className="text-main-green" />
                 {t("fields.details")}
               </h4>
-              <p className="text-sm text-gray-600 bg-white border border-gray-100 p-3 rounded-lg">
+              <p className={cn("text-sm text-gray-600 bg-white border border-gray-100 p-3 rounded-lg", isRtl ? "text-right" : "text-left")}>
                 {request.details}
               </p>
             </div>
             <div className="space-y-2">
-              <h4 className="font-bold flex items-center gap-2">
+              <h4 className={cn("font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
                 <FiFileText className="text-main-green" />
                 {t("fields.offer")}
               </h4>
-              <p className="text-sm text-gray-600 bg-white border border-gray-100 p-3 rounded-lg">
+              <p className={cn("text-sm text-gray-600 bg-white border border-gray-100 p-3 rounded-lg", isRtl ? "text-right" : "text-left")}>
                 {request.offer}
               </p>
             </div>

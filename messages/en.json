@@ -256,12 +256,23 @@
     "password_placeholder": "Enter your password",
     "forgot_password": "Forgot your password?",
     "submit_button": "Login",
+    "nafath_platform": "Via Platform",
+    "nafath_login": "Login via Nafath",
+    "nafath_redirecting": "Signing in through Nafath",
+    "nafath_error": "An error occurred while connecting to Nafath",
+    "nafath_description": "Please enter your National ID or Iqama number to continue",
+    "id_number_label": "ID / Iqama Number",
+    "back_to_traditional": "Back to traditional login",
+    "login_success": "Logged in successfully",
     "no_account": "Don't have an account?",
     "create_account": "Create Account",
     "login_failed": "Login failed. Please check your credentials",
     "validation": {
       "phone_min": "Phone number must be at least 10 digits",
-      "password_required": "Please enter your password"
+      "password_required": "Please enter your password",
+      "password_min": "Password must be at least 8 characters",
+      "id_number_length": "ID number must be 10 digits",
+      "error": "An error occurred while logging in"
     }
   },
   "forget-password": {
@@ -420,9 +431,10 @@
     "marketing_offers": "Marketing Offers",
     "popular_badge": "Most Popular",
     "direct_deals": "Direct Deals",
-    "my_requests": "My Requests"
+    "my_requests": "My Requests",
+    "no_properties_description": "بادر بإضافة عقارك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه.",
+    "my_offers_legacy": "عروض العقارات"
   },
-
   "Navbar": {
     "address": "Main Address - Riyadh",
     "phone_default": "+966-4552-58",
@@ -524,7 +536,25 @@
     "description_min_10": "Description must be at least 10 characters",
     "price_positive": "Price must be a positive number",
     "validity_positive": "Validity days must be a positive integer",
-    "feature_required": "Feature description is required"
+    "feature_required": "Feature description is required",
+    "create_offer_title": "إضافة عرض جديد",
+    "create_offer_desc": "أدخل تفاصيل العرض الجديد أدناه",
+    "offer_name": "اسم العرض",
+    "offer_name_placeholder": "مثال: عرض الصيف المميز",
+    "whatsapp_number": "رقم الواتساب",
+    "price": "السعر",
+    "validity_days": "مدة العرض (أيام)",
+    "description": "الوصف",
+    "description_placeholder": "أدخل وصفاً تفصيلياً للعرض...",
+    "add_feature": "إضافة ميزة",
+    "feature_placeholder": "مثال: ميزة 1",
+    "submit": "حفظ العرض",
+    "cancel": "إلغاء",
+    "create_success": "تم إضافة العرض بنجاح",
+    "create_error": "حدث خطأ أثناء إضافة العرض",
+    "my_offers_title": "عروضي الخاصة",
+    "offers_count": "عروض",
+    "no_my_offers_desc": "لم تقم بإضافة أي عروض بعد."
   },
   "offers": {
     "title": "Property Offers",
@@ -747,7 +777,12 @@
     "starting_price": "Starting Price",
     "total_units": "Total Units",
     "commission_from": "Commission From",
-    "select_source": "Select Source"
+    "select_source": "Select Source",
+    "verified": "موثق",
+    "from": "من",
+    "map_hint": "انقر على الخريطة أو اسحب الدبوس لتحديد الموقع",
+    "images_helper": "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 10 صور)",
+    "videos_helper": "اسحب الفيديوهات هنا أو انقر للتصفح. (حد أقصى 3 فيديوهات)"
   },
   "ad_limit": {
     "no_package_title": "No Active Package",
@@ -1344,27 +1379,25 @@
       },
       "results_count": "Results",
       "project": "project",
-      "no_projects": "No projects available"
+      "no_projects": "No projects available",
+      "no_projects_description": "بادر بإضافة أول عقار في السوق الآن بكل سهولة من خلال الضغط على الزر أدناه."
     },
     "marketing_dialog": {
-      "offer_details": "Offer Details",
-      "offer_details_placeholder": "Write your offer details here...",
+      "title": "Start Marketing",
+      "confirm_title": "Confirm Marketing Offer",
+      "default_offer_details": "I would like to start marketing this property and cooperate with you to complete the deal.",
       "offer_details_min": "Offer details must be at least 10 characters",
-      "default_offer_details": "I would like to start marketing this property and cooperate with you to close the deal.",
-      "title": "How does the service work?",
-      "confirm_title": "Confirm Marketing Start",
-      "step_1": "Start marketing the property and present it to your clients",
-      "step_2": "If you find an interested client, contact the advertising broker",
-      "step_3": "If the deal is completed through your request, you will receive your share of the commission",
-      "step_4": "After receiving your commission share, you will pay the Deal app fee",
-      "step_5": "The agreed commission is the amount the buyer will pay as a commission upon deal completion",
-      "commission_note": "The agreed commission is {percentage}% upon deal completion",
-      "accept_commission": "I agree to pay {percentage}% of my commission share to Deal app",
-      "accept_terms": "Deal app does not bear any responsibility or guarantee for the commission. Receiving the commission from the advertising broker is your responsibility",
-      "next": "Next",
+      "step_1": "Marketing offer request",
+      "step_2": "Specify marketing details",
+      "step_3": "Review and confirm",
+      "commission_note": "Commission: {percentage}%",
+      "offer_details": "Offer Details",
+      "offer_details_placeholder": "Describe how you will market this property...",
+      "accept_commission": "I accept the commission of {percentage}%",
+      "accept_terms": "I accept the terms and conditions",
       "back": "Back",
-      "confirm": "Confirm",
-      "submitting": "Confirming..."
+      "next": "Next",
+      "confirm": "Confirm"
     },
     "sort_dialog": {
       "title": "Sort by",
@@ -1388,7 +1421,44 @@
     "no_properties": "No properties available currently",
     "no_properties_description": "Be the first to add a property in the marketplace now easily by clicking the button below.",
     "currency": "SAR",
-    "area_unit": "m²"
+    "area_unit": "m²",
+    "create_property": {
+      "map_loading": "Loading map...",
+      "no_changes": "No changes to save",
+      "image_format_error": "Unsupported image format. Please use JPG/PNG/GIF only.",
+      "media_fetch_error": "Failed to load media during update. Try again.",
+      "update_property": "Update Property",
+      "add_property_title": "Add New Property",
+      "title_label": "Title",
+      "title_placeholder": "Enter property title",
+      "area_label": "Land Area (m²)",
+      "area_placeholder": "Example: 200",
+      "building_area_label": "Building Area (m²)",
+      "building_area_placeholder": "Example: 180",
+      "district_label": "District",
+      "district_placeholder": "Enter district name",
+      "images_label": "Property Images",
+      "videos_label": "Property Videos",
+      "description_label": "Description",
+      "description_placeholder": "Enter detailed property description",
+      "location_label": "Location on Map",
+      "optional": "Optional",
+      "price_label": "Price",
+      "transaction_type_label": "Transaction Type",
+      "buy": "Buy",
+      "rent": "Rent",
+      "rooms_label": "Number of Rooms",
+      "commission_percentage_label": "Commission Percentage (%)",
+      "property_type_label": "Property Type",
+      "starting_price_label": "Starting Price",
+      "total_units_label": "Total Units",
+      "commission_from_label": "Commission From",
+      "owner": "Owner",
+      "developer": "Developer",
+      "select_city_error": "Please select a city",
+      "images_helper": "Drag and drop images here or click to browse. (Max 20 images, 1 MB each)",
+      "videos_helper": "Drag and drop one video here or click to browse. (Max 1 video, 50 MB)"
+    }
   },
   "broker_properties": {
     "status": {
@@ -1827,9 +1897,9 @@
       "next": "Next",
       "previous": "Previous",
       "location_on_map": "Location on Map"
-    }
+    },
+    "back": "رجوع"
   },
-
   "agent_profile": {
     "verified_agent": "Verified Agent",
     "properties": "property",
@@ -1949,7 +2019,6 @@
       "alawali": "Al Awali"
     }
   },
-
   "validation": {
     "required": "This field is required",
     "string_min": "Must be at least {min} characters",
@@ -2202,12 +2271,14 @@
       "create_error": "Failed to add request",
       "update_error": "Failed to update request",
       "delete_error": "Failed to delete request",
-      "action_error": "Failed to perform action"
+      "action_error": "Failed to perform action",
+      "pending_no_actions": "لا يمكن تعديل الطلب بانتظار الموافقة"
     },
     "time": {
       "minutes_ago": "{count} minutes ago",
       "hours_ago": "{count} hours ago",
-      "days_ago": "{count} days ago"
+      "days_ago": "{count} days ago",
+      "years": "سنة"
     },
     "welcome": {
       "title": "New Request",
@@ -2252,6 +2323,137 @@
     "tags": {
       "serious_request": "Serious Request",
       "subscribers_only": "Subscribers Only"
+    },
+    "add_dialog": {
+      "location": "الموقع"
+    }
+  },
+  "requests_legacy": {
+    "page_title": "الطلبات",
+    "results_count": "عدد النتائج",
+    "result": "طلب",
+    "add_request": "إضافة طلب",
+    "add_new_request": "إضافة طلب جديد",
+    "no_requests": "لا توجد طلبات متاحة حالياً",
+    "loading": "جاري التحميل...",
+    "load_more": "عرض المزيد",
+    "login_required": "يجب تسجيل الدخول أولاً",
+    "bookmarked": "تمت الإضافة للمفضلة",
+    "types": {
+      "all": "الكل",
+      "villa_sale": "فلل للبيع",
+      "villa_rent": "فلل للإيجار",
+      "land_sale": "أراضي للبيع",
+      "apartment_sale": "شقق للبيع",
+      "apartment_rent": "شقق للإيجار",
+      "floor_sale": "دور للبيع",
+      "floor_rent": "دور للإيجار",
+      "shop_sale": "محلات للبيع",
+      "shop_rent": "محلات للإيجار",
+      "warehouse_sale": "عمائر للبيع",
+      "warehouse_rent": "عمائر للإيجار"
+    },
+    "operations": {
+      "sale": "للبيع",
+      "rent": "للإيجار"
+    },
+    "tags": {
+      "serious_request": "طلب جاد",
+      "subscribers_only": "للمشتركين فقط"
+    },
+    "units": {
+      "sqm": "م²",
+      "sar": "ريال"
+    },
+    "price": {
+      "market_price": "سعر السوق"
+    },
+    "time": {
+      "minutes_ago": "منذ {count} دقيقة",
+      "hours_ago": "منذ {count} ساعة",
+      "days_ago": "منذ {count} يوم"
+    },
+    "filter": {
+      "location_placeholder": "الموقع / المدينة",
+      "sort_by": "ترتيب حسب",
+      "search": "بحث",
+      "clear": "مسح",
+      "interests": "اهتماماتك",
+      "add_interest": "+أضف لاهتماماتك",
+      "customize_request": "خصص طلبك",
+      "customize_description": "ابحث عن الطلب الذي تريده",
+      "sort": {
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "price_low": "السعر: من الأقل للأعلى",
+        "price_high": "السعر: من الأعلى للأقل"
+      }
+    },
+    "form": {
+      "title": "عنوان الطلب",
+      "title_placeholder": "مثال: مطلوب فيلا للبيع",
+      "property_type": "نوع العقار",
+      "select_type": "اختر النوع",
+      "operation_type": "نوع العملية",
+      "select_operation": "اختر نوع العملية",
+      "city": "المدينة",
+      "city_placeholder": "الرياض",
+      "neighborhoods": "الأحياء",
+      "neighborhoods_placeholder": "النخيل، المحمدية، حطين...",
+      "min_area": "الحد الأدنى للمساحة (م²)",
+      "min_area_placeholder": "300",
+      "max_area": "الحد الأعلى للمساحة (م²)",
+      "max_area_placeholder": "500",
+      "min_price": "الحد الأدنى للسعر",
+      "min_price_placeholder": "1,000,000",
+      "max_price": "الحد الأعلى للسعر",
+      "max_price_placeholder": "2,500,000",
+      "description": "وصف الطلب",
+      "description_placeholder": "اكتب تفاصيل إضافية عن طلبك...",
+      "is_serious": "طلب جاد",
+      "cancel": "إلغاء",
+      "submit": "إضافة الطلب",
+      "submitting": "جاري الإضافة...",
+      "success": "تم إضافة الطلب بنجاح",
+      "error": "فشل في إضافة الطلب",
+      "request_type": "نوع الطلب",
+      "budget": "الميزانية",
+      "area": "المساحة",
+      "details": "تفاصيل",
+      "details_placeholder": "بإمكانك كتابة تفاصيل إضافية توضح مواصفات العقار المطلوب",
+      "contact_channels": "قنوات التواصل",
+      "contact_channels_desc": "وسائل التواصل المتعددة تتيح لأكبر عدد من العقاريون التواصل معك",
+      "contact_in_app": "محادثة في التطبيق",
+      "next": "التالي",
+      "step_title": "طلب"
+    },
+    "welcome": {
+      "title": "اطلب عقارك!",
+      "description": "سيقوم العقاريين بتقديم العروض العقارية المناسبة لطلبك",
+      "received": "تم استلام طلبك مجاناً",
+      "cta_button": "قدم طلبك الان",
+      "feature1_title": "عقاريون متخصصون",
+      "feature1_desc": "يساعدونك للوصول إلى العقار المناسب",
+      "feature2_title": "عروض عقارية ملائمة لطلبك",
+      "feature2_desc": "ستصلك العروض المتاحة في التطبيق فوراً",
+      "feature3_title": "تواصل مباشر",
+      "feature3_desc": "مع العقاريين المناسبين لطلبك"
+    },
+    "details": {
+      "area": "المساحة",
+      "price": "السعر",
+      "type": "النوع",
+      "operation": "العملية",
+      "description": "الوصف",
+      "requirements": "المتطلبات",
+      "requester_info": "معلومات صاحب الطلب",
+      "call": "اتصال",
+      "whatsapp": "واتساب",
+      "email": "بريد إلكتروني",
+      "member_since": "عضو منذ"
+    },
+    "error": {
+      "fetch_failed": "فشل في جلب البيانات"
     }
   }
 }

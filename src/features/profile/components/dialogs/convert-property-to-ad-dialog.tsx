@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -68,6 +68,8 @@ export const ConvertPropertyToAdDialog = ({
   trigger,
 }: ConvertPropertyToAdDialogProps) => {
   const t = useTranslations("Profile");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [open, setOpen] = useState(false);
   const convertMutation = useConvertToAdvertisement();
 
@@ -135,9 +137,9 @@ export const ConvertPropertyToAdDialog = ({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent dir={isRtl ? "rtl" : "ltr"} className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-right">{t("make_it_ad")}</DialogTitle>
+          <DialogTitle className={isRtl ? "text-right" : "text-left"}>{t("make_it_ad")}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -146,13 +148,13 @@ export const ConvertPropertyToAdDialog = ({
               control={form.control}
               name="license_number"
               render={({ field }) => (
-                <FormItem className="text-right">
+                <FormItem className={isRtl ? "text-right" : "text-left"}>
                   <FormLabel>{t("license_number")}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder="12345"
-                      className="text-right"
+                      className={isRtl ? "text-right" : "text-left"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -164,10 +166,10 @@ export const ConvertPropertyToAdDialog = ({
               control={form.control}
               name="license_expiry_date"
               render={({ field }) => (
-                <FormItem className="text-right">
+                <FormItem className={isRtl ? "text-right" : "text-left"}>
                   <FormLabel>{t("license_expiry")}</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="text-right" />
+                    <Input type="date" {...field} className={isRtl ? "text-right" : "text-left"} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -178,7 +180,7 @@ export const ConvertPropertyToAdDialog = ({
               control={form.control}
               name="qr_code"
               render={({ field }) => (
-                <FormItem className="text-right">
+                <FormItem className={isRtl ? "text-right" : "text-left"}>
                   <FormLabel>{t("qr_code")}</FormLabel>
                   <FormControl>
                     <FileUploader
@@ -198,18 +200,18 @@ export const ConvertPropertyToAdDialog = ({
               control={form.control}
               name="marketing_option"
               render={({ field }) => (
-                <FormItem className="text-right">
+                <FormItem className={isRtl ? "text-right" : "text-left"}>
                   <FormLabel>{t("marketing_option")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="text-right">
+                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                       <SelectItem value="none">
                         {t("marketing_none")}
                       </SelectItem>
@@ -232,7 +234,7 @@ export const ConvertPropertyToAdDialog = ({
               disabled={convertMutation.isPending}
             >
               {convertMutation.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className={`${isRtl ? "ml-2" : "mr-2"} h-4 w-4 animate-spin`} />
               )}
               {t("make_it_ad")}
             </Button>

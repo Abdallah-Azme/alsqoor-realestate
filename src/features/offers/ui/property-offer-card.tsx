@@ -9,11 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useAcceptOffer, useRejectOffer } from "../hooks/use-property-offers";
 import { Check, X, ExternalLink, User, Calendar, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface PropertyOfferCardProps {
   offer: PropertyOffer;
@@ -22,6 +23,9 @@ interface PropertyOfferCardProps {
 
 export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
   const t = useTranslations("offers");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+  
   const { mutate: acceptOffer, isPending: isAccepting } = useAcceptOffer();
   const { mutate: rejectOffer, isPending: isRejecting } = useRejectOffer();
 
@@ -52,7 +56,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
   const otherParty = type === "sent" ? offer.receiver : offer.sender;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" dir={isRtl ? "rtl" : "ltr"}>
       <CardHeader className="p-0">
         {offer.property && (
           <div className="relative h-48 w-full">
@@ -62,12 +66,14 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
               fill
               className="object-cover"
             />
-            <div className="absolute left-2 top-2">{getStatusBadge()}</div>
+            <div className={cn("absolute top-2", isRtl ? "right-2" : "left-2")}>
+              {getStatusBadge()}
+            </div>
           </div>
         )}
       </CardHeader>
 
-      <CardContent className="p-4 space-y-3">
+      <CardContent className={cn("p-4 space-y-3", isRtl ? "text-right" : "text-left")}>
         {/* Property Info */}
         {offer.property && (
           <div>
@@ -75,7 +81,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
               {offer.property.title}
             </h3>
             <p className="text-sm text-gray-600">
-              {offer.property.price} {offer.property.currency || "ريال"}
+              {Number(offer.property.price).toLocaleString(locale)} {t("sar")}
             </p>
           </div>
         )}
@@ -88,7 +94,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
 
           {/* Other Party Info */}
           {offer.agent && (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
               <User className="h-4 w-4" />
               <span>
                 {type === "sent" ? t("to") : t("from")}: {offer.agent.name}
@@ -97,10 +103,10 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
           )}
 
           {/* Date */}
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className={cn("flex items-center gap-2 text-sm text-gray-500", isRtl ? "flex-row-reverse" : "flex-row")}>
             <Calendar className="h-4 w-4" />
             <span>
-              {offer.humanTime || (offer.createdAt ? new Date(offer.createdAt).toLocaleDateString("ar-SA", {
+              {offer.humanTime || (offer.createdAt ? new Date(offer.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -110,18 +116,18 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex gap-2">
+      <CardFooter className={cn("p-4 pt-0 flex gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
         {/* View Property Button */}
         {offer.property && (
           <Button variant="outline" size="sm" asChild className="flex-1">
-            <Link href={`/ar/ads/${offer.property.slug}`}>
-              <ExternalLink className="h-4 w-4 ml-2" />
+            <Link href={`/${locale}/ads/${offer.property.slug}`}>
+              <ExternalLink className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
               {t("actions.view_property")}
             </Link>
           </Button>
         )}
 
-        {/* Accept/Reject Buttons (only for received offers with pending status) */}
+        {/* Accept/Reject Buttons */}
         {type === "received" && offer.status === "pending" && (
           <>
             <Button
@@ -134,9 +140,9 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
               className="flex-1"
             >
               {isAccepting ? (
-                <Loader2 className="h-4 w-4 animate-spin ml-2" />
+                <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />
               ) : (
-                <Check className="h-4 w-4 ml-2" />
+                <Check className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
               )}
               {isAccepting ? t("actions.accepting") : t("actions.accept")}
             </Button>
@@ -150,9 +156,9 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
               className="flex-1"
             >
               {isRejecting ? (
-                <Loader2 className="h-4 w-4 animate-spin ml-2" />
+                <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />
               ) : (
-                <X className="h-4 w-4 ml-2" />
+                <X className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
               )}
               {isRejecting ? t("actions.rejecting") : t("actions.reject")}
             </Button>

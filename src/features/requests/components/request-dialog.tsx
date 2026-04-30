@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -38,6 +38,7 @@ import {
   useCountries,
   useCities,
 } from "@/features/properties/hooks/use-properties";
+import { cn } from "@/lib/utils";
 
 interface RequestDialogProps {
   open: boolean;
@@ -52,6 +53,8 @@ export const RequestDialog = ({
 }: RequestDialogProps) => {
   const t = useTranslations("propertyRequestsPage");
   const tProfile = useTranslations("Profile");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const isEditing = !!request;
 
   const createMutation = useCreateRequest();
@@ -126,15 +129,18 @@ export const RequestDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent 
+        className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
+        dir={isRtl ? "rtl" : "ltr"}
+      >
+        <DialogHeader className={cn(isRtl ? "text-right" : "text-left")}>
           <DialogTitle>
             {isEditing
-              ? t("edit_request") || "تعديل الطلب"
-              : t("create_request") || "إضافة طلب جديد"}
+              ? t("edit_request")
+              : t("create_request")}
           </DialogTitle>
           <DialogDescription>
-            {t("dialog_desc") || "أدخل تفاصيل طلبك العقاري"}
+            {t("dialog_desc")}
           </DialogDescription>
         </DialogHeader>
 
@@ -145,22 +151,25 @@ export const RequestDialog = ({
                 control={form.control}
                 name="request_type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                     <FormLabel>
-                      {t("fields.request_type") || "نوع الطلب"}
+                      {t("fields.request_type")}
                     </FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                           <SelectValue placeholder={t("fields.select_type")} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="buy">
-                          {t("types.buy") || "شراء"}
+                          {t("types.buy")}
                         </SelectItem>
                         <SelectItem value="rent">
-                          {t("types.rent") || "إيجار"}
+                          {t("types.rent")}
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -173,24 +182,27 @@ export const RequestDialog = ({
                 control={form.control}
                 name="payment_method"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                     <FormLabel>
-                      {t("fields.payment_method") || "طريقة الدفع"}
+                      {t("fields.payment_method")}
                     </FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                           <SelectValue
                             placeholder={t("fields.select_payment")}
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="cash">
-                          {t("payment.cash") || "كاش"}
+                          {t("payment.cash")}
                         </SelectItem>
                         <SelectItem value="finance">
-                          {t("payment.finance") || "تمويل"}
+                          {t("payment.finance")}
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -205,10 +217,14 @@ export const RequestDialog = ({
                 control={form.control}
                 name="area"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.area") || "المساحة (م²)"}</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("fields.area")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="200" {...field} />
+                      <Input 
+                        placeholder="200" 
+                        {...field} 
+                        className={cn(isRtl ? "text-right" : "text-left")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -219,12 +235,16 @@ export const RequestDialog = ({
                 control={form.control}
                 name="property_age"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                     <FormLabel>
-                      {t("fields.property_age") || "عمر العقار"}
+                      {t("fields.property_age")}
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="5" {...field} />
+                      <Input 
+                        placeholder="5" 
+                        {...field} 
+                        className={cn(isRtl ? "text-right" : "text-left")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -232,25 +252,24 @@ export const RequestDialog = ({
               />
             </div>
 
-            {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="city_id"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.city") || "المدينة"}</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("fields.city")}</FormLabel>
                     <Select
                       onValueChange={(val) => field.onChange(Number(val))}
                       value={field.value ? String(field.value) : undefined}
                       disabled={loadingCities}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                           <SelectValue placeholder={t("fields.select_city")} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         {cities.map((c: any) => (
                           <SelectItem key={c.id} value={String(c.id)}>
                             {c.name}
@@ -268,12 +287,13 @@ export const RequestDialog = ({
               control={form.control}
               name="district"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fields.district") || "الحي"}</FormLabel>
+                <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                  <FormLabel>{t("fields.district")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t("fields.district_placeholder")}
                       {...field}
+                      className={cn(isRtl ? "text-right" : "text-left")}
                     />
                   </FormControl>
                   <FormMessage />
@@ -286,24 +306,27 @@ export const RequestDialog = ({
                 control={form.control}
                 name="budget_type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                     <FormLabel>
-                      {t("fields.budget_type") || "نوع الميزانية"}
+                      {t("fields.budget_type")}
                     </FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                           <SelectValue
                             placeholder={t("fields.select_budget_type")}
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="market_price">
-                          {t("budget.market_price") || "سعر السوق"}
+                          {t("budget.market_price")}
                         </SelectItem>
                         <SelectItem value="specific_budget">
-                          {t("budget.specific") || "ميزانية محددة"}
+                          {t("budget.specific")}
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -317,12 +340,16 @@ export const RequestDialog = ({
                   control={form.control}
                   name="budget_amount"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("fields.budget_amount") || "المبلغ"}
+                        {t("fields.budget_amount")}
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="500000" {...field} />
+                        <Input 
+                          placeholder="500000" 
+                          {...field} 
+                          className={cn(isRtl ? "text-right" : "text-left")}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -336,10 +363,14 @@ export const RequestDialog = ({
                 control={form.control}
                 name="whatsapp"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.whatsapp") || "واتساب"}</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("fields.whatsapp")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="0500000000" {...field} />
+                      <Input 
+                        placeholder="0500000000" 
+                        {...field} 
+                        className={cn(isRtl ? "text-right" : "text-left")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -350,10 +381,14 @@ export const RequestDialog = ({
                 control={form.control}
                 name="telegram"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.telegram") || "تيليجرام"}</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("fields.telegram")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="@username" {...field} />
+                      <Input 
+                        placeholder="@username" 
+                        {...field} 
+                        className={cn(isRtl ? "text-right" : "text-left")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -365,9 +400,9 @@ export const RequestDialog = ({
               control={form.control}
               name="is_urgent"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>{t("fields.is_urgent") || "طلب عاجل"}</FormLabel>
+                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm", isRtl ? "flex-row-reverse" : "flex-row")}>
+                  <div className={cn("space-y-0.5", isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("fields.is_urgent")}</FormLabel>
                   </div>
                   <FormControl>
                     <Switch
@@ -385,12 +420,13 @@ export const RequestDialog = ({
               control={form.control}
               name="details"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fields.details") || "التفاصيل"}</FormLabel>
+                <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                  <FormLabel>{t("fields.details")}</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder={t("fields.details_placeholder")}
                       {...field}
+                      className={cn(isRtl ? "text-right" : "text-left")}
                     />
                   </FormControl>
                   <FormMessage />
@@ -402,12 +438,13 @@ export const RequestDialog = ({
               control={form.control}
               name="offer"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fields.offer") || "العرض"}</FormLabel>
+                <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                  <FormLabel>{t("fields.offer")}</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder={t("fields.offer_placeholder")}
                       {...field}
+                      className={cn(isRtl ? "text-right" : "text-left")}
                     />
                   </FormControl>
                   <FormMessage />
@@ -415,7 +452,7 @@ export const RequestDialog = ({
               )}
             />
 
-            <div className="flex gap-3 pt-2">
+            <div className={cn("flex gap-3 pt-2", isRtl ? "flex-row-reverse" : "flex-row")}>
               <Button
                 type="button"
                 variant="outline"
@@ -429,10 +466,10 @@ export const RequestDialog = ({
                 className="flex-1 bg-main-green hover:bg-main-green/90"
                 disabled={isPending}
               >
-                {isPending && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
+                {isPending && <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "me-2")} />}
                 {isEditing
                   ? tProfile("save_data")
-                  : t("actions.create") || "إضافة الطلب"}
+                  : t("actions.create")}
               </Button>
             </div>
           </form>

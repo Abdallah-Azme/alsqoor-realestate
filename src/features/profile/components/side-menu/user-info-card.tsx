@@ -31,7 +31,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (isBlockedImageFile(file)) {
-      toast.error("صيغة WEBP و AVIF غير مسموح بها.");
+      toast.error(t("errors.unsupported_image"));
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
@@ -124,7 +124,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
             onClick={() => setChangeRoleOpen(true)}
             className="text-xs text-main-green hover:text-main-green/80 font-medium underline underline-offset-2 transition-colors cursor-pointer"
           >
-            تغيير الدور
+            {t("change_role.title")}
           </button>
 
           {(user.role === "agent" || user.role === "developer") &&
@@ -134,7 +134,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
               onClick={() => setRenewFalOpen(true)}
               className="text-xs text-amber-600 hover:text-amber-700 font-medium underline underline-offset-2 transition-colors cursor-pointer mt-1"
             >
-              تجديد ترخيص الفال
+                {t("renew_fal.title")}
             </button>
           )}
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useContext } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useContext, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -27,50 +27,6 @@ import { Loader2, Upload, X, FileText } from "lucide-react";
 import { UserContext } from "@/context/user-context";
 import { useChangeRole } from "../../hooks/use-profile";
 import { UserRole, AgentType } from "../../types/profile.types";
-
-// ─── helpers ─────────────────────────────────────────────────────────────────
-
-const ROLES: {
-  value: UserRole;
-  labelAr: string;
-  labelEn: string;
-  icon: string;
-  descAr: string;
-}[] = [
-  {
-    value: "seeker",
-    labelAr: "باحث",
-    labelEn: "Seeker",
-    icon: "🔍",
-    descAr: "أنا أبحث عن عقار",
-  },
-  {
-    value: "owner",
-    labelAr: "مالك",
-    labelEn: "Owner",
-    icon: "🏠",
-    descAr: "أنا مالك عقار",
-  },
-  {
-    value: "agent",
-    labelAr: "وسيط",
-    labelEn: "Agent",
-    icon: "🤝",
-    descAr: "أنا وسيط عقاري",
-  },
-  {
-    value: "developer",
-    labelAr: "مطور",
-    labelEn: "Developer",
-    icon: "🏗️",
-    descAr: "أنا مطور عقاري",
-  },
-];
-
-const AGENT_TYPES: { value: AgentType; labelAr: string }[] = [
-  { value: "individual", labelAr: "فردي" },
-  { value: "office", labelAr: "مكتب" },
-];
 
 // ─── schema ──────────────────────────────────────────────────────────────────
 
@@ -169,8 +125,47 @@ export const ChangeRoleDialog = ({
   currentRole,
 }: ChangeRoleDialogProps) => {
   const t = useTranslations("Profile");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const { fetchUserProfile } = useContext(UserContext);
   const { mutate: changeRole, isPending } = useChangeRole();
+
+  const ROLES: {
+    value: UserRole;
+    icon: string;
+    labelKey: string;
+    descKey: string;
+  }[] = useMemo(() => [
+    {
+      value: "seeker",
+      icon: "🔍",
+      labelKey: "change_role.roles.seeker.label",
+      descKey: "change_role.roles.seeker.description",
+    },
+    {
+      value: "owner",
+      icon: "🏠",
+      labelKey: "change_role.roles.owner.label",
+      descKey: "change_role.roles.owner.description",
+    },
+    {
+      value: "agent",
+      icon: "🤝",
+      labelKey: "change_role.roles.agent.label",
+      descKey: "change_role.roles.agent.description",
+    },
+    {
+      value: "developer",
+      icon: "🏗️",
+      labelKey: "change_role.roles.developer.label",
+      descKey: "change_role.roles.developer.description",
+    },
+  ], []);
+
+  const AGENT_TYPES: { value: AgentType; labelKey: string }[] = useMemo(() => [
+    { value: "individual", labelKey: "change_role.agent_types.individual" },
+    { value: "office", labelKey: "change_role.agent_types.office" },
+  ], []);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(getFormSchema(t)),
@@ -195,7 +190,7 @@ export const ChangeRoleDialog = ({
   const onSubmit = (values: FormValues) => {
     changeRole(values as any, {
       onSuccess: async (response: any) => {
-        toast.success(response?.message || "تم تغيير الدور بنجاح");
+        toast.success(response?.message || t("change_role.success"));
         if (fetchUserProfile) {
           await fetchUserProfile();
         }
@@ -208,18 +203,17 @@ export const ChangeRoleDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        dir="rtl"
+        dir={isRtl ? "rtl" : "ltr"}
         className="max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-0 gap-0"
       >
         {/* Header */}
         <div className="bg-linear-to-l from-main-green/10 to-emerald-50 px-6 pt-6 pb-4 rounded-t-2xl">
-          <DialogHeader className="text-right">
+          <DialogHeader className={isRtl ? "text-right" : "text-left"}>
             <DialogTitle className="text-xl font-bold text-main-navy">
-              تغيير دور الحساب
+              {t("change_role.title")}
             </DialogTitle>
             <DialogDescription className="text-gray-500 text-sm mt-1">
-              اختر الدور المناسب لحسابك. قد تكون بعض الحقول الإضافية مطلوبة حسب
-              الدور المختار.
+              {t("change_role.description")}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -236,7 +230,7 @@ export const ChangeRoleDialog = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-sm font-semibold text-gray-700 block mb-3">
-                    اختر الدور <span className="text-red-500">*</span>
+                    {t("change_role.select_role")} <span className="text-red-500">*</span>
                   </FormLabel>
                   <div className="grid grid-cols-2 gap-3">
                     {ROLES.map((r) => {
@@ -256,7 +250,7 @@ export const ChangeRoleDialog = ({
                             form.setValue("has_fal_license", undefined);
                             form.setValue("fal_license_document", undefined);
                           }}
-                          className={`p-4 rounded-xl border-2 text-right transition-all duration-200 cursor-pointer hover:border-main-green/50 hover:bg-main-green/5 ${
+                          className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:border-main-green/50 hover:bg-main-green/5 ${isRtl ? "text-right" : "text-left"} ${
                             isSelected
                               ? "border-main-green bg-main-green/10 shadow-sm"
                               : "border-gray-200 bg-white"
@@ -268,10 +262,10 @@ export const ChangeRoleDialog = ({
                               isSelected ? "text-main-green" : "text-main-navy"
                             }`}
                           >
-                            {r.labelAr}
+                            {t(r.labelKey)}
                           </div>
                           <div className="text-xs text-gray-400 mt-0.5">
-                            {r.descAr}
+                            {t(r.descKey)}
                           </div>
                         </button>
                       );
@@ -286,7 +280,7 @@ export const ChangeRoleDialog = ({
             {needsFal && (
               <div className="space-y-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  بيانات الفال المطلوبة
+                  {t("change_role.fal_data")}
                 </p>
 
                 {/* Has FAL License */}
@@ -296,13 +290,13 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm text-gray-700">
-                        هل يوجد ترخيص فال؟{" "}
+                        {t("change_role.has_fal")}{" "}
                         <span className="text-red-500">*</span>
                       </FormLabel>
                       <div className="flex gap-3">
                         {[
-                          { value: "1", label: "نعم" },
-                          { value: "0", label: "لا" },
+                          { value: "1", label: t("sign_up.yes") },
+                          { value: "0", label: t("sign_up.no") },
                         ].map((opt) => (
                           <button
                             key={opt.value}
@@ -332,12 +326,12 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm text-gray-700">
-                        رقم الفال <span className="text-red-500">*</span>
+                        {t("change_role.fal_number")} <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="أدخل رقم الفال"
-                          className="h-11 bg-white border-gray-200 rounded-lg text-right"
+                          placeholder={t("change_role.fal_number_placeholder")}
+                          className={`h-11 bg-white border-gray-200 rounded-lg ${isRtl ? "text-right" : "text-left"}`}
                           {...field}
                         />
                       </FormControl>
@@ -353,13 +347,13 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm text-gray-700">
-                        تاريخ انتهاء الفال{" "}
+                        {t("change_role.fal_expiry")}{" "}
                         <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="date"
-                          className="h-11 bg-white border-gray-200 rounded-lg text-right"
+                          className={`h-11 bg-white border-gray-200 rounded-lg ${isRtl ? "text-right" : "text-left"}`}
                           onChange={(e) => {
                             // Convert YYYY-MM-DD → DD-MM-YYYY for API
                             const raw = e.target.value; // YYYY-MM-DD
@@ -384,13 +378,13 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm text-gray-700">
-                        هل يوجد ترخيص إعلانات؟{" "}
+                        {t("change_role.has_ad_license")}{" "}
                         <span className="text-red-500">*</span>
                       </FormLabel>
                       <div className="flex gap-3">
                         {[
-                          { value: "1", label: "نعم" },
-                          { value: "0", label: "لا" },
+                          { value: "1", label: t("sign_up.yes") },
+                          { value: "0", label: t("sign_up.no") },
                         ].map((opt) => (
                           <button
                             key={opt.value}
@@ -419,7 +413,7 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-semibold text-gray-700">
-                        وثيقة ترخيص الفال{" "}
+                        {t("change_role.fal_license_doc")}{" "}
                         <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
@@ -442,10 +436,10 @@ export const ChangeRoleDialog = ({
                               <Upload className="text-gray-400 size-6" />
                               <div>
                                 <p className="text-sm font-medium text-gray-700">
-                                  انقر لرفع وثيقة ترخيص الفال
+                                  {t("change_role.click_to_upload")}
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1">
-                                  PDF أو صور (JPG, PNG)
+                                  {t("change_role.upload_types")}
                                 </p>
                               </div>
                             </div>
@@ -455,7 +449,7 @@ export const ChangeRoleDialog = ({
                                 <div className="bg-main-green/10 p-2 rounded-lg">
                                   <FileText className="text-main-green size-5" />
                                 </div>
-                                <div className="flex flex-col min-w-0">
+                                <div className="flex flex-col min-w-0 text-right">
                                   <span className="text-sm font-medium text-main-navy truncate">
                                     {(field.value as File).name}
                                   </span>
@@ -464,7 +458,7 @@ export const ChangeRoleDialog = ({
                                       (field.value as File).size /
                                       (1024 * 1024)
                                     ).toFixed(2)}{" "}
-                                    MB
+                                    {t("common.mb")}
                                   </span>
                                 </div>
                               </div>
@@ -495,21 +489,21 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-semibold text-gray-700">
-                        نوع الوسيط <span className="text-red-500">*</span>
+                        {t("change_role.agent_type")} <span className="text-red-500">*</span>
                       </FormLabel>
                       <div className="flex gap-3">
-                        {AGENT_TYPES.map((t) => (
+                        {AGENT_TYPES.map((type) => (
                           <button
-                            key={t.value}
+                            key={type.value}
                             type="button"
-                            onClick={() => field.onChange(t.value)}
+                            onClick={() => field.onChange(type.value)}
                             className={`flex-1 h-11 rounded-lg border-2 text-sm font-medium transition-all ${
-                              field.value === t.value
+                              field.value === type.value
                                 ? "border-main-green bg-main-green/10 text-main-green"
                                 : "border-gray-200 bg-white text-gray-600 hover:border-main-green/40"
                             }`}
                           >
-                            {t.labelAr}
+                            {t(type.labelKey)}
                           </button>
                         ))}
                       </div>
@@ -524,7 +518,7 @@ export const ChangeRoleDialog = ({
             {needsDeveloperFields && (
               <div className="space-y-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
                 <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
-                  بيانات المطور العقاري
+                  {t("change_role.developer_data")}
                 </p>
 
                 {/* Commercial Register */}
@@ -534,12 +528,12 @@ export const ChangeRoleDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm text-gray-700">
-                        السجل التجاري <span className="text-red-500">*</span>
+                        {t("change_role.commercial_register")} <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="أدخل رقم السجل التجاري"
-                          className="h-11 bg-white border-gray-200 rounded-lg text-right"
+                          placeholder={t("change_role.commercial_register_placeholder")}
+                          className={`h-11 bg-white border-gray-200 rounded-lg ${isRtl ? "text-right" : "text-left"}`}
                           {...field}
                         />
                       </FormControl>
@@ -557,13 +551,13 @@ export const ChangeRoleDialog = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-sm text-gray-700">
-                    اسم الشركة{" "}
-                    <span className="text-gray-400 text-xs">(اختياري)</span>
+                    {t("change_role.company_name")}{" "}
+                    <span className="text-gray-400 text-xs">{t("change_role.optional")}</span>
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="أدخل اسم الشركة إن وجد"
-                      className="h-11 bg-gray-50 border-gray-200 rounded-lg text-right"
+                      placeholder={t("change_role.company_name_placeholder")}
+                      className={`h-11 bg-gray-50 border-gray-200 rounded-lg ${isRtl ? "text-right" : "text-left"}`}
                       {...field}
                     />
                   </FormControl>
@@ -580,7 +574,7 @@ export const ChangeRoleDialog = ({
                 className="flex-1 h-12 bg-main-green hover:bg-main-green/90 text-white font-bold rounded-xl gap-2 text-sm"
               >
                 {isPending && <Loader2 size={16} className="animate-spin" />}
-                {isPending ? "جارٍ الحفظ..." : "تأكيد تغيير الدور"}
+                {isPending ? t("change_role.saving") : t("change_role.confirm_change")}
               </Button>
               <Button
                 type="button"
@@ -592,7 +586,7 @@ export const ChangeRoleDialog = ({
                 disabled={isPending}
                 className="px-6 h-12 border-gray-200 text-gray-500 hover:text-gray-700 font-medium rounded-xl"
               >
-                إلغاء
+                {t("cancel")}
               </Button>
             </div>
           </form>

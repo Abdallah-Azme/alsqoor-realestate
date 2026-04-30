@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -29,9 +29,11 @@ export const StartMarketingDialog = ({
   onOpenChange,
 }: StartMarketingDialogProps) => {
   const t = useTranslations("marketplace.marketing_dialog");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const [step, setStep] = useState(1);
   const [offerDetails, setOfferDetails] = useState(
-    t("default_offer_details") || "أرغب ببدء تسويق هذا العقار والتعاون معكم لإتمام الصفقة."
+    t("default_offer_details")
   );
   const [acceptedCommission, setAcceptedCommission] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -46,7 +48,7 @@ export const StartMarketingDialog = ({
     }
 
     if (offerDetails.trim().length < 10) {
-      setValidationError(t("offer_details_min") || "Offer details must be at least 10 characters");
+      setValidationError(t("offer_details_min"));
       return;
     }
 
@@ -86,9 +88,9 @@ export const StartMarketingDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent dir={isRtl ? "rtl" : "ltr"} className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-main-navy">
+          <DialogTitle className={`text-xl font-bold text-main-navy ${isRtl ? "text-right" : "text-left"}`}>
             {step === 1 ? t("title") : t("confirm_title")}
           </DialogTitle>
         </DialogHeader>
@@ -102,7 +104,7 @@ export const StartMarketingDialog = ({
                     <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-main-green/10 text-main-green text-xs font-bold mt-0.5">
                       {index + 1}
                     </div>
-                    <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
+                    <p className={`text-sm text-gray-600 leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>{text}</p>
                   </div>
                 ))}
               </div>
@@ -110,7 +112,7 @@ export const StartMarketingDialog = ({
               {commissionPercentage && (
                 <div className="bg-main-green/5 p-3 rounded-lg border border-main-green/10 flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-main-green shrink-0" />
-                  <p className="text-sm font-medium text-main-navy">
+                  <p className={`text-sm font-medium text-main-navy ${isRtl ? "text-right" : "text-left"}`}>
                     {t("commission_note", { percentage: commissionPercentage })}
                   </p>
                 </div>
@@ -119,18 +121,18 @@ export const StartMarketingDialog = ({
           ) : (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="offer_details" className="text-main-navy font-bold">
-                  {t("offer_details") || "تفاصيل العرض"}
+                <Label htmlFor="offer_details" className={`block text-main-navy font-bold ${isRtl ? "text-right" : "text-left"}`}>
+                  {t("offer_details")}
                 </Label>
                 <Textarea
                   id="offer_details"
                   value={offerDetails}
                   onChange={(e) => setOfferDetails(e.target.value)}
                   placeholder={t("offer_details_placeholder")}
-                  className="min-h-[100px] border-gray-200 focus:border-main-green focus:ring-main-green"
+                  className={`min-h-[100px] border-gray-200 focus:border-main-green focus:ring-main-green ${isRtl ? "text-right" : "text-left"}`}
                 />
                 {validationError && (
-                  <p className="text-red-500 text-xs mt-1 font-medium">
+                  <p className={`text-red-500 text-xs mt-1 font-medium ${isRtl ? "text-right" : "text-left"}`}>
                     {validationError}
                   </p>
                 )}
@@ -146,7 +148,7 @@ export const StartMarketingDialog = ({
                   />
                   <Label
                     htmlFor="accept_commission"
-                    className="text-xs text-gray-500 leading-relaxed cursor-pointer font-medium"
+                    className={`text-xs text-gray-500 leading-relaxed cursor-pointer font-medium ${isRtl ? "text-right" : "text-left"}`}
                   >
                     {t("accept_commission", { percentage: commissionPercentage || "2.5" })}
                   </Label>
@@ -161,7 +163,7 @@ export const StartMarketingDialog = ({
                   />
                   <Label
                     htmlFor="accept_terms"
-                    className="text-xs text-gray-500 leading-relaxed cursor-pointer font-medium"
+                    className={`text-xs text-gray-500 leading-relaxed cursor-pointer font-medium ${isRtl ? "text-right" : "text-left"}`}
                   >
                     {t("accept_terms")}
                   </Label>
@@ -186,7 +188,7 @@ export const StartMarketingDialog = ({
               onClick={handleConfirm}
               disabled={isPending || (step === 2 && (!acceptedCommission || !acceptedTerms))}
             >
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className={`${isRtl ? "ml-2" : "mr-2"} h-4 w-4 animate-spin`} />}
               {step === 1 ? t("next") : t("confirm")}
             </Button>
           </div>

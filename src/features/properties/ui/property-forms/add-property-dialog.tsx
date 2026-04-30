@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   useCreateProperty,
   useCountries,
@@ -28,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FiLoader } from "react-icons/fi";
 import {
   Form,
   FormControl,
@@ -39,6 +38,7 @@ import {
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface AddPropertyDialogProps {
   open: boolean;
@@ -51,6 +51,9 @@ export function AddPropertyDialog({
 }: AddPropertyDialogProps) {
   const t = useTranslations("properties");
   const tValidation = useTranslations("validation");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+  
   const { mutate: createProperty, isPending } = useCreateProperty();
   const [images, setImages] = useState<File[]>([]);
   const [videos, setVideos] = useState<File[]>([]);
@@ -72,7 +75,7 @@ export function AddPropertyDialog({
       { ...data, images, videos },
       {
         onSuccess: () => {
-          toast.success(t("add_success") || "تم إضافة العقار بنجاح");
+          toast.success(t("add_success"));
           form.reset();
           setImages([]);
           setVideos([]);
@@ -82,22 +85,18 @@ export function AddPropertyDialog({
     );
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImages(Array.from(e.target.files));
-    }
-  };
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
-        <DialogHeader>
+      <DialogContent 
+        className="max-h-[90vh] max-w-3xl overflow-y-auto"
+        dir={isRtl ? "rtl" : "ltr"}
+      >
+        <DialogHeader className={cn(isRtl ? "text-right" : "text-left")}>
           <DialogTitle>
-            {t("add_new_property") || "إضافة عقار جديد"}
+            {t("add_new_property")}
           </DialogTitle>
           <DialogDescription>
-            {t("fill_required_fields") ||
-              "املأ جميع الحقول المطلوبة لإضافة عقار جديد"}
+            {t("fill_required_fields")}
           </DialogDescription>
         </DialogHeader>
 
@@ -105,22 +104,20 @@ export function AddPropertyDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Basic Info */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">
-                {t("basic_info") || "المعلومات الأساسية"}
+              <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                {t("basic_info")}
               </h3>
 
               <FormField
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("title") || "العنوان"} *</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("title")} *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={
-                          t("title_placeholder") ||
-                          "مثال: شقة للبيع في منطقة مميزة"
-                        }
+                        placeholder={t("title_placeholder")}
+                        className={cn(isRtl ? "text-right" : "text-left")}
                         {...field}
                       />
                     </FormControl>
@@ -133,15 +130,13 @@ export function AddPropertyDialog({
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("description") || "الوصف"} *</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("description")} *</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder={
-                          t("description_placeholder") || "وصف تفصيلي للعقار..."
-                        }
+                        placeholder={t("description_placeholder")}
                         rows={4}
-                        className="resize-none"
+                        className={cn("resize-none", isRtl ? "text-right" : "text-left")}
                         {...field}
                       />
                     </FormControl>
@@ -155,20 +150,20 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="operation_type"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("operation_type_label") || "نوع العملية"} *
+                        {t("operation_type_label")} *
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                             <SelectValue />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                           <SelectItem value="sale">
                             {t("operation_type.sale")}
                           </SelectItem>
@@ -186,20 +181,20 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="property_use"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("property_type") || "نوع العقار"} *
+                        {t("property_type")} *
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                             <SelectValue />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                           <SelectItem value="apartment">
                             {t("property_use.apartment")}
                           </SelectItem>
@@ -230,12 +225,13 @@ export function AddPropertyDialog({
                 control={form.control}
                 name="category_id"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("category") || "تصنيف العقار"} *</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("category")} *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         placeholder="1"
+                        className={cn(isRtl ? "text-right" : "text-left")}
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseInt(e.target.value) || undefined)
@@ -250,25 +246,24 @@ export function AddPropertyDialog({
 
             {/* Location */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">
-                {t("location") || "الموقع"}
+              <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                {t("location")}
               </h3>
 
               <div className="grid grid-cols-2 gap-4">
-                <LocationFields form={form} />
+                <LocationFields form={form} isRtl={isRtl} />
               </div>
 
               <FormField
                 control={form.control}
                 name="district"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("district") || "الحي"} *</FormLabel>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                    <FormLabel>{t("district")} *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={
-                          t("district_placeholder") || "مثال: التجمع الخامس"
-                        }
+                        placeholder={t("district_placeholder")}
+                        className={cn(isRtl ? "text-right" : "text-left")}
                         {...field}
                       />
                     </FormControl>
@@ -282,13 +277,14 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="latitude"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("latitude") || "خط العرض"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("latitude")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           step="any"
                           placeholder="30.0444"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -306,13 +302,14 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="longitude"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("longitude") || "خط الطول"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("longitude")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           step="any"
                           placeholder="31.2357"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -330,8 +327,8 @@ export function AddPropertyDialog({
 
             {/* Pricing */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">
-                {t("pricing") || "التسعير"}
+              <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                {t("pricing")}
               </h3>
 
               <div className="grid grid-cols-2 gap-4">
@@ -339,14 +336,15 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="price_min"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("price_min") || "السعر الأدنى"} *
+                        {t("price_min")} *
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="900000"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -364,14 +362,15 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="price_max"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("price_max") || "السعر الأعلى"} *
+                        {t("price_max")} *
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="1200000"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -389,8 +388,8 @@ export function AddPropertyDialog({
 
             {/* Features */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">
-                {t("features") || "المواصفات"}
+              <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                {t("features")}
               </h3>
 
               <div className="grid grid-cols-2 gap-4">
@@ -398,12 +397,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="area"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("area") || "مساحة الأرض (م²)"} *</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("area")} *</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="200"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -421,12 +421,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="building_area"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("building_area") || "مساحة البناء (م²)"} *</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("building_area")} *</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder={t("building_area_placeholder") || "180"}
+                          placeholder={t("building_area_placeholder")}
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -444,14 +445,15 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="usable_area"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                       <FormLabel>
-                        {t("usable_area") || "المساحة الصافية (م²)"}
+                        {t("usable_area")}
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="160"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -471,12 +473,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="rooms"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("rooms") || "الغرف"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("rooms")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="3"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -494,12 +497,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="bathrooms"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("bathrooms") || "الحمامات"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("bathrooms")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="2"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -517,12 +521,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="balconies"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("balconies") || "الشرفات"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("balconies")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="1"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -540,12 +545,13 @@ export function AddPropertyDialog({
                   control={form.control}
                   name="garages"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("garages") || "المواقف"}</FormLabel>
+                    <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
+                      <FormLabel>{t("garages")}</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="1"
+                          className={cn(isRtl ? "text-right" : "text-left")}
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -564,20 +570,20 @@ export function AddPropertyDialog({
                 control={form.control}
                 name="finishing_type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                     <FormLabel>
-                      {t("finishing_type_label") || "نوع التشطيب"}
+                      {t("finishing_type_label")}
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                           <SelectValue />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="none">
                           {t("finishing_type.none")}
                         </SelectItem>
@@ -604,10 +610,10 @@ export function AddPropertyDialog({
             {/* Media */}
             <div className="space-y-6">
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">
-                  {t("images") || "الصور"}
+                <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                  {t("images")}
                 </h3>
-                <FormItem>
+                <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                   <FormControl>
                     <FileUploader
                       value={images as any}
@@ -615,21 +621,18 @@ export function AddPropertyDialog({
                       accept="image/*"
                       maxFiles={20}
                       maxSize={1 * 1024 * 1024}
-                      label={t("property_images") || "صور العقار"}
-                      helperText={
-                        t("images_helper_updated") ||
-                        "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 20 صورة، 1 ميجابايت لكل صورة)"
-                      }
+                      label={t("property_images")}
+                      helperText={t("images_helper_updated")}
                     />
                   </FormControl>
                 </FormItem>
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">
-                  {t("videos") || "الفيديوهات"}
+                <h3 className={cn("text-lg font-semibold", isRtl ? "text-right" : "text-left")}>
+                  {t("videos")}
                 </h3>
-                <FormItem>
+                <FormItem className={cn(isRtl ? "text-right" : "text-left")}>
                   <FormControl>
                     <FileUploader
                       value={videos as any}
@@ -637,11 +640,8 @@ export function AddPropertyDialog({
                       accept="video/*"
                       maxFiles={1}
                       maxSize={50 * 1024 * 1024}
-                      label={t("property_videos") || "فيديوهات العقار"}
-                      helperText={
-                        t("videos_helper_updated_v2") ||
-                        "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 50 ميجابايت)"
-                      }
+                      label={t("property_videos")}
+                      helperText={t("videos_helper_updated_v2")}
                     />
                   </FormControl>
                 </FormItem>
@@ -649,18 +649,18 @@ export function AddPropertyDialog({
             </div>
 
             {/* Submit */}
-            <div className="flex justify-end gap-4">
+            <div className={cn("flex gap-4", isRtl ? "flex-row-reverse" : "flex-row", "justify-end")}>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={isPending}
               >
-                {t("cancel") || "إلغاء"}
+                {t("cancel")}
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t("add_property") || "إضافة العقار"}
+                {isPending && <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />}
+                {t("add_property")}
               </Button>
             </div>
           </form>
@@ -670,7 +670,7 @@ export function AddPropertyDialog({
   );
 }
 
-function LocationFields({ form }: { form: any }) {
+function LocationFields({ form, isRtl }: { form: any; isRtl: boolean }) {
   const t = useTranslations("properties");
 
   // HIDDEN: Country is always Saudi Arabia (country_id = 2) — set on mount and never changed
@@ -692,23 +692,23 @@ function LocationFields({ form }: { form: any }) {
         control={form.control}
         name="city_id"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t("city") || "المدينة"} *</FormLabel>
+          <FormItem className={cn("w-full", isRtl ? "text-right" : "text-left")}>
+            <FormLabel>{t("city")} *</FormLabel>
             <Select
               onValueChange={(value) => field.onChange(parseInt(value))}
               value={field.value ? String(field.value) : undefined}
               disabled={loadingCities}
             >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
                   <SelectValue
                     placeholder={
-                      loadingCities ? "..." : t("select_city") || "اختر المدينة"
+                      loadingCities ? "..." : t("select_city")
                     }
                   />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                 {cities?.map((city: any) => (
                   <SelectItem key={city.id} value={String(city.id)}>
                     {city.name}

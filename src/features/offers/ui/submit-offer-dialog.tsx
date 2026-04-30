@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useSubmitOffer } from "../hooks/use-property-offers";
 import {
   submitOfferSchema,
@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface SubmitOfferDialogProps {
   open: boolean;
@@ -36,6 +37,8 @@ export function SubmitOfferDialog({
   propertyTitle,
 }: SubmitOfferDialogProps) {
   const t = useTranslations("offers");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const { mutate: submitOffer, isPending } = useSubmitOffer();
 
   const {
@@ -79,8 +82,11 @@ export function SubmitOfferDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader className="">
+      <DialogContent 
+        className="max-w-2xl"
+        dir={isRtl ? "rtl" : "ltr"}
+      >
+        <DialogHeader className={cn(isRtl ? "text-right" : "text-left")}>
           <DialogTitle className="">{t("submit_offer")}</DialogTitle>
           <DialogDescription className="">
             {propertyTitle
@@ -91,23 +97,30 @@ export function SubmitOfferDialog({
 
         <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="offer_details">{t("offer_details")} *</Label>
+            <Label 
+              htmlFor="offer_details"
+              className={cn("block", isRtl ? "text-right" : "text-left")}
+            >
+              {t("offer_details")} *
+            </Label>
             <Textarea
               id="offer_details"
-              className=""
+              className={cn(isRtl ? "text-right" : "text-left")}
               {...register("offer_details")}
               placeholder={t("offer_details_placeholder")}
               rows={6}
             />
             {errors.offer_details && (
-              <p className="text-sm text-red-500">
+              <p className={cn("text-sm text-red-500", isRtl ? "text-right" : "text-left")}>
                 {errors.offer_details.message}
               </p>
             )}
-            <p className="text-sm text-gray-500">{t("offer_details_hint")}</p>
+            <p className={cn("text-sm text-gray-500", isRtl ? "text-right" : "text-left")}>
+              {t("offer_details_hint")}
+            </p>
           </div>
 
-          <div className="flex justify-end gap-4">
+          <div className={cn("flex gap-4", isRtl ? "flex-row-reverse" : "flex-row", "justify-end")}>
             <Button
               type="button"
               variant="outline"
@@ -117,7 +130,7 @@ export function SubmitOfferDialog({
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />}
               {t("submit")}
             </Button>
           </div>

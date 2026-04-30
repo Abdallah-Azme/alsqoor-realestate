@@ -169,30 +169,30 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex items-center gap-2 bg-[#F5F5F5] p-2 rounded shadow-md"
+          className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
           <LocationIcon />
-          <p>{t("address")}</p>
+          <p className="text-xs font-medium text-gray-700">{t("address")}</p>
         </motion.div>
         {/* phone */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="flex items-center gap-2 bg-[#F5F5F5] p-2 rounded shadow-md"
+          className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
           <FiPhoneCall className="text-main-green" />
-          <p dir="ltr">{t("phone_default")}</p>
+          <p dir="ltr" className="text-xs font-medium text-gray-700">{t("phone_default")}</p>
         </motion.div>
         {/* email */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="flex items-center gap-2 bg-[#F5F5F5] p-2 rounded shadow-md"
+          className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
           <FiInbox className="text-main-green" />
-          <p>{t("email_default")}</p>
+          <p className="text-xs font-medium text-gray-700">{t("email_default")}</p>
         </motion.div>
         {/* locale swither */}
         <motion.div
@@ -202,6 +202,23 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
         >
           <LocaleSwitcher />
         </motion.div>
+        {siteInfo?.testText && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex items-center gap-3 bg-white/40 backdrop-blur-sm border border-main-green/30 px-6 py-2 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.05)] border-dashed hover:bg-white/60 transition-colors"
+          >
+            <div className="relative flex-shrink-0">
+              <div className="w-2 h-2 rounded-full bg-main-green shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+              <div className="absolute inset-0 w-2 h-2 rounded-full bg-main-green animate-ping opacity-40" />
+            </div>
+            <p className="text-xs md:text-sm font-bold text-main-navy/80 italic tracking-tight">
+              {siteInfo.testText}
+            </p>
+          </motion.div>
+        )}
+
       </motion.div>
       {/* nav */}
       <motion.div

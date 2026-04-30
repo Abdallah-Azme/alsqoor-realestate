@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   FiClock,
   FiMapPin,
@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RequestCardProps {
   request: PropertyRequest;
@@ -46,6 +47,10 @@ export const RequestCard = ({
 }: RequestCardProps) => {
   const t = useTranslations("propertyRequestsPage");
   const tProfile = useTranslations("Profile");
+  const tOffers = useTranslations("offers");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+  
   const deleteMutation = useDeleteRequest();
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
@@ -68,9 +73,9 @@ export const RequestCard = ({
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300">
-      <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
-        <div>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300" dir={isRtl ? "rtl" : "ltr"}>
+      <CardHeader className={cn("pb-3 flex flex-row items-center justify-between space-y-0", isRtl ? "flex-row-reverse" : "flex-row")}>
+        <div className={cn(isRtl ? "text-right" : "text-left")}>
           <Badge variant="outline" className={getStatusColor(request.status)}>
             {request.statusLabel}
           </Badge>
@@ -94,46 +99,46 @@ export const RequestCard = ({
 
       <CardContent className="pb-4">
         <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
             <FiSend className="h-4 w-4 text-main-green" />
             <span>{request.requestTypeLabel}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
             <FiMapPin className="h-4 w-4 text-main-green" />
             <span className="truncate">
               {request.city.name}, {request.district}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
             <FiClock className="h-4 w-4 text-main-green" />
             <span>
-              {new Date(request.createdAt).toLocaleDateString("ar-SA")}
+              {new Date(request.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US")}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
             <span className="font-semibold text-main-navy">
               {request.budgetAmount
-                ? `${request.budgetAmount} ر.س`
+                ? `${Number(request.budgetAmount).toLocaleString(locale)} ${tOffers("sar")}`
                 : request.budgetTypeLabel}
             </span>
           </div>
         </div>
 
         {request.details && (
-          <p className="mt-3 text-sm text-gray-500 line-clamp-2">
+          <p className={cn("mt-3 text-sm text-gray-500 line-clamp-2", isRtl ? "text-right" : "text-left")}>
             {request.details}
           </p>
         )}
       </CardContent>
 
-      <CardFooter className="bg-gray-50/50 pt-4 flex flex-wrap gap-2">
+      <CardFooter className={cn("bg-gray-50/50 pt-4 flex flex-wrap gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
         <Button
           variant="outline"
           className="flex-1 min-w-[110px] text-sm h-9"
           onClick={() => onView?.(request)}
         >
-          <FiInfo className="me-2 h-4 w-4" />
-          {t("actions.view") || "التفاصيل"}
+          <FiInfo className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
+          {t("actions.view")}
         </Button>
 
         {request.status !== "closed" && request.status !== "pending" && (
@@ -143,24 +148,23 @@ export const RequestCard = ({
               className="flex-1 min-w-[110px] text-sm h-9 text-main-green border-main-green hover:bg-main-green/5"
               onClick={() => onEdit?.(request)}
             >
-              {t("actions.edit") || "تعديل"}
+              {t("actions.edit")}
             </Button>
             <Button
               variant="outline"
               className="flex-1 min-w-[110px] text-sm h-9 text-orange-600 border-orange-200 hover:bg-orange-50"
               onClick={() => onAction?.(request)}
             >
-              {t("actions.close") || "إغلاق"}
+              {t("actions.close")}
             </Button>
           </>
         )}
 
         {request.status === "pending" && (
-          <div className="flex-1 flex items-center justify-center gap-2 p-2 bg-blue-50/50 rounded-lg text-xs text-blue-600 border border-blue-100 italic">
+          <div className={cn("flex-1 flex items-center justify-center gap-2 p-2 bg-blue-50/50 rounded-lg text-xs text-blue-600 border border-blue-100 italic", isRtl ? "flex-row-reverse" : "flex-row")}>
             <FiInfo className="h-3 w-3" />
             <span>
-              {t("messages.pending_no_actions") ||
-                "لا يمكن تعديل الطلب بانتظار الموافقة"}
+              {t("messages.pending_no_actions")}
             </span>
           </div>
         )}
@@ -168,22 +172,21 @@ export const RequestCard = ({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
+        <DialogContent className="max-w-md" dir={isRtl ? "rtl" : "ltr"}>
+          <DialogHeader className={cn(isRtl ? "text-right" : "text-left")}>
             <DialogTitle>
-              {t("messages.delete_confirm_title") || "حذف الطلب"}
+              {t("messages.delete_confirm_title")}
             </DialogTitle>
             <DialogDescription>
-              {t("messages.delete_confirm_desc") ||
-                "هل أنت متأكد من رغبتك في حذف هذا الطلب؟"}
+              {t("messages.delete_confirm_desc")}
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex gap-2 justify-end">
+          <DialogFooter className={cn("flex gap-2 justify-end", isRtl ? "flex-row-reverse" : "flex-row")}>
             <Button
               variant="outline"
               onClick={() => setDeleteConfirmOpen(false)}
             >
-              {tProfile("cancel") || "إلغاء"}
+              {tProfile("cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -191,9 +194,9 @@ export const RequestCard = ({
               disabled={deleteMutation.isPending}
             >
               {deleteMutation.isPending && (
-                <Loader2 className="me-2 h-4 w-4 animate-spin" />
+                <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />
               )}
-              {tProfile("delete") || "حذف"}
+              {tProfile("delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

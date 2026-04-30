@@ -28,6 +28,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   // Fetch settings from service
   const settings = await settingsService.getSettingsForMetadata();
 
+ 
   const siteInfo = settings?.siteInfo;
   const seo = settings?.seo;
 
@@ -71,6 +72,7 @@ export default async function RootLayout({ children, params }) {
   const navbarColor = await settingsService.getTopnavColor();
   // Fetch settings
   const settings = await getSettings();
+
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();

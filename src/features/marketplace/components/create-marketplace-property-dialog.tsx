@@ -2,7 +2,7 @@
 
 import { useState, useContext, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
 import { useAdLimit } from "@/hooks/use-ad-limit";
 import {
@@ -45,33 +44,33 @@ const DEFAULT_LNG = 46.6753;
 
 const SAUDI_CITY_FALLBACK_COORDS: Record<string, { lat: number; lng: number }> = {
   riyadh: { lat: 24.7136, lng: 46.6753 },
-  الرياض: { lat: 24.7136, lng: 46.6753 },
+  "الرياض": { lat: 24.7136, lng: 46.6753 },
   jeddah: { lat: 21.5433, lng: 39.1728 },
-  جدة: { lat: 21.5433, lng: 39.1728 },
+  "جدة": { lat: 21.5433, lng: 39.1728 },
   mecca: { lat: 21.3891, lng: 39.8579 },
   makkah: { lat: 21.3891, lng: 39.8579 },
-  مكة: { lat: 21.3891, lng: 39.8579 },
+  "مكة": { lat: 21.3891, lng: 39.8579 },
   medina: { lat: 24.5247, lng: 39.5692 },
   madinah: { lat: 24.5247, lng: 39.5692 },
-  المدينة: { lat: 24.5247, lng: 39.5692 },
+  "المدينة": { lat: 24.5247, lng: 39.5692 },
   dammam: { lat: 26.4207, lng: 50.0888 },
-  الدمام: { lat: 26.4207, lng: 50.0888 },
+  "الدمام": { lat: 26.4207, lng: 50.0888 },
   khobar: { lat: 26.2794, lng: 50.2083 },
-  الخبر: { lat: 26.2794, lng: 50.2083 },
+  "الخبر": { lat: 26.2794, lng: 50.2083 },
   taif: { lat: 21.2854, lng: 40.4267 },
-  الطائف: { lat: 21.2854, lng: 40.4267 },
+  "الطائف": { lat: 21.2854, lng: 40.4267 },
   abha: { lat: 18.2164, lng: 42.5053 },
-  أبها: { lat: 18.2164, lng: 42.5053 },
+  "أبها": { lat: 18.2164, lng: 42.5053 },
   tabuk: { lat: 28.3835, lng: 36.5662 },
-  تبوك: { lat: 28.3835, lng: 36.5662 },
+  "تبوك": { lat: 28.3835, lng: 36.5662 },
   buraidah: { lat: 26.326, lng: 43.975 },
-  بريدة: { lat: 26.326, lng: 43.975 },
+  "بريدة": { lat: 26.326, lng: 43.975 },
   hail: { lat: 27.5114, lng: 41.7208 },
-  حائل: { lat: 27.5114, lng: 41.7208 },
+  "حائل": { lat: 27.5114, lng: 41.7208 },
   jazan: { lat: 16.8892, lng: 42.5511 },
-  جازان: { lat: 16.8892, lng: 42.5511 },
+  "جازان": { lat: 16.8892, lng: 42.5511 },
   najran: { lat: 17.565, lng: 44.2289 },
-  نجران: { lat: 17.565, lng: 44.2289 },
+  "نجران": { lat: 17.565, lng: 44.2289 },
 };
 
 const toNumber = (value: unknown): number | null => {
@@ -243,11 +242,13 @@ const MapLocationPicker = dynamic(
   () => import("@/components/shared/map-location-picker"),
   {
     ssr: false,
-    loading: () => (
-      <div className="w-full h-[300px] rounded-xl bg-gray-100 animate-pulse border-2 border-gray-200 flex items-center justify-center">
-        <span className="text-gray-400 text-sm">جاري تحميل الخريطة...</span>
-      </div>
-    ),
+    loading: () => {
+        return (
+          <div className="w-full h-[300px] rounded-xl bg-gray-100 animate-pulse border-2 border-gray-200 flex items-center justify-center">
+            <span className="text-gray-400 text-sm">...</span>
+          </div>
+        );
+    },
   },
 );
 
@@ -283,6 +284,9 @@ export const CreateMarketplacePropertyDialog = ({
   const tProfile = useTranslations("Profile");
   const tPage = useTranslations("home.estates_page");
   const tCommon = useTranslations("common");
+  const tMarket = useTranslations("marketplace.create_property");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
   const safeT = (key: string, fallback: string) => {
     return t.has(key) ? t(key) : fallback;
   };
@@ -649,8 +653,8 @@ export const CreateMarketplacePropertyDialog = ({
     } else {
       // HIDDEN: country is always Saudi Arabia (country_id = 2)
       if (!cityId) {
-        toast.error(tCommon("error.title") || "Error", {
-          description: t("select_city") || "اختر المدينة",
+        toast.error(tCommon("error.title"), {
+          description: tMarket("select_city_error"),
         });
         return;
       }
@@ -680,7 +684,7 @@ export const CreateMarketplacePropertyDialog = ({
       !areStringArraysEqual(currentVideoUrls, initialVideosRef.current);
 
     if (isEdit && !imagesChanged && !videosChanged && Array.from(payload.keys()).length === 0) {
-      toast.info(tProfile("no_changes") || "لا توجد تغييرات للحفظ");
+      toast.info(tMarket("no_changes"));
       return;
     }
 
@@ -751,10 +755,8 @@ export const CreateMarketplacePropertyDialog = ({
       }
 
       if (hasImageFormatError) {
-        toast.error(tCommon("error.title") || "Error", {
-          description:
-            t("images_format_error") ||
-            "صيغة بعض الصور غير مدعومة. يرجى استخدام JPG/PNG/GIF فقط.",
+        toast.error(tCommon("error.title"), {
+          description: tMarket("image_format_error"),
         });
       }
       if (hasImageFetchError || hasVideoFetchError) {
@@ -763,10 +765,8 @@ export const CreateMarketplacePropertyDialog = ({
       }
     } catch (err) {
       console.warn("Failed to fetch existing media, submitting without re-fetched files:", err);
-      toast.error(tCommon("error.title") || "Error", {
-        description:
-          t("media_fetch_error") ||
-          "تعذر تحميل الوسائط أثناء التحديث. حاول مرة أخرى.",
+      toast.error(tCommon("error.title"), {
+        description: tMarket("media_fetch_error"),
       });
       return;
     } finally {
@@ -850,12 +850,12 @@ export const CreateMarketplacePropertyDialog = ({
           </Button>
         )
       )}
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent dir={isRtl ? "rtl" : "ltr"} className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className={isRtl ? "text-right" : "text-left"}>
             {isEdit
-              ? tProfile("edit_data") || "تعديل العقار"
-              : t("add_property") || "إضافة عقار جديد"}
+              ? tMarket("update_property")
+              : tMarket("add_property_title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -866,57 +866,60 @@ export const CreateMarketplacePropertyDialog = ({
             <input type="hidden" name="role" value={role} />
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">{t("title") || "العنوان"} *</Label>
+              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label htmlFor="title">{tMarket("title_label")} *</Label>
                 <Input
                   id="title"
                   name="title"
                   required={step === 1}
                   defaultValue={property?.title || ""}
-                  placeholder={t("title_placeholder") || "أدخل عنوان العقار"}
+                  placeholder={tMarket("title_placeholder")}
+                  className={isRtl ? "text-right" : "text-left"}
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="area">{t("area") || "مساحة الأرض (م²)"} *</Label>
+              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label htmlFor="area">{tMarket("area_label")} *</Label>
                 <Input
                   id="area"
                   name="area"
                   type="number"
                   required={step === 1}
                   defaultValue={property?.area || ""}
-                  placeholder={t("area_placeholder") || "مثال: 200"}
+                  placeholder={tMarket("area_placeholder")}
+                  className={isRtl ? "text-right" : "text-left"}
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="building_area">{t("building_area") || "مساحة البناء (م²)"} *</Label>
+              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label htmlFor="building_area">{tMarket("building_area_label")} *</Label>
                 <Input
                   id="building_area"
                   name="building_area"
                   type="number"
                   required={step === 1}
                   defaultValue={(property as any)?.buildingArea || ""}
-                  placeholder={t("building_area_placeholder") || "مثال: 180"}
+                  placeholder={tMarket("building_area_placeholder")}
+                  className={isRtl ? "text-right" : "text-left"}
                 />
               </div>
 
               {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
-              <div className="space-y-2">
-                <Label htmlFor="city_id">{t("city") || "المدينة"} *</Label>
+              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label htmlFor="city_id">{t("city")} *</Label>
                 <Select
                   name="city_id"
                   value={cityId}
                   onValueChange={handleCityChange}
                   disabled={!countryId || loadingCities}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
                     <SelectValue
-                      placeholder={t("select_city") || "اختر المدينة"}
+                      placeholder={t("select_city")}
                     />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                     {cities?.map((city: any) => (
                       <SelectItem key={city.id} value={String(city.id)}>
                         {city.name}
@@ -926,19 +929,20 @@ export const CreateMarketplacePropertyDialog = ({
                 </Select>
               </div>
 
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="district">{t("district") || "الحي"}</Label>
+              <div className={`space-y-2 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label htmlFor="district">{tMarket("district_label")}</Label>
                 <Input
                   id="district"
                   name="district"
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  placeholder={t("district_placeholder") || "أدخل اسم الحي"}
+                  placeholder={tMarket("district_placeholder")}
+                  className={isRtl ? "text-right" : "text-left"}
                 />
               </div>
 
-              <div className="space-y-4 col-span-2">
-                <Label>{t("images") || "صور العقار"}</Label>
+              <div className={`space-y-4 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label>{tMarket("images_label")}</Label>
                 <FileUploader
                   value={images}
                   onChange={setImages as any}
@@ -946,15 +950,12 @@ export const CreateMarketplacePropertyDialog = ({
                   maxFiles={20}
                   maxSize={1 * 1024 * 1024}
                   label=""
-                  helperText={
-                    t("images_helper_updated") ||
-                    "اسحب الصور هنا أو انقر للتصفح. (حد أقصى 20 صورة، 1 ميجابايت لكل صورة)"
-                  }
+                  helperText={tMarket("images_helper")}
                 />
               </div>
 
-              <div className="space-y-4 col-span-2">
-                <Label>{t("videos") || "فيديوهات العقار"}</Label>
+              <div className={`space-y-4 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <Label>{tMarket("videos_label")}</Label>
                 <FileUploader
                   value={videos}
                   onChange={setVideos as any}
@@ -962,35 +963,31 @@ export const CreateMarketplacePropertyDialog = ({
                   maxFiles={1}
                   maxSize={50 * 1024 * 1024}
                   label=""
-                  helperText={
-                    t("videos_helper_updated_v2") ||
-                    "اسحب فيديو واحد هنا أو انقر للتصفح. (حد أقصى 1 فيديو، 50 ميجابايت)"
-                  }
+                  helperText={tMarket("videos_helper")}
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
               <Label htmlFor="description">
-                {t("description") || "الوصف"} *
+                {tMarket("description_label")} *
               </Label>
               <Textarea
                 id="description"
                 name="description"
                 required={step === 1}
                 defaultValue={property?.description || ""}
-                placeholder={
-                  t("description_placeholder") || "أدخل وصفاً دقيقاً للعقار"
-                }
+                placeholder={tMarket("description_placeholder")}
+                className={isRtl ? "text-right" : "text-left"}
               />
             </div>
 
             {/* ── Map location picker ─────────────────────────────── */}
-            <div className="space-y-2">
+            <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
               <Label className="flex items-center gap-1">
-                {t("location") || "الموقع على الخريطة"}
+                {tMarket("location_label")}
                 <span className="text-xs text-gray-400 font-normal ms-1">
-                  ({t("optional") || "اختياري"})
+                  ({tMarket("optional")})
                 </span>
               </Label>
               <MapLocationPicker
@@ -1003,8 +1000,8 @@ export const CreateMarketplacePropertyDialog = ({
               />
             </div>
 
-            <div className="flex justify-end pt-4">
-              <Button type="submit">{tCommon("next") || "التالي"}</Button>
+            <div className={`flex ${isRtl ? "justify-start" : "justify-end"} pt-4`}>
+              <Button type="submit">{tCommon("next")}</Button>
             </div>
           </div>
 
@@ -1013,36 +1010,35 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Owner & Agent Fields */}
             {(role === "owner" || role === "agent") && (
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="price">{t("price") || "السعر"} *</Label>
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <Label htmlFor="price">{tMarket("price_label")} *</Label>
                   <Input
                     id="price"
                     name="price"
                     type="number"
                     required={step === 2}
                     defaultValue={property?.price || ""}
+                    className={isRtl ? "text-right" : "text-left"}
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                   <Label htmlFor="transaction_type">
-                    {t("transaction_type") || "نوع العملية"} *
+                    {tMarket("transaction_type_label")} *
                   </Label>
                   <Select
                     name="transaction_type"
                     defaultValue={property?.transactionType || "buy"}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
                       <SelectValue
-                        placeholder={
-                          t("select_transaction_type") || "اختر نوع العملية"
-                        }
+                        placeholder={t("select_transaction_type")}
                       />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="buy">{t("buy") || "بيع"}</SelectItem>
+                    <SelectContent dir={isRtl ? "rtl" : "ltr"}>
+                      <SelectItem value="buy">{tMarket("buy")}</SelectItem>
                       <SelectItem value="rent">
-                        {t("rent") || "إيجار"}
+                        {tMarket("rent")}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -1053,18 +1049,19 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Agent Specific Fields */}
             {role === "agent" && (
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="rooms">{t("rooms") || "عدد الغرف"}</Label>
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <Label htmlFor="rooms">{tMarket("rooms_label")}</Label>
                   <Input
                     id="rooms"
                     name="rooms"
                     type="number"
                     defaultValue={property?.rooms || ""}
+                    className={isRtl ? "text-right" : "text-left"}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                   <Label htmlFor="commission_percentage">
-                    {t("commission_percentage") || "نسبة العمولة (%)"} *
+                    {tMarket("commission_percentage_label")} *
                   </Label>
                   <Input
                     id="commission_percentage"
@@ -1076,6 +1073,7 @@ export const CreateMarketplacePropertyDialog = ({
                       e.currentTarget.value = e.currentTarget.value.replace(",", ".");
                     }}
                     required={step === 2 && role === "agent"}
+                    className={isRtl ? "text-right" : "text-left"}
                   />
                 </div>
               </div>
@@ -1084,48 +1082,47 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Owner Extra Fields (matching body) */}
             {role === "owner" && (
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="rooms">{t("rooms") || "عدد الغرف"}</Label>
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <Label htmlFor="rooms">{tMarket("rooms_label")}</Label>
                   <Input
                     id="rooms"
                     name="rooms"
                     type="number"
                     defaultValue={property?.rooms || ""}
+                    className={isRtl ? "text-right" : "text-left"}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                   <Label htmlFor="property_type">
-                    {t("property_type") || "نوع العقار"}
+                    {tMarket("property_type_label")}
                   </Label>
                   <Select
                     name="property_type"
                     defaultValue={initialPropertyType}
                   >
-                    <SelectTrigger id="property_type">
+                    <SelectTrigger id="property_type" className={isRtl ? "text-right" : "text-left"}>
                       <SelectValue
-                        placeholder={
-                          t("select_property_type") || "اختر نوع العقار"
-                        }
+                        placeholder={t("select_property_type")}
                       />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                       <SelectItem value="villa">
-                        {t("villa") || "فيلا"}
+                        {t("villa")}
                       </SelectItem>
                       <SelectItem value="land">
-                        {t("land") || "أرض"}
+                        {t("land")}
                       </SelectItem>
                       <SelectItem value="apartment">
-                        {t("apartment") || "شقة"}
+                        {t("apartment")}
                       </SelectItem>
                       <SelectItem value="floor">
-                        {t("floor") || "دور"}
+                        {t("floor")}
                       </SelectItem>
                       <SelectItem value="building">
-                        {t("building") || "عمارة"}
+                        {t("building")}
                       </SelectItem>
                       <SelectItem value="shop">
-                        {t("shop") || "محل"}
+                        {t("shop")}
                       </SelectItem>
                       <SelectItem value="resthouse">
                         {safeT("resthouse", "استراحة")}
@@ -1143,39 +1140,37 @@ export const CreateMarketplacePropertyDialog = ({
             {role === "developer" && (
               <>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
+                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                     <Label htmlFor="property_type">
-                      {t("property_type") || "نوع العقار"} *
+                      {tMarket("property_type_label")} *
                     </Label>
                     <Select
                       name="property_type"
                       defaultValue={initialPropertyType}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
                         <SelectValue
-                          placeholder={
-                            t("select_property_type") || "اختر نوع العقار"
-                          }
+                          placeholder={t("select_property_type")}
                         />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="villa">
-                          {t("villa") || "فيلا"}
+                          {t("villa")}
                         </SelectItem>
                         <SelectItem value="land">
-                          {t("land") || "أرض"}
+                          {t("land")}
                         </SelectItem>
                         <SelectItem value="apartment">
-                          {t("apartment") || "شقة"}
+                          {t("apartment")}
                         </SelectItem>
                         <SelectItem value="floor">
-                          {t("floor") || "دور"}
+                          {t("floor")}
                         </SelectItem>
                         <SelectItem value="building">
-                          {t("building") || "عمارة"}
+                          {t("building")}
                         </SelectItem>
                         <SelectItem value="shop">
-                          {t("shop") || "محل"}
+                          {t("shop")}
                         </SelectItem>
                         <SelectItem value="resthouse">
                           {safeT("resthouse", "استراحة")}
@@ -1186,9 +1181,9 @@ export const CreateMarketplacePropertyDialog = ({
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
+                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                     <Label htmlFor="starting_price">
-                      {t("starting_price") || "يبدأ من السعر"} *
+                      {tMarket("starting_price_label")} *
                     </Label>
                     <Input
                       id="starting_price"
@@ -1196,26 +1191,26 @@ export const CreateMarketplacePropertyDialog = ({
                       type="number"
                       defaultValue={property?.startingPrice || ""}
                       required={step === 2 && role === "developer"}
+                      className={isRtl ? "text-right" : "text-left"}
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="total_units">
-                      {t("total_units") || "إجمالي الوحدات"} *
-                    </Label>
+                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                    <Label htmlFor="total_units">{tMarket("total_units_label")} *</Label>
                     <Input
                       id="total_units"
                       name="total_units"
                       type="number"
                       defaultValue={property?.totalUnits || ""}
                       required={step === 2 && role === "developer"}
+                      className={isRtl ? "text-right" : "text-left"}
                     />
                   </div>
-                  <div className="space-y-2">
+                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                     <Label htmlFor="dev_commission_percentage">
-                      {t("commission_percentage") || "العمولة (%)"} *
+                      {tMarket("commission_percentage_label")} *
                     </Label>
                     <Input
                       id="dev_commission_percentage"
@@ -1227,27 +1222,28 @@ export const CreateMarketplacePropertyDialog = ({
                         e.currentTarget.value = e.currentTarget.value.replace(",", ".");
                       }}
                       required={step === 2 && role === "developer"}
+                      className={isRtl ? "text-right" : "text-left"}
                     />
                   </div>
-                  <div className="space-y-2">
+                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
                     <Label htmlFor="commission_from">
-                      {t("commission_from") || "العمولة من"} *
+                      {tMarket("commission_from_label")} *
                     </Label>
                     <Select
                       name="commission_from"
                       defaultValue={property?.commissionFrom || "owner"}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
                         <SelectValue
-                          placeholder={t("select_source") || "اختر المصدر"}
+                          placeholder={t("select_source")}
                         />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent dir={isRtl ? "rtl" : "ltr"}>
                         <SelectItem value="owner">
-                          {t("owner") || "المالك"}
+                          {tMarket("owner")}
                         </SelectItem>
                         <SelectItem value="developer">
-                          {t("developer") || "المطور"}
+                          {tMarket("developer")}
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -1263,13 +1259,13 @@ export const CreateMarketplacePropertyDialog = ({
                 onClick={() => setStep(1)}
                 disabled={isPending || isSubmitting}
               >
-                {tCommon("previous") || "السابق"}
+                {tCommon("previous")}
               </Button>
               <Button type="submit" disabled={isPending || isSubmitting}>
-                {(isPending || isSubmitting) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {(isPending || isSubmitting) && <Loader2 className={`${isRtl ? "ml-2" : "mr-2"} h-4 w-4 animate-spin`} />}
                 {isEdit
-                  ? t("update_real_estate") || "تحديث العقار"
-                  : t("submit_property") || "إضافة العقار"}
+                  ? t("update_real_estate")
+                  : t("submit_property")}
               </Button>
             </div>
           </div>
