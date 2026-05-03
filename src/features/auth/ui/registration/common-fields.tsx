@@ -25,7 +25,8 @@ export function CommonFields({ form, t }: CommonFieldsProps) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
 
-  const inputStyle = "w-full !h-14 rounded-none rounded-s-lg";
+  const inputStyle =
+    "w-full !h-14 rounded-none rounded-s-lg border-gray-200 focus:border-main-green bg-transparent";
 
   return (
     <>
@@ -77,7 +78,7 @@ export function CommonFields({ form, t }: CommonFieldsProps) {
                 <PhoneInput
                   {...field}
                   defaultCountry="sa"
-                  inputClassName={`${inputStyle} w-full`}
+                  inputClassName={`${inputStyle} w-full !border-gray-200 focus:!border-main-green !bg-transparent`}
                   className={`${inputStyle} w-full`}
                 />
               </FormControl>

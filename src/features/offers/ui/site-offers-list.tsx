@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Loader2 } from "lucide-react";
 import { useSiteOffers } from "../hooks/use-site-offers";
 import { SiteOfferCard } from "./site-offer-card";
+import { SiteOfferCardSkeleton } from "./site-offer-card-skeleton";
 import { SiteOffer } from "../types/offer.types";
 
 import { useState, useEffect } from "react";
@@ -37,11 +37,22 @@ export function SiteOffersList() {
 
   if (isLoading && !debouncedSearch) {
     return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="h-10 w-10 text-main-green animate-spin mb-4" />
-        <p className="text-gray-500">
-          {t("loading") || "جاري تحميل العروض..."}
-        </p>
+      <div className="space-y-8 animate-in fade-in duration-300">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="space-y-3 w-full md:w-auto">
+            <div className="h-7 w-48 animate-pulse rounded-lg bg-gray-200" />
+            <div className="h-4 w-64 max-w-full animate-pulse rounded bg-gray-100" />
+          </div>
+          <div className="relative w-full md:w-80">
+            <div className="h-12 w-full animate-pulse rounded-xl bg-gray-100" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SiteOfferCardSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }

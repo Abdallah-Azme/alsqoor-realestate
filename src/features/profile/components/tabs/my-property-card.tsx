@@ -51,6 +51,7 @@ const MyPropertyCard = ({
   const t = useTranslations("Profile");
   const tCommon = useTranslations("marketplace");
   const tProps = useTranslations("properties");
+  const tEstate = useTranslations("estate_card");
 
   const deleteMutation = useDeleteRealEstateProperty();
   const reactivateMutation = useReactivateProperty();
@@ -136,13 +137,13 @@ const MyPropertyCard = ({
           {/* Serious Request / Featured Badge */}
           {(property.is_featured || property.isFeatured) && (
             <div className="absolute bottom-3 end-3 bg-main-navy text-white text-xs px-3 py-1 rounded-md font-medium shadow-md">
-              {t("featured_label") || "Featured"}
+              {t("featured_label")}
             </div>
           )}
 
           {/* Area Badge */}
           <div className="absolute top-3 start-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-main-navy shadow-sm dir-ltr">
-            {property.area}م²
+            {property.area} {tEstate("sqm")}
           </div>
         </div>
 
@@ -154,7 +155,7 @@ const MyPropertyCard = ({
               <span>{formattedPrice}</span>
               <Image
                 src="/images/ryal.svg"
-                alt="SAR"
+                alt={tEstate("sar")}
                 width={14}
                 height={14}
                 className="w-3.5 h-3.5"
@@ -242,7 +243,7 @@ const MyPropertyCard = ({
             setDeleteConfirmOpen(true);
           }}
           className="absolute top-3 end-3 bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition-colors z-10"
-          title={t("delete") || "Delete"}
+          title={t("delete")}
         >
           <Trash2 size={16} />
         </button>
@@ -260,7 +261,7 @@ const MyPropertyCard = ({
               }}
               className="col-span-1 border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 h-auto rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
             >
-              {t("edit_data") || "تعديل البيانات"}
+              {t("edit_data")}
             </Button>
           ) : (
             <div
@@ -271,7 +272,7 @@ const MyPropertyCard = ({
                 isEdit
                 property={property as any}
                 triggerClassName="w-full border border-main-green text-main-green hover:bg-main-green hover:text-white font-medium py-2 rounded-lg transition-all text-sm text-center flex items-center justify-center gap-1.5"
-                buttonText={t("edit_data") || "تعديل البيانات"}
+                buttonText={t("edit_data")}
               />
             </div>
           )}
@@ -316,7 +317,7 @@ const MyPropertyCard = ({
               ) : (
                 <FiRefreshCw size={14} />
               )}
-              {t("reactivate") || "إعادة تفعيل"}
+              {t("reactivate")}
             </button>
           )}
         </div>
@@ -327,11 +328,10 @@ const MyPropertyCard = ({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-right">
-              {t("delete_property") || "حذف العقار"}
+              {t("delete_property")}
             </DialogTitle>
             <DialogDescription className="text-right pt-2">
-              {t("delete_confirm") ||
-                "هل أنت متأكد من رغبتك في حذف هذا العقار؟"}
+              {t("delete_confirm")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-row gap-3 justify-end sm:justify-end mt-4">
@@ -340,7 +340,7 @@ const MyPropertyCard = ({
               onClick={() => setDeleteConfirmOpen(false)}
               className="flex-1 sm:flex-none"
             >
-              {t("cancel") || "إلغاء"}
+              {t("cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -351,7 +351,7 @@ const MyPropertyCard = ({
               {deleteMutation.isPending && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              {t("delete") || "حذف"}
+              {t("delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

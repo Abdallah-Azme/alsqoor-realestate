@@ -140,7 +140,7 @@ const EstateCard = ({
           </button>
 
           {/* tags container */}
-          <div className="absolute top-4 end-4 z-10 flex flex-col gap-2 items-end">
+          <div className="absolute top-4 end-4 z-10 flex flex-col gap-2 ">
             {/* area */}
             {displayData.area && (
               <div className="text-[.6rem] font-semibold w-fit bg-white p-2 rounded-md">

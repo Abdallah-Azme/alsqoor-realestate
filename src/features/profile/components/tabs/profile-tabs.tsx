@@ -6,14 +6,12 @@ import FinancialsTab from "./financials-tab";
 import PackagesTab from "./packages-tab";
 import BrokerPropertiesTab from "./broker-properties-tab";
 import OwnerPropertiesTab from "./owner-properties-tab";
-import OffersTab from "./offers-tab";
 import RealEstateTab from "./real-estate-tab";
 import MyRequestsTab from "./my-requests-tab";
 import MarketingOffersTab from "./marketing-offers-tab";
 import { MySiteOffersList } from "@/features/offers/property-offers-index";
 import { DirectDealsList } from "@/features/direct-deals";
 import { User } from "@/types";
-import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import AddAdvertisementDialog from "../dialogs/add-advertisement-dialog";
 import { useSearchParams } from "next/navigation";
@@ -43,17 +41,12 @@ const ProfileTabs = ({
   const tabs = [
     { value: "financials", label: t("financials") },
     { value: "statistics", label: t("statistics") },
-    { value: "real-estate", label: "عقارات" },
+    { value: "real-estate", label: t("real_estate_tab") },
     { value: "my-properties", label: t("my_ads") },
-    { value: "my-requests", label: t("my_requests") || "طلباتي" },
-    { value: "site-offers", label: t("my_offers") || "عروضي" },
-    { value: "marketing-offers", label: t("marketing_offers") || "عروض التسويق" },
-    // {
-    //   value: "my-offers",
-    //   label: t("my_offers_legacy") || "عروض العقارات",
-    // },
-    { value: "direct-deals", label: t("direct_deals") || "الصفقات المباشرة" },
-    // { value: "payment-methods", label: t("payment_methods") },
+    { value: "my-requests", label: t("my_requests") },
+    { value: "site-offers", label: t("my_offers") },
+    { value: "marketing-offers", label: t("marketing_offers") },
+    { value: "direct-deals", label: t("direct_deals") },
     { value: "packages", label: t("packages") },
   ];
 

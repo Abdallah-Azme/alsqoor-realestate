@@ -15,6 +15,7 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+  console.log("[FCM] Background message:", payload);
   const title = payload?.notification?.title || "New notification";
   const options = {
     body: payload?.notification?.body || "",

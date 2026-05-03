@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSearchProperties } from "@/features/properties/hooks/use-properties";
 import StatesCard from "@/components/shared/state-card";
-import { Loader2, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { FiPlus } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/shared/empty-state";
@@ -103,9 +103,16 @@ const AdsSearchListing = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 space-y-4">
-        <Loader2 className="h-10 w-10 animate-spin text-main-green" />
-        <p className="text-gray-500 font-medium">{tPage("loading")}</p>
+      <div className="space-y-8">
+        <div className="flex items-center justify-between gap-4">
+          <div className="h-5 w-52 max-w-[70%] animate-pulse rounded-md bg-gray-200" />
+          <div className="h-11 w-44 shrink-0 animate-pulse rounded-md bg-gray-200 max-sm:hidden" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 12 }, (_, i) => (
+            <StatesCard key={i} property={null} />
+          ))}
+        </div>
       </div>
     );
   }

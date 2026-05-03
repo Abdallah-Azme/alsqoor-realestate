@@ -71,12 +71,13 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="grid grid-cols-6 gap-2">
+        <div className="flex w-full flex-wrap justify-center gap-2">
           {images.map((image, index) => (
             <button
               key={index}
+              type="button"
               onClick={() => setCurrentIndex(index)}
-              className={`relative h-20 overflow-hidden rounded-md ${
+              className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-md ${
                 index === currentIndex ? "ring-2 ring-primary" : ""
               }`}
             >

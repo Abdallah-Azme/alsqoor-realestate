@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { UserContext } from "@/context/user-context";
 import { useSubmitOffer } from "../hooks/use-property-offers";
 import {
-  submitOfferSchema,
+  getSubmitOfferSchema,
   SubmitOfferFormData,
 } from "../schemas/offer.schema";
 import {
@@ -38,8 +40,20 @@ export function SubmitOfferDialog({
 }: SubmitOfferDialogProps) {
   const t = useTranslations("offers");
   const locale = useLocale();
+  const router = useRouter();
+  const userCtx = useContext(UserContext);
+  const user = userCtx?.user ?? null;
+  const authLoading = userCtx?.loading ?? true;
   const isRtl = locale === "ar";
   const { mutate: submitOffer, isPending } = useSubmitOffer();
+
+  useLayoutEffect(() => {
+    if (!open || authLoading) return;
+    if (user) return;
+    onOpenChange(false);
+    toast.info(t("login_to_submit_offer"));
+    router.push("/auth/login");
+  }, [open, authLoading, user, onOpenChange, router, t]);
 
   const {
     register,
@@ -47,7 +61,7 @@ export function SubmitOfferDialog({
     formState: { errors },
     reset,
   } = useForm<SubmitOfferFormData>({
-    resolver: zodResolver(submitOfferSchema),
+    resolver: zodResolver(getSubmitOfferSchema(t)),
     defaultValues: {
       property_new_id: propertyId,
       offer_details: "",
@@ -120,7 +134,7 @@ export function SubmitOfferDialog({
             </p>
           </div>
 
-          <div className={cn("flex gap-4", isRtl ? "flex-row-reverse" : "flex-row", "justify-end")}>
+          <div className={cn("flex gap-4",  )}>
             <Button
               type="button"
               variant="outline"

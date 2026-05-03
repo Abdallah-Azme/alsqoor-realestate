@@ -16,7 +16,7 @@ export default function BlogCard({ item }: BlogCardProps) {
         <div className="relative h-48 w-full">
           <Image
             src={item.image}
-            alt={item.title}
+            alt={item.title?.trim() || "Blog post cover image"}
             fill
             className="object-cover"
           />

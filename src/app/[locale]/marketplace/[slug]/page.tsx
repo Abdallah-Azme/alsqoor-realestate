@@ -17,12 +17,14 @@ import {
   User,
   Building2,
   CheckCircle2,
+  MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PropertyChat from "@/components/estates/property-chat";
 import PropertyLocationMap from "@/components/estates/property-location-map";
 import PropertyGallery from "@/components/estates/property-gallery";
 import { StartMarketingDialog } from "@/features/marketplace/components/start-marketing-dialog";
+import { SubmitOfferDialog } from "@/features/offers/property-offers-index";
 import { useState } from "react";
 
 const MarketplacePropertyDetailPage = () => {
@@ -31,7 +33,9 @@ const MarketplacePropertyDetailPage = () => {
   const t = useTranslations("properties");
   const tBreadcrumbs = useTranslations("breadcrumbs");
   const tMarket = useTranslations("marketplace");
+  const tOffers = useTranslations("offers");
   const [isMarketingDialogOpen, setIsMarketingDialogOpen] = useState(false);
+  const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
 
   // Safe label lookup for transaction/property types that come from the API
   const typeLabels: Record<string, string> = {
@@ -247,9 +251,31 @@ const MarketplacePropertyDetailPage = () => {
           </div>
         </div>
 
-        {/* Right Column: User Info and Actions */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-sm space-y-6 sticky top-24">
+        {/* Right Column: Submit offer + user info and actions */}
+        <div className="sticky top-24 space-y-6">
+          <div className="rounded-3xl border border-primary/10 bg-white p-8 shadow-lg shadow-gray-200/50 ring-1 ring-gray-100">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="p-3 bg-primary/10 rounded-2xl">
+                <MessageSquare className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">
+                {tOffers("submit_offer")}
+              </h3>
+            </div>
+            <p className="mb-8 text-sm text-gray-500 leading-relaxed">
+              {tOffers("submit_offer_description")}
+            </p>
+            <Button
+              type="button"
+              onClick={() => setIsOfferDialogOpen(true)}
+              className="w-full h-14 text-base font-bold shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-all active:scale-95 bg-primary text-white rounded-2xl"
+              size="lg"
+            >
+              {tOffers("submit_offer")}
+            </Button>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-sm space-y-6">
             <h3 className="text-lg font-bold text-main-navy border-b pb-4 border-gray-100">
               {t("contact_info") || "معلومات الاتصال"}
             </h3>
@@ -272,7 +298,7 @@ const MarketplacePropertyDetailPage = () => {
               </div>
             </div>
 
-            <div className="space-y-3 pt-4">
+            {/* <div className="space-y-3 pt-4">
               <Button
                 className="w-full bg-main-green hover:bg-main-green/90 h-12 text-md font-bold"
                 onClick={() => setIsMarketingDialogOpen(true)}
@@ -285,7 +311,7 @@ const MarketplacePropertyDetailPage = () => {
               >
                 {t("contact_owner") || "تواصل مع المعلن"}
               </Button>
-            </div>
+            </div> */}
 
             {property.totalUnits && (
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
@@ -322,6 +348,13 @@ const MarketplacePropertyDetailPage = () => {
         commissionPercentage={property.commissionPercentage}
         open={isMarketingDialogOpen}
         onOpenChange={setIsMarketingDialogOpen}
+      />
+
+      <SubmitOfferDialog
+        open={isOfferDialogOpen}
+        onOpenChange={setIsOfferDialogOpen}
+        propertyId={property.id}
+        propertyTitle={property.title}
       />
     </main>
   );

@@ -56,7 +56,8 @@ export function AgentRegistrationForm() {
     },
   });
 
-  const inputStyle = "w-full !h-14 rounded-none rounded-s-lg";
+  const inputStyle =
+    "w-full !h-14 rounded-none rounded-s-lg border-gray-200 focus:border-main-green bg-transparent";
 
   function onSubmit(values: AgentRegistrationFormData) {
     register(values);
@@ -67,7 +68,7 @@ export function AgentRegistrationForm() {
       <form
         dir={locale === "ar" ? "rtl" : "ltr"}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:p-10 p-8 border border-main-gray rounded-lg w-full"
+        className="w-full"
       >
         <div className="space-y-6 w-full">
           <CommonFields form={form} t={t} />
@@ -193,7 +194,7 @@ export function AgentRegistrationForm() {
                     <PhoneInput
                       {...field}
                       defaultCountry="sa"
-                      inputClassName={`${inputStyle} w-full`}
+                      inputClassName={`${inputStyle} w-full !border-gray-200 focus:!border-main-green !bg-transparent`}
                       className={`${inputStyle} w-full`}
                     />
                   </FormControl>
@@ -213,7 +214,7 @@ export function AgentRegistrationForm() {
                     <PhoneInput
                       {...field}
                       defaultCountry="sa"
-                      inputClassName={`${inputStyle} w-full`}
+                      inputClassName={`${inputStyle} w-full !border-gray-200 focus:!border-main-green !bg-transparent`}
                       className={`${inputStyle} w-full`}
                     />
                   </FormControl>
@@ -275,14 +276,14 @@ export function AgentRegistrationForm() {
             <Button
               disabled={isPending}
               type="submit"
-              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:px-8! p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
+              className="h-14 bg-main-green hover:bg-main-green/90 text-white px-10 rounded-xl md:rounded-tr-3xl md:rounded-bl-3xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-main-green/20 font-bold text-lg"
             >
-              {isPending ? (
-                <Loader2 size={20} className="animate-spin" />
-              ) : (
-                <FaLongArrowAltRight size={20} />
-              )}
               <p>{t("submit_button")}</p>
+              {isPending ? (
+                <Loader2 size={22} className="animate-spin" />
+              ) : (
+                <FaLongArrowAltRight size={22} className="rotate-180" />
+              )}
             </Button>
             <div className="text-main-navy text-sm flex items-center gap-1">
               <p>{t("already_have_account")}</p>

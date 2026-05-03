@@ -13,16 +13,19 @@ export const offersFilterSchema = z.object({
 
 export type OffersFilterData = z.infer<typeof offersFilterSchema>;
 
-// Property Offers Schema
-export const submitOfferSchema = z.object({
-  property_new_id: z.number().int().positive("Property ID is required"),
-  offer_details: z
-    .string()
-    .min(10, "Offer details must be at least 10 characters")
-    .max(1000, "Offer details must not exceed 1000 characters"),
-});
+// Property Offers Schema (messages from `offers` namespace via next-intl)
+export const getSubmitOfferSchema = (t: (key: string) => string) =>
+  z.object({
+    property_new_id: z.number().int().positive(t("property_id_required")),
+    offer_details: z
+      .string()
+      .min(10, t("offer_details_min"))
+      .max(1000, t("offer_details_max")),
+  });
 
-export type SubmitOfferFormData = z.infer<typeof submitOfferSchema>;
+export type SubmitOfferFormData = z.infer<
+  ReturnType<typeof getSubmitOfferSchema>
+>;
 
 // Site Offer Creation Schema
 export const getCreateSiteOfferSchema = (t: any) =>

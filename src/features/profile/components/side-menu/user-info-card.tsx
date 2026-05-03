@@ -36,7 +36,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
       return;
     }
 
-    const toastId = toast.loading(t("updating") || "Updating...");
+    const toastId = toast.loading(t("updating"));
 
     updateProfile(
       {
@@ -47,7 +47,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
       },
       {
         onSuccess: async () => {
-          toast.success(t("updated_successfully") || "Updated successfully", {
+          toast.success(t("updated_successfully"), {
             id: toastId,
           });
           if (fetchUserProfile) {
@@ -83,7 +83,7 @@ const UserInfoCard = ({ user }: UserInfoCardProps) => {
           <div className="size-24 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
             <Image
               src={user.avatar || "/images/avatar-placeholder.svg"}
-              alt={user.name}
+              alt={user.name?.trim() || t("profile_photo_alt")}
               width={96}
               height={96}
               className={`object-cover w-full h-full ${isPending ? "opacity-50" : ""}`}

@@ -18,9 +18,10 @@ export async function generateMetadata({
 const TermsConditionsPage = async () => {
   const t = await getTranslations("Footer");
   const settings = await settingsService.getSettings();
-  const content = settings?.data?.content?.termsConditions || "";
+   const content = settings?.data?.content?.termsConditions || "";
 
-  return (
+
+   return (
     <StaticPageContent
       title={t("terms_conditions")}
       content={content}

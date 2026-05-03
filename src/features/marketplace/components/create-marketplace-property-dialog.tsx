@@ -850,9 +850,12 @@ export const CreateMarketplacePropertyDialog = ({
           </Button>
         )
       )}
-      <DialogContent dir={isRtl ? "rtl" : "ltr"} className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        dir={isRtl ? "rtl" : "ltr"}
+        className="max-w-2xl max-h-[90vh] overflow-y-auto text-start"
+      >
         <DialogHeader>
-          <DialogTitle className={isRtl ? "text-right" : "text-left"}>
+          <DialogTitle  >
             {isEdit
               ? tMarket("update_property")
               : tMarket("add_property_title")}
@@ -866,7 +869,7 @@ export const CreateMarketplacePropertyDialog = ({
             <input type="hidden" name="role" value={role} />
 
             <div className="grid grid-cols-2 gap-4">
-              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-2  `}>
                 <Label htmlFor="title">{tMarket("title_label")} *</Label>
                 <Input
                   id="title"
@@ -874,11 +877,10 @@ export const CreateMarketplacePropertyDialog = ({
                   required={step === 1}
                   defaultValue={property?.title || ""}
                   placeholder={tMarket("title_placeholder")}
-                  className={isRtl ? "text-right" : "text-left"}
-                />
+                 />
               </div>
 
-              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-2  `}>
                 <Label htmlFor="area">{tMarket("area_label")} *</Label>
                 <Input
                   id="area"
@@ -887,11 +889,10 @@ export const CreateMarketplacePropertyDialog = ({
                   required={step === 1}
                   defaultValue={property?.area || ""}
                   placeholder={tMarket("area_placeholder")}
-                  className={isRtl ? "text-right" : "text-left"}
-                />
+                 />
               </div>
 
-              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-2  `}>
                 <Label htmlFor="building_area">{tMarket("building_area_label")} *</Label>
                 <Input
                   id="building_area"
@@ -900,13 +901,12 @@ export const CreateMarketplacePropertyDialog = ({
                   required={step === 1}
                   defaultValue={(property as any)?.buildingArea || ""}
                   placeholder={tMarket("building_area_placeholder")}
-                  className={isRtl ? "text-right" : "text-left"}
-                />
+                 />
               </div>
 
               {/* HIDDEN: Country select — always Saudi Arabia (country_id = 2) sent to backend */}
 
-              <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-2  `}>
                 <Label htmlFor="city_id">{t("city")} *</Label>
                 <Select
                   name="city_id"
@@ -914,7 +914,7 @@ export const CreateMarketplacePropertyDialog = ({
                   onValueChange={handleCityChange}
                   disabled={!countryId || loadingCities}
                 >
-                  <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
+                  <SelectTrigger  >
                     <SelectValue
                       placeholder={t("select_city")}
                     />
@@ -929,7 +929,7 @@ export const CreateMarketplacePropertyDialog = ({
                 </Select>
               </div>
 
-              <div className={`space-y-2 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-2 col-span-2  `}>
                 <Label htmlFor="district">{tMarket("district_label")}</Label>
                 <Input
                   id="district"
@@ -937,11 +937,10 @@ export const CreateMarketplacePropertyDialog = ({
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
                   placeholder={tMarket("district_placeholder")}
-                  className={isRtl ? "text-right" : "text-left"}
-                />
+                 />
               </div>
 
-              <div className={`space-y-4 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-4 col-span-2  `}>
                 <Label>{tMarket("images_label")}</Label>
                 <FileUploader
                   value={images}
@@ -954,7 +953,7 @@ export const CreateMarketplacePropertyDialog = ({
                 />
               </div>
 
-              <div className={`space-y-4 col-span-2 ${isRtl ? "text-right" : "text-left"}`}>
+              <div className={`space-y-4 col-span-2  `}>
                 <Label>{tMarket("videos_label")}</Label>
                 <FileUploader
                   value={videos}
@@ -968,7 +967,7 @@ export const CreateMarketplacePropertyDialog = ({
               </div>
             </div>
 
-            <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+            <div className={`space-y-2  `}>
               <Label htmlFor="description">
                 {tMarket("description_label")} *
               </Label>
@@ -978,12 +977,11 @@ export const CreateMarketplacePropertyDialog = ({
                 required={step === 1}
                 defaultValue={property?.description || ""}
                 placeholder={tMarket("description_placeholder")}
-                className={isRtl ? "text-right" : "text-left"}
-              />
+               />
             </div>
 
             {/* ── Map location picker ─────────────────────────────── */}
-            <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+            <div className={`space-y-2 `}>
               <Label className="flex items-center gap-1">
                 {tMarket("location_label")}
                 <span className="text-xs text-gray-400 font-normal ms-1">
@@ -1000,7 +998,7 @@ export const CreateMarketplacePropertyDialog = ({
               />
             </div>
 
-            <div className={`flex ${isRtl ? "justify-start" : "justify-end"} pt-4`}>
+            <div className="flex justify-end pt-4">
               <Button type="submit">{tCommon("next")}</Button>
             </div>
           </div>
@@ -1010,7 +1008,7 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Owner & Agent Fields */}
             {(role === "owner" || role === "agent") && (
               <div className="grid grid-cols-2 gap-4">
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2  `}>
                   <Label htmlFor="price">{tMarket("price_label")} *</Label>
                   <Input
                     id="price"
@@ -1018,11 +1016,10 @@ export const CreateMarketplacePropertyDialog = ({
                     type="number"
                     required={step === 2}
                     defaultValue={property?.price || ""}
-                    className={isRtl ? "text-right" : "text-left"}
-                  />
+                   />
                 </div>
 
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2 `}>
                   <Label htmlFor="transaction_type">
                     {tMarket("transaction_type_label")} *
                   </Label>
@@ -1030,7 +1027,7 @@ export const CreateMarketplacePropertyDialog = ({
                     name="transaction_type"
                     defaultValue={property?.transactionType || "buy"}
                   >
-                    <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
+                    <SelectTrigger  >
                       <SelectValue
                         placeholder={t("select_transaction_type")}
                       />
@@ -1049,17 +1046,16 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Agent Specific Fields */}
             {role === "agent" && (
               <div className="grid grid-cols-2 gap-4">
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2  `}>
                   <Label htmlFor="rooms">{tMarket("rooms_label")}</Label>
                   <Input
                     id="rooms"
                     name="rooms"
                     type="number"
                     defaultValue={property?.rooms || ""}
-                    className={isRtl ? "text-right" : "text-left"}
-                  />
+                   />
                 </div>
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2  `}>
                   <Label htmlFor="commission_percentage">
                     {tMarket("commission_percentage_label")} *
                   </Label>
@@ -1073,8 +1069,7 @@ export const CreateMarketplacePropertyDialog = ({
                       e.currentTarget.value = e.currentTarget.value.replace(",", ".");
                     }}
                     required={step === 2 && role === "agent"}
-                    className={isRtl ? "text-right" : "text-left"}
-                  />
+                   />
                 </div>
               </div>
             )}
@@ -1082,17 +1077,16 @@ export const CreateMarketplacePropertyDialog = ({
             {/* Owner Extra Fields (matching body) */}
             {role === "owner" && (
               <div className="grid grid-cols-2 gap-4">
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2  `}>
                   <Label htmlFor="rooms">{tMarket("rooms_label")}</Label>
                   <Input
                     id="rooms"
                     name="rooms"
                     type="number"
                     defaultValue={property?.rooms || ""}
-                    className={isRtl ? "text-right" : "text-left"}
-                  />
+                   />
                 </div>
-                <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                <div className={`space-y-2  `}>
                   <Label htmlFor="property_type">
                     {tMarket("property_type_label")}
                   </Label>
@@ -1100,7 +1094,7 @@ export const CreateMarketplacePropertyDialog = ({
                     name="property_type"
                     defaultValue={initialPropertyType}
                   >
-                    <SelectTrigger id="property_type" className={isRtl ? "text-right" : "text-left"}>
+                    <SelectTrigger id="property_type"  >
                       <SelectValue
                         placeholder={t("select_property_type")}
                       />
@@ -1140,7 +1134,7 @@ export const CreateMarketplacePropertyDialog = ({
             {role === "developer" && (
               <>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <div className={`space-y-2 `}>
                     <Label htmlFor="property_type">
                       {tMarket("property_type_label")} *
                     </Label>
@@ -1148,7 +1142,7 @@ export const CreateMarketplacePropertyDialog = ({
                       name="property_type"
                       defaultValue={initialPropertyType}
                     >
-                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
+                      <SelectTrigger  >
                         <SelectValue
                           placeholder={t("select_property_type")}
                         />
@@ -1181,7 +1175,7 @@ export const CreateMarketplacePropertyDialog = ({
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <div className={`space-y-2  `}>
                     <Label htmlFor="starting_price">
                       {tMarket("starting_price_label")} *
                     </Label>
@@ -1191,13 +1185,12 @@ export const CreateMarketplacePropertyDialog = ({
                       type="number"
                       defaultValue={property?.startingPrice || ""}
                       required={step === 2 && role === "developer"}
-                      className={isRtl ? "text-right" : "text-left"}
-                    />
+                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <div className={`space-y-2 `}>
                     <Label htmlFor="total_units">{tMarket("total_units_label")} *</Label>
                     <Input
                       id="total_units"
@@ -1205,10 +1198,9 @@ export const CreateMarketplacePropertyDialog = ({
                       type="number"
                       defaultValue={property?.totalUnits || ""}
                       required={step === 2 && role === "developer"}
-                      className={isRtl ? "text-right" : "text-left"}
-                    />
+                     />
                   </div>
-                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <div className={`space-y-2 `}>
                     <Label htmlFor="dev_commission_percentage">
                       {tMarket("commission_percentage_label")} *
                     </Label>
@@ -1222,10 +1214,9 @@ export const CreateMarketplacePropertyDialog = ({
                         e.currentTarget.value = e.currentTarget.value.replace(",", ".");
                       }}
                       required={step === 2 && role === "developer"}
-                      className={isRtl ? "text-right" : "text-left"}
-                    />
+                     />
                   </div>
-                  <div className={`space-y-2 ${isRtl ? "text-right" : "text-left"}`}>
+                  <div className={`space-y-2  `}>
                     <Label htmlFor="commission_from">
                       {tMarket("commission_from_label")} *
                     </Label>
@@ -1233,7 +1224,7 @@ export const CreateMarketplacePropertyDialog = ({
                       name="commission_from"
                       defaultValue={property?.commissionFrom || "owner"}
                     >
-                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
+                      <SelectTrigger>
                         <SelectValue
                           placeholder={t("select_source")}
                         />
@@ -1262,7 +1253,9 @@ export const CreateMarketplacePropertyDialog = ({
                 {tCommon("previous")}
               </Button>
               <Button type="submit" disabled={isPending || isSubmitting}>
-                {(isPending || isSubmitting) && <Loader2 className={`${isRtl ? "ml-2" : "mr-2"} h-4 w-4 animate-spin`} />}
+                {(isPending || isSubmitting) && (
+                  <Loader2 className="me-2 h-4 w-4 animate-spin" />
+                )}
                 {isEdit
                   ? t("update_real_estate")
                   : t("submit_property")}

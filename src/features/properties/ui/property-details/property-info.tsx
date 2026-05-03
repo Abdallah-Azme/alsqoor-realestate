@@ -78,7 +78,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
             {property.title}
           </h1>
           {property.location && (
-            <div className={cn("flex items-center gap-1.5 text-muted-foreground", isRtl ? "flex-row-reverse" : "flex-row")}>
+            <div className={cn("flex items-center gap-1.5 text-muted-foreground", )}>
               <MapPin className="h-4 w-4 text-primary/70" />
               <span className="text-sm">{property.location}</span>
             </div>
@@ -86,7 +86,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
         </div>
 
         {price && (
-          <div className={cn("flex flex-col bg-primary/5 p-4 rounded-xl border border-primary/10", isRtl ? "items-end" : "items-start md:items-end")}>
+          <div className={cn("flex flex-col bg-primary/5 p-4 rounded-xl border border-primary/10",)}>
             <p className="text-sm font-medium text-primary/70 mb-1">
               {t("price")}
             </p>
@@ -179,7 +179,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
           {/* Description */}
           {property.description && (
             <div className="space-y-4">
-              <h3 className={cn("text-xl font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+              <h3 className={cn("text-xl font-bold flex items-center gap-2")}>
                 <FileText className="h-5 w-5 text-primary" />
                 {t("description")}
               </h3>
@@ -194,12 +194,12 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
           {/* Amenities */}
           {property.amenities && property.amenities.length > 0 && (
             <div className="space-y-4">
-              <h3 className={cn("text-xl font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+              <h3 className={cn("text-xl font-bold flex items-center gap-2",)}>
                 <Sparkles className="h-5 w-5 text-primary" />
                 {t("amenities")}
               </h3>
               <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                <div className={cn("flex flex-wrap gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+                <div className={cn("flex flex-wrap gap-2")}>
                   {property.amenities.map((amenity) => (
                     <Badge
                       key={amenity.id}
@@ -219,14 +219,14 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
         <div className="space-y-8">
           {/* Property Details */}
           <div className="space-y-4">
-            <h3 className={cn("text-xl font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+            <h3 className={cn("text-xl font-bold flex items-center gap-2",)}>
               <Home className="h-5 w-5 text-primary" />
               {t("property_details")}
             </h3>
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {(property.property_use || property.propertyUse) && (
-                  <div className={cn("flex flex-col gap-1", isRtl ? "text-right" : "text-left")}>
+                  <div className={cn("flex flex-col gap-1",)}>
                     <dt className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
                       {t("property_use_label")}
                     </dt>
@@ -238,7 +238,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
                   </div>
                 )}
                 {(property.finishing_type || property.finishingType) && (
-                  <div className={cn("flex flex-col gap-1", isRtl ? "text-right" : "text-left")}>
+                  <div className={cn("flex flex-col gap-1", )}>
                     <dt className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
                       {t("finishing_type_label")}
                     </dt>
@@ -250,7 +250,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
                   </div>
                 )}
                 {property.facade && (
-                  <div className={cn("flex flex-col gap-1", isRtl ? "text-right" : "text-left")}>
+                  <div className={cn("flex flex-col gap-1",  )}>
                     <dt className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
                       {t("facade.label")}
                     </dt>
@@ -298,14 +298,14 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
             property.has_mortgage ||
             property.has_restriction) && (
             <div className="space-y-4">
-              <h3 className={cn("text-xl font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+              <h3 className={cn("text-xl font-bold flex items-center gap-2", )}>
                 <Shield className="h-5 w-5 text-primary" />
                 {t("legal_info")}
               </h3>
               <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                 <div className="space-y-4">
                   {(property.license_number || property.licenseNumber) && (
-                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", isRtl ? "flex-row-reverse" : "flex-row")}>
+                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", )}>
                       <span className="text-sm text-muted-foreground flex items-center gap-2">
                         <FileText className="h-4 w-4" />
                         {t("license_number")}
@@ -317,7 +317,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
                   )}
                   {(property.has_mortgage !== undefined ||
                     property.hasMortgage !== undefined) && (
-                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", isRtl ? "flex-row-reverse" : "flex-row")}>
+                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", )}>
                       <span className="text-sm text-muted-foreground">
                         {t("has_mortgage")}
                       </span>
@@ -337,7 +337,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
                   )}
                   {(property.has_restriction !== undefined ||
                     property.hasRestriction !== undefined) && (
-                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", isRtl ? "flex-row-reverse" : "flex-row")}>
+                    <div className={cn("flex items-center justify-between py-2 border-b border-gray-50", )}>
                       <span className="text-sm text-muted-foreground">
                         {t("has_restriction")}
                       </span>
@@ -365,7 +365,7 @@ export function PropertyInfo({ property }: PropertyInfoProps) {
       {/* Location Map */}
       {(property.latitude || property.longitude) && (
         <div className="space-y-4 mt-8">
-          <h3 className={cn("text-xl font-bold flex items-center gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <h3 className={cn("text-xl font-bold flex items-center gap-2", )}>
             <MapPin className="h-5 w-5 text-primary" />
             {t("location_title")}
           </h3>

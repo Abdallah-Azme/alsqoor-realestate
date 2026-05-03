@@ -55,7 +55,7 @@ const MyPropertiesTab = ({
   if (error) {
     return (
       <div className="py-12 text-center text-red-500 bg-white rounded-xl border border-gray-200">
-        {t("error_loading") || "Failed to load properties"}
+        {t("load_properties_failed")}
       </div>
     );
   }
@@ -101,10 +101,7 @@ const MyPropertiesTab = ({
       ) : (
         <EmptyState
           title={t("no_properties")}
-          description={
-            t("no_properties_description") ||
-            "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."
-          }
+          description={t("no_ads_empty_description")}
           buttonText={t("add_new_ad")}
           onAction={onAddProperty}
         />

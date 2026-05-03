@@ -42,7 +42,7 @@ const ServicesSection = ({ coreValues = [] }: { coreValues: any[] }) => {
   if (frontValues.length === 0) return null;
 
   return (
-    <section className="bg-main-light-gray py-8 border-y border-gray-100 overflow-hidden">
+    <section className="py-8 overflow-hidden">
       <div className="container">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Always render 4 slots */}

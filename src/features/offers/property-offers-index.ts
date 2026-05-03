@@ -24,7 +24,7 @@ export type {
 } from "./types/offer.types";
 
 // Export schemas
-export { submitOfferSchema } from "./schemas/offer.schema";
+export { getSubmitOfferSchema } from "./schemas/offer.schema";
 export type { SubmitOfferFormData } from "./schemas/offer.schema";
 
 // Export services

@@ -251,6 +251,7 @@
     }
   },
   "auth_layout": {
+    "hero_image_alt": "شخص يتصفح العقارات أمام أفق مدينة",
     "personalized_experience": "تجربة مخصصة",
     "selected_properties": "عقارات مختارة",
     "trusted_partners": "شركاء موثوقون",
@@ -268,8 +269,8 @@
     "forgot_password": "نسيت كلمة المرور؟",
     "submit_button": "تسجيل الدخول",
     "nafath_platform": "من خلال المنصة",
-    "nafath_login": "تسجيل الدخول من خلال نفاذ",
-    "nafath_redirecting": "جاري التسجيل من خلال نفاذ",
+    "nafath_login": "من خلال نفاذ الوطني",
+    "nafath_redirecting": "جاري التسجيل من خلال نفاذ الوطني",
     "nafath_error": "حدث خطأ في الاتصال بنفاذ",
     "nafath_description": "يرجى إدخال رقم الهوية الوطنية أو رقم الإقامة للمتابعة",
     "id_number_label": "رقم الهوية / الإقامة",
@@ -441,11 +442,70 @@
     "package_2": "الباقة الثانية",
     "package_3": "الباقة الثالثة",
     "saudi_arabia": "المملكة العربية السعودية",
+    "real_estate_tab": "العقارات",
+    "profile_photo_alt": "صورة الملف الشخصي",
+    "load_properties_failed": "تعذّر تحميل العقارات.",
+    "no_ads_empty_description": "ابدأ بإضافة إعلانك الأول بسهولة عبر الزر أدناه.",
+    "no_transactions_yet": "لا توجد معاملات بعد",
+    "errors": {
+      "unsupported_image": "صيغة الصورة غير مدعومة."
+    },
     "k_suffix": "ألف",
     "currency": "ر.س",
     "popular_badge": "الأكثر طلباً",
     "under_review": "قيد المراجعة",
     "direct_deals": "الصفقات المباشرة",
+    "change_role": {
+      "title": "تغيير نوع الحساب",
+      "description": "اختر كيف تريد استخدام المنصة. بعض الأدوار تتطلب بيانات ترخيص فال.",
+      "select_role": "اختر الدور",
+      "fal_data": "بيانات ترخيص فال",
+      "has_fal": "هل لديك ترخيص فال؟",
+      "fal_number": "رقم فال",
+      "fal_number_placeholder": "أدخل رقم فال",
+      "fal_expiry": "تاريخ انتهاء فال",
+      "has_ad_license": "هل لديك ترخيص إعلاني؟",
+      "fal_license_doc": "وثيقة ترخيص فال",
+      "click_to_upload": "انقر للرفع",
+      "upload_types": "PDF أو JPG أو PNG",
+      "agent_type": "نوع الوسيط",
+      "developer_data": "بيانات المطوّر",
+      "commercial_register": "السجل التجاري",
+      "commercial_register_placeholder": "أدخل رقم السجل التجاري",
+      "company_name": "اسم الشركة",
+      "optional": "(اختياري)",
+      "company_name_placeholder": "اسم الشركة",
+      "saving": "جاري الحفظ...",
+      "confirm_change": "تأكيد التغيير",
+      "success": "تم تحديث الدور بنجاح",
+      "roles": {
+        "seeker": {
+          "label": "باحث عن عقار",
+          "description": "تصفح الطلبات والعقارات كمستخدم"
+        },
+        "owner": {
+          "label": "مالك عقار",
+          "description": "أعرض عقاراتك للبيع أو الإيجار"
+        },
+        "agent": {
+          "label": "وسيط عقاري",
+          "description": "اعرض العقارات وتواصل مع العملاء"
+        },
+        "developer": {
+          "label": "مطوّر عقاري",
+          "description": "أدر مشاريعك العقارية"
+        }
+      },
+      "agent_types": {
+        "individual": "فرد",
+        "office": "مكتب"
+      }
+    },
+    "renew_fal": {
+      "title": "تجديد ترخيص فال",
+      "description": "حدّث رقم فال وتاريخ الانتهاء وارفع وثيقة الترخيص الجديدة.",
+      "success": "تم تجديد ترخيص فال بنجاح"
+    },
     "my_requests": "طلباتي"
   },
   "Navbar": {
@@ -582,11 +642,15 @@
     "offer_details": "تفاصيل العرض",
     "offer_details_placeholder": "اكتب تفاصيل عرضك هنا... (على الأقل 10 أحرف)",
     "offer_details_hint": "يرجى تقديم تفاصيل واضحة عن عرضك",
+    "offer_details_min": "يجب أن تتكون تفاصيل العرض من 10 أحرف على الأقل",
+    "offer_details_max": "يجب ألا تتجاوز تفاصيل العرض 1000 حرفًا",
+    "property_id_required": "معرّف العقار مطلوب",
     "to": "إلى",
     "from": "من",
     "cancel": "إلغاء",
     "submit": "إرسال",
     "validation_error": "يرجى تصحيح الأخطاء",
+    "login_to_submit_offer": "يرجى تسجيل الدخول لتقديم عرض.",
     "error_loading": "فشل في تحميل العروض",
     "no_offers": "لا توجد عروض",
     "no_sent_offers": "لم ترسل أي عروض بعد",
@@ -608,6 +672,7 @@
     "filters": {
       "all": "الكل"
     },
+    "sar": "ر.س",
     "messages": {
       "submit_success": "تم إرسال العرض بنجاح",
       "accept_success": "تم قبول العرض بنجاح",
@@ -1232,6 +1297,8 @@
       "step_1": "طلب عرض تسويقي",
       "step_2": "تحديد تفاصيل التسويق",
       "step_3": "المراجعة والتأكيد",
+      "step_4": "مراجعة المالك لعرضك والرد عليك",
+      "step_5": "التنسيق والمتابعة بعد القبول",
       "commission_note": "العمولة: {percentage}%",
       "offer_details": "تفاصيل العرض",
       "offer_details_placeholder": "صف كيف ستقوم بتسويق هذا العقار...",
@@ -1976,6 +2043,7 @@
     "no_properties": "لا توجد عقارات متاحة",
     "sqm": "م²",
     "per_sqm": "لكل م²",
+    "sar": "ر.س",
     "price": "السعر",
     "key_features": "المميزات الرئيسية",
     "age": "عمر العقار",

@@ -30,15 +30,26 @@ export function useFirebaseNotifications() {
         await Notification.requestPermission();
       }
 
-      if (Notification.permission !== "granted") return;
+      if (Notification.permission !== "granted") {
+        console.log("[FCM] Notification permission:", Notification.permission);
+        return;
+      }
 
       const token = await requestFirebaseMessagingToken();
-      if (!token) return;
+      if (!token) {
+        console.warn("[FCM] setupNotifications: no token");
+        return;
+      }
 
       const savedToken = localStorage.getItem(SAVED_FCM_TOKEN_KEY);
       if (savedToken !== token) {
-        await authService.updateFcmToken({ fcm_token: token }).catch(() => null);
+        console.log("[FCM] Syncing new token to server");
+        await authService.updateFcmToken({ fcm_token: token }).catch((err) => {
+          console.error("[FCM] updateFcmToken failed", err);
+        });
         localStorage.setItem(SAVED_FCM_TOKEN_KEY, token);
+      } else {
+        console.log("[FCM] Token unchanged, skipping API sync");
       }
 
       if (!isSubscribedToForeground) {

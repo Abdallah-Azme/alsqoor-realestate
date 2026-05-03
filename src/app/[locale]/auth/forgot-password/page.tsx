@@ -1,6 +1,4 @@
 import ForgetForm from "@/components/auth/forget-form";
-import CustomBreadcrumbs from "@/components/shared/custom-breadcrumbs";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }) {
@@ -16,9 +14,9 @@ const ForgetPasswordPage = async () => {
   const t = await getTranslations("forget-password");
   return (
     <>
-      <div className="space-y-2 mb-8">
-        <h1 className="text-4xl font-bold text-main-navy tracking-tight">{t("title")}</h1>
-        <p className="text-gray-500 text-lg">{t("description")}</p>
+      <div className="space-y-1 mb-6 md:mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-main-navy tracking-tight">{t("title")}</h1>
+        <p className="text-gray-500 text-sm md:text-lg">{t("description")}</p>
       </div>
       <ForgetForm />
     </>

@@ -1,31 +1,30 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { UserContext } from "@/context/user-context";
+import { Link, useRouter } from "@/i18n/navigation";
+import { api } from "@/lib/api-client";
+import { saveRefreshToken, setToken } from "@/services";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Building2, Home, Loader2, User, UserCheck } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useContext, useState } from "react";
-import { FaLongArrowAltRight, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { FaEye, FaEyeSlash, FaLongArrowAltRight } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
-import { Link, useRouter } from "@/i18n/navigation";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { api, ApiError } from "@/lib/api-client";
-import { setToken, saveRefreshToken } from "@/services";
-import { UserContext } from "@/context/user-context";
-import { Loader2, User, Home, UserCheck, Building2 } from "lucide-react";
 import { toast } from "sonner";
+import * as z from "zod";
 
 export function LoginForm() {
   const locale = useLocale();
@@ -146,7 +145,7 @@ export function LoginForm() {
               : "text-gray-300 hover:text-gray-400"
           }`}
         >
-          {t("submit_button")} {t("nafath_platform")}
+          {t("nafath_platform")}
           {mainTab === "platform" && (
             <div className="absolute bottom-0 left-0 right-0 h-0.5 md:h-1 bg-main-green rounded-full animate-in fade-in slide-in-from-bottom-1" />
           )}

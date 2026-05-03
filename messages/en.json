@@ -251,6 +251,7 @@
     }
   },
   "auth_layout": {
+    "hero_image_alt": "Person browsing property listings with a city skyline in the background",
     "personalized_experience": "Personalized Experience",
     "selected_properties": "Selected Properties",
     "trusted_partners": "Trusted Partners",
@@ -268,7 +269,7 @@
     "forgot_password": "Forgot your password?",
     "submit_button": "Login",
     "nafath_platform": "Via Platform",
-    "nafath_login": "Login via Nafath",
+    "nafath_login": "Via Nafath",
     "nafath_redirecting": "Signing in through Nafath",
     "nafath_error": "An error occurred while connecting to Nafath",
     "nafath_description": "Please enter your National ID or Iqama number to continue",
@@ -438,6 +439,14 @@
     "package_2": "Second Package",
     "package_3": "Third Package",
     "saudi_arabia": "Saudi Arabia",
+    "real_estate_tab": "Real Estate",
+    "profile_photo_alt": "Profile photo",
+    "load_properties_failed": "Failed to load properties.",
+    "no_ads_empty_description": "Add your first ad easily using the button below.",
+    "no_transactions_yet": "No transactions yet",
+    "errors": {
+      "unsupported_image": "This image format is not supported."
+    },
     "k_suffix": "k",
     "currency": "SAR",
     "my_offers": "My Offers",
@@ -445,8 +454,59 @@
     "popular_badge": "Most Popular",
     "direct_deals": "Direct Deals",
     "my_requests": "My Requests",
-    "no_properties_description": "بادر بإضافة عقارك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه.",
-    "my_offers_legacy": "عروض العقارات"
+    "no_properties_description": "Add your first property easily using the button below.",
+    "change_role": {
+      "title": "Change account role",
+      "description": "Choose how you use the platform. Some roles require FAL license details.",
+      "select_role": "Select role",
+      "fal_data": "FAL license details",
+      "has_fal": "Do you have a FAL license?",
+      "fal_number": "FAL number",
+      "fal_number_placeholder": "Enter FAL number",
+      "fal_expiry": "FAL expiry date",
+      "has_ad_license": "Do you have an advertising license?",
+      "fal_license_doc": "FAL license document",
+      "click_to_upload": "Click to upload",
+      "upload_types": "PDF, JPG or PNG",
+      "agent_type": "Agent type",
+      "developer_data": "Developer details",
+      "commercial_register": "Commercial registration number",
+      "commercial_register_placeholder": "Enter CR number",
+      "company_name": "Company name",
+      "optional": "(optional)",
+      "company_name_placeholder": "Company name",
+      "saving": "Saving...",
+      "confirm_change": "Confirm change",
+      "success": "Role updated successfully",
+      "roles": {
+        "seeker": {
+          "label": "Property seeker",
+          "description": "Browse listings and requests as a user"
+        },
+        "owner": {
+          "label": "Property owner",
+          "description": "List your properties for sale or rent"
+        },
+        "agent": {
+          "label": "Real estate agent",
+          "description": "Show properties and connect with clients"
+        },
+        "developer": {
+          "label": "Developer",
+          "description": "Manage your real estate projects"
+        }
+      },
+      "agent_types": {
+        "individual": "Individual",
+        "office": "Office"
+      }
+    },
+    "renew_fal": {
+      "title": "Renew FAL license",
+      "description": "Update your FAL number, expiry date, and upload a new license document.",
+      "success": "FAL license renewed successfully"
+    },
+    "my_offers_legacy": "Property listings offers"
   },
   "Navbar": {
     "address": "Main Address - Riyadh",
@@ -582,11 +642,15 @@
     "offer_details": "Offer Details",
     "offer_details_placeholder": "Write your offer details here... (at least 10 characters)",
     "offer_details_hint": "Please provide clear details about your offer",
+    "offer_details_min": "Offer details must be at least 10 characters",
+    "offer_details_max": "Offer details must not exceed 1000 characters",
+    "property_id_required": "Property ID is required",
     "to": "To",
     "from": "From",
     "cancel": "Cancel",
     "submit": "Submit",
     "validation_error": "Please correct the errors",
+    "login_to_submit_offer": "Please sign in to submit an offer.",
     "error_loading": "Failed to load offers",
     "no_offers": "No offers found",
     "no_sent_offers": "You haven't sent any offers yet",
@@ -608,6 +672,7 @@
     "filters": {
       "all": "All"
     },
+    "sar": "SAR",
     "messages": {
       "submit_success": "Offer submitted successfully",
       "accept_success": "Offer accepted successfully",
@@ -732,6 +797,7 @@
     "featured_description": "This property was selected as featured based on its quality and competitive price.",
     "sqm": "m²",
     "per_sqm": "per m²",
+    "sar": "SAR",
     "price": "Price",
     "key_features": "Key Features",
     "age": "Property Age",
@@ -1404,6 +1470,8 @@
       "step_1": "Marketing offer request",
       "step_2": "Specify marketing details",
       "step_3": "Review and confirm",
+      "step_4": "The property owner reviews your offer",
+      "step_5": "Coordinate and proceed once accepted",
       "commission_note": "Commission: {percentage}%",
       "offer_details": "Offer Details",
       "offer_details_placeholder": "Describe how you will market this property...",

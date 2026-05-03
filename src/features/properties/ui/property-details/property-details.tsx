@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   usePropertyBySlug,
   useSimilarProperties,
@@ -8,9 +7,7 @@ import {
 import { PropertyGallery } from "./property-gallery";
 import { PropertyInfo } from "./property-info";
 import { PropertyCard } from "../property-list/property-card";
-import { SubmitOfferDialog } from "@/features/offers/property-offers-index";
-import { Button } from "@/components/ui/button";
-import { Loader2, MessageSquare } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface PropertyDetailsProps {
@@ -19,11 +16,8 @@ interface PropertyDetailsProps {
 
 export function PropertyDetails({ slug }: PropertyDetailsProps) {
   const t = useTranslations("properties");
-  const tOffers = useTranslations("offers");
   const { data: property, isLoading, error } = usePropertyBySlug(slug);
   const { data: similarProperties } = useSimilarProperties(slug);
-  const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
-
 
    if (isLoading) {
     return (
@@ -65,28 +59,6 @@ export function PropertyDetails({ slug }: PropertyDetailsProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              {/* Submit Offer Button */}
-              <div className="rounded-3xl border border-primary/10 bg-white p-8 shadow-lg shadow-gray-200/50 ring-1 ring-gray-100">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-primary/10 rounded-2xl">
-                    <MessageSquare className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {tOffers("submit_offer")}
-                  </h3>
-                </div>
-                <p className="mb-8 text-sm text-gray-500 leading-relaxed">
-                  {tOffers("submit_offer_description")}
-                </p>
-                <Button
-                  onClick={() => setIsOfferDialogOpen(true)}
-                  className="w-full h-14 text-base font-bold shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-all active:scale-95 bg-primary text-white rounded-2xl"
-                  size="lg"
-                >
-                  {tOffers("submit_offer")}
-                </Button>
-              </div>
-
               {/* Extra Widget Example (Optional, helps fill space) */}
               <div className="rounded-3xl p-6 bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                 <h4 className="font-bold text-primary mb-2 flex items-center gap-2 italic">
@@ -121,14 +93,6 @@ export function PropertyDetails({ slug }: PropertyDetailsProps) {
             </div>
           </div>
         )}
-
-        {/* Submit Offer Dialog */}
-        <SubmitOfferDialog
-          open={isOfferDialogOpen}
-          onOpenChange={setIsOfferDialogOpen}
-          propertyId={property.id}
-          propertyTitle={property.title}
-        />
       </div>
     </div>
   );

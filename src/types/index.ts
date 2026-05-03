@@ -98,9 +98,12 @@ export interface Deal {
 
 export interface Settings {
   contactInfo?: {
+    siteAddress?: string;
+    siteEmail?: string;
     sitePhone?: string;
-    email?: string;
+    /** legacy field names */
     address?: string;
+    email?: string;
   };
   [key: string]: any;
 }

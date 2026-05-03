@@ -6,7 +6,8 @@ import { motion } from "motion/react";
 import { CreateMarketplacePropertyDialog } from "@/features/marketplace/components/create-marketplace-property-dialog";
 import { useMarketplaceProperties } from "@/features/marketplace/hooks/use-marketplace-properties";
 import { MarketplacePropertyCard } from "@/features/marketplace/components/marketplace-property-card";
-import { Loader2, AlertCircle } from "lucide-react";
+import { MarketplacePropertyCardSkeleton } from "@/features/marketplace/components/marketplace-property-card-skeleton";
+import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -141,9 +142,22 @@ const MarketplacePage = () => {
       {/* Main Content */}
       <div className="container pb-20">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-24 space-y-4">
-            <Loader2 className="h-10 w-10 animate-spin text-main-green" />
-            <p className="text-gray-500 font-medium">{tPage("loading")}</p>
+          <div
+            className="space-y-6"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <div className="flex items-center justify-between">
+              <div
+                className="h-4 w-52 max-w-[80%] animate-pulse rounded bg-gray-200"
+                aria-hidden
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <MarketplacePropertyCardSkeleton key={i} />
+              ))}
+            </div>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 space-y-4 bg-red-50 rounded-xl border border-red-100">

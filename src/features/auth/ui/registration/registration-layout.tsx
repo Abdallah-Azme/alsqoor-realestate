@@ -14,6 +14,9 @@ export function RegistrationLayout() {
     "seeker" | "owner" | "agent" | "developer"
   >("seeker");
 
+  const tabTriggerClass =
+    "px-3 py-3 md:px-4 md:py-4 rounded-xl text-[10px] md:text-sm font-bold transition-all duration-300 bg-main-light-gray text-gray-400 hover:bg-gray-200 data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:border-none data-[state=active]:shadow-xl data-[state=active]:scale-105 data-[state=active]:z-10";
+
   return (
     <Tabs
       value={activeTab}
@@ -22,45 +25,35 @@ export function RegistrationLayout() {
       }
       className="w-full"
     >
-      <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 bg-transparent h-auto">
-        <TabsTrigger
-          value="seeker"
-          className="px-2 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-main-light-gray text-gray-600 hover:bg-gray-200 data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:border data-[state=active]:border-main-green data-[state=active]:shadow-xl data-[state=active]:scale-105"
-        >
+      <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8 bg-transparent h-auto p-0">
+        <TabsTrigger value="seeker" className={tabTriggerClass}>
           {t("seeker")}
         </TabsTrigger>
-        <TabsTrigger
-          value="owner"
-          className="px-2 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-main-light-gray text-gray-600 hover:bg-gray-200 data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:border data-[state=active]:border-main-green data-[state=active]:shadow-xl data-[state=active]:scale-105"
-        >
+        <TabsTrigger value="owner" className={tabTriggerClass}>
           {t("owner")}
         </TabsTrigger>
-        <TabsTrigger
-          value="agent"
-          className="px-2 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-main-light-gray text-gray-600 hover:bg-gray-200 data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:border data-[state=active]:border-main-green data-[state=active]:shadow-xl data-[state=active]:scale-105"
-        >
+        <TabsTrigger value="agent" className={tabTriggerClass}>
           {t("broker")}
         </TabsTrigger>
-        <TabsTrigger
-          value="developer"
-          className="px-2 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-main-light-gray text-gray-600 hover:bg-gray-200 data-[state=active]:bg-white data-[state=active]:text-main-green data-[state=active]:border data-[state=active]:border-main-green data-[state=active]:shadow-xl data-[state=active]:scale-105"
-        >
+        <TabsTrigger value="developer" className={tabTriggerClass}>
           {t("developer")}
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="seeker">
-        <SeekerRegistrationForm />
-      </TabsContent>
-      <TabsContent value="owner">
-        <OwnerRegistrationForm />
-      </TabsContent>
-      <TabsContent value="agent">
-        <AgentRegistrationForm />
-      </TabsContent>
-      <TabsContent value="developer">
-        <DeveloperRegistrationForm />
-      </TabsContent>
+      <div className="lg:p-12 p-6 bg-white/95 backdrop-blur-md border border-white/20 rounded-[30px] md:rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+        <TabsContent value="seeker" className="mt-0">
+          <SeekerRegistrationForm />
+        </TabsContent>
+        <TabsContent value="owner" className="mt-0">
+          <OwnerRegistrationForm />
+        </TabsContent>
+        <TabsContent value="agent" className="mt-0">
+          <AgentRegistrationForm />
+        </TabsContent>
+        <TabsContent value="developer" className="mt-0">
+          <DeveloperRegistrationForm />
+        </TabsContent>
+      </div>
     </Tabs>
   );
 }

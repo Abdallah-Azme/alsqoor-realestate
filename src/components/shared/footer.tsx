@@ -35,7 +35,7 @@ const Footer = ({ settings = null }) => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6 max-lg:w-full lg:max-w-1/4"
           >
-            <div className="flex items-end gap-2 w-fit max-lg:mx-auto">
+            <div className="flex gap-2 w-fit max-lg:mx-auto">
               <Image
                 src={siteInfo.siteLogo || "/images/footer-logo.svg"}
                 alt={siteInfo.siteName || "logo"}
@@ -111,6 +111,7 @@ const Footer = ({ settings = null }) => {
                 { href: "/packages", label: "packages" },
                 { href: "/complaints", label: "complaints" },
                 { href: "/blogs", label: "blogs" },
+                { href: "/user-manual", label: "user_manual" },
                 { href: "/contact-info", label: "contact_info" },
               ].map((link, index) => (
                 <motion.li

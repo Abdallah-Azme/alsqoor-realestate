@@ -129,10 +129,7 @@ const OwnerPropertiesTab = ({
       ) : (
         <EmptyState
           title={tOwner("no_properties")}
-          description={
-            t("no_properties_description") ||
-            "بادر بإضافة إعلانك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."
-          }
+          description={t("no_ads_empty_description")}
           buttonText={t("add_new_ad")}
           onAction={onAddProperty}
         />

@@ -207,7 +207,7 @@ export const ConvertPropertyToAdDialog = ({
                     value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className={isRtl ? "text-right" : "text-left"}>
+                      <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>

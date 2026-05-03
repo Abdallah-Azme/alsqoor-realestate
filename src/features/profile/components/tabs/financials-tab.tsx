@@ -74,13 +74,13 @@ const FinancialsTab = () => {
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-4 text-center">
-                    {t("loading", { fallback: "Loading..." })}
+                    {t("loading")}
                   </td>
                 </tr>
               ) : transactions.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-4 text-center">
-                    {t("no_data", { fallback: "No transactions found" })}
+                    {t("no_transactions_yet")}
                   </td>
                 </tr>
               ) : (

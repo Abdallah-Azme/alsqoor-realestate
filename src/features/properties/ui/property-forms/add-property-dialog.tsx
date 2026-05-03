@@ -649,7 +649,7 @@ export function AddPropertyDialog({
             </div>
 
             {/* Submit */}
-            <div className={cn("flex gap-4", isRtl ? "flex-row-reverse" : "flex-row", "justify-end")}>
+            <div className={cn("flex gap-4", )}>
               <Button
                 type="button"
                 variant="outline"

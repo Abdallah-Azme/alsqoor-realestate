@@ -51,7 +51,7 @@ const StaticPageContent = ({
             {/* Render HTML Content */}
             <div
               dangerouslySetInnerHTML={{ __html: content }}
-              className="[&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-3"
+              className="[&_p]:leading-loose [&_li]:leading-loose [&_td]:leading-loose [&_th]:leading-loose [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-3"
             />
           </motion.div>
 

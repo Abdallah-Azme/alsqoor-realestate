@@ -47,7 +47,7 @@ const RealEstateTab = () => {
   if (error) {
     return (
       <div className="py-12 text-center text-red-500 bg-white rounded-xl border border-gray-200">
-        {t("error_loading") || "Failed to load real estate properties"}
+        {t("load_properties_failed")}
       </div>
     );
   }
@@ -62,7 +62,7 @@ const RealEstateTab = () => {
         {properties.length > 0 && (
           <CreateMarketplacePropertyDialog
             triggerClassName="w-full md:w-auto ms-auto bg-white hover:bg-gray-50 text-main-green border border-main-green/30 h-11 gap-2"
-            buttonText={t("add_property") || "Add Property"}
+            buttonText={t("add_property")}
             onBeforeOpen={checkCanAddFeatured}
           />
         )}
@@ -103,13 +103,12 @@ const RealEstateTab = () => {
               {t("no_properties")}
             </h3>
             <p className="text-gray-500 max-w-sm px-4">
-              {t("no_properties_description") ||
-                "بادر بإضافة عقارك الأول الآن بكل سهولة من خلال الضغط على الزر أدناه."}
+              {t("no_properties_description")}
             </p>
           </div>
           <CreateMarketplacePropertyDialog
             triggerClassName="bg-main-green hover:bg-main-green/90 text-white gap-2 px-8 h-11 rounded-md transition-all font-medium flex items-center justify-center"
-            buttonText={t("add_property") || "إضافة عقار"}
+            buttonText={t("add_property")}
             onBeforeOpen={checkCanAddFeatured}
           />
         </div>

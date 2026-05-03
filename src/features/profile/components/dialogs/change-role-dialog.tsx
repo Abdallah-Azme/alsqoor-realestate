@@ -125,6 +125,7 @@ export const ChangeRoleDialog = ({
   currentRole,
 }: ChangeRoleDialogProps) => {
   const t = useTranslations("Profile");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
   const isRtl = locale === "ar";
   const { fetchUserProfile } = useContext(UserContext);
@@ -458,7 +459,7 @@ export const ChangeRoleDialog = ({
                                       (field.value as File).size /
                                       (1024 * 1024)
                                     ).toFixed(2)}{" "}
-                                    {t("common.mb")}
+                                    {tCommon("mb")}
                                   </span>
                                 </div>
                               </div>

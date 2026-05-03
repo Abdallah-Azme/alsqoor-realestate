@@ -94,7 +94,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
 
           {/* Other Party Info */}
           {offer.agent && (
-            <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
+            <div className={cn("flex items-center gap-2 text-sm text-gray-600",)}>
               <User className="h-4 w-4" />
               <span>
                 {type === "sent" ? t("to") : t("from")}: {offer.agent.name}
@@ -103,7 +103,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
           )}
 
           {/* Date */}
-          <div className={cn("flex items-center gap-2 text-sm text-gray-500", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2 text-sm text-gray-500",)}>
             <Calendar className="h-4 w-4" />
             <span>
               {offer.humanTime || (offer.createdAt ? new Date(offer.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US", {
@@ -116,7 +116,7 @@ export function PropertyOfferCard({ offer, type }: PropertyOfferCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className={cn("p-4 pt-0 flex gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+      <CardFooter className={cn("p-4 pt-0 flex gap-2",)}>
         {/* View Property Button */}
         {offer.property && (
           <Button variant="outline" size="sm" asChild className="flex-1">

@@ -154,6 +154,16 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
   // Extract settings data with fallbacks
   const contactInfo = settings?.contactInfo || {};
   const siteInfo = settings?.siteInfo || {};
+  const apiAddress = contactInfo.siteAddress || contactInfo.address;
+  const displayAddress = apiAddress?.trim() || t("address");
+
+  const apiPhone = contactInfo.sitePhone?.trim();
+  const displayPhone = apiPhone || t("phone_default");
+  const phoneHref = apiPhone ? `tel:${apiPhone.replace(/\s/g, "")}` : null;
+
+  const apiEmail = (contactInfo.siteEmail || contactInfo.email)?.trim();
+  const displayEmail = apiEmail || t("email_default");
+  const emailHref = apiEmail ? `mailto:${apiEmail}` : null;
 
   return (
     <div className="container py-4 space-y-2 bg-white">
@@ -172,7 +182,7 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
           className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
           <LocationIcon />
-          <p className="text-xs font-medium text-gray-700">{t("address")}</p>
+          <p className="text-xs font-medium text-gray-700">{displayAddress}</p>
         </motion.div>
         {/* phone */}
         <motion.div
@@ -181,8 +191,20 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
           transition={{ duration: 0.4, delay: 0.2 }}
           className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
-          <FiPhoneCall className="text-main-green" />
-          <p dir="ltr" className="text-xs font-medium text-gray-700">{t("phone_default")}</p>
+          <FiPhoneCall className="text-main-green shrink-0" />
+          {phoneHref ? (
+            <a
+              href={phoneHref}
+              dir="ltr"
+              className="text-xs font-medium text-gray-700 hover:text-main-green transition-colors"
+            >
+              {displayPhone}
+            </a>
+          ) : (
+            <p dir="ltr" className="text-xs font-medium text-gray-700">
+              {displayPhone}
+            </p>
+          )}
         </motion.div>
         {/* email */}
         <motion.div
@@ -191,8 +213,19 @@ const Navbar = ({ topnavColor: initialColor = "#1a1a1a", settings = null }) => {
           transition={{ duration: 0.4, delay: 0.3 }}
           className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm"
         >
-          <FiInbox className="text-main-green" />
-          <p className="text-xs font-medium text-gray-700">{t("email_default")}</p>
+          <FiInbox className="text-main-green shrink-0" />
+          {emailHref ? (
+            <a
+              href={emailHref}
+              className="text-xs font-medium text-gray-700 hover:text-main-green transition-colors truncate max-w-[200px]"
+            >
+              {displayEmail}
+            </a>
+          ) : (
+            <p className="text-xs font-medium text-gray-700 truncate max-w-[200px]">
+              {displayEmail}
+            </p>
+          )}
         </motion.div>
         {/* locale swither */}
         <motion.div

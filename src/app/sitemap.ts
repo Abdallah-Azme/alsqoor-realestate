@@ -45,10 +45,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic content for blogs
   let blogEntries: MetadataRoute.Sitemap = [];
   try {
-    const response = await fetch(
-      `${API_URL}/blogs?per_page=100`,
-      { next: { revalidate: 3600 } }, // Cache for 1 hour
-    );
+    const response = await fetch(`${API_URL}/blogs?per_page=100`, {
+      cache: "no-store",
+    });
     const result = await response.json();
     const blogs = result?.data?.data || [];
 
@@ -67,10 +66,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic content for properties
   let propertyEntries: MetadataRoute.Sitemap = [];
   try {
-    const response = await fetch(
-      `${API_URL}/properties?per_page=100`,
-      { next: { revalidate: 3600 } }, // Cache for 1 hour
-    );
+    const response = await fetch(`${API_URL}/properties?per_page=100`, {
+      cache: "no-store",
+    });
     const result = await response.json();
     const properties = result?.data?.data || [];
 
@@ -92,10 +90,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic content for partners/featured users
   let partnerEntries: MetadataRoute.Sitemap = [];
   try {
-    const response = await fetch(
-      `${API_URL}/featured-users?per_page=100`,
-      { next: { revalidate: 3600 } }, // Cache for 1 hour
-    );
+    const response = await fetch(`${API_URL}/featured-users?per_page=100`, {
+      cache: "no-store",
+    });
     const result = await response.json();
     const partners = result?.data?.data || [];
 

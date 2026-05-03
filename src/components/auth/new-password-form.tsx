@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaLongArrowAltRight, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { api, ApiError } from "@/lib/api-client";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
@@ -80,7 +80,7 @@ export function NewPasswordForm() {
   }
 
   return (
-    <div className="lg:p-20 p-8 border border-main-gray rounded-lg flex max-lg:flex-col items-start gap-8 w-full">
+    <div className="lg:p-12 p-6 bg-white/95 backdrop-blur-md border border-white/20 rounded-[30px] md:rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] w-full">
       <Form {...form}>
         <form
           dir={locale === "ar" ? "rtl" : "ltr"}
@@ -98,7 +98,7 @@ export function NewPasswordForm() {
                     <Input
                       placeholder={t("password")}
                       type={showPassword ? "text" : "password"}
-                      className={inputStyle}
+                      className={`${inputStyle} pr-10 border-gray-200 focus:border-main-green bg-transparent`}
                       {...field}
                     />
                   </FormControl>
@@ -130,7 +130,7 @@ export function NewPasswordForm() {
                     <Input
                       placeholder={t("confirm_password")}
                       type={showConfirmPassword ? "text" : "password"}
-                      className={inputStyle}
+                      className={`${inputStyle} pr-10 border-gray-200 focus:border-main-green bg-transparent`}
                       {...field}
                     />
                   </FormControl>
@@ -155,14 +155,14 @@ export function NewPasswordForm() {
             <Button
               disabled={isSubmitting}
               type="submit"
-              className="rounded-none h-12 bg-main-green text-white lg:py-4 lg:px-8! p-3 rounded-tr-2xl max-lg:text-xs font-semibold flex items-center gap-2 w-fit"
+              className="h-14 bg-main-green hover:bg-main-green/90 text-white px-10 rounded-xl md:rounded-tr-3xl md:rounded-bl-3xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-main-green/20 font-bold text-lg"
             >
-              {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <FaLongArrowAltRight size={20} />
-              )}
               <p>{t("submit_button")}</p>
+              {isSubmitting ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <FaLongArrowAltRight size={22} className="rotate-180" />
+              )}
             </Button>
           </div>
         </form>

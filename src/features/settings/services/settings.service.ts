@@ -9,12 +9,12 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
  */
 export const settingsService = {
   /**
-   * Get all settings (cached for 1 hour)
+   * Get all settings
    */
   async getSettings(): Promise<any> {
     try {
       const response = await fetch(`${API_URL}${BASE_PATH}`, {
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        cache: "no-store",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

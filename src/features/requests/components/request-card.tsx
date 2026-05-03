@@ -74,7 +74,7 @@ export const RequestCard = ({
 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300" dir={isRtl ? "rtl" : "ltr"}>
-      <CardHeader className={cn("pb-3 flex flex-row items-center justify-between space-y-0", isRtl ? "flex-row-reverse" : "flex-row")}>
+      <CardHeader className={cn("pb-3 flex flex-row items-center justify-between space-y-0",)}>
         <div className={cn(isRtl ? "text-right" : "text-left")}>
           <Badge variant="outline" className={getStatusColor(request.status)}>
             {request.statusLabel}
@@ -99,23 +99,23 @@ export const RequestCard = ({
 
       <CardContent className="pb-4">
         <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600",)}>
             <FiSend className="h-4 w-4 text-main-green" />
             <span>{request.requestTypeLabel}</span>
           </div>
-          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600",)}>
             <FiMapPin className="h-4 w-4 text-main-green" />
             <span className="truncate">
               {request.city.name}, {request.district}
             </span>
           </div>
-          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600",)}>
             <FiClock className="h-4 w-4 text-main-green" />
             <span>
               {new Date(request.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US")}
             </span>
           </div>
-          <div className={cn("flex items-center gap-2 text-sm text-gray-600", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2 text-sm text-gray-600",)}>
             <span className="font-semibold text-main-navy">
               {request.budgetAmount
                 ? `${Number(request.budgetAmount).toLocaleString(locale)} ${tOffers("sar")}`
@@ -131,7 +131,7 @@ export const RequestCard = ({
         )}
       </CardContent>
 
-      <CardFooter className={cn("bg-gray-50/50 pt-4 flex flex-wrap gap-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+      <CardFooter className={cn("bg-gray-50/50 pt-4 flex flex-wrap gap-2",)}>
         <Button
           variant="outline"
           className="flex-1 min-w-[110px] text-sm h-9"
@@ -161,7 +161,7 @@ export const RequestCard = ({
         )}
 
         {request.status === "pending" && (
-          <div className={cn("flex-1 flex items-center justify-center gap-2 p-2 bg-blue-50/50 rounded-lg text-xs text-blue-600 border border-blue-100 italic", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex-1 flex items-center justify-center gap-2 p-2 bg-blue-50/50 rounded-lg text-xs text-blue-600 border border-blue-100 italic",)}>
             <FiInfo className="h-3 w-3" />
             <span>
               {t("messages.pending_no_actions")}
@@ -181,7 +181,7 @@ export const RequestCard = ({
               {t("messages.delete_confirm_desc")}
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className={cn("flex gap-2 justify-end", isRtl ? "flex-row-reverse" : "flex-row")}>
+          <DialogFooter className={cn("flex gap-2 justify-end",)}>
             <Button
               variant="outline"
               onClick={() => setDeleteConfirmOpen(false)}

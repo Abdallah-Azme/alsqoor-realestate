@@ -10,7 +10,7 @@ const BlogCard = ({ item }) => {
       <figure>
         <Image
           src={item?.image}
-          alt={item?.metaTitle}
+          alt={item?.metaTitle?.trim() || item?.title?.trim() || "Blog post cover image"}
           width={300}
           height={300}
           className="w-full h-60 object-cover"

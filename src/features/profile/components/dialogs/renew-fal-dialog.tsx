@@ -42,6 +42,7 @@ interface RenewFalDialogProps {
 
 export const RenewFalDialog = ({ open, onOpenChange }: RenewFalDialogProps) => {
   const t = useTranslations("Profile");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
   const isRtl = locale === "ar";
   const { mutate: renewFal, isPending } = useRenewFal();
@@ -186,7 +187,7 @@ export const RenewFalDialog = ({ open, onOpenChange }: RenewFalDialogProps) => {
                                     (field.value as File).size /
                                     (1024 * 1024)
                                   ).toFixed(2)}{" "}
-                                  {t("common.mb")}
+                                  {tCommon("mb")}
                                 </span>
                               </div>
                             </div>

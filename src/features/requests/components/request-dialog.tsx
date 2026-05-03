@@ -400,7 +400,7 @@ export const RequestDialog = ({
               control={form.control}
               name="is_urgent"
               render={({ field }) => (
-                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm", isRtl ? "flex-row-reverse" : "flex-row")}>
+                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm", )}>
                   <div className={cn("space-y-0.5", isRtl ? "text-right" : "text-left")}>
                     <FormLabel>{t("fields.is_urgent")}</FormLabel>
                   </div>
@@ -452,7 +452,7 @@ export const RequestDialog = ({
               )}
             />
 
-            <div className={cn("flex gap-3 pt-2", isRtl ? "flex-row-reverse" : "flex-row")}>
+            <div className={cn("flex gap-3 pt-2", )}>
               <Button
                 type="button"
                 variant="outline"

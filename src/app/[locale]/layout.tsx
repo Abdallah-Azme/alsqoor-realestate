@@ -73,7 +73,6 @@ export default async function RootLayout({ children, params }) {
   // Fetch settings
   const settings = await getSettings();
 
-
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
