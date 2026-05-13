@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations, useLocale } from "next-intl";
 import { useState } from "react";
-import { FiSearch, FiFilter } from "react-icons/fi";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   useCategories,
   useCities,
@@ -25,20 +24,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  LayoutGrid,
+  Coins,
+  KeyRound,
+  Search,
+  Trash2,
+  MapPin,
+  Home,
+  Banknote,
+  ChevronDown,
+  ChevronUp,
+  Filter,
+} from "lucide-react";
+import { useRouter as useI18nRouter } from "@/i18n/navigation";
 
 interface AdsFilterProps {
-  onSubmit?: (filters: Record<string, any>) => void;
+  onSubmit?: (filters: Record<string, unknown>) => void;
 }
 
 const operationTypes = [
-  { key: "all", icon: "🔍" },
-  { key: "sale", icon: "💰" },
-  { key: "rent", icon: "🔑" },
-];
+  { key: "all", Icon: LayoutGrid },
+  { key: "sale", Icon: Coins },
+  { key: "rent", Icon: KeyRound },
+] as const;
+
+type PricePresetKey =
+  | "all"
+  | "under_500k"
+  | "range_500k_1m"
+  | "range_1m_2m"
+  | "range_2m_5m"
+  | "above_5m";
+
+const PRICE_PRESETS: Record<
+  Exclude<PricePresetKey, "all">,
+  { min: string; max: string }
+> = {
+  under_500k: { min: "", max: "500000" },
+  range_500k_1m: { min: "500000", max: "1000000" },
+  range_1m_2m: { min: "1000000", max: "2000000" },
+  range_2m_5m: { min: "2000000", max: "5000000" },
+  above_5m: { min: "5000000", max: "" },
+};
 
 const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
   const t = useTranslations();
+  const tAds = useTranslations("marketplace.ads_page");
   const tRequests = useTranslations("propertyRequestsPage");
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -47,15 +79,14 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     searchParams.get("operation_type") || "all",
   );
   const [search, setSearch] = useState(searchParams.get("title") || "");
-  // HIDDEN: Country is always Saudi Arabia (country_id = 2)
-  const [selectedCountry, setSelectedCountry] = useState<string>("2");
+  const selectedCountry = "2";
   const [selectedCity, setSelectedCity] = useState<string>(
     searchParams.get("city_id") || "",
   );
   const [sortBy, setSortBy] = useState(searchParams.get("sort_by") || "newest");
+  const [pricePreset, setPricePreset] = useState<PricePresetKey>("all");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Additional Filters
   const [formData, setFormData] = useState({
     id: searchParams.get("id") || "",
     category_id: searchParams.get("category_id") || "all",
@@ -75,24 +106,35 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const resolvePriceFields = () => {
+    if (pricePreset === "all") {
+      return { min_price: formData.min_price, max_price: formData.max_price };
+    }
+    const p = PRICE_PRESETS[pricePreset];
+    return { min_price: p.min, max_price: p.max };
+  };
+
   const handleTypeClick = (typeKey: string) => {
     setActiveType(typeKey);
     handleSubmit({ operation_type: typeKey === "all" ? undefined : typeKey });
   };
 
-  const handleSubmit = (additionalFilters: Record<string, any> = {}) => {
+  const handleSubmit = (additionalFilters: Record<string, unknown> = {}) => {
+    const { min_price, max_price } = resolvePriceFields();
+
     const filters = {
       operation_type: activeType === "all" ? undefined : activeType,
       title: search,
-      country_id: 2, // HIDDEN: always Saudi Arabia
+      country_id: 2,
       city_id: selectedCity ? Number(selectedCity) : undefined,
       sort_by: sortBy,
       ...formData,
+      min_price,
+      max_price,
       ...additionalFilters,
     };
 
-    // Clean up filters
-    const cleanFilters: Record<string, any> = {};
+    const cleanFilters: Record<string, unknown> = {};
     Object.entries(filters).forEach(([key, value]) => {
       if (
         value !== "" &&
@@ -113,6 +155,7 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
     setSearch("");
     setSelectedCity("");
     setSortBy("newest");
+    setPricePreset("all");
     setFormData({
       id: "",
       category_id: "all",
@@ -128,113 +171,185 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Operation type tabs */}
-      <div className="bg-white border border-gray-200 rounded-lg p-2 overflow-x-auto">
-        <div className="flex items-center gap-2 min-w-max">
-          {operationTypes.map((type) => (
-            <button
-              key={type.key}
-              onClick={() => handleTypeClick(type.key)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 ${
-                activeType === type.key
-                  ? "bg-main-green text-white shadow-sm"
-                  : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-              }`}
-            >
-              <span>{type.icon}</span>
-              <span>{t(`home.state_filter.${type.key}`)}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main search row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Keyword search (Title) */}
-        <div className="relative">
-          <Input
-            placeholder={t("propertyRequestsPage.fields.search")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="border-gray-300 rounded-lg h-12 pe-10"
-          />
-          <FiSearch className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 size-5" />
-        </div>
-
-        {/* HIDDEN: Country filter — always Saudi Arabia (country_id = 2) sent to backend */}
-
-        {/* City */}
-        <Select
-          value={selectedCity}
-          onValueChange={setSelectedCity}
-          disabled={!selectedCountry}
-        >
-          <SelectTrigger className="!h-12 border-gray-300 rounded-lg">
-            <SelectValue
-              placeholder={
-                tRequests("fields.select_city") ||
-                (locale === "ar" ? "اختر المدينة" : "Select City")
-              }
-            />
-          </SelectTrigger>
-          <SelectContent>
-            {cities.map((city: any) => (
-              <SelectItem key={city.id} value={String(city.id)}>
-                {locale === "ar"
-                  ? city.name_ar || city.name
-                  : city.name_en || city.name}
-              </SelectItem>
+    <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm md:p-6 md:shadow-md">
+      <div className="space-y-5">
+        {/* Operation type — segmented control */}
+        <div className="flex justify-start overflow-x-auto pb-0.5">
+          <div
+            role="group"
+            className="flex items-center gap-1 rounded-xl border border-gray-200 bg-gray-50/90 p-1.5"
+          >
+            {operationTypes.map(({ key, Icon }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => handleTypeClick(key)}
+                className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                  activeType === key
+                    ? "bg-main-green text-white shadow-sm"
+                    : "text-gray-600 hover:bg-white"
+                }`}
+              >
+                <Icon className="size-4 shrink-0 opacity-90" />
+                <span>{t(`home.state_filter.${key}`)}</span>
+              </button>
             ))}
-          </SelectContent>
-        </Select>
+          </div>
+        </div>
 
-        {/* Sort */}
-        <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="!h-12 border-gray-300 rounded-lg">
-            <SelectValue placeholder={tRequests("filter.sort_by")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">
-              {tRequests("filter.sort.newest")}
-            </SelectItem>
-            <SelectItem value="oldest">
-              {tRequests("filter.sort.oldest")}
-            </SelectItem>
-            <SelectItem value="price_low">
-              {tRequests("filter.sort.price_low")}
-            </SelectItem>
-            <SelectItem value="price_high">
-              {tRequests("filter.sort.price_high")}
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Main filter row */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center">
+          <div className="relative min-w-0 flex-1 lg:min-w-[200px]">
+            <Input
+              placeholder={tAds("search_placeholder")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-12 border-gray-200 pe-11 text-sm rounded-xl"
+              dir={locale === "ar" ? "rtl" : "ltr"}
+            />
+            <Search className="pointer-events-none absolute end-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
+          </div>
 
-      {/* Advanced Filters Toggle */}
-      <div>
-        <Button
-          variant="ghost"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 text-gray-500 hover:text-main-green"
-        >
-          <FiFilter />
-          <span>
-            {isExpanded
-              ? t("common.less_filters") || "فلاتر أقل"
-              : t("common.more_filters") || "فلاتر أكثر"}
-          </span>
-          {isExpanded ? (
-            <ChevronUp className="size-4" />
-          ) : (
-            <ChevronDown className="size-4" />
-          )}
-        </Button>
+          <Select
+            value={selectedCity}
+            onValueChange={setSelectedCity}
+            disabled={!selectedCountry}
+          >
+            <SelectTrigger className="h-12 w-full min-w-[160px] rounded-xl border-gray-200 lg:w-[min(200px,100%)]">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <MapPin className="size-4 shrink-0 text-gray-400" />
+                <SelectValue
+                  placeholder={
+                    tRequests("fields.select_city") ||
+                    (locale === "ar" ? "اختر المدينة" : "Select City")
+                  }
+                />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {cities.map((city: { id: number; name: string; name_ar?: string; name_en?: string }) => (
+                <SelectItem key={city.id} value={String(city.id)}>
+                  {locale === "ar"
+                    ? city.name_ar || city.name
+                    : city.name_en || city.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={formData.category_id}
+            onValueChange={(v) => updateField("category_id", v)}
+          >
+            <SelectTrigger
+              aria-label={tAds("property_type_placeholder")}
+              className="h-12 w-full min-w-[160px] rounded-xl border-gray-200 lg:w-[min(200px,100%)]"
+            >
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <Home className="size-4 shrink-0 text-gray-400" />
+                <SelectValue placeholder={tAds("property_type_placeholder")} />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{tRequests("types.all")}</SelectItem>
+              {categories.map((cat: { id: number; name: string; name_ar?: string; name_en?: string }) => (
+                <SelectItem key={cat.id} value={String(cat.id)}>
+                  {locale === "ar" ? cat.name_ar || cat.name : cat.name_en || cat.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={pricePreset}
+            onValueChange={(v) => setPricePreset(v as PricePresetKey)}
+          >
+            <SelectTrigger
+              aria-label={tAds("price_placeholder")}
+              className="h-12 w-full min-w-[160px] rounded-xl border-gray-200 lg:w-[min(200px,100%)]"
+            >
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <Banknote className="size-4 shrink-0 text-gray-400" />
+                <SelectValue placeholder={tAds("price_placeholder")} />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{tAds("price_option_all")}</SelectItem>
+              <SelectItem value="under_500k">{tAds("price_under_500k")}</SelectItem>
+              <SelectItem value="range_500k_1m">{tAds("price_500k_1m")}</SelectItem>
+              <SelectItem value="range_1m_2m">{tAds("price_1m_2m")}</SelectItem>
+              <SelectItem value="range_2m_5m">{tAds("price_2m_5m")}</SelectItem>
+              <SelectItem value="above_5m">{tAds("price_above_5m")}</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <div className="flex w-full gap-2 lg:w-auto lg:shrink-0">
+            <Button
+              type="button"
+              onClick={handleClear}
+              variant="outline"
+              className="h-12 flex-1 gap-2 rounded-xl border-red-500 text-red-500 hover:bg-red-50 lg:flex-initial lg:px-6"
+            >
+              <Trash2 className="size-4" />
+              {tRequests("filter.clear")}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => handleSubmit()}
+              className="h-12 flex-1 gap-2 rounded-xl bg-main-green px-8 text-white hover:bg-main-green/90 lg:flex-initial lg:px-10"
+            >
+              <Search className="size-4" />
+              {tRequests("filter.search")}
+            </Button>
+          </div>
+        </div>
+
+        {/* More filters — centered */}
+        <div className="flex justify-center border-t border-gray-100 pt-4">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="gap-2 text-gray-600 hover:bg-gray-50 hover:text-main-green"
+          >
+            <Filter className="size-4" />
+            <span>{isExpanded ? tAds("less_filters") : tAds("more_filters")}</span>
+            {isExpanded ? (
+              <ChevronUp className="size-4" />
+            ) : (
+              <ChevronDown className="size-4" />
+            )}
+          </Button>
+        </div>
 
         {isExpanded && (
-          <div className="space-y-4 pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {/* Ad ID */}
+          <div className="animate-in fade-in slide-in-from-top-2 space-y-4 border-t border-gray-100 pt-4 duration-300">
+            <div className="max-w-full sm:max-w-xs">
+              <label className="mb-1.5 block text-xs font-semibold text-gray-500">
+                {tAds("sort_label")}
+              </label>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="h-12 rounded-xl border-gray-200">
+                  <SelectValue placeholder={tRequests("filter.sort_by")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">
+                    {tRequests("filter.sort.newest")}
+                  </SelectItem>
+                  <SelectItem value="oldest">
+                    {tRequests("filter.sort.oldest")}
+                  </SelectItem>
+                  <SelectItem value="price_low">
+                    {tRequests("filter.sort.price_low")}
+                  </SelectItem>
+                  <SelectItem value="price_high">
+                    {tRequests("filter.sort.price_high")}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("property_details.fields.id") || "رقم الإعلان"}
@@ -243,38 +358,10 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   placeholder="Ex: 3"
                   value={formData.id}
                   onChange={(e) => updateField("id", e.target.value)}
-                  className="h-12 border-gray-300 rounded-lg"
+                  className="h-12 rounded-xl border-gray-200"
                 />
               </div>
 
-              {/* Category */}
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-gray-500">
-                  {t("properties.category")}
-                </label>
-                <Select
-                  value={formData.category_id}
-                  onValueChange={(v) => updateField("category_id", v)}
-                >
-                  <SelectTrigger className="!h-12 border-gray-300 rounded-lg text-sm">
-                    <SelectValue placeholder={tRequests("types.all")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">
-                      {tRequests("types.all")}
-                    </SelectItem>
-                    {categories.map((cat: any) => (
-                      <SelectItem key={cat.id} value={String(cat.id)}>
-                        {locale === "ar"
-                          ? cat.name_ar || cat.name
-                          : cat.name_en || cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* District */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.district")}
@@ -283,11 +370,10 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   placeholder={t("properties.district_placeholder")}
                   value={formData.district}
                   onChange={(e) => updateField("district", e.target.value)}
-                  className="h-12 border-gray-300 rounded-lg"
+                  className="h-12 rounded-xl border-gray-200"
                 />
               </div>
 
-              {/* Min Area */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.area")}
@@ -297,11 +383,10 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   placeholder={t("properties.area_placeholder")}
                   value={formData.min_area}
                   onChange={(e) => updateField("min_area", e.target.value)}
-                  className="h-12 border-gray-300 rounded-lg"
+                  className="h-12 rounded-xl border-gray-200"
                 />
               </div>
 
-              {/* Rooms */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.rooms")}
@@ -310,10 +395,8 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   value={formData.rooms}
                   onValueChange={(v) => updateField("rooms", v)}
                 >
-                  <SelectTrigger className="!h-12 border-gray-300 rounded-lg text-sm">
-                    <SelectValue
-                      placeholder={tRequests("filter.any") || "الكل"}
-                    />
+                  <SelectTrigger className="h-12 rounded-xl border-gray-200 text-sm">
+                    <SelectValue placeholder={tRequests("filter.any") || "الكل"} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="any">
@@ -328,7 +411,6 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                 </Select>
               </div>
 
-              {/* Bathrooms */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.bathrooms")}
@@ -337,10 +419,8 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   value={formData.bathrooms}
                   onValueChange={(v) => updateField("bathrooms", v)}
                 >
-                  <SelectTrigger className="!h-12 border-gray-300 rounded-lg text-sm">
-                    <SelectValue
-                      placeholder={tRequests("filter.any") || "الكل"}
-                    />
+                  <SelectTrigger className="h-12 rounded-xl border-gray-200 text-sm">
+                    <SelectValue placeholder={tRequests("filter.any") || "الكل"} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="any">
@@ -355,7 +435,6 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                 </Select>
               </div>
 
-              {/* Finishing */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.finishing_type_label")}
@@ -364,25 +443,20 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   value={formData.finishing_type}
                   onValueChange={(v) => updateField("finishing_type", v)}
                 >
-                  <SelectTrigger className="!h-12 border-gray-300 rounded-lg text-sm">
+                  <SelectTrigger className="h-12 rounded-xl border-gray-200 text-sm">
                     <SelectValue placeholder={tRequests("types.all")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">
-                      {tRequests("types.all")}
-                    </SelectItem>
-                    {["none", "basic", "good", "luxury", "super_luxury"].map(
-                      (type) => (
-                        <SelectItem key={type} value={type}>
-                          {t(`property_details.finishing_types.${type}`)}
-                        </SelectItem>
-                      ),
-                    )}
+                    <SelectItem value="all">{tRequests("types.all")}</SelectItem>
+                    {["none", "basic", "good", "luxury", "super_luxury"].map((ftype) => (
+                      <SelectItem key={ftype} value={ftype}>
+                        {t(`property_details.finishing_types.${ftype}`)}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Min Price */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.filters.min_price")}
@@ -392,11 +466,11 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   placeholder="0"
                   value={formData.min_price}
                   onChange={(e) => updateField("min_price", e.target.value)}
-                  className="h-12 border-gray-300 rounded-lg"
+                  className="h-12 rounded-xl border-gray-200"
+                  disabled={pricePreset !== "all"}
                 />
               </div>
 
-              {/* Max Price */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-gray-500">
                   {t("properties.filters.max_price")}
@@ -406,40 +480,23 @@ const AdsFilter = ({ onSubmit }: AdsFilterProps) => {
                   placeholder="999,999,999"
                   value={formData.max_price}
                   onChange={(e) => updateField("max_price", e.target.value)}
-                  className="h-12 border-gray-300 rounded-lg"
+                  className="h-12 rounded-xl border-gray-200"
+                  disabled={pricePreset !== "all"}
                 />
               </div>
             </div>
           </div>
         )}
       </div>
-
-      {/* Action buttons row */}
-      <div className="flex justify-end gap-2 text-end">
-        <Button
-          onClick={handleClear}
-          variant="outline"
-          className="h-12 px-8 border-red-500 text-red-500 hover:bg-red-50 rounded-lg"
-        >
-          {tRequests("filter.clear")}
-        </Button>
-        <Button
-          onClick={() => handleSubmit()}
-          className="bg-main-green hover:bg-main-green/90 text-white h-12 px-12 gap-2 rounded-lg"
-        >
-          <FiSearch />
-          {tRequests("filter.search")}
-        </Button>
-      </div>
     </div>
   );
 };
 
 export default function AdsPageFilter() {
-  const router = useRouter();
+  const router = useI18nRouter();
   const t = useTranslations("propertyRequestsPage");
 
-  const handleFilterSubmit = (newFilters: Record<string, any>) => {
+  const handleFilterSubmit = (newFilters: Record<string, unknown>) => {
     const params = new URLSearchParams();
 
     Object.entries(newFilters).forEach(([key, value]) => {
@@ -449,7 +506,7 @@ export default function AdsPageFilter() {
         value !== "" &&
         value !== "all"
       ) {
-        params.set(key, value.toString());
+        params.set(key, String(value));
       }
     });
 
@@ -457,24 +514,22 @@ export default function AdsPageFilter() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto mb-8">
-      {/* Desktop filter */}
+    <div className="mx-auto mb-8 w-full max-w-7xl">
       <div className="max-lg:hidden">
         <AdsFilter onSubmit={handleFilterSubmit} />
       </div>
 
-      {/* Mobile filter sheet */}
       <Sheet>
-        <SheetTrigger className="lg:hidden bg-main-green text-white font-bold rounded-xl hover:bg-main-green/95 transition-all duration-500 w-full h-12">
+        <SheetTrigger className="h-12 w-full rounded-xl bg-main-green font-bold text-white transition-all duration-300 hover:bg-main-green/95 lg:hidden">
           {t("filter.customize_request")}
         </SheetTrigger>
         <SheetContent
           side="bottom"
-          className="max-h-[80vh] overflow-y-auto rounded-t-3xl"
+          className="max-h-[85vh] overflow-y-auto rounded-t-3xl"
         >
           <div className="py-6">
             <SheetHeader className="mb-6">
-              <SheetTitle className="text-center font-bold text-xl">
+              <SheetTitle className="text-center text-xl font-bold">
                 {t("filter.customize_request")}
               </SheetTitle>
               <SheetDescription className="text-center text-gray-500">

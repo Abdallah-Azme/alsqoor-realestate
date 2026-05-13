@@ -1,7 +1,5 @@
-import LoadingScreen from "@/components/shared/LoadingScreen";
+import HomeSkeleton from "@/components/shared/home-skeleton";
 
 export default function Loading() {
-  return (
-    <LoadingScreen message="جاري التحميل..." size="lg" fullScreen={true} />
-  );
+  return <HomeSkeleton />;
 }

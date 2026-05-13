@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useSearchProperties } from "@/features/properties/hooks/use-properties";
 import StatesCard from "@/components/shared/state-card";
 import { AlertCircle } from "lucide-react";
@@ -105,8 +106,8 @@ const AdsSearchListing = () => {
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between gap-4">
-          <div className="h-5 w-52 max-w-[70%] animate-pulse rounded-md bg-gray-200" />
           <div className="h-11 w-44 shrink-0 animate-pulse rounded-md bg-gray-200 max-sm:hidden" />
+          <div className="h-5 w-52 max-w-[70%] animate-pulse rounded-md bg-gray-200" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 12 }, (_, i) => (
@@ -133,25 +134,23 @@ const AdsSearchListing = () => {
 
   return (
     <div className="space-y-8">
-      {/* Results count & Add Action */}
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-gray-600 text-sm">
+      {/* Add + results — RTL: primary action reads first on the right */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Button
+          onClick={handleOpenAddDialog}
+          className="h-11 gap-2 bg-main-green px-6 text-white shadow-sm shadow-main-green/20 hover:bg-main-green/90"
+        >
+          <FiPlus className="size-5" />
+          {tProfile("add_new_ad")}
+        </Button>
+
+        <p className="text-sm text-gray-600">
           {t("results_count")}:{" "}
           <span className="font-bold text-main-navy">
             {meta?.total ?? mappedProperties.length}
           </span>{" "}
           {t("opportunity")}
         </p>
-
-        {mappedProperties.length > 0 && (
-          <Button
-            onClick={handleOpenAddDialog}
-            className="bg-main-green hover:bg-main-green/90 text-white h-11 gap-2 px-6 shadow-sm shadow-main-green/20"
-          >
-            <FiPlus className="w-5 h-5" />
-            {tProfile("add_new_ad")}
-          </Button>
-        )}
       </div>
 
       {/* Cards grid or empty state */}

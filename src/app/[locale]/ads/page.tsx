@@ -1,11 +1,9 @@
 "use client";
 
-import PageHeader from "@/components/shared/page-header";
+import AdsPageHeader from "@/components/marketplace/ads-page-header";
 import { motion } from "motion/react";
-import { useTranslations } from "next-intl";
 import AdsSearchListing from "@/components/marketplace/ads-search-listing";
 import AdsPageFilter from "@/components/marketplace/ads-page-filter";
-import { ServiceDescription } from "@/features/service-descriptions";
 
 /**
  * /ads page — Public property search results.
@@ -14,16 +12,9 @@ import { ServiceDescription } from "@/features/service-descriptions";
  * directly to the endpoint as filters.
  */
 const AdsPage = () => {
-  const tBreadcrumbs = useTranslations("breadcrumbs");
-
   return (
     <main className="space-y-8 pb-16">
-      <PageHeader
-        title={tBreadcrumbs("advertisements")}
-        breadcrumbItems={[{ label: tBreadcrumbs("advertisements") }]}
-      >
-        <ServiceDescription type="ads" />
-      </PageHeader>
+      <AdsPageHeader />
 
       {/* Search Results */}
       <motion.section

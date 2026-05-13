@@ -134,9 +134,9 @@ export default async function AuthLayout({
 
       {/* Main Content — grid row 1: image | title+form share one row height */}
       <div className="container relative z-30 pt-16 pb-20">
-        <div className="grid min-h-[800px] grid-cols-1 grid-rows-[auto_auto] lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:grid-rows-[auto_auto] gap-x-8 xl:gap-x-12 gap-y-10 lg:gap-y-12 lg:items-stretch">
-          {/* Hero image — same row as auth content so height matches the form block */}
-          <div className="relative hidden overflow-hidden rounded-[30px] md:rounded-[40px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] lg:block lg:row-start-1 lg:col-start-1 lg:h-full lg:min-h-0 lg:self-stretch">
+        <div className="grid min-h-[800px] grid-cols-1 grid-rows-[auto_auto] lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:grid-rows-[auto_auto] gap-x-8 xl:gap-x-12 gap-y-10 lg:gap-y-12">
+          {/* Hero image — sticky and fixed height to match Seeker (General User) layout */}
+          <div className="relative hidden overflow-hidden rounded-[30px] md:rounded-[40px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] lg:block lg:row-start-1 lg:col-start-1 lg:sticky lg:top-24 lg:h-[calc(100vh-12rem)] lg:min-h-[600px] lg:max-h-[800px]">
             <Image
               src="/saudi-man.jpeg"
               alt={t("hero_image_alt")}

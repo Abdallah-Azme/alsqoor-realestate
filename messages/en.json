@@ -1366,6 +1366,22 @@
     "add_property": "Add Property",
     "add": "Add",
     "service_description": "Service Description",
+    "ads_page": {
+      "hero_title": "Real Estate Ads",
+      "hero_subtitle": "Manage, add, and browse property listings easily",
+      "search_placeholder": "Search listings...",
+      "property_type_placeholder": "Property type",
+      "price_placeholder": "Price",
+      "price_option_all": "All",
+      "price_under_500k": "Under 500K SAR",
+      "price_500k_1m": "500K – 1M SAR",
+      "price_1m_2m": "1M – 2M SAR",
+      "price_2m_5m": "2M – 5M SAR",
+      "price_above_5m": "Above 5M SAR",
+      "more_filters": "More filters",
+      "less_filters": "Fewer filters",
+      "sort_label": "Sort results"
+    },
     "start_marketing": "Start Marketing",
     "tabs": {
       "agent": "Broker Properties",

@@ -17,11 +17,32 @@ import { Info } from "lucide-react";
 
 interface ServiceDescriptionProps {
   type: ServiceType;
+  /** When true, loading matches a small outline trigger (for headers/toolbars). */
+  compact?: boolean;
 }
 
-export const ServiceDescription = ({ type }: ServiceDescriptionProps) => {
+export const ServiceDescription = ({
+  type,
+  compact = false,
+}: ServiceDescriptionProps) => {
   const { description, isLoading, isError } = useServiceDescription(type);
   const t = useTranslations("marketplace");
+
+  if (isLoading && compact) {
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        disabled
+        aria-busy="true"
+        aria-label={t("service_description")}
+        className="pointer-events-none gap-2 rounded-lg border-main-green/30 text-transparent animate-pulse"
+      >
+        <span className="size-4 shrink-0 rounded bg-muted" />
+        <span className="h-4 w-24 shrink-0 rounded bg-muted" />
+      </Button>
+    );
+  }
 
   if (isLoading) {
     return (

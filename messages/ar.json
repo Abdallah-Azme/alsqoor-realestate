@@ -1194,6 +1194,22 @@
     "add_property": "إضافة عقار",
     "add": "إضافة",
     "service_description": "شرح الخدمة",
+    "ads_page": {
+      "hero_title": "الإعلانات العقارية",
+      "hero_subtitle": "إدارة وإضافة وتصفح الإعلانات العقارية بسهولة",
+      "search_placeholder": "بحث في الإعلانات...",
+      "property_type_placeholder": "نوع العقار",
+      "price_placeholder": "السعر",
+      "price_option_all": "الكل",
+      "price_under_500k": "أقل من 500 ألف ريال",
+      "price_500k_1m": "500 ألف – مليون",
+      "price_1m_2m": "1 – 2 مليون",
+      "price_2m_5m": "2 – 5 مليون",
+      "price_above_5m": "أكثر من 5 مليون",
+      "more_filters": "المزيد من الفلاتر",
+      "less_filters": "فلاتر أقل",
+      "sort_label": "ترتيب النتائج"
+    },
     "tabs": {
       "agent": "عقارات الوسطاء",
       "owner": "عقارات الملاك",
