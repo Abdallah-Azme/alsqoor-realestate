@@ -1,4 +1,5 @@
 import { api } from "@/lib/api-client";
+import { buildObjectKey, buildObjectUrl } from "@/lib/s3-shared";
 
 /** Purpose values accepted by POST /s3/temp-credentials */
 export type S3UploadPurpose =
@@ -56,7 +57,15 @@ function getClientToken(): string | null {
 }
 
 /**
- * Request short-lived STS credentials (used for logging/debug; upload goes via proxy).
+ * `direct` (default): browser → S3 with STS creds (no Next.js body limit).
+ * `proxy`: browser → /api/s3-upload → S3 (needs no bucket CORS; hits server limits).
+ */
+function useS3UploadProxy(): boolean {
+  return process.env.NEXT_PUBLIC_S3_UPLOAD_MODE === "proxy";
+}
+
+/**
+ * Short-lived STS credentials from your Laravel API.
  */
 export async function getS3TempCredentials(
   purpose: S3UploadPurpose,
@@ -64,26 +73,78 @@ export async function getS3TempCredentials(
   const formData = new FormData();
   formData.append("purpose", purpose);
 
-  const credentials = await api.post<S3TempCredentials>(
-    "/s3/temp-credentials",
-    formData,
-  );
-
-  console.log("[S3] Temp credentials received:", {
-    purpose,
-    bucket: credentials.bucket,
-    region: credentials.region,
-    folder: credentials.folder,
-    expires_at: credentials.expires_at,
-  });
-
-  return credentials;
+  return api.post<S3TempCredentials>("/s3/temp-credentials", formData);
 }
 
 /**
- * Upload via same-origin API route (server PUTs to S3 — no bucket CORS needed).
+ * Browser uploads directly to S3 (file bytes never pass through Next.js).
+ * Requires bucket CORS + IAM policy on the STS role for the purpose prefix.
  */
-export async function uploadFileToS3WithCredentials(
+export async function uploadFileDirectToS3(
+  file: File,
+  purpose: S3UploadPurpose,
+  credentials?: S3TempCredentials,
+): Promise<S3FileUploadResult> {
+  const creds = credentials ?? (await getS3TempCredentials(purpose));
+  const key = buildObjectKey(creds.folder, file.name);
+  const mimeType = file.type || "application/octet-stream";
+  const body = new Uint8Array(await file.arrayBuffer());
+
+  const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
+
+  const client = new S3Client({
+    region: creds.region,
+    credentials: {
+      accessKeyId: creds.access_key,
+      secretAccessKey: creds.secret_key,
+      sessionToken: creds.session_token,
+    },
+  });
+
+  let putResponse;
+  try {
+    putResponse = await client.send(
+      new PutObjectCommand({
+        Bucket: creds.bucket,
+        Key: key,
+        Body: body,
+        ContentType: mimeType,
+        ContentLength: body.byteLength,
+      }),
+    );
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "S3 upload failed";
+    if (
+      typeof window !== "undefined" &&
+      (message.includes("Failed to fetch") ||
+        message.includes("NetworkError") ||
+        message.includes("CORS"))
+    ) {
+      throw new Error(
+        "S3 CORS blocked this upload. Add https://alsqoor-realestate.sa (and http://localhost:3000 for dev) to the bucket CORS AllowedOrigins — see docs/s3-bucket-cors.json.",
+      );
+    }
+    throw error;
+  }
+
+  return {
+    purpose,
+    fileName: file.name,
+    mimeType,
+    size: body.byteLength,
+    key,
+    bucket: creds.bucket,
+    region: creds.region,
+    folder: creds.folder,
+    etag: putResponse.ETag?.replace(/"/g, ""),
+    location: buildObjectUrl(creds.bucket, creds.region, key),
+    status: 200,
+  };
+}
+
+/** Fallback: same-origin proxy when CORS cannot be configured yet. */
+async function uploadFileViaProxy(
   file: File,
   purpose: S3UploadPurpose,
 ): Promise<S3FileUploadResult> {
@@ -110,47 +171,53 @@ export async function uploadFileToS3WithCredentials(
   const payload = await response.json().catch(() => null);
 
   if (!response.ok) {
-    console.error("[S3] Proxy upload failed:", payload);
     throw new Error(
       payload?.message || `Upload failed (${response.status})`,
     );
   }
 
-  const result = (payload?.data ?? payload) as S3FileUploadResult;
-  console.log("[S3] Upload complete (send this key to backend):", result.key, result);
-  return result;
+  return (payload?.data ?? payload) as S3FileUploadResult;
 }
 
-/**
- * Upload multiple files (one proxy request per file).
- */
+export async function uploadFileToS3WithCredentials(
+  file: File,
+  purpose: S3UploadPurpose,
+): Promise<S3FileUploadResult> {
+  if (useS3UploadProxy()) {
+    return uploadFileViaProxy(file, purpose);
+  }
+  return uploadFileDirectToS3(file, purpose);
+}
+
 export async function uploadFilesToS3(
   files: File[],
   purpose: S3UploadPurpose,
 ): Promise<S3FileUploadResult[]> {
   if (files.length === 0) return [];
 
-  const results: S3FileUploadResult[] = [];
-  for (const file of files) {
-    results.push(await uploadFileToS3WithCredentials(file, purpose));
+  if (useS3UploadProxy()) {
+    const results: S3FileUploadResult[] = [];
+    for (const file of files) {
+      results.push(await uploadFileViaProxy(file, purpose));
+    }
+    return results;
   }
 
-  console.log("[S3] Batch upload summary:", {
-    purpose,
-    count: results.length,
-    keys: results.map((r) => r.key),
-  });
-
+  const credentials = await getS3TempCredentials(purpose);
+  const results: S3FileUploadResult[] = [];
+  for (const file of files) {
+    results.push(
+      await uploadFileDirectToS3(file, purpose, credentials),
+    );
+  }
   return results;
 }
 
-/** Property-new marketplace media purposes */
 export const PROPERTY_NEW_S3_PURPOSES = {
   images: "propertynew-images" as const,
   videos: "propertynew-videos" as const,
 };
 
-/** Classic property / advertisement media purposes */
 export const PROPERTY_AD_S3_PURPOSES = {
   images: "property-images" as const,
   videos: "property-videos" as const,
@@ -164,9 +231,6 @@ export function getMediaFileKey(file: File): string {
 const DEFAULT_S3_PUBLIC_BASE =
   "https://amzn-s3-alsqoor-bucket.s3.eu-north-1.amazonaws.com";
 
-/**
- * Backend expects the S3 object key (e.g. propertynew-images/foo.png), not the full URL.
- */
 export function toS3ObjectKey(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return trimmed;
@@ -183,7 +247,6 @@ export function toS3ObjectKey(value: string): string {
   }
 }
 
-/** Build a public URL for previews when state holds an object key. */
 export function getS3PublicUrl(keyOrUrl: string): string {
   const trimmed = keyOrUrl.trim();
   if (!trimmed) return trimmed;

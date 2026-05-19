@@ -64,7 +64,6 @@ export async function subscribeToForegroundMessages(
   if (!messaging) return null;
 
   return onMessage(messaging, (payload) => {
-    console.log("[FCM] Foreground message:", payload);
-    callback(payload);
+     callback(payload);
   });
 }

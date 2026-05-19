@@ -26,7 +26,8 @@ function isValidPurpose(value: string): value is S3UploadPurpose {
 }
 
 /**
- * Same-origin proxy for S3 uploads (avoids browser CORS on the bucket).
+ * Optional fallback when NEXT_PUBLIC_S3_UPLOAD_MODE=proxy.
+ * Direct browser→S3 is preferred (no Next.js body/size limits).
  * POST multipart: purpose, file
  */
 export async function POST(request: NextRequest) {
@@ -67,11 +68,7 @@ export async function POST(request: NextRequest) {
       credentials,
     );
 
-    console.log("[S3 API] Upload complete:", {
-      purpose,
-      key: result.key,
-      location: result.location,
-    });
+ 
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {

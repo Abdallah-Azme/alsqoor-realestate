@@ -1,25 +1,10 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import type { S3FileUploadResult, S3TempCredentials, S3UploadPurpose } from "./s3-client-upload";
+import { buildObjectKey, buildObjectUrl } from "./s3-shared";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-function sanitizeFileName(name: string): string {
-  return name.replace(/[^a-zA-Z0-9._-]/g, "_");
-}
-
-export function buildObjectKey(folder: string, fileName: string): string {
-  const prefix = folder.replace(/\/$/, "");
-  const unique = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}-${sanitizeFileName(fileName)}`;
-  return `${prefix}/${unique}`;
-}
-
-function encodeS3ObjectKey(key: string): string {
-  return key.split("/").map(encodeURIComponent).join("/");
-}
-
-export function buildObjectUrl(bucket: string, region: string, key: string): string {
-  return `https://${bucket}.s3.${region}.amazonaws.com/${encodeS3ObjectKey(key)}`;
-}
+export { buildObjectKey, buildObjectUrl } from "./s3-shared";
 
 export async function fetchS3TempCredentials(
   purpose: S3UploadPurpose,
