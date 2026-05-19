@@ -7,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useLocale } from "next-intl";
 import Partnercard from "../shared/partner-card";
 import { getLocale, getTranslations } from "next-intl/server";
 import { partnersService } from "@/features/partners";
@@ -23,7 +22,8 @@ const PartnerSection = async () => {
   } catch (error) {
     console.error("Failed to fetch partners:", error);
   }
-  return (
+
+   return (
     <section className="container space-y-6 py-12">
       {/* header */}
       <AnimatedSection>
@@ -40,8 +40,6 @@ const PartnerSection = async () => {
             align: "start",
           }}
         >
-          {/* title */}
-          <h3 className="text-4xl font-semibold">{t("title")}</h3>
           <CarouselContent className={"p-1"}>
             {data?.map((item, index) => (
               <AnimatedCarouselItem

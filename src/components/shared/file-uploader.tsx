@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { FiUploadCloud, FiX, FiImage, FiVideo } from "react-icons/fi";
+import { FiUploadCloud, FiX, FiVideo } from "react-icons/fi";
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IMAGE_UPLOAD_ACCEPT, splitSupportedImageFiles } from "@/lib/image-upload";
@@ -14,6 +15,10 @@ interface FileUploaderProps {
   maxSize?: number; // in bytes
   label?: string;
   helperText?: string;
+  isItemUploading?: (item: File | string, index: number) => boolean;
+  disabled?: boolean;
+  /** Resolve preview src when value is an S3 key instead of a full URL */
+  getPreviewUrl?: (item: File | string) => string;
 }
 
 export function FileUploader({
@@ -24,6 +29,9 @@ export function FileUploader({
   maxSize,
   label = "Upload files",
   helperText = "Drag & drop files here or click to browse",
+  isItemUploading,
+  disabled = false,
+  getPreviewUrl,
 }: FileUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +49,7 @@ export function FileUploader({
   };
 
   const processFiles = (files: FileList | null) => {
-    if (!files) return;
+    if (!files || disabled) return;
     const selectedFiles = Array.from(files);
     const isImageUpload = accept.includes("image");
     const { accepted: newFiles, rejected } = isImageUpload
@@ -107,12 +115,16 @@ export function FileUploader({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={() => inputRef.current?.click()}
+        onClick={() => !disabled && inputRef.current?.click()}
         className={cn(
-          "w-full p-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200",
-          isDragging
-            ? "border-main-green bg-main-green/5"
-            : "border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300",
+          "w-full p-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-200",
+          disabled
+            ? "cursor-not-allowed opacity-60 border-gray-200 bg-gray-50"
+            : "cursor-pointer",
+          !disabled &&
+            (isDragging
+              ? "border-main-green bg-main-green/5"
+              : "border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300"),
         )}
       >
         <div className="p-4 bg-white rounded-full shadow-sm mb-4">
@@ -129,6 +141,7 @@ export function FileUploader({
           multiple
           accept={computedAccept}
           className="hidden"
+          disabled={disabled}
           onChange={handleFileChange}
         />
       </div>
@@ -139,11 +152,12 @@ export function FileUploader({
           {value.map((file, idx) => {
             const isExisting = typeof file === "string";
             const fileUrl = isExisting
-              ? (file as string)
+              ? getPreviewUrl?.(file) ?? (file as string)
               : URL.createObjectURL(file as File);
             const fileName = isExisting
               ? (file as string).split("/").pop()
               : (file as File).name;
+            const uploading = isItemUploading?.(file, idx) ?? false;
 
             return (
               <div
@@ -177,13 +191,30 @@ export function FileUploader({
                   />
                 )}
 
+                {uploading && (
+                  <div className="absolute inset-0 z-10 bg-black/55 flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="w-8 h-8 text-white animate-spin" />
+                    <span className="text-[10px] text-white font-medium">
+                      جاري الرفع...
+                    </span>
+                  </div>
+                )}
+
                 {/* Overlay / Remove Button */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div
+                  className={cn(
+                    "absolute inset-0 bg-black/40 transition-opacity flex items-center justify-center",
+                    uploading
+                      ? "opacity-0 pointer-events-none"
+                      : "opacity-0 group-hover:opacity-100",
+                  )}
+                >
                   <Button
                     type="button"
                     variant="destructive"
                     size="icon"
                     className="w-8 h-8 rounded-full"
+                    disabled={uploading}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemove(idx);

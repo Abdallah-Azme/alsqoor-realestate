@@ -4,7 +4,6 @@ export { PropertyFiltersComponent as PropertyFilters } from "./property-list/pro
 export { PropertyList } from "./property-list/property-list";
 
 // Export property details components
-export { PropertyGallery } from "./property-details/property-gallery";
 export { PropertyInfo } from "./property-details/property-info";
 export { PropertyDetails } from "./property-details/property-details";
 

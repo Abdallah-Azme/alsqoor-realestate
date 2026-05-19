@@ -37,6 +37,13 @@ import { MarketplaceProperty } from "@/features/properties/types/property.types"
 import { UserContext } from "@/context/user-context";
 import { toast } from "sonner";
 import { isBlockedImageFile } from "@/lib/image-upload";
+import {
+  PROPERTY_NEW_S3_PURPOSES,
+  getMediaFileKey,
+  getS3PublicUrl,
+  toS3ObjectKey,
+  uploadFilesToS3,
+} from "@/lib/s3-client-upload";
 
 // Riyadh, Saudi Arabia defaults
 const DEFAULT_LAT = 24.7136;
@@ -312,8 +319,13 @@ export const CreateMarketplacePropertyDialog = ({
   const [videos, setVideos] = useState<(File | string)[]>([]);
   // District State
   const [district, setDistrict] = useState<string>("");
-  // Submission loading state (for URL→Blob conversion)
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadingImageKeys, setUploadingImageKeys] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const [uploadingVideoKeys, setUploadingVideoKeys] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   // Location State — defaults to Riyadh
   const [latitude, setLatitude] = useState(DEFAULT_LAT);
@@ -329,14 +341,150 @@ export const CreateMarketplacePropertyDialog = ({
     ? citiesData
     : (citiesData as any)?.data || [];
 
-  const { mutate: addMarketplace, isPending: isAddingMarketplace } =
+  const { mutateAsync: addMarketplace, isPending: isAddingMarketplace } =
     useAddMarketplacePropertyMutation();
-  const { mutate: addDeveloper, isPending: isAddingDeveloper } =
+  const { mutateAsync: addDeveloper, isPending: isAddingDeveloper } =
     useAddDeveloperPropertyMutation();
-  const { mutate: updateProperty, isPending: isUpdating } =
+  const { mutateAsync: updateProperty, isPending: isUpdating } =
     useUpdateRealEstateProperty();
 
   const isPending = isAddingMarketplace || isAddingDeveloper || isUpdating;
+  const hasPendingMediaFiles =
+    images.some((item) => item instanceof File) ||
+    videos.some((item) => item instanceof File);
+  const isUploadingMedia =
+    uploadingImageKeys.size > 0 || uploadingVideoKeys.size > 0;
+  const mediaNotReady = hasPendingMediaFiles || isUploadingMedia;
+
+  const markUploading = (
+    keys: string[],
+    type: "image" | "video",
+    uploading: boolean,
+  ) => {
+    const setter =
+      type === "image" ? setUploadingImageKeys : setUploadingVideoKeys;
+    setter((prev) => {
+      const next = new Set(prev);
+      keys.forEach((key) => {
+        if (uploading) next.add(key);
+        else next.delete(key);
+      });
+      return next;
+    });
+  };
+
+  const applyS3KeysToMedia = (
+    current: (File | string)[],
+    files: File[],
+    results: { key: string }[],
+  ) => {
+    const fileKeyToS3Key = new Map<string, string>();
+    files.forEach((file, index) => {
+      const s3Key = results[index]?.key;
+      if (s3Key) fileKeyToS3Key.set(getMediaFileKey(file), s3Key);
+    });
+
+    return current.map((item) => {
+      if (!(item instanceof File)) return item;
+      return fileKeyToS3Key.get(getMediaFileKey(item)) ?? item;
+    });
+  };
+
+  const uploadImagesImmediately = async (files: File[]) => {
+    if (files.length === 0) return;
+    const keys = files.map(getMediaFileKey);
+    markUploading(keys, "image", true);
+
+    try {
+      const normalized = await Promise.all(
+        files.map(async (file) => {
+          try {
+            return await normalizeImageFile(file);
+          } catch {
+            throw new Error("format");
+          }
+        }),
+      );
+      const results = await uploadFilesToS3(
+        normalized,
+        PROPERTY_NEW_S3_PURPOSES.images,
+      );
+      setImages((current) => applyS3KeysToMedia(current, files, results));
+    } catch (error) {
+      console.error("[S3] Image upload failed:", error);
+      setImages((current) =>
+        current.filter(
+          (item) => !(item instanceof File) || !keys.includes(getMediaFileKey(item)),
+        ),
+      );
+      toast.error(tCommon("error.title"), {
+        description:
+          error instanceof Error && error.message === "format"
+            ? tMarket("image_format_error")
+            : isRtl
+              ? "فشل رفع الصورة. حاول مرة أخرى."
+              : "Image upload failed. Please try again.",
+      });
+    } finally {
+      markUploading(keys, "image", false);
+    }
+  };
+
+  const uploadVideosImmediately = async (files: File[]) => {
+    if (files.length === 0) return;
+    const keys = files.map(getMediaFileKey);
+    markUploading(keys, "video", true);
+
+    try {
+      const results = await uploadFilesToS3(
+        files,
+        PROPERTY_NEW_S3_PURPOSES.videos,
+      );
+      setVideos((current) => applyS3KeysToMedia(current, files, results));
+    } catch (error) {
+      console.error("[S3] Video upload failed:", error);
+      setVideos((current) =>
+        current.filter(
+          (item) => !(item instanceof File) || !keys.includes(getMediaFileKey(item)),
+        ),
+      );
+      toast.error(tCommon("error.title"), {
+        description: isRtl
+          ? "فشل رفع الفيديو. حاول مرة أخرى."
+          : "Video upload failed. Please try again.",
+      });
+    } finally {
+      markUploading(keys, "video", false);
+    }
+  };
+
+  const handleImagesChange = (next: (File | string)[]) => {
+    const addedFiles = next.filter(
+      (item): item is File =>
+        item instanceof File && !images.some((prev) => prev === item),
+    );
+    setImages(next);
+    if (addedFiles.length > 0) {
+      void uploadImagesImmediately(addedFiles);
+    }
+  };
+
+  const handleVideosChange = (next: (File | string)[]) => {
+    const addedFiles = next.filter(
+      (item): item is File =>
+        item instanceof File && !videos.some((prev) => prev === item),
+    );
+    setVideos(next);
+    if (addedFiles.length > 0) {
+      void uploadVideosImmediately(addedFiles);
+    }
+  };
+
+  const isImageItemUploading = (item: File | string) =>
+    item instanceof File && uploadingImageKeys.has(getMediaFileKey(item));
+
+  const isVideoItemUploading = (item: File | string) =>
+    item instanceof File && uploadingVideoKeys.has(getMediaFileKey(item));
   const initialPropertyType = normalizePropertyType(property?.propertyType) || "villa";
   const initialImagesRef = useRef<string[]>([]);
   const initialVideosRef = useRef<string[]>([]);
@@ -377,9 +525,9 @@ export const CreateMarketplacePropertyDialog = ({
 
       // Pre-populate images and videos
       if (Array.isArray(property.images) && property.images.length > 0) {
-        const initialImages = property.images.filter(
-          (img): img is string => typeof img === "string" && img.length > 0,
-        );
+        const initialImages = property.images
+          .filter((img): img is string => typeof img === "string" && img.length > 0)
+          .map(toS3ObjectKey);
         setImages(initialImages);
         initialImagesRef.current = initialImages;
       } else {
@@ -387,9 +535,9 @@ export const CreateMarketplacePropertyDialog = ({
         initialImagesRef.current = [];
       }
       if (Array.isArray(property.videos) && property.videos.length > 0) {
-        const initialVideos = property.videos.filter(
-          (vid): vid is string => typeof vid === "string" && vid.length > 0,
-        );
+        const initialVideos = property.videos
+          .filter((vid): vid is string => typeof vid === "string" && vid.length > 0)
+          .map(toS3ObjectKey);
         setVideos(initialVideos);
         initialVideosRef.current = initialVideos;
       } else {
@@ -467,52 +615,6 @@ export const CreateMarketplacePropertyDialog = ({
       setLatitude(geocoded.lat);
       setLongitude(geocoded.lng);
     }
-  };
-
-  /**
-   * Convert a URL string to a File/Blob object via our server-side proxy.
-   * This avoids CORS issues — the browser calls /api/proxy-media (same origin),
-   * and the Next.js server fetches the actual media file server-to-server.
-   */
-  const urlToFile = async (url: string, type: "image" | "video"): Promise<File> => {
-    const proxyUrl = `/api/proxy-media?url=${encodeURIComponent(url)}`;
-    const response = await fetch(proxyUrl);
-    if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
-    const blob = await response.blob();
-
-    const getFileNameFromUrl = (rawUrl: string) => {
-      try {
-        const parsed = new URL(rawUrl);
-        const name = parsed.pathname.split("/").pop();
-        return name || (type === "image" ? "image.jpg" : "video.mp4");
-      } catch {
-        const sanitized = rawUrl.split("?")[0];
-        const name = sanitized.split("/").pop();
-        return name || (type === "image" ? "image.jpg" : "video.mp4");
-      }
-    };
-
-    const inferImageMimeType = (fileName: string): string => {
-      const lower = fileName.toLowerCase();
-      if (lower.endsWith(".png")) return "image/png";
-      if (lower.endsWith(".gif")) return "image/gif";
-      if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
-        return "image/jpeg";
-      }
-      return "image/jpeg";
-    };
-
-    const normalizedBlobType = blob.type.trim().toLowerCase();
-    const filename = getFileNameFromUrl(url);
-    const mimeType =
-      type === "image"
-        ? normalizedBlobType.startsWith("image/") &&
-          normalizedBlobType !== "application/octet-stream"
-          ? normalizedBlobType
-          : inferImageMimeType(filename)
-        : normalizedBlobType || "video/mp4";
-
-    return new File([blob], filename, { type: mimeType });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -666,111 +768,26 @@ export const CreateMarketplacePropertyDialog = ({
       });
     }
 
-    const currentImageUrls = images.filter(
-      (img): img is string => typeof img === "string",
-    );
-    const currentVideoUrls = videos.filter(
-      (vid): vid is string => typeof vid === "string",
-    );
+    const currentImageKeys = images
+      .filter((img): img is string => typeof img === "string")
+      .map(toS3ObjectKey);
+    const currentVideoKeys = videos
+      .filter((vid): vid is string => typeof vid === "string")
+      .map(toS3ObjectKey);
     const hasNewImageFiles = images.some((img) => img instanceof File);
     const hasNewVideoFiles = videos.some((vid) => vid instanceof File);
     const imagesChanged =
       !isEdit ||
       hasNewImageFiles ||
-      !areStringArraysEqual(currentImageUrls, initialImagesRef.current);
+      !areStringArraysEqual(currentImageKeys, initialImagesRef.current);
     const videosChanged =
       !isEdit ||
       hasNewVideoFiles ||
-      !areStringArraysEqual(currentVideoUrls, initialVideosRef.current);
+      !areStringArraysEqual(currentVideoKeys, initialVideosRef.current);
 
     if (isEdit && !imagesChanged && !videosChanged && Array.from(payload.keys()).length === 0) {
       toast.info(tMarket("no_changes"));
       return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      // Media contract in edit mode:
-      // - Only send images[] when images are changed (full replacement list).
-      // - Only send videos[] when videos are changed (full replacement list).
-      let hasImageFormatError = false;
-      let hasImageFetchError = false;
-      let hasVideoFetchError = false;
-
-      if (imagesChanged) {
-        const imageCandidates = await Promise.all(
-          images.map(async (img) => {
-            try {
-              if (img instanceof File) {
-                return await normalizeImageFile(img);
-              }
-
-              const fetchedFile = await urlToFile(img as string, "image");
-              return await normalizeImageFile(fetchedFile);
-            } catch (error) {
-              if (img instanceof File) {
-                hasImageFormatError = true;
-              } else {
-                hasImageFetchError = true;
-              }
-              console.warn("Skipping invalid image during update:", error);
-              return null;
-            }
-          }),
-        );
-        const imageFiles = imageCandidates.filter(
-          (file): file is File => file instanceof File,
-        );
-        if (imageFiles.length === 0) {
-          // Backend clear contract: send remove_images=1 when images are removed.
-          payload.set("remove_images", "1");
-        } else {
-          imageFiles.forEach((file) => payload.append("images[]", file));
-        }
-      }
-
-      if (videosChanged) {
-        const videoCandidates = await Promise.all(
-          videos.map(async (vid) => {
-            try {
-              return vid instanceof File
-                ? await Promise.resolve(vid)
-                : await urlToFile(vid as string, "video");
-            } catch (error) {
-              hasVideoFetchError = true;
-              console.warn("Skipping invalid video during update:", error);
-              return null;
-            }
-          }),
-        );
-        const videoFiles = videoCandidates.filter(
-          (file): file is File => file instanceof File,
-        );
-        if (videoFiles.length === 0) {
-          // Backend clear contract: send remove_videos=1 when videos are removed.
-          payload.set("remove_videos", "1");
-        } else {
-          videoFiles.forEach((file) => payload.append("videos[]", file));
-        }
-      }
-
-      if (hasImageFormatError) {
-        toast.error(tCommon("error.title"), {
-          description: tMarket("image_format_error"),
-        });
-      }
-      if (hasImageFetchError || hasVideoFetchError) {
-        // Non-blocking: some old media URLs may fail to re-fetch, but update can still succeed.
-        console.warn("Some existing media URLs could not be fetched during update.");
-      }
-    } catch (err) {
-      console.warn("Failed to fetch existing media, submitting without re-fetched files:", err);
-      toast.error(tCommon("error.title"), {
-        description: tMarket("media_fetch_error"),
-      });
-      return;
-    } finally {
-      setIsSubmitting(false);
     }
 
     const handleSuccess = () => {
@@ -781,20 +798,64 @@ export const CreateMarketplacePropertyDialog = ({
         setLongitude(DEFAULT_LNG);
         setImages([]);
         setVideos([]);
+        setUploadingImageKeys(new Set());
+        setUploadingVideoKeys(new Set());
         setCityId("");
         setDistrict("");
       }, 300);
     };
 
-    if (isEdit && property?.id) {
-      updateProperty(
-        { id: property.id, data: payload },
-        { onSuccess: handleSuccess },
-      );
-    } else if (role === "developer") {
-      addDeveloper(payload, { onSuccess: handleSuccess });
-    } else {
-      addMarketplace(payload, { onSuccess: handleSuccess });
+    if (mediaNotReady) {
+      toast.error(tCommon("error.title"), {
+        description: isRtl
+          ? "انتظر حتى يكتمل رفع الصور والفيديوهات"
+          : "Please wait for media uploads to finish",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      if (imagesChanged) {
+        const imageKeys = images
+          .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+          .map(toS3ObjectKey);
+
+        if (imageKeys.length === 0) {
+          payload.set("remove_images", "1");
+        } else {
+          imageKeys.forEach((key) => payload.append("images[]", key));
+        }
+      }
+
+      if (videosChanged) {
+        const videoKeys = videos
+          .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+          .map(toS3ObjectKey);
+
+        if (videoKeys.length === 0) {
+          payload.set("remove_videos", "1");
+        } else {
+          videoKeys.forEach((key) => payload.append("videos[]", key));
+        }
+      }
+
+      if (isEdit && property?.id) {
+        await updateProperty({ id: property.id, data: payload });
+      } else if (role === "developer") {
+        await addDeveloper(payload);
+      } else {
+        await addMarketplace(payload);
+      }
+
+      handleSuccess();
+    } catch (err) {
+      console.error("Failed to submit marketplace property:", err);
+      toast.error(tCommon("error.title"), {
+        description: tMarket("media_fetch_error"),
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -808,6 +869,8 @@ export const CreateMarketplacePropertyDialog = ({
         setRole(user?.role || defaultRole); // Reset to user role on close
         setImages([]);
         setVideos([]);
+        setUploadingImageKeys(new Set());
+        setUploadingVideoKeys(new Set());
         setCityId("");
         setDistrict("");
       }, 300);
@@ -944,12 +1007,16 @@ export const CreateMarketplacePropertyDialog = ({
                 <Label>{tMarket("images_label")}</Label>
                 <FileUploader
                   value={images}
-                  onChange={setImages as any}
+                  onChange={handleImagesChange}
                   accept="image/*"
                   maxFiles={20}
                   maxSize={1 * 1024 * 1024}
                   label=""
                   helperText={tMarket("images_helper")}
+                  isItemUploading={(item) => isImageItemUploading(item)}
+                  getPreviewUrl={(item) =>
+                    typeof item === "string" ? getS3PublicUrl(item) : ""
+                  }
                 />
               </div>
 
@@ -957,12 +1024,16 @@ export const CreateMarketplacePropertyDialog = ({
                 <Label>{tMarket("videos_label")}</Label>
                 <FileUploader
                   value={videos}
-                  onChange={setVideos as any}
+                  onChange={handleVideosChange}
                   accept="video/*"
                   maxFiles={1}
                   maxSize={50 * 1024 * 1024}
                   label=""
                   helperText={tMarket("videos_helper")}
+                  isItemUploading={(item) => isVideoItemUploading(item)}
+                  getPreviewUrl={(item) =>
+                    typeof item === "string" ? getS3PublicUrl(item) : ""
+                  }
                 />
               </div>
             </div>
@@ -999,7 +1070,9 @@ export const CreateMarketplacePropertyDialog = ({
             </div>
 
             <div className="flex justify-end pt-4">
-              <Button type="submit">{tCommon("next")}</Button>
+              <Button type="submit" disabled={mediaNotReady}>
+                {tCommon("next")}
+              </Button>
             </div>
           </div>
 
@@ -1248,12 +1321,15 @@ export const CreateMarketplacePropertyDialog = ({
                 type="button"
                 variant="outline"
                 onClick={() => setStep(1)}
-                disabled={isPending || isSubmitting}
+                disabled={isPending || isSubmitting || mediaNotReady}
               >
                 {tCommon("previous")}
               </Button>
-              <Button type="submit" disabled={isPending || isSubmitting}>
-                {(isPending || isSubmitting) && (
+              <Button
+                type="submit"
+                disabled={isPending || isSubmitting || mediaNotReady}
+              >
+                {(isPending || isSubmitting || isUploadingMedia) && (
                   <Loader2 className="me-2 h-4 w-4 animate-spin" />
                 )}
                 {isEdit

@@ -3,6 +3,13 @@
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { Play } from "lucide-react";
+import { getS3PublicUrl } from "@/lib/s3-client-upload";
+
+function resolveMediaUrl(src: string): string {
+  const trimmed = src?.trim();
+  if (!trimmed) return "";
+  return getS3PublicUrl(trimmed);
+}
 
 interface PropertyGalleryProps {
   images?: string[];
@@ -12,15 +19,18 @@ interface PropertyGalleryProps {
 export default function PropertyGallery({ images = [], videos = [] }: PropertyGalleryProps) {
   const galleryItems = [
     ...(videos || []).map((video) => ({
-      original: video,
+      original: resolveMediaUrl(video),
       thumbnail: "/images/state.png",
       type: "video",
     })),
-    ...(images || []).map((img) => ({
-      original: img,
-      thumbnail: img,
-      type: "image",
-    })),
+    ...(images || []).map((img) => {
+      const url = resolveMediaUrl(img);
+      return {
+        original: url,
+        thumbnail: url,
+        type: "image",
+      };
+    }),
   ];
 
   const items = galleryItems.length > 0 ? galleryItems : [

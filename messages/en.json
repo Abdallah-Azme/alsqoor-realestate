@@ -160,6 +160,18 @@
   "partner": {
     "title": "Success Partners"
   },
+  "company": {
+    "about": "About the company",
+    "contact": "Contact information",
+    "address": "Address",
+    "email": "Email",
+    "phone": "Phone",
+    "member_since": "Partner since",
+    "call": "Call",
+    "send_email": "Send email",
+    "chat_whatsapp": "WhatsApp",
+    "whatsapp_message": "Hello, I am coming from Al-Sqoor Real Estate website."
+  },
   "blog": {
     "title": "Blogs",
     "subtitle": "Selected Articles",

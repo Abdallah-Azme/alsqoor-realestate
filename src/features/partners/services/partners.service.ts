@@ -1,6 +1,7 @@
 import { api } from "@/lib/api-client";
 import {
   Agent,
+  Company,
   Partner,
   UserDataProperty,
   UserDataRequest,
@@ -30,8 +31,8 @@ export const partnersService = {
   /**
    * Get a single partner by ID
    */
-  async getById(id: string | number) {
-    return api.get<Partner>(`${BASE_PATH}/${id}`);
+  async getById(id: string | number, options?: { locale?: string }) {
+    return api.get<Company>(`${BASE_PATH}/${id}`, undefined, options);
   },
 
   /**

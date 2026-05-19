@@ -11,6 +11,7 @@ export { partnerSchema } from "./schemas/partner.schema";
 export type { PartnerFormData } from "./schemas/partner.schema";
 export type {
   Partner,
+  Company,
   Agent,
   UserDataProperty,
   UserDataRequest,
@@ -18,3 +19,4 @@ export type {
 } from "./types/partner.types";
 export { AgentCard } from "./components/agent-card";
 export { PartnersList } from "./components/partners-list";
+export { CompanyDetailView } from "./components/company-detail-view";

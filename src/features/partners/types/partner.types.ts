@@ -1,11 +1,32 @@
 // Partner/Company feature types
 
+export interface Company {
+  id: number;
+  name: string;
+  logoUrl: string;
+  description: string;
+  email: string;
+  phone: string;
+  whatsappNumber: string | null;
+  address: string;
+  type: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Partner {
   id: number;
   name: string;
   description?: string;
+  logoUrl?: string;
   logo?: string;
-  [key: string]: any;
+  address?: string;
+  type?: string;
+  email?: string;
+  phone?: string;
+  whatsappNumber?: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Agent {

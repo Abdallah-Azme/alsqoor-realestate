@@ -25,21 +25,28 @@ function propertyToFormData(data: Partial<PropertyFormInput>): FormData {
     // Handle arrays
     if (Array.isArray(value)) {
       if (key === "images" || key === "videos") {
-        // File arrays
-        value.forEach((file) => {
-          if (file instanceof File) {
-            formData.append(`${key}[]`, file);
+        value.forEach((item) => {
+          if (item instanceof File) {
+            formData.append(`${key}[]`, item);
+          } else if (typeof item === "string" && item.trim()) {
+            formData.append(`${key}[]`, item);
           }
         });
+      } else if (key === "qr_code" && value.length > 0) {
+        const first = value[0];
+        if (first instanceof File) {
+          formData.append(key, first);
+        } else if (typeof first === "string" && first.trim()) {
+          formData.append(key, first);
+        }
       } else if (key === "amenity_ids" || key === "services") {
-        // Regular arrays
         value.forEach((item) => {
           formData.append(`${key}[]`, String(item));
         });
       }
-    }
-    // Handle single file
-    else if (value instanceof File) {
+    } else if (value instanceof File) {
+      formData.append(key, value);
+    } else if (key === "qr_code" && typeof value === "string" && value.trim()) {
       formData.append(key, value);
     }
     // Handle booleans
